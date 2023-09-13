@@ -1,4 +1,5 @@
 # detect_ball.py랑 유클리드 거리법으로 빨간공 거리 측정
+# 9/13 오후 8시 18분 기록 - 유클리드 거리법은 안된다. 이건 테스트용 문서이다.
 
 import cv2
 import numpy as np
