@@ -1,4 +1,5 @@
 # 컨투어 + 유클리드 거리
+# 9/13 8시 기록 - 이건 잘 안됨.
 import cv2
 import numpy as np
 
