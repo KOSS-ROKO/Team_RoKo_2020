@@ -3,8 +3,8 @@ import numpy as np
 
 W = 0.0427  # 빨간 공 크기 : 4.27 cm
 
-# 빨간 공의 이미지에서의 가로 크기 (픽셀 단위로)
-w = None  # 초점 거리 계산 후 설정합니다.
+# 빨간 공의 이미지에서의 가로 크기 (카메라 센서 크기, 픽셀 단위로)
+w = None  # 초점 거리 계산 후 설정
 
 cap = cv2.VideoCapture('Ball/ball_video/ball1.avi')  
 
