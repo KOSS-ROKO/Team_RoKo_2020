@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
 
-W = 0.045  # 빨간 공 크기 : 4.5 cm
+W = 0.0427  # 빨간 공 크기 : 4.27 cm
 
 # 빨간 공의 이미지에서의 가로 크기 (픽셀 단위로)
 w = None  # 초점 거리 계산 후 설정합니다.
 
-cap = cv2.VideoCapture('Ball/ball_video/ball4.avi')  
+cap = cv2.VideoCapture('Ball/ball_video/ball1.avi')  
 
 # 프레임 번호 초기화
 frame_number = 0
