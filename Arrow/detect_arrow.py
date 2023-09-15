@@ -33,10 +33,6 @@ while True:
             approx = cv2.approxPolyDP(cnt, epsilon, True)  # 다각형 꼭지점 반환
 
             if len(approx) == 7:  # 화살표로 판단할 근사화 결과의 꼭지점 개수 조건
-                # 꼭짓점 표시
-                # for point in approx:
-                #     x, y = point[0]
-                #     cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
 
                 # 화살표 7개 꼭지점의 중간값 찾기
                 center = np.mean(approx, axis=0)
@@ -50,7 +46,7 @@ while True:
                 # 거리가 가장 먼 두 점의 인덱스 찾기
                 far_indices = np.argsort(distances)[:2]
 
-                # 가장 먼 두 꼭지점의 좌표
+                # 가장 가까운 두 꼭지점의 좌표
                 closest_points = [approx[i][0] for i in far_indices]
 
                 # 가장 가까운 두 꼭지점의 중간값 찾기
@@ -59,6 +55,7 @@ while True:
                 far_center_y = int(round(far_center[1]))
                 cv2.circle(frame, (far_center_x, far_center_y), 5, (255, 0, 0), -1)
 
+                #방향 계산
                 arrow_angle = np.arctan2(far_center_y - center_y, far_center_x - center_x)
                 angle = np.degrees(arrow_angle)
 
