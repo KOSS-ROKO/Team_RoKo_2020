@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('robot_flag.avi') 
+cap = cv2.VideoCapture('Flag/flag_video/robot_flag.avi') 
 
 while True:
     ret, frame = cap.read()
