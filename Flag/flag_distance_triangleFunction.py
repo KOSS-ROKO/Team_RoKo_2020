@@ -4,11 +4,17 @@ import cv2
 import numpy as np
 
 cap = cv2.VideoCapture('Flag/flag_video/flag1.avi')
+#cap = cv2.VideoCapture('Flag/triangle_function_data/angle10_161.avi')
 
 detected_circles = []
 
 real_distance = 0
 
+def triangle_function():  
+    real_distance = 33 / 3**(1/2)     # 로봇 높이 / tan(로봇 고개 내린 각도) 값
+    return real_distance  
+    
+# 19.0531177
 
 while True:
     ret, frame = cap.read()
@@ -19,8 +25,9 @@ while True:
 
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    lower_yellow = np.array([0, 50, 100])
-    upper_yellow = np.array([36, 250, 255])
+    # 33, 144, 144
+    lower_yellow = np.array([0, 80, 50])
+    upper_yellow = np.array([36, 250, 250])
 
     yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
     yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
@@ -42,7 +49,7 @@ while True:
     for contour in contours:
         min_radius = 20
         max_radius = 80
-        epsilon = 0.05 * cv2.arcLength(contour, True) # 엡실론 값 조정
+        epsilon = 0.04 * cv2.arcLength(contour, True) # 엡실론 값 조정
         approx = cv2.approxPolyDP(contour, epsilon, True)
 
         if len(approx) >= 6:
@@ -60,6 +67,7 @@ while True:
         
 
     cv2.imshow('Result', frame)
+    cv2.imshow('masked', yellow_mask)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
