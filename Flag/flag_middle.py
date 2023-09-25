@@ -1,8 +1,7 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('src/flag1.avi')
-#cap = cv2.VideoCapture('Flag/triangle_function_data/angle10_161.avi')
+cap = cv2.VideoCapture('Flag/flag_video/flag1.avi')
 
 detected_circles = []
 
