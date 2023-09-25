@@ -1,6 +1,9 @@
 # 최종 : 공이 중앙에 위치하면 stop
 # go left & go right
 # 빨간 공 잘 검출되는지 확인하기 위해, 빨간 공만 띄우는 창 추가함
+
+# -*- coding: utf-8 -*-
+
 import platform
 import numpy as np
 import argparse
