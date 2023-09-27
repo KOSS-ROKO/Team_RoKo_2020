@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('/home/user/2023ESWContest_Humanoid_RoKo/Flag/flag_video/flag_arrow.avi')
+cap = cv2.VideoCapture('/home/user/2023ESWContest_Humanoid_RoKo/Flag/flag_video/flag_arrow.avi') # 민주야 나 희인데 경로 상대경로로 바꿔도 돼? 바꿔도 되면 바꿔주라
 
 while True:
     ret, frame = cap.read()
