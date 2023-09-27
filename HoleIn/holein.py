@@ -121,7 +121,7 @@ def detect_hole_in(frame):
 ##### 메인
 
 # 영상 파일 열기
-cap = cv2.VideoCapture("HoleIn/video/holein.avi")
+cap = cv2.VideoCapture("HoleIn/video/h-b.avi")
 
 while cap.isOpened():
     ret, frame = cap.read()
@@ -129,10 +129,13 @@ while cap.isOpened():
     if not ret:
         break
     
-    result, frame_with_points = detect_hole_in(frame)
-    print(result)
-    
-    cv2.imshow('Video', frame_with_points)
+    try:
+        result, frame_with_points = detect_hole_in(frame)
+        print(result)
+        
+        cv2.imshow('Video', frame_with_points)
+    except Exception as e:
+        print(f"Error: {e}")
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
