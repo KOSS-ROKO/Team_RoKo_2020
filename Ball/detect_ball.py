@@ -27,7 +27,7 @@ while True:
     
     
     
-    ''' 원본 코드
+    ''' 원본 코드(hsv 빨간색으로만 인식)
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
     # 빨간색 범위를 정의
