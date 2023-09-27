@@ -102,11 +102,12 @@ cv2.resizeWindow('Full Frame', 800, 600)  # 적절한 크기로 조정
 cv2.namedWindow('Red Objects', cv2.WINDOW_NORMAL)
 cv2.resizeWindow('Red Objects', 400, 300)
 
+###-----------serial----------------
+BPS =  4800
+serial_port = serial.Serial('/dev/ttyS0', BPS, timeout=0.01)
+serial_port.flush()
+
 while True:
-    ###-----------serial----------------
-    BPS =  4800
-    serial_port = serial.Serial('/dev/ttyS0', BPS, timeout=0.01)
-    serial_port.flush()
 
     # 영상 프레임 읽기
     ret, frame = cap.read()
@@ -137,10 +138,12 @@ while True:
         elif x_center < cell_width * 5:
             print("go right")
             TX_data_py2(serial_port, 30)
+            time.sleep(1)
         # 7~11번째 줄에서 검출되면 "go left" 출력
         elif x_center > cell_width * 6:
             print("go left")
             TX_data_py2(serial_port, 28)
+            time.sleep(1)
     else:
         print("go far")
 
