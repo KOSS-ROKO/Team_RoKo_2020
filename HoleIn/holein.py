@@ -119,7 +119,7 @@ def detect_hole_in(frame):
 ##### 메인
 
 # 영상 파일 열기
-cap = cv2.VideoCapture("HoleIn/video/h-b.avi")
+cap = cv2.VideoCapture("HoleIn/video/홀인실패0927.avi")
 
 while cap.isOpened():
     ret, frame = cap.read()
