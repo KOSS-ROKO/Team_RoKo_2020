@@ -3,10 +3,10 @@
 import cv2
 import numpy as np
 
-#cap = cv2.VideoCapture('Ball/robot_ball.avi') # 먼 영상
-cap = cv2.VideoCapture('HoleIn/video/h-b.avi') # 가까운 영상
+#cap = cv2.VideoCapture('Ball/ball_video/robot_ball.avi') # 먼 영상
+#cap = cv2.VideoCapture('HoleIn/video/h-b.avi') # 가까운 영상
+cap = cv2.VideoCapture('Ball/ball_video/파4 두번째 퍼팅 후 공 보기 + 홀컵.avi') # 새로운 프레임의 영상
 
-  
 while True:
     # 프레임 읽기
     ret, frame = cap.read()
