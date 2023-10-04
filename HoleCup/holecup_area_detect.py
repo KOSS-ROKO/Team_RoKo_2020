@@ -1,10 +1,10 @@
-#가장 넓이가 큰 노란색 인식하기
-# 홀컵 기본 인식 때 쓰일 예정2
+# 가장 넓이가 큰 노란색 인식하기
+# <홀컵 기본 인식> 때 쓰일 예정 2
 
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('Flag/flag_video/flag_arrow.avi')
+cap = cv2.VideoCapture('HoleCup/flag_video/flag1.avi')
 
 while True:
     ret, frame = cap.read()

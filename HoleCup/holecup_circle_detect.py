@@ -1,10 +1,10 @@
-# 타원검출해서 홀컵 찾기 
-# 홀컵 기본 인식 때 쓰일 예정1
+# 타원 Circle 검출해서 홀컵 찾기 
+# <홀컵 기본 인식> 때 쓰일 예정1
 
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('Flag/flag_video/flag2.avi')
+cap = cv2.VideoCapture('HoleCup/flag_video/flag1.avi')
 
 detected_circles = []
 
