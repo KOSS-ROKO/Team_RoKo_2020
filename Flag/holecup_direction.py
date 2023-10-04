@@ -1,9 +1,11 @@
 # 파4에서 2번째 퍼팅을 위한 홀컵 방향 인식
+# 가장 큰 노란색의 방향 (힘은 임의)
+# 홀컵까지의 거리를 재는 것이 아닌, 홀컵-공-로봇 일직선을 맞추기 위한 용도
 
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('/home/user/2023ESWContest_Humanoid_RoKo/Flag/flag_video/flag1.avi')
+cap = cv2.VideoCapture('/home/user/2023ESWContest_Humanoid_RoKo/Flag/flag_video/flag3.avi')
 
 while True:
     ret, frame = cap.read()
