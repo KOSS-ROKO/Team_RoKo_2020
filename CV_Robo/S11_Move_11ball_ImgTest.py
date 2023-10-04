@@ -15,7 +15,7 @@ upper_red = np.array([177, 255, 255])
 
 # 카메라 경로 설정
 # cap = cv2.VideoCapture(0)
-images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg']
+image_files = ['images/1.jpg', 'images/2.jpg', 'images/3.jpg', 'images/4.jpg']
 
 # 전체 화면 결과 창 크기 설정
 cv2.namedWindow('Full Frame', cv2.WINDOW_NORMAL)
@@ -58,12 +58,12 @@ def divide_screen(frame): # 화면을 11x11 그리드로 나누는 함수
     
     return frame
 
-def process_images(image_list): # 이미지 cv 처리 함수
+def process_images(image_files): # 이미지 cv 처리 함수
 
-    for img in images:
+    for img in image_files:
         frame = cv2.imread(img)
         if frame is None:
-            print(f"Failed to read image: {img}")
+            print("Failed")
             continue   
 
         red_objects = extract_red_objects(frame) # 빨간색 객체 추출
@@ -150,7 +150,7 @@ if __name__ == "__main__":
     serial_port = serial.Serial('/dev/ttyS0', BPS, timeout=0.01)
     serial_port.flush()
 
-    process_images(images)
+    process_images(image_files)
 
 
     cv2.destroyAllWindows()
