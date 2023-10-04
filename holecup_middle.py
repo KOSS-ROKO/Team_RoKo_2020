@@ -1,10 +1,10 @@
-#가장 넓이가 큰 노란색 인식하기
-# 홀컵 기본 인식 때 쓰일 예정2
+# 미완성 : 공이 중앙에 위치하면 stop
+# 홀컵 중앙에 오도록 go left & right
 
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('/home/user/2023ESWContest_Humanoid_RoKo/Flag/flag_video/flag_arrow.avi')
+cap = cv2.VideoCapture('Flag/flag_video/flag_arrow.avi')
 
 while True:
     ret, frame = cap.read()
@@ -14,8 +14,8 @@ while True:
 
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    lower_yellow = np.array([0, 80, 50])
-    upper_yellow = np.array([36, 250, 250])
+    lower_yellow = np.array([20, 100, 100])
+    upper_yellow = np.array([30, 230, 230])
 
     yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
     yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
@@ -30,6 +30,13 @@ while True:
     _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
     cv2.imshow('Binary Image', binary_frame)
+
+    # 침식과 팽창 적용
+    kernel = np.ones((5, 5), np.uint8)
+    binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
+    binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
+
+    cv2.imshow('erode and dilate', binary_frame)
 
     contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -63,7 +70,7 @@ while True:
     cv2.imshow('Result', frame)
     cv2.imshow('masked', yellow_mask)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(33) & 0xFF == ord('q'):
         break
 
 cap.release()
