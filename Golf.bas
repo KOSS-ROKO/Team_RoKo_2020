@@ -2033,11 +2033,9 @@ MAIN: '라벨설정
     ETX 4800, 38 ' 동작 멈춤 확인 송신 값
 
 MAIN_2:
-
     GOSUB 앞뒤기울기측정
     GOSUB 좌우기울기측정
     GOSUB 적외선거리센서확인
-
 
     ERX 4800,A,MAIN_2   
 
@@ -2045,10 +2043,7 @@ MAIN_2:
 
     '**** 입력된 A값이 0 이면 MAIN 라벨로 가고
     '**** 1이면 KEY1 라벨, 2이면 key2로... 가는문
-    ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32,
-KEY100,KEY101,KEY102,
-KEY161,KEY162,KEY163,KEY164,KEY165,KEY166,KEY167,KEY168,KEY169,KEY170
-'**책갈피**
+    ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28,KEY29,KEY30,KEY31,KEY32,KEY33,KEY34,KEY35,KEY36,KEY37,KEY38,KEY39,KEY40,KEY41,KEY42,KEY43,KEY44,KEY45,KEY46,KEY47,KEY48,KEY49,KEY50,KEY51,KEY52,KEY53,KEY54,KEY55,KEY56,KEY57,KEY58,KEY59,KEY60,KEY61,KEY62,KEY63,KEY64,KEY65,KEY66,KEY67,KEY68,KEY69,KEY70,KEY71,KEY72,KEY73,KEY74,KEY75,KEY76,KEY77,KEY78,KEY79,KEY80,KEY81,KEY82,KEY83,KEY84,KEY85,KEY86,KEY87,KEY88,KEY89,KEY90,KEY91,KEY92,KEY93,KEY94,KEY95,KEY96,KEY97,KEY98,KEY99,KEY100,KEY101,KEY102,KEY103,KEY104,KEY105,KEY106,KEY107,KEY108,KEY109,KEY110,KEY111,KEY112,KEY113,KEY114,KEY115,KEY116,KEY117,KEY118,KEY119,KEY120,KEY121,KEY122,KEY123,KEY124,KEY125,KEY126,KEY127,KEY128,KEY129,KEY130,KEY131,KEY132,KEY133,KEY134,KEY135,KEY136,KEY137,KEY138,KEY139,KEY140,KEY141,KEY142,KEY143,KEY144,KEY145,KEY146,KEY147,KEY148,KEY149,KEY150,KEY151,KEY152,KEY153,KEY154,KEY155,KEY156,KEY157,KEY158,KEY159,KEY160,KEY161,KEY162,KEY163,KEY164,KEY165,KEY166,KEY167,KEY168,KEY169,KEY170
 
     IF A > 100 AND A < 110 THEN
         BUTTON_NO = A - 100
@@ -2076,113 +2071,65 @@ KEY161,KEY162,KEY163,KEY164,KEY165,KEY166,KEY167,KEY168,KEY169,KEY170
     '*******************************************
     '      MAIN 라벨로 가기
     '*******************************************
-
 KEY1:
     ETX  4800,1
     GOTO 왼쪽턴5_골프
-
-
-    GOTO RX_EXIT
-    '***************   
+    GOTO RX_EXIT 
 KEY2:
     ETX  4800,2
-
-
     GOSUB 골프_왼쪽으로_샷1
-
-
     GOTO RX_EXIT
-    '***************
 KEY3:
     ETX  4800,3
-
     GOTO 오른쪽턴5_골프
-
     GOTO RX_EXIT
-    '***************
 KEY4:
     ETX  4800,4
-
     GOTO 왼쪽턴10_골프
-
     GOTO RX_EXIT
-    '***************
 KEY5:
     ETX  4800,5
-
     GOSUB 골프_오른쪽으로_샷1
-
-
-
     GOTO RX_EXIT
-    '***************
 KEY6:
     ETX  4800,6
-
     GOTO 오른쪽턴10_골프
-
-
     GOTO RX_EXIT
-    '***************
 KEY7:
     ETX  4800,7
     GOTO 왼쪽턴20_골프
-
     GOTO RX_EXIT
-    '***************
 KEY8:
     ETX  4800,8
-
-
     GOTO RX_EXIT
-    '***************
 KEY9:
     ETX  4800,9
     GOTO 오른쪽턴20_골프
-
-
     GOTO RX_EXIT
-    '***************
 KEY10: '0
     ETX  4800,10
     GOTO 전진종종걸음_골프
-
     GOTO RX_EXIT
-    '***************
 KEY11: ' ▲
     ETX  4800,11
-
     GOTO 연속전진_골프
-
     GOTO RX_EXIT
-    '***************
 KEY12: ' ▼
     ETX  4800,12
     GOTO 연속후진_골프
-
     GOTO RX_EXIT
-    '***************
 KEY13: '▶
     ETX  4800,13
     GOTO 오른쪽옆으로70연속_골프
-
-
     GOTO RX_EXIT
-    '***************
 KEY14: ' ◀
     ETX  4800,14
     GOTO 왼쪽옆으로70연속_골프
-
-
     GOTO RX_EXIT
-    '***************
 KEY15: ' A
     ETX  4800,15
     GOTO 왼쪽옆으로20_골프
-
-
     GOTO RX_EXIT
-    '***************
 KEY16: ' POWER
     ETX  4800,16
 
@@ -2238,18 +2185,12 @@ KEY16_1:
 
 
     GOTO RX_EXIT
-    '***************
 KEY17: ' C
     ETX  4800,17
     GOTO 머리왼쪽90도
-
-
     GOTO RX_EXIT
-    '***************
 KEY18: ' E
     ETX  4800,18   
-
-
     GOSUB 자이로OFF
     GOSUB 에러음
 KEY18_wait:
@@ -2263,54 +2204,37 @@ KEY18_wait:
     ENDIF
 
     GOTO KEY18_wait
-
-
     GOTO RX_EXIT
-    '***************
 KEY19: ' P2
     ETX  4800,19
     GOTO 오른쪽턴60_골프
-
     GOTO RX_EXIT
-    '***************
 KEY20: ' B   
     ETX  4800,20
     GOTO 오른쪽옆으로20_골프
-
-
     GOTO RX_EXIT
-    '***************
 KEY21: ' △
     ETX  4800,21
     GOTO 머리상향
     GOTO RX_EXIT
-    '***************
 KEY22: ' *   
     ETX  4800,22
     GOTO 왼쪽턴45_골프
 
     GOTO RX_EXIT
-    '***************
 KEY23: ' G
     ETX  4800,23
-
-
-
-
     GOTO RX_EXIT
-    '***************
 KEY24: ' #
     ETX  4800,24
     GOTO 오른쪽턴45_골프
 
     GOTO RX_EXIT
-    '***************
 KEY25: ' P1
     ETX  4800,25
     GOTO 왼쪽턴60_골프
 
     GOTO RX_EXIT
-    '***************
 KEY26: ' ■
     ETX  4800,26
 
@@ -2320,90 +2244,426 @@ KEY26: ' ■
     MUSIC "ff"
     GOSUB 기본자세
     GOTO RX_EXIT
-    '***************
 KEY27: ' D
     ETX  4800,27
     GOTO 머리오른쪽90도
-
-
     GOTO RX_EXIT
-    '***************
-'KEY28: ' ◁
-'    ETX  4800,28
-'    GOTO 머리왼쪽45도
-'
-'    GOTO RX_EXIT
 KEY28: ' ◁
    ETX 4800,28
    GOTO 머리좌향
    GOTO RX_EXIT
-    '***************
-'KEY29: ' □
-'    ETX  4800,29
-'    GOTO 전방하향80도
-'    GOTO RX_EXIT
-
 KEY29: ' □
     ETX  4800,29
     GOTO 머리중앙
-    
     GOTO RX_EXIT
-    '***************
-'KEY30: ' ▷
-'    ETX  4800,30
-'    GOTO 머리오른쪽45도
-'
-'    GOTO RX_EXIT
 KEY30: ' ▷
     ETX  4800,30
     GOTO 머리우향
 
     GOTO RX_EXIT
- 
-    '***************
-'KEY31: ' ▽
-'    ETX  4800,31
-'    GOTO 전방하향60도
-'    GOTO RX_EXIT
 KEY31: ' ▽
     ETX  4800,31
     GOTO 머리하향
     GOTO RX_EXIT
-
-
-    '***************=3;.
-
 KEY32: ' F
     ETX  4800,32
     GOTO 후진종종걸음_골프
     GOTO RX_EXIT
-    '***************
-
+'***********************************
+KEY33:
+    ETX 4800,33
+    GOTO RX_EXIT
+KEY34:
+    ETX 4800,34
+    GOTO RX_EXIT
+KEY35:
+    ETX 4800,35
+    GOTO RX_EXIT
+KEY36:
+    ETX 4800,36
+    GOTO RX_EXIT
+KEY37:
+    ETX 4800,37
+    GOTO RX_EXIT
+KEY38:
+    ETX 4800,38
+    GOTO RX_EXIT
+KEY39:
+    ETX 4800,39
+    GOTO RX_EXIT
+KEY40:
+    ETX 4800,40
+    GOTO RX_EXIT
+KEY41:
+    ETX 4800,41
+    GOTO RX_EXIT
+KEY42:
+    ETX 4800,42
+    GOTO RX_EXIT
+KEY43:
+    ETX 4800,43
+    GOTO RX_EXIT
+KEY44:
+    ETX 4800,44
+    GOTO RX_EXIT
+KEY45:
+    ETX 4800,45
+    GOTO RX_EXIT
+KEY46:
+    ETX 4800,46
+    GOTO RX_EXIT
+KEY47:
+    ETX 4800,47
+    GOTO RX_EXIT
+KEY48:
+    ETX 4800,48
+    GOTO RX_EXIT
+KEY49:
+    ETX 4800,49
+    GOTO RX_EXIT
+KEY50:
+    ETX 4800,50
+    GOTO RX_EXIT
+KEY51:
+    ETX 4800,51
+    GOTO RX_EXIT
+KEY52:
+    ETX 4800,52
+    GOTO RX_EXIT
+KEY53:
+    ETX 4800,53
+    GOTO RX_EXIT
+KEY54:
+    ETX 4800,54
+    GOTO RX_EXIT
+KEY55:
+    ETX 4800,55
+    GOTO RX_EXIT
+KEY56:
+    ETX 4800,56
+    GOTO RX_EXIT
+KEY57:
+    ETX 4800,57
+    GOTO RX_EXIT
+KEY58:
+    ETX 4800,58
+    GOTO RX_EXIT
+KEY59:
+    ETX 4800,59
+    GOTO RX_EXIT
+KEY60:
+    ETX 4800,60
+    GOTO RX_EXIT
+KEY61:
+    ETX 4800,61
+    GOTO RX_EXIT
+KEY62:
+    ETX 4800,62
+    GOTO RX_EXIT
+KEY63:
+    ETX 4800,63
+    GOTO RX_EXIT
+KEY64:
+    ETX 4800,64
+    GOTO RX_EXIT
+KEY65:
+    ETX 4800,65
+    GOTO RX_EXIT
+KEY66:
+    ETX 4800,66
+    GOTO RX_EXIT
+KEY67:
+    ETX 4800,67
+    GOTO RX_EXIT
+KEY68:
+    ETX 4800,68
+    GOTO RX_EXIT
+KEY69:
+    ETX 4800,69
+    GOTO RX_EXIT
+KEY70:
+    ETX 4800,70
+    GOTO RX_EXIT
+KEY71:
+    ETX 4800,71
+    GOTO RX_EXIT
+KEY72:
+    ETX 4800,72
+    GOTO RX_EXIT
+KEY73:
+    ETX 4800,73
+    GOTO RX_EXIT
+KEY74:
+    ETX 4800,74
+    GOTO RX_EXIT
+KEY75:
+    ETX 4800,75
+    GOTO RX_EXIT
+KEY76:
+    ETX 4800,76
+    GOTO RX_EXIT
+KEY77:
+    ETX 4800,77
+    GOTO RX_EXIT
+KEY78:
+    ETX 4800,78
+    GOTO RX_EXIT
+KEY79:
+    ETX 4800,79
+    GOTO RX_EXIT
+KEY80:
+    ETX 4800,80
+    GOTO RX_EXIT
+KEY81:
+    ETX 4800,81
+    GOTO RX_EXIT
+KEY82:
+    ETX 4800,82
+    GOTO RX_EXIT
+KEY83:
+    ETX 4800,83
+    GOTO RX_EXIT
+KEY84:
+    ETX 4800,84
+    GOTO RX_EXIT
+KEY85:
+    ETX 4800,85
+    GOTO RX_EXIT
+KEY86:
+    ETX 4800,86
+    GOTO RX_EXIT
+KEY87:
+    ETX 4800,87
+    GOTO RX_EXIT
+KEY88:
+    ETX 4800,88
+    GOTO RX_EXIT
+KEY89:
+    ETX 4800,89
+    GOTO RX_EXIT
+KEY90:
+    ETX 4800,90
+    GOTO RX_EXIT
+KEY91:
+    ETX 4800,91
+    GOTO RX_EXIT
+KEY92:
+    ETX 4800,92
+    GOTO RX_EXIT
+KEY93:
+    ETX 4800,93
+    GOTO RX_EXIT
+KEY94:
+    ETX 4800,94
+    GOTO RX_EXIT
+KEY95:
+    ETX 4800,95
+    GOTO RX_EXIT
+KEY96:
+    ETX 4800,96
+    GOTO RX_EXIT
+KEY97:
+    ETX 4800,97
+    GOTO RX_EXIT
+KEY98:
+    ETX 4800,98
+    GOTO RX_EXIT
+KEY99:
+    ETX 4800,99
+    GOTO RX_EXIT
 '*************북마크
-
 '######### ------------------- KEY100-110 전진걸음
-
 KEY100:
     ETX 4800,100
     보행횟수 = 1
     'GOTO 전진걸음1   '앞으로 쪼금 걷기
     GOTO RX_EXIT
-
 KEY101:
     ETX 4800,101
     보행횟수 = 1
     'GOTO 전진걸음2   '앞으로 적당히 걷기
     GOTO RX_EXIT
-
 KEY102:
     ETX 4800,102
     보행횟수 = 1
     'GOTO 전진걸음3   '앞으로 많이 걷기
     GOTO RX_EXIT
-
-
+'----------------------------------
+KEY103:
+    ETX 4800,103
+    GOTO RX_EXIT
+KEY104:
+    ETX 4800,104
+    GOTO RX_EXIT
+KEY105:
+    ETX 4800,105
+    GOTO RX_EXIT
+KEY106:
+    ETX 4800,106
+    GOTO RX_EXIT
+KEY107:
+    ETX 4800,107
+    GOTO RX_EXIT
+KEY108:
+    ETX 4800,108
+    GOTO RX_EXIT
+KEY109:
+    ETX 4800,109
+    GOTO RX_EXIT
+KEY110:
+    ETX 4800,110
+    GOTO RX_EXIT
+KEY111:
+    ETX 4800,111
+    GOTO RX_EXIT
+KEY112:
+    ETX 4800,112
+    GOTO RX_EXIT
+KEY113:
+    ETX 4800,113
+    GOTO RX_EXIT
+KEY114:
+    ETX 4800,114
+    GOTO RX_EXIT
+KEY115:
+    ETX 4800,115
+    GOTO RX_EXIT
+KEY116:
+    ETX 4800,116
+    GOTO RX_EXIT
+KEY117:
+    ETX 4800,117
+    GOTO RX_EXIT
+KEY118:
+    ETX 4800,118
+    GOTO RX_EXIT
+KEY119:
+    ETX 4800,119
+    GOTO RX_EXIT
+KEY120:
+    ETX 4800,120
+    GOTO RX_EXIT
+KEY121:
+    ETX 4800,121
+    GOTO RX_EXIT
+KEY122:
+    ETX 4800,122
+    GOTO RX_EXIT
+KEY123:
+    ETX 4800,123
+    GOTO RX_EXIT
+KEY124:
+    ETX 4800,124
+    GOTO RX_EXIT
+KEY125:
+    ETX 4800,125
+    GOTO RX_EXIT
+KEY126:
+    ETX 4800,126
+    GOTO RX_EXIT
+KEY127:
+    ETX 4800,127
+    GOTO RX_EXIT
+KEY128:
+    ETX 4800,128
+    GOTO RX_EXIT
+KEY129:
+    ETX 4800,129
+    GOTO RX_EXIT
+KEY130:
+    ETX 4800,130
+    GOTO RX_EXIT
+KEY131:
+    ETX 4800,131
+    GOTO RX_EXIT
+KEY132:
+    ETX 4800,132
+    GOTO RX_EXIT
+KEY133:
+    ETX 4800,133
+    GOTO RX_EXIT
+KEY134:
+    ETX 4800,134
+    GOTO RX_EXIT
+KEY135:
+    ETX 4800,135
+    GOTO RX_EXIT
+KEY136:
+    ETX 4800,136
+    GOTO RX_EXIT
+KEY137:
+    ETX 4800,137
+    GOTO RX_EXIT
+KEY138:
+    ETX 4800,138
+    GOTO RX_EXIT
+KEY139:
+    ETX 4800,139
+    GOTO RX_EXIT
+KEY140:
+    ETX 4800,140
+    GOTO RX_EXIT
+KEY141:
+    ETX 4800,141
+    GOTO RX_EXIT
+KEY142:
+    ETX 4800,142
+    GOTO RX_EXIT
+KEY143:
+    ETX 4800,143
+    GOTO RX_EXIT
+KEY144:
+    ETX 4800,144
+    GOTO RX_EXIT
+KEY145:
+    ETX 4800,145
+    GOTO RX_EXIT
+KEY146:
+    ETX 4800,146
+    GOTO RX_EXIT
+KEY147:
+    ETX 4800,147
+    GOTO RX_EXIT
+KEY148:
+    ETX 4800,148
+    GOTO RX_EXIT
+KEY149:
+    ETX 4800,149
+    GOTO RX_EXIT
+KEY150:
+    ETX 4800,150
+    GOTO RX_EXIT
+KEY151:
+    ETX 4800,151
+    GOTO RX_EXIT
+KEY152:
+    ETX 4800,152
+    GOTO RX_EXIT
+KEY153:
+    ETX 4800,153
+    GOTO RX_EXIT
+KEY154:
+    ETX 4800,154
+    GOTO RX_EXIT
+KEY155:
+    ETX 4800,155
+    GOTO RX_EXIT
+KEY156:
+    ETX 4800,156
+    GOTO RX_EXIT
+KEY157:
+    ETX 4800,157
+    GOTO RX_EXIT
+KEY158:
+    ETX 4800,158
+    GOTO RX_EXIT
+KEY159:
+    ETX 4800,159
+    GOTO RX_EXIT
+KEY160:
+    ETX 4800,160
+    GOTO RX_EXIT
 '####### --------------------- KEY161-180 좌우퍼팅
-
 '퍼팅강도들은 임의로 지정했으므로 추후 수정할 것
 
 '#### 우퍼팅(->) ####
@@ -2411,23 +2671,18 @@ KEY161:
     ETX 4800,161
     GOTO 우퍼팅1  '톡 치기
     GOTO RX_EXIT
-
 KEY162:
-    ETX 4800,163
+    ETX 4800,162
     GOTO 우퍼팅2  '쪼금 더 세게
     GOTO RX_EXIT
-
 KEY163:
     ETX 4800,163
     GOTO 우퍼팅3    '적당히 보다 좀 약하게
     GOTO RX_EXIT
-
-
 KEY164:
-    ETX 4800,161
-    GOTO 우퍼팅4    '적당히 치기
+    ETX 4800,164
+    GOTO 우퍼팅4   '적당히 치기
     GOTO RX_EXIT
-
 KEY165:
     ETX 4800,165
     GOTO 우퍼팅5      '세게 치기
@@ -2438,34 +2693,29 @@ KEY166:
     ETX 4800,166
     GOTO 좌퍼팅1  '톡 치기
     GOTO RX_EXIT
-
 KEY167:
     ETX 4800,167
     GOTO 좌퍼팅2  '쪼금 더 세게
     GOTO RX_EXIT
-
 KEY168:
     ETX 4800,168
     GOTO 좌퍼팅3    '적당히 보다 좀 약하게
     GOTO RX_EXIT
-
-
 KEY169:
     ETX 4800,169
     GOTO 좌퍼팅4    '적당히 치기
     GOTO RX_EXIT
-
 KEY170:
     ETX 4800,170
     GOTO 좌퍼팅5      '세게 치기
     GOTO RX_EXIT
-
+'--------------------------
 
 
 '#---------------------------------------------------------------------------------#
-'#                                				                   #
-'#                                     함수들 작성			                   #
-'#                                				                   #
+'#                                				                   
+'#                                     함수들 작성			                   
+'#                                				                   
 '#---------------------------------------------------------------------------------#
 
 '-----------------------------------------------------------------------
@@ -2835,3 +3085,4 @@ DIM 어드레스스위치 AS INTEGER
 '				# 걸음 함수				
 '-----------------------------------------------------------------------
 '몇 걸음 걸을 지에 대한 변수 생성하여 걸음 카운트 함
+
