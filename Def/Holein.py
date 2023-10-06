@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+from Def.VideoCall import ImageProcessor
 from Detection import Detection
 
 class Holein:
@@ -8,7 +9,10 @@ class Holein:
         pass
 
 
-    def detect_hole_in(frame):
+    def detect_hole_in():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
         
         try:
         

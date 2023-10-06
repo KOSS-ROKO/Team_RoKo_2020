@@ -1,12 +1,18 @@
 import cv2
 import numpy as np
 
+from Def.VideoCall import ImageProcessor
+
+
 class Oneframe:
     def __init__(self):
         pass
 
 
-    def ball_hole_oneframe(frame):
+    def ball_hole_oneframe():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
     
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 

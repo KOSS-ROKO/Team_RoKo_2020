@@ -7,9 +7,10 @@ class Detection:
     def __init__(self):
         pass
 
-    def detect_ball(frame):
+    def detect_ball():
         
-        frame = ImageProcessor.get_img()
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
         
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
@@ -30,7 +31,11 @@ class Detection:
         
         return imgThresh
 
-    def detect_arrow(frame):
+    def detect_arrow():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
+        
         lower_yellow = np.array([0, 50, 50])
         upper_yellow = np.array([45, 255, 255])
 
@@ -99,7 +104,10 @@ class Detection:
                     
 
     
-    def detect_field(frame):
+    def detect_field():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
 
         # HSV 색상 공간으로 변환합니다.
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -127,8 +135,10 @@ class Detection:
     
     
     
-    def detect_holecup_area(self, frame):
+    def detect_holecup_area():
         
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -188,7 +198,10 @@ class Detection:
 
     
     
-    def detect_holecup_circle(self, frame):
+    def detect_holecup_circle():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
         
         detected_circles = []
         
@@ -264,7 +277,10 @@ class Detection:
     
     
     
-    def par4_direction(self, frame):
+    def par4_direction():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
         
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)

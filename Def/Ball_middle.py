@@ -4,16 +4,20 @@
 
 import cv2
 import numpy as np
-from Detection import Detection 
+from Detection import Detection
+from Def.VideoCall import ImageProcessor 
 
 class Ball:
     def __init__(self):
         pass
 
-    def middle_ball(frame):
+    def middle_ball():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
         # 빨간색 범위 (OpenCV에서는 BGR 형식을 사용하므로 순서가 바뀝니다)
-        lower_red = np.array([170, 100, 45])
-        upper_red = np.array([177, 255, 255])
+        #lower_red = np.array([170, 100, 45])
+        #upper_red = np.array([177, 255, 255])
 
         # 영상에서 빨간색만 추출하는 함수
         # def extract_red_objects(frame):
@@ -27,6 +31,7 @@ class Ball:
         #     red_objects = cv2.bitwise_and(frame, frame, mask=mask)
             
         #     return red_objects
+        
 
         # 화면을 11x11 그리드로 나누는 함수
         def divide_screen(frame):
