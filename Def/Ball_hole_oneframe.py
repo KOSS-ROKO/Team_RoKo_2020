@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from Def.VideoCall import ImageProcessor
+from Def.ImageProcessor import ImageProcessor
 
 
 class Oneframe:
