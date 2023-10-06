@@ -1,7 +1,8 @@
-from 0000 import Controller
+# Main code
+from Controller import Controller
 
 def main():
-    while 000:
+    while not Controller.start():
         continue
 
 

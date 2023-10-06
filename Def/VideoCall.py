@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
 
 
-class ImageProcessor:
+class VideoCall:
     def __init__(self, video: str = ""):
         print("init_imgprocessor")
 
