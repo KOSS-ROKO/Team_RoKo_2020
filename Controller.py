@@ -42,7 +42,7 @@ class Controller:
         elif act == act.WALK_BALL:
                         
             state = Detection.detect_ball()
-            # state = self.robo._image_processor.is_line_horizon_vertical()
+            # state = self.robo._image_processor
         
             # findball 함수 호출
             pass
