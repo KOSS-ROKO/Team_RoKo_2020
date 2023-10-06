@@ -24,7 +24,7 @@ class Detection:
         if cv2.countNonZero(imgThresh) > 100:
             return red_detected #빨간색 마스크 리턴
         
-        return False
+        return imgThresh
 
     def detect_arrow(frame):
         lower_yellow = np.array([0, 50, 50])
