@@ -26,26 +26,7 @@ if __name__ == "__main__":
     from Setting import setting
     from DataPath import DataPath
 
-    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
-                          cv.IMREAD_GRAYSCALE) for x in range(4)]
-    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.d_dangerfont, x),
-                          cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_c = [cv.imread('{}c{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_d = [cv.imread('{}d{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+
 
 else:
     from Sensor.Stair import Stair
@@ -58,26 +39,6 @@ else:
     from Sensor.Setting import setting
     from Sensor.DataPath import DataPath
 
-    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
-                          cv.IMREAD_GRAYSCALE) for x in range(4)]
-    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.r_dangerfont, x),
-                          cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
 
 
 class ImageProccessor:
@@ -451,96 +412,7 @@ class ImageProccessor:
         print(ret)  # Debug: print arrow
         return ret
 
-    # 방위 글자 인식 후 방위 리턴
-    def get_ewsn(self, show=False):
-        print('get_ewsn')
-        img = self.get_img()
-        x, y, w, h = 100, 100, 440, 480
-        img = img[y:y+h, x:x+w]
-
-        origin = img.copy()
-        dir = Direction
-        gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        dst = self.blur(gray, setting.DIR_BLUR)
-
-        _, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
-        dst = cv.bitwise_and(img, img, mask=th)
-
-        kernel = cv.getStructuringElement(cv.MORPH_RECT, (1, 1))
-        dst = cv.dilate(dst, kernel, iterations=1)
-
-        contours, hierarchy = cv.findContours(
-            th,  cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
-
-        roi_contour = []
-        for pos in range(len(contours)):
-            peri = cv.arcLength(contours[pos], True)
-            approx = cv.approxPolyDP(contours[pos], peri * 0.02, True)
-            points = len(approx)
-            if peri > 900 and points == 4:
-                roi_contour.append(contours[pos])
-                # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
-
-        if show:
-            cv.imshow("show", dst)
-            cv.waitKey(1) & 0xFF == ord('q')
-        ####################################
-        roi_contour_pos = []
-        for pos in range(len(roi_contour)):
-            area = cv.contourArea(roi_contour[pos])
-            print(area)
-            if area > 20000:
-                roi_contour_pos.append(pos)
-
-        if roi_contour:
-            x, y, w, h = cv.boundingRect(roi_contour[0])
-            img_crop = origin[y:y+h, x:x+w]
-            text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
-            text = img_crop.copy()
-
-            '''
-            [Issue]
-            현재 mt_gray(gray처리된 roi 부분을 matchTemplate 비교)값을 대표로 리턴함.
-            mt_gray, mt_mask가 정확도가 가장 높으며 두 값은 항상 유사한 결과를 가짐.
-            font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
-            '''
-
-            sample_list = [e_, w_, s_, n_]
-            # 1. matchTemplate - Gray Scale
-            mt_gray = Direction.matching(sample_list, text_gray, 0.001, "EWSN")
-            text_mask = Direction.text_masking(text)
-            # 2. matchTemplate - Masking
-            mt_mask = Direction.matching(sample_list, text_mask, 1, "EWSN")
-            match_mask_font = Direction.match_font(
-                font_img, text_mask)  # 3. font <-> masking
-            match_gray_font = Direction.match_font(
-                font_img, text_gray)  # 4. font <-> gray scale
-
-            print('match: ', mt_gray, mt_mask, match_gray_font,
-                  match_mask_font)  # Debug: printing
-            set_ = {mt_gray, mt_mask, match_mask_font, match_gray_font}
-            print(list(set_), list(set_)[0])
-            ########### [Option] Show ##########
-            if show:
-                cv.imshow("show", img)
-                cv.imshow("showw", img_crop)
-                cv.waitKey(1) & 0xFF == ord('q')
-            ####################################
-            if len(set_) <= 2:
-                cv.putText(img, "direction: {}".format(match_mask_font),
-                           (100, 250), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
-                ########### [Option] Show ##########
-                if show:
-                    cv.imshow("show", img)
-                    # cv.imshow("show", img_crop)
-                    cv.waitKey(1) & 0xFF == ord('q')
-                ####################################
-                return match_gray_font
-            else:
-                return ''
-        else:  # False
-            return ''
-
+    
     ############ DANGER PROCESSING #############
     # 계단 지역인지(False) 위험 지역인지(True) detection
 
@@ -549,43 +421,7 @@ class ImageProccessor:
         img = self.bright(img, 2.0) 
         return Danger.is_danger(img, show)  # [return] DANGER / STAIR
 
-    # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
-    def get_alphabet_color(self):
-        img = self.get_img()
-        hsv = Danger.get_alphabet_roi(img)
-        if hsv == "Failed":
-            print("get_alphabet_color 실패")
-            return False
-        else:
-            return Danger.get_alphabet_color(hsv)  # [return] RED / BLUE
-
-    # 방 이름(알파벳) 인식
-    def get_alphabet_name(self, show=False):
-        img = self.get_img()
-
-        roi = Danger.get_alphabet_roi(img, "GRAY")
-        # roi = self.bright(roi,1.0)
-
-        arr = [arr_a, arr_b, arr_c, arr_d]
-        if roi != "Failed":
-            roi_gray = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
-            
-            mt_gray = Direction.matching(arr, roi_gray, 0.001, "ABCD")
-            text_mask = Direction.text_masking(roi)
-            match_font = Direction.match_font(font_danger, text_mask, danger=True)
-            match_fontg = Direction.match_font(font_danger, roi_gray, danger=True)
-
-            print(mt_gray, match_font, match_fontg)
-            ########### [Option] Show ##########
-            if show:
-                cv.imshow("show", text_mask)
-                cv.imshow("show2", roi)
-            ####################################
-            # return mt_gray  # [return] 인식한 알파벳: A, B, C, D
-            # return match_font  # [return] 인식한 알파벳: A, B, C, D
-            return match_fontg  # [return] 인식한 알파벳: A, B, C, D
-        print("get_alphabet_name 실패")
-        return False  # 인식 실패
+    
 
     # 장애물 들고 위험 지역에서 벗어났는지 확인 (show : imshow() 해줄 건지에 대한 여부)
     def is_out_of_black(self, show=False):
