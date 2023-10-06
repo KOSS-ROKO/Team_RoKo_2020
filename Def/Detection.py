@@ -22,7 +22,7 @@ class Detection:
 
         
         if cv2.countNonZero(imgThresh) > 100:
-            return red_detected #빨간색 마스크 리턴
+            return imgThresh  # 이진화 이미지 리턴
         
         return imgThresh
 
