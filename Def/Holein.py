@@ -3,7 +3,7 @@ import numpy as np
 
 from Detection import Detection
 
-class Detection:
+class Holein:
     def __init__(self):
         pass
 
