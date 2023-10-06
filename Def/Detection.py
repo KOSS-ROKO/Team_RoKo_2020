@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from ImageProccessor import ImageProccessor
+from Def.ImageProcessor import ImageProcessor
 
 class Detection:
     def __init__(self):
@@ -9,7 +9,7 @@ class Detection:
 
     def detect_ball(frame):
         
-        frame = ImageProccessor.get_img()
+        frame = ImageProcessor.get_img()
         
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         

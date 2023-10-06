@@ -41,7 +41,7 @@ else:
 
 
 
-class ImageProccessor:
+class ImageProcessor:
     def __init__(self, video: str = ""):
         print("init_imgprocessor")
 
@@ -687,7 +687,7 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(DataPath.stair05)
+    img_processor = ImageProcessor(DataPath.stair05)
     # img_processor = ImageProccessor(video=DataPath.de1)
 
     ### Debug Run ###
