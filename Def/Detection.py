@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from Def.ImageProcessor import ImageProcessor
+from Def.VideoCall import ImageProcessor
 
 class Detection:
     def __init__(self):
