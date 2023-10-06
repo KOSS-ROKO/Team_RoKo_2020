@@ -3,7 +3,7 @@ from enum import Enum, auto
 import time
 
 from Motion import Motion
-from Def.VideoCall import VideoCall
+from Def.ImageProcessor import ImageProcessor
 from Robo import Robo
 
 from Def.Detection import Detection
@@ -42,6 +42,7 @@ class Controller:
         elif act == act.WALK_BALL:
                         
             state = Detection.detect_ball()
+            # state = self.robo._image_processor.is_line_horizon_vertical()
         
             # findball 함수 호출
             pass
