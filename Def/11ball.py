@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from Detection import Detection 
 
-class ball:
+class Ball:
     def __init__(self):
         pass
 
