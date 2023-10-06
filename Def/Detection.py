@@ -1,11 +1,15 @@
 import cv2
 import numpy as np
 
+from ImageProccessor import ImageProccessor
+
 class Detection:
     def __init__(self):
         pass
 
     def detect_ball(frame):
+        
+        frame = ImageProccessor.get_img()
         
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
