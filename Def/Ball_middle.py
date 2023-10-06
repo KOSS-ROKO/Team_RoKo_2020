@@ -1,58 +1,22 @@
+# 최종 : 공이 중앙에 위치하면 stop
+# go left & go right
+# 빨간 공 잘 검출되는지 확인하기 위해, 빨간 공만 띄우는 창 추가함
 
-import cv2 
+import cv2
 import numpy as np
-from ImageProcessor import ImageProcessor
+from Detection import Detection 
 
 class Ball:
     def __init__(self):
         pass
 
-    def detect_ball(frame):       # 프레임 읽기
-        
-        # 빨간공 인식
-        imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        
-        imgThreshLow = cv2.inRange(imgHSV, (0, 200, 155), (50, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 155, 50), (179, 255, 255))
-        
-        imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
-
-        imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
-        imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
-        imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
-
-        red_detected = cv2.bitwise_and(frame, frame, mask=imgThresh)
-        
-        return red_detected
-        
-        
-        # 결과 화면 표시
-        # cv2.imshow('Original', frame)
-        # cv2.imshow('Red Detected', red_detected)
-        
-        # # 'q' 키를 누르면 종료
-        # if cv2.waitKey(1) & 0xFF == ord('q'):
-        #     break
-
-        # # 작업 완료 후 리소스 해제
-        # #cap.release()
-        # cv2.destroyAllWindows()
-
-    
-    # 최종 : 공이 중앙에 위치하면 stop
-    # go left & go right
-    # 빨간 공 잘 검출되는지 확인하기 위해, 빨간 공만 띄우는 창 추가함
-    def middle_ball(self, frame):
-
-        
-
+    def middle_ball(frame):
         # 빨간색 범위 (OpenCV에서는 BGR 형식을 사용하므로 순서가 바뀝니다)
         lower_red = np.array([170, 100, 45])
         upper_red = np.array([177, 255, 255])
 
-        # # 영상에서 빨간색만 추출하는 함수
+        # 영상에서 빨간색만 추출하는 함수
         # def extract_red_objects(frame):
-
         #     # BGR에서 HSV로 변환
         #     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             
@@ -88,22 +52,23 @@ class Ball:
         # cv2.namedWindow('Red Objects', cv2.WINDOW_NORMAL)
         # cv2.resizeWindow('Red Objects', 400, 300)
 
-    
-        # 영상 프레임 읽기
+        # while True:
+            # 영상 프레임 읽기
         # ret, frame = cap.read()
         
         # if not ret:
-            # break
+        #     break
         
         # 빨간색 객체 추출
-        red_objects = self.detect_ball(frame)
+        # red_objects = extract_red_objects(frame)
+        red_detected = Detection.detect_ball(frame)
         
         # 화면을 11x11 그리드로 나누고 그리드 라인 그리기
         divided_frame = divide_screen(frame)
         
         #여기에 새로운 코드 추가
         # 빨간색 객체 검출 및 위치 계산
-        non_zero_pixels = np.transpose(np.nonzero(red_objects))
+        non_zero_pixels = np.transpose(np.nonzero(red_detected))
         
         if non_zero_pixels.size > 0:
             x_center = non_zero_pixels[:, 1].mean()
@@ -122,6 +87,19 @@ class Ball:
                 print("go left")
         else:
             print("go far")
+        # 여기서 print를 return으로 바꿔야함 => 로봇 번호로
 
 
-            
+        # 빨간 공만 보이는 창에 이미지 표시
+        # cv2.imshow('Red Objects', red_detected)
+        
+        # # 전체 화면에 영상 출력
+        # cv2.imshow('Full Frame', frame)
+
+        # 'q' 키를 누르면 종료
+    #     if cv2.waitKey(50) & 0xFF == ord('q'):
+    #         break
+
+    # # 종료 후 리소스 해제
+    # cap.release()
+    # cv2.destroyAllWindows()
