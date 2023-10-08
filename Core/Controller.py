@@ -52,6 +52,7 @@ class Controller:
                     act = Act.PUTTING_POS
                 elif find_ball == "go right":
                     robo._motion.head_right("") ################# 고개 오른쪽으로 돌리는 모션
+                    # 몇번 오른쪽으로, 왼쪽으로 고개를 돌렸는지 세어야 body각도도 돌릴 수 있으니까 변수로 count 저장해야하지 않나?
                     
                 elif find_ball == "go left":
                     robo._motion.head_left("") ################# 고개 왼쪽으로 돌리는 모션
