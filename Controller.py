@@ -6,7 +6,7 @@ from Motion import Motion
 from Def.ImageProcessor import ImageProcessor
 from Robo import Robo
 
-from Def.Detection import Detection
+#from Def.Detection import Detection
 
 
 class Act(Enum):
