@@ -15,6 +15,10 @@ class Act:
     OLEIN = 5            # 6. 홀인
 
 class Controller:
+
+    def __init__(self):
+        pass
+    
     robo = Robo()
     act  = Act.TEESHOT
 

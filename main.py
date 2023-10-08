@@ -1,10 +1,10 @@
 # Main code
-from Controller import Controller
-
+from Core.Controller import Controller
+    
 def main():
     while not Controller.start():
         continue
 
 
-if __name__ == "__main__":
-    main() 
+if __init__ == "__main__":
+    main()
