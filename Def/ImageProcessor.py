@@ -16,13 +16,12 @@ print('code: ImageProcessor.py - ## Debug')
 if __name__ == "__main__":
     from Ball_hole_oneframe import Oneframe
     from Ball_middle import Ball  # 파일명 / class이름
-    from Detection import Detection
     from Holein import Holein
 
 
 
 class ImageProcessor:
-    def __init__(self, video: str = ""):
+    def __init__(self, video= ""):
         print("init_imgprocessor")
 
         if video and os.path.exists(video):
