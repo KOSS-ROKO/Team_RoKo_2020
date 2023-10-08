@@ -83,10 +83,12 @@ class ImageProcessor:
         red_detected = cv2.bitwise_and(frame, frame, mask=imgThresh)
 
         
-        if cv2.countNonZero(imgThresh) > 100:
-            return imgThresh  # 이진화 이미지 리턴
+        if cv2.countNonZero(imgThresh) > 0: # 값 바꾸세요
+            return True 
+        else:
+            return False
         
-        return imgThresh
+        
 
     def detect_arrow():
         
