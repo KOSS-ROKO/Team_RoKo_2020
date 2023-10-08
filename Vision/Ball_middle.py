@@ -4,7 +4,6 @@
 
 import cv2
 import numpy as np
-from Detection import Detection
 from Vision.VideoCall import ImageProcessor 
 
 class Ball:
@@ -66,7 +65,7 @@ class Ball:
         
         # 빨간색 객체 추출
         # red_objects = extract_red_objects(frame)
-        red_detected = Detection.detect_ball(frame)
+        red_detected = Vision.detect_ball(frame)
         
         # 화면을 11x11 그리드로 나누고 그리드 라인 그리기
         divided_frame = divide_screen(frame)

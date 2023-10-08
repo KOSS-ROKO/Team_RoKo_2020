@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 
 from Vision.ImageProcessor import ImageProcessor
-from Detection import Detection
 
 class Holein:
     def __init__(self):
@@ -71,7 +70,7 @@ class Holein:
             
             
             # 빨간공 인식
-            imgThresh = Detection.detect_ball(frame)
+            imgThresh = Vision.detect_ball(frame)
                 
             contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) # 빨간색 골프 공 윤곽선
             
