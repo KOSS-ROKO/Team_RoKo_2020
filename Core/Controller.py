@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import time
-from Vision.ImageProcessor import ImageProcessor
 from Robo import Robo
-from Motion.Motion import Motion
 from Vision.Ball_middle import Ball
-
 
 class Act:
     
-    TEESHOT = 1          # 2. 맨 처음 티샷  
-    WALK_BALL = 2        # 3. 공까지 걸어가기 (걸음수)
-    PUTTING_POS = 3      # 4. 퍼팅 위치에 서기
-    PUTTING = 4          # 5. 퍼팅
-    OLEIN = 5            # 6. 홀인
+    TEESHOT = 1          # 1. 맨 처음 티샷  
+    WALK_BALL = 2        # 2. 공까지 걸어가기 (걸음수)
+    PUTTING_POS = 3      # 3. 퍼팅 위치에 서기
+    PUTTING = 4          # 4. 퍼팅
+    HOLEIN = 5            # 5. 홀인
 
 class Controller:
 
@@ -29,17 +26,15 @@ class Controller:
         act = self.act
         robo = self.robo
 
-        if act == Act.TEESHOT:                  # 
+        if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷
             print("ACT: ", act)  # Debug
             
             ################# 처음 티샷 모션 
             robo._motion.teeshot("")
             
             act = Act.WALK_BALL
-            
-            #state = robo._image_processor.detect_ball()
         
-        elif act == Act.WALK_BALL:               #
+        elif act == Act.WALK_BALL:             ##### 2. 공을 향해 걸어간다
             check_ball = robo._image_processor.detect_ball()
             
             if check_ball == True:
@@ -63,4 +58,14 @@ class Controller:
                 # 공이 화면에 안 보이는 경우
                 # 패닝 틸팅? or 걷기?
                 pass
+            
+        elif act == Act.PUTTING_POS:             ##### 3. 퍼팅 위치에 서기
+            pass
+        
+        elif act == Act.PUTTING:             ##### 4. 퍼팅
+            pass
+        
+        elif act == Act.HOLEIN:             ##### 5. 홀인
+            pass
+            
         
