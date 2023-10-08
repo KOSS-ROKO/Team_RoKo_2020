@@ -4,9 +4,9 @@ import time
 from Vision.ImageProcessor import ImageProcessor
 from Robo import Robo
 from Motion.Motion import Motion
-from enum import Enum
 
-class Act(Enum):
+
+class Act:
     
     TEESHOT = 1          # 2. 맨 처음 티샷  
     WALK_BALL = 2        # 3. 공까지 걸어가기 (걸음수)
