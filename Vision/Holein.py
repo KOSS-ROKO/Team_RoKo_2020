@@ -70,7 +70,7 @@ class Holein:
             
             
             # 빨간공 인식
-            imgThresh = Vision.detect_ball(frame)
+            imgThresh = ImageProcessor.detect_ball(frame)
                 
             contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) # 빨간색 골프 공 윤곽선
             
