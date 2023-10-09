@@ -1,6 +1,6 @@
-DIM 몇걸음 AS INTEGER
 '******** 2족 보행로봇 초기 영점 프로그램 ********
 
+DIM 몇걸음 AS INTEGER
 DIM I       AS BYTE
 DIM J       AS BYTE
 DIM MODE    AS BYTE
