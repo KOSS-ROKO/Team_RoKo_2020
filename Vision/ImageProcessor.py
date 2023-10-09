@@ -623,13 +623,13 @@ class ImageProcessor:
                 B, B_prime = left_point_red[0], right_point_red[0]
                 
                 if A < B < A_prime and A < B_prime < A_prime:
-                    hole_result = "HoleIn"
+                    hole_result = True
                 else:
-                    hole_result = "NO..."
+                    hole_result = False
             else:
-                hole_result = "NO..."
+                hole_result = False
                 
-            return hole_result, result            
+            return hole_result        
         
         except Exception as e:
             print(f"Error: {e}")
