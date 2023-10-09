@@ -26,7 +26,9 @@ class Controller:
         act = self.act
         robo = self.robo
         first_detect_ball_flag = 0
-        max_right_flag = 0
+        max_right_flag = 0 ##위치 수정 필요 
+        is_object_in_frame = False
+        
 
         if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷
             print("ACT: ", act)  # Debug
@@ -41,7 +43,27 @@ class Controller:
         
         
         elif act == Act.WALK_BALL:             ##### 2. 공을 향해 걸어간다
+ ######################################################################################################################################           
             
+
+            if is_object_in_frame == True : 
+                small_head("ball")
+            elif is_object_in_frame == False :
+                is_object_in_frame = big_head("ball")
+
+          
+            
+                    
+            ### def big_head에서 화면상에 물체 검출 True 후에 몸까지 고개각도로 돌린 상태임
+            is_object_in_frame = big_head() #true 아님 false
+            
+            small_head("ball")
+            
+            
+                
+                
+
+####################################################################################################################################
             if first_detect_ball_flag == 0: # 맨 처음만 실행
                 check_ball = robo._image_processor.detect_ball()
                 small_angle = 0
@@ -98,16 +120,92 @@ class Controller:
             robo._motion.walk("FORWARD", 5, 0.1)
             # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
             # 걷는 횟수를 loop인자로 넘겨주면 됨.
-                    
                 
             
         elif act == Act.PUTTING_POS:             ##### 3. 퍼팅 위치에 서기
-            pass
+            
+            #1. 홀컵 : ------------------------------------------------------------
+            # 홀컵 중앙에 오도록 고개 돌리기 & 고개 각도 저장
+            if first_detect_holecup_flag == 0: # 맨 처음만 실행
+                check_holecup = robo._image_processor.detect_holecup()
+                small_angle = 0
+            else:
+                big_angle = 0
+                            
+            if check_holecup == True:
+                # 공이 화면 안에 들어왔을 경우 big_angle 만큼 몸 돌리기
+                if big_angle > 0:
+                    robo._motion.body_right("")
+                elif big_angle < 0:
+                    robo._motion.body_left("")
+                
+
+                first_detect_holecup_flag = 1 # 공 검출 완료
+                find_holecup = Ball.middle_ball()##########################################333?
+                
+                
+                if find_holecup == "stop":
+                    # 공을 화면 중앙에 오도록 만드는 고개 각도 small_angle 만큼 몸 돌리기
+                    if small_angle > 0:
+                        robo._motion.body_right("")
+                    elif small_angle < 0:
+                        robo._motion.body_left("")
+                        
+                    act = Act.PUTTING_POS
+                    
+                elif find_holecup == "go right":
+                    robo._motion.head_right("") ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
+                    small_angle += 3                    
+                elif find_holecup == "go left":
+                    robo._motion.head_left("") ################# 고개 왼쪽으로 돌리는 모션
+                    small_angle -= 3
+                
+                elif find_holecup == "go far":
+                    act = Act.WALK_BALL
+                        
+            else: # check_ball == False
+                # 공이 화면에 안 보이는 경우
+                # 패닝 틸팅? or 걷기?
+                # 고개 각도 크게 돌리기, Find ball과 다름
+                if max_right_flag == 0:
+                    robo._motion.head_right("") ################# 3도보단 큰 각으로
+                    big_angle += 10 # 10은 임의 값
+                    if big_angle == max(): # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                        max_right_flag = 1
+                        big_angle = 0
+                        # 고개 정면(default)로 돌려놓기                        
+                elif max_right_flag == 1:
+                    robo._motion.head_left("") ################# 3도보단 큰 각으로
+                    big_angle -= 10 # 10은 임의 값
+        # 홀컵 거리 측정 
+            #만약 홀컵 거리가 15cm 이 하면 원프레임 호출
+            
+        # 2. 공 : -----------------------------------------------------------------
+        # #공이 중앙에 오도록 고개 돌리기 & 고개 각도 저장
+        # 공 거리 측정 
+        
+        # 공과 홀컵의 각도 계산후 걸음 이동
+        
         
         elif act == Act.PUTTING:             ##### 4. 퍼팅
+            
             pass
         
         elif act == Act.HOLEIN:             ##### 5. 홀인
-            pass
+            oneframe = robo._image_processor.ball_hole_oneframe()
+            
+            if oneframe == True:
+                check_holein = robo._image_processor.detect_hole_in()
+                if check_holein == True:
+                    # 세레모니
+                    robo._motion.ceremony("")
+                else:
+                    # 몰라. 3번을 더 간단히?
+                    pass
+
+            else:   
+                # 퍼팅준비로 돌아감
+                act = Act.PUTTING_POS
+            
             
         
