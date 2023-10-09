@@ -10,7 +10,7 @@ class Act:
     WALK_BALL = 2        # 2. 공까지 걸어가기 (걸음수)
     PUTTING_POS = 3      # 3. 퍼팅 위치에 서기
     PUTTING = 4          # 4. 퍼팅
-    HOLEIN = 5            # 5. 홀인
+    HOLEIN = 5           # 5. 홀인
 
 class Controller:
 
@@ -25,7 +25,8 @@ class Controller:
         # 정해진 파워로 한번 퍼팅.
         act = self.act
         robo = self.robo
-        flag = 0
+        first_detect_ball_flag = 0
+        max_right_flag = 0
 
         if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷
             print("ACT: ", act)  # Debug
@@ -40,32 +41,65 @@ class Controller:
         
         
         elif act == Act.WALK_BALL:             ##### 2. 공을 향해 걸어간다
-            if flag == 0: # 맨 처음만 실행
-                check_ball = robo._image_processor.detect_ball()
             
+            if first_detect_ball_flag == 0: # 맨 처음만 실행
+                check_ball = robo._image_processor.detect_ball()
+                small_angle = 0
+            else:
+                big_angle = 0
+                            
             if check_ball == True:
-                flag = 1 # 공 검출 완료
+                # 공이 화면 안에 들어왔을 경우 big_angle 만큼 몸 돌리기
+                if big_angle > 0:
+                    robo._motion.body_right("")
+                elif big_angle < 0:
+                    robo._motion.body_left("")
+                
+
+                first_detect_ball_flag = 1 # 공 검출 완료
                 find_ball = Ball.middle_ball()
                 
                 
                 if find_ball == "stop":
+                    # 공을 화면 중앙에 오도록 만드는 고개 각도 small_angle 만큼 몸 돌리기
+                    if small_angle > 0:
+                        robo._motion.body_right("")
+                    elif small_angle < 0:
+                        robo._motion.body_left("")
+                        
                     act = Act.PUTTING_POS
-                elif find_ball == "go right":
-                    robo._motion.head_right("") ################# 고개 오른쪽으로 돌리는 모션
-                    # 몇번 오른쪽으로, 왼쪽으로 고개를 돌렸는지 세어야 body각도도 돌릴 수 있으니까 변수로 count 저장해야하지 않나?
                     
+                elif find_ball == "go right":
+                    robo._motion.head_right("") ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
+                    small_angle += 3                    
                 elif find_ball == "go left":
                     robo._motion.head_left("") ################# 고개 왼쪽으로 돌리는 모션
+                    small_angle -= 3
                 
                 elif find_ball == "go far":
                     act = Act.WALK_BALL
                         
-            else:
+            else: # check_ball == False
                 # 공이 화면에 안 보이는 경우
                 # 패닝 틸팅? or 걷기?
                 # 고개 각도 크게 돌리기, Find ball과 다름
-                flag = 0
-                pass
+                if max_right_flag == 0:
+                    robo._motion.head_right("") ################# 3도보단 큰 각으로
+                    big_angle += 10 # 10은 임의 값
+                    if big_angle == max(): # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                        max_right_flag = 1
+                        big_angle = 0
+                        # 고개 정면(default)로 돌려놓기                        
+                elif max_right_flag == 1:
+                    robo._motion.head_left("") ################# 3도보단 큰 각으로
+                    big_angle -= 10 # 10은 임의 값
+
+            # 거리 측정 후 걷기
+            robo._motion.walk("FORWARD", 5, 0.1)
+            # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
+            # 걷는 횟수를 loop인자로 넘겨주면 됨.
+                    
+                
             
         elif act == Act.PUTTING_POS:             ##### 3. 퍼팅 위치에 서기
             pass
