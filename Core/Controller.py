@@ -3,6 +3,7 @@
 import time
 from Robo import Robo
 from Vision.Ball_middle import Ball
+from head import Head
 
 class Act:
     
@@ -28,7 +29,12 @@ class Controller:
         first_detect_ball_flag = 0
         max_right_flag = 0 ##위치 수정 필요 
         is_object_in_frame = False
-        
+        object_vertical_middle = False
+        # big_lr_angle = 0
+        # small_lr_angle = 0
+        # big_ud_angle = 0
+        # small_ud_angle = 0
+
 
         if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷
             print("ACT: ", act)  # Debug
@@ -43,27 +49,26 @@ class Controller:
         
         
         elif act == Act.WALK_BALL:             ##### 2. 공을 향해 걸어간다
- ######################################################################################################################################           
+            if is_object_in_frame == False :
+                is_object_in_frame = Head.head("big-left/right")
+            elif is_object_in_frame == True : 
+                object_vertical_middle = Head.head("small-left/right")
+                if object_vertical_middle == True:
+                    Head.head("small-up/down")
+                else : #left right로 공이 검출안될경우 상하
+                    Head.head("big-up/down")
+
             
-
-            if is_object_in_frame == True : 
-                small_head("ball")
-            elif is_object_in_frame == False :
-                is_object_in_frame = big_head("ball")
-
           
             
-                    
+                    """
             ### def big_head에서 화면상에 물체 검출 True 후에 몸까지 고개각도로 돌린 상태임
-            is_object_in_frame = big_head() #true 아님 false
+            is_object_in_frame = Head.big_head() #true 아님 false
             
-            small_head("ball")
+            if Head.small_head("ball"):
+                act = Act.PUTTING_POS
             
             
-                
-                
-
-####################################################################################################################################
             if first_detect_ball_flag == 0: # 맨 처음만 실행
                 check_ball = robo._image_processor.detect_ball()
                 small_angle = 0
@@ -97,6 +102,7 @@ class Controller:
                 elif find_ball == "go left":
                     robo._motion.head_left("") ################# 고개 왼쪽으로 돌리는 모션
                     small_angle -= 3
+                    
                 
                 elif find_ball == "go far":
                     act = Act.WALK_BALL
@@ -115,6 +121,7 @@ class Controller:
                 elif max_right_flag == 1:
                     robo._motion.head_left("") ################# 3도보단 큰 각으로
                     big_angle -= 10 # 10은 임의 값
+                    """
 
             # 거리 측정 후 걷기
             robo._motion.walk("FORWARD", 5, 0.1)
