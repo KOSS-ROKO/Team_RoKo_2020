@@ -98,7 +98,7 @@ class Motion:
             time.sleep(sleep)
 
     # 머리 각도 (121~140)
-    def set_head(self, dir, angle=0):
+    def head(self, dir, angle=0):
         """ parameter :
         dir : {DOWN, LEFT, RIGHT, UPDOWN_CENTER, LEFTRIGHT_CENTER}
         angle: {DOWN:{20,30,40,45,60,70,80,90,100,110},
