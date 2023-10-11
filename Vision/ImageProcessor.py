@@ -415,7 +415,7 @@ class ImageProcessor:
         
         
         
-    def middle_ball():
+    def middle_lr_ball():
         
         origin = ImageProcessor.get_img()
         frame = origin.copy()
@@ -463,9 +463,9 @@ class ImageProcessor:
             elif x_center > cell_width * 6:
                 print("go left")
                 return "go left"
-        else:
-            print("go far")
-            return "go far"
+        # else:
+        #     print("go far")
+        #     return "go far"
 
         
         

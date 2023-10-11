@@ -30,10 +30,7 @@ class Controller:
         max_right_flag = 0 ##위치 수정 필요 
         is_object_in_frame = False
         object_vertical_middle = False
-        # big_lr_angle = 0
-        # small_lr_angle = 0
-        # big_ud_angle = 0
-        # small_ud_angle = 0
+
 
 
         if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷
@@ -48,20 +45,56 @@ class Controller:
             act = Act.WALK_BALL
         
         
-        elif act == Act.WALK_BALL:             ##### 2. 공을 향해 걸어간다
-            if is_object_in_frame == False :
-                is_object_in_frame = Head.head("big-left/right")
-            elif is_object_in_frame == True : 
-                object_vertical_middle = Head.head("small-left/right")
-                if object_vertical_middle == True:
-                    Head.head("small-up/down")
-                else : #left right로 공이 검출안될경우 상하
-                    Head.head("big-up/down")
+        elif act == Act.WALK_BALL: 
+            big_lr_angle = 0            ##### 2. 공을 향해 걸어간다
+            max_right_flag = 0
+            small_lr_angle = 0
+            small_ud_angle = 0
+            #big lr head
+            while True:
+                is_object_in_frame, big_lr_temp = Head.big_LR_head("ball", big_lr_angle)
+                if is_object_in_frame == True:
+                    break
+                elif is_object_in_frame == False:
+                    big_lr_angle = big_lr_temp
+                    continue
+                #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
+                    #Head.big_UD_head()
+            #고개 정면 코드 추가하기
+
+            #small lr head
+            while True:
+                is_vertical_middle, small_lr_temp = Head.small_LR_head("ball", small_lr_angle)
+                if is_vertical_middle == True:
+                    break
+                elif is_vertical_middle == False:
+                    small_lr_angle = small_lr_temp
+                    continue
+
+            #small ud head
+            while True:
+                is_horizontal_middle, small_ud_temp = Head.small_LR_head("ball", small_ud_angle)
+                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
+                    act = Act.PUTTING_POS 
+                    break
+                elif is_horizontal_middle == False:
+                    small_ud_angle = small_ud_temp
+                    continue
+
+            """
+            # if is_object_in_frame == False :
+            #     is_object_in_frame = Head.big_LR_head("big-left/right")
+            # elif is_object_in_frame == True : 
+            #     object_vertical_middle = Head.small_LR_head("small-left/right")
+            #     if object_vertical_middle == True:
+            #         Head.small_UD_head("small-up/down")
+            #     else : #left right로 공이 검출안될경우 상하
+            #         Head.big_UD_head("big-up/down")
 
             
-          
-            
                     """
+            
+            """
             ### def big_head에서 화면상에 물체 검출 True 후에 몸까지 고개각도로 돌린 상태임
             is_object_in_frame = Head.big_head() #true 아님 false
             
