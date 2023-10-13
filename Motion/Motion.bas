@@ -340,436 +340,6 @@ GOSUB_RX_EXIT:
 GOSUB_RX_EXIT2:
     RETURN
 '**********************************************
-오른쪽옆으로20_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-    SPEED 12
-    MOVE G6D, 95,  90, 125, 100, 107, 100
-    MOVE G6A,107,  77, 147,  93, 107 , 100
-    WAIT
-
-    SPEED 12
-    MOVE G6D, 102,  77, 147, 93, 100, 100
-    MOVE G6A,90,  80, 140,  95, 107, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6D,95,  76, 147,  93, 98, 100
-    MOVE G6A,95,  76, 147,  93, 98, 100
-    WAIT
-
-    SPEED 3
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'************************************************
-왼쪽옆으로20_골프: 
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-    SPEED 12
-    MOVE G6A, 95,  90, 125, 100, 104, 100
-    MOVE G6D,105,  76, 146,  93, 104, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A, 102,  76, 146, 93, 100, 100
-    MOVE G6D,90,  80, 140,  95, 107, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,95,  76, 146,  93, 98, 100
-    MOVE G6D,95,  76, 146,  93, 98, 100
-    WAIT
-
-    SPEED 3
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-오른쪽옆으로70연속_골프:
-    MOTORMODE G6A,3,3,2,3,2
-    MOTORMODE G6D,3,3,2,3,2
-
-오른쪽옆으로70연속_골프_loop:
-    DELAY  10
-
-    SPEED 10
-    MOVE G6D, 90,  90, 120, 105, 110, 100
-    MOVE G6A,103,  77, 147,  93, 107, 100
-    WAIT
-
-    SPEED 13
-    MOVE G6D, 102,  77, 147, 93, 100, 100
-    MOVE G6A,83,  77, 140,  96, 115, 100
-    WAIT
-
-    SPEED 13
-    MOVE G6D,98,  77, 147,  93, 100, 100
-    MOVE G6A,98,  77, 147,  93, 100, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,100,  77, 145,  93, 100, 100
-    MOVE G6D,100,  77, 145,  93, 100, 100
-    WAIT
-
-
-    SPEED 3
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-왼쪽옆으로70연속_골프:
-    MOTORMODE G6A,3,3,2,3,2
-    MOTORMODE G6D,3,3,2,3,2
-왼쪽옆으로70연속_골프_loop:
-    DELAY  10
-
-    SPEED 10
-    MOVE G6A, 90,  90, 120, 95, 110, 100   
-    MOVE G6D,100,  76, 146,  93, 107, 100   
-    WAIT
-
-    SPEED 13
-    MOVE G6A, 102,  76, 146, 93, 100, 100
-    MOVE G6D,83,  79, 140,  99, 115, 100
-    WAIT
-
-    SPEED 13
-    MOVE G6A,98,  76, 146,  93, 100, 100
-    MOVE G6D,98,  76, 146,  93, 100, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6D,100,  76, 145,  93, 100, 100
-    MOVE G6A,100,  76, 145,  93, 100, 100
-    WAIT
-
-
-    SPEED 3
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-왼쪽턴3:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-왼쪽턴3_LOOP:
-
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        SPEED 15
-        MOVE G6D,100,  73, 145,  93, 100, 100
-        MOVE G6A,100,  79, 145,  93, 100, 100
-        WAIT
-
-        SPEED 6
-        MOVE G6D,100,  84, 145,  78, 100, 100
-        MOVE G6A,100,  68, 145,  108, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6D,90,  90, 145,  78, 102, 100
-        MOVE G6A,104,  71, 145,  105, 100, 100
-        WAIT
-        SPEED 7
-        MOVE G6D,90,  80, 130, 102, 104
-        MOVE G6A,105,  76, 146,  93,  100
-        WAIT
-
-    ELSE
-        보행순서 = 0
-        SPEED 15
-        MOVE G6D,100,  73, 145,  93, 100, 100
-        MOVE G6A,100,  79, 145,  93, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6D,100,  88, 145,  78, 100, 100
-        MOVE G6A,100,  65, 145,  108, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6D,104,  86, 146,  80, 100, 100
-        MOVE G6A,90,  58, 145,  110, 100, 100
-        WAIT
-
-        SPEED 7
-        MOVE G6A,90,  85, 130, 98, 104
-        MOVE G6D,105,  77, 146,  93,  100
-        WAIT
-
-    ENDIF
-
-    SPEED 12
-    GOSUB 기본자세2
-
-
-    GOTO RX_EXIT
-'**********************************************
-오른쪽턴3:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-오른쪽턴3_LOOP:
-
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        SPEED 15
-        MOVE G6A,100,  73, 145,  93, 100, 100
-        MOVE G6D,100,  79, 145,  93, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6A,100,  84, 145,  78, 100, 100
-        MOVE G6D,100,  68, 145,  108, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6A,90,  90, 145,  78, 102, 100
-        MOVE G6D,104,  71, 145,  105, 100, 100
-        WAIT
-        SPEED 7
-        MOVE G6A,90,  80, 130, 102, 104
-        MOVE G6D,105,  76, 146,  93,  100
-        WAIT
-
-    ELSE
-        보행순서 = 0
-        SPEED 15
-        MOVE G6A,100,  73, 145,  93, 100, 100
-        MOVE G6D,100,  79, 145,  93, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6A,100,  88, 145,  78, 100, 100
-        MOVE G6D,100,  65, 145,  108, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6A,104,  86, 146,  80, 100, 100
-        MOVE G6D,90,  58, 145,  110, 100, 100
-        WAIT
-
-        SPEED 7
-        MOVE G6D,90,  85, 130, 98, 104
-        MOVE G6A,105,  77, 146,  93,  100
-        WAIT
-
-    ENDIF
-    SPEED 12
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'******************************************************
-왼쪽턴5_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 5
-    MOVE G6A,100,  81, 145,  88, 106, 100
-    MOVE G6D,94,  71, 145, 98, 100, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,97,  81, 145,  88, 104, 100
-    MOVE G6D,91,  71, 145, 98, 96, 100
-    WAIT
-
-    SPEED 6
-    MOVE G6A,101,  76, 146,  93, 98, 100
-    MOVE G6D,101,  76, 146,  93, 98, 100
-    WAIT
-
-    GOSUB 기본자세2
-    GOTO RX_EXIT
-'**********************************************
-오른쪽턴5_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 5
-    MOVE G6A,97,  71, 145,  98, 103, 100
-    MOVE G6D,97,  81, 145,  88, 103, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,94,  71, 145,  98, 101, 100
-    MOVE G6D,94,  81, 145,  88, 101, 100
-    WAIT
-    SPEED 6
-    MOVE G6A,101,  76, 146,  93, 98, 100
-    MOVE G6D,101,  76, 146,  93, 98, 100
-    WAIT
-
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-왼쪽턴10_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 5
-    MOVE G6A,100,  86, 145,  83, 106, 100
-    MOVE G6D,94,  66, 145, 103, 100, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,97,  86, 145,  83, 104, 100
-    MOVE G6D,91,  66, 145, 103, 96, 100
-    WAIT
-
-    SPEED 6
-    MOVE G6A,101,  76, 146,  93, 98, 100
-    MOVE G6D,101,  76, 146,  93, 98, 100
-    WAIT
-
-    GOSUB 기본자세2
-    GOTO RX_EXIT
-'**********************************************
-오른쪽턴10_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 5
-    MOVE G6A,97,  66, 145,  103, 103, 100
-    MOVE G6D,97,  86, 145,  83, 103, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,94,  66, 145,  103, 101, 100
-    MOVE G6D,94,  86, 145,  83, 101, 100
-    WAIT
-    SPEED 6
-    MOVE G6A,101,  76, 146,  93, 98, 100
-    MOVE G6D,101,  76, 146,  93, 98, 100
-    WAIT
-
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-왼쪽턴20_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 8
-    MOVE G6A,95,  96, 145,  73, 108, 100
-    MOVE G6D,91,  56, 145,  113, 102, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,91,  96, 145,  73, 108, 100
-    MOVE G6D,88,  56, 145,  113, 102, 100
-    WAIT
-    SPEED 6
-    MOVE G6A,101,  76, 146,  93, 98, 100
-    MOVE G6D,101,  76, 146,  93, 98, 100
-    WAIT
-
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-오른쪽턴20_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 8
-    MOVE G6A,95,  56, 145,  113, 105, 100
-    MOVE G6D,95,  96, 145,  73, 105, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,93,  56, 145,  113, 105, 100
-    MOVE G6D,93,  96, 145,  73, 105, 100
-    WAIT
-
-    SPEED 6
-    MOVE G6A,101,  76, 146,  93, 98, 100
-    MOVE G6D,101,  76, 146,  93, 98, 100
-
-    WAIT
-
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-왼쪽턴45_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-    SPEED 10
-    MOVE G6A,95,  106, 145,  63, 108, 100
-    MOVE G6D,91,  46, 145,  123, 102, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,91,  106, 145,  63, 108, 100
-    MOVE G6D,88,  46, 145,  123, 102, 100
-    WAIT
-
-    SPEED 8
-    GOSUB 기본자세2
-    
-    GOTO RX_EXIT
-'**********************************************
-오른쪽턴45_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-    SPEED 10
-    MOVE G6A,95,  46, 145,  123, 105, 100
-    MOVE G6D,95,  106, 145,  63, 105, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,93,  46, 145,  123, 105, 100
-    MOVE G6D,93,  106, 145,  63, 105, 100
-    WAIT
-
-    SPEED 8
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-왼쪽턴60_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-    SPEED 15
-    MOVE G6A,95,  116, 145,  53, 108, 100
-    MOVE G6D,91,  36, 145,  133, 102, 100
-    WAIT
-
-    SPEED 15
-    MOVE G6A,91,  116, 145,  53, 108, 100
-    MOVE G6D,88,  36, 145,  133, 102, 100
-    WAIT
-
-    SPEED 10
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
-'**********************************************
-오른쪽턴60_골프:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-    SPEED 15
-    MOVE G6A,95,  36, 145,  133, 105, 100
-    MOVE G6D,95,  116, 145,  53, 105, 100
-    WAIT
-
-    SPEED 15
-    MOVE G6A,90,  36, 145,  133, 105, 100
-    MOVE G6D,90,  116, 145,  53, 105, 100
-    WAIT
-
-    SPEED 10
-    GOSUB 기본자세2
-
-    GOTO RX_EXIT
 '****************************************
 뒤로일어나기:
     HIGHSPEED SETOFF
@@ -1194,138 +764,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
 
     RETURN
 
-    '************************************************
-골프_왼쪽으로_샷1:
-
-    'CONST 골프채높이 = 135
-
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,150,  100,  10, 10
-    WAIT
-
-    MOVE G6C,135,  20,  90, 10
-    WAIT
-
-    DELAY 400
-
-
-    MOVE G6C,135,  40,  90, 10
-    WAIT
-
-    '**** 골프 _왼쪽으로_샷 스피드 *******
-    'HIGHSPEED SETON
-    SPEED 8
-    MOVE G6C,135,  10,  70, 10
-    WAIT
-    DELAY 1000
-    ' HIGHSPEED SETOFF
-
-    '************
-
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
-    WAIT
-
-    MOVE G6C,135,  50,  60, 190
-    WAIT
-
-    GOSUB 기본자세
-
-    RETURN
-    '******************************************
-
-골프_왼쪽으로_어드레스1:
-    GOSUB All_motor_mode3
-
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,150,  100,  10, 10
-    WAIT
-
-
-    MOVE G6C,135,  20,  90, 10
-    WAIT
-
-    RETURN
-    '******************************************
-
-    '************************************************
-골프_오른쪽으로_샷1:
-
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,100,  130,  10, 10
-    WAIT
-
-    MOVE G6C,145,  130,  10, 10
-    WAIT
-
-    MOVE G6C,145,  60,  10, 10
-    WAIT
-
-    MOVE G6C,135,  40,  30, 10
-    WAIT
-
-
-    MOVE G6C,140,  10,  80, 10
-    WAIT
-
-    DELAY 400
-
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,140,  10,  70, 10
-    WAIT
-
-
-    '**** 골프 _오른쪽으로_샷 스피드 *******
-    'HIGHSPEED SETON
-    SPEED 3
-
-    MOVE G6C,140,  30,  100, 10
-    WAIT
-    DELAY 1000
-    ' HIGHSPEED SETOFF
-
-    '************
-
-    SPEED 8
-    MOVE G6C,135,  50,  60, 190
-    WAIT
-
-    GOSUB 기본자세
-
-    RETURN
-    '******************************************
-
-
-골프_오른쪽으로_어드레스1:
-    GOSUB All_motor_mode3
-
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,150,  100,  10, 10
-    WAIT
-
-
-    MOVE G6C,135,  40,  40, 10
-    WAIT
-
-    MOVE G6C,135,  10,  80, 10
-    WAIT
-
-
-    RETURN
-    '******************************************
-    '******************************************   
+    '************************************************  
 MAIN: '라벨설정
 
     ETX 4800, 38 ' 동작 멈춤 확인 송신 값
@@ -1372,38 +811,38 @@ MAIN_2:
 '*******************************************
 KEY1:
     ETX  4800,1
-    GOTO 왼쪽턴5_골프
+    'GOTO 왼쪽턴5_골프
     GOTO RX_EXIT 
 KEY2:
     ETX  4800,2
-    GOSUB 골프_왼쪽으로_샷1
+    'GOSUB 골프_왼쪽으로_샷1
     GOTO RX_EXIT
 KEY3:
     ETX  4800,3
-    GOTO 오른쪽턴5_골프
+    'GOTO 오른쪽턴5_골프
     GOTO RX_EXIT
 KEY4:
     ETX  4800,4
-    GOTO 왼쪽턴10_골프
+    'GOTO 왼쪽턴10_골프
     GOTO RX_EXIT
 KEY5:
     ETX  4800,5
-    GOSUB 골프_오른쪽으로_샷1
+    'GOSUB 골프_오른쪽으로_샷1
     GOTO RX_EXIT
 KEY6:
     ETX  4800,6
-    GOTO 오른쪽턴10_골프
+    'GOTO 오른쪽턴10_골프
     GOTO RX_EXIT
 KEY7:
     ETX  4800,7
-    GOTO 왼쪽턴20_골프
+    'GOTO 왼쪽턴20_골프
     GOTO RX_EXIT
 KEY8:
     ETX  4800,8
     GOTO RX_EXIT
 KEY9:
     ETX  4800,9
-    GOTO 오른쪽턴20_골프
+    'GOTO 오른쪽턴20_골프
     GOTO RX_EXIT
 KEY10: '0
     ETX  4800,10
@@ -1419,15 +858,15 @@ KEY12: ' ▼
     GOTO RX_EXIT
 KEY13: '▶
     ETX  4800,13
-    GOTO 오른쪽옆으로70연속_골프
+    'GOTO 오른쪽옆으로70연속_골프
     GOTO RX_EXIT
 KEY14: ' ◀
     ETX  4800,14
-    GOTO 왼쪽옆으로70연속_골프
+    'GOTO 왼쪽옆으로70연속_골프
     GOTO RX_EXIT
 KEY15: ' A
     ETX  4800,15
-    GOTO 왼쪽옆으로20_골프
+    'GOTO 왼쪽옆으로20_골프
     GOTO RX_EXIT
 KEY16: ' POWER
     ETX  4800,16
@@ -1481,11 +920,11 @@ KEY16_1:
     GOTO RX_EXIT
 KEY17: ' C
     ETX  4800,17
-    GOTO 머리왼쪽90도
+    'GOTO 머리왼쪽90도
     GOTO RX_EXIT
 KEY18: ' E
     ETX  4800,18   
-    GOSUB 자이로OFF
+    'GOSUB 자이로OFF
     GOSUB 에러음
 KEY18_wait:
 
@@ -1501,33 +940,30 @@ KEY18_wait:
     GOTO RX_EXIT
 KEY19: ' P2
     ETX  4800,19
-    GOTO 오른쪽턴60_골프
+    'GOTO 오른쪽턴60_골프
     GOTO RX_EXIT
 KEY20: ' B   
     ETX  4800,20
-    GOTO 오른쪽옆으로20_골프
+    'GOTO 오른쪽옆으로20_골프
     GOTO RX_EXIT
 KEY21: ' △
     ETX  4800,21
-    GOTO 머리상향
+    'GOTO 머리상향
     GOTO RX_EXIT
 KEY22: ' *   
     ETX  4800,22
-    GOTO 왼쪽턴45_골프
-
+    'GOTO 왼쪽턴45_골프
     GOTO RX_EXIT
 KEY23: ' G
     ETX  4800,23
     GOTO RX_EXIT
 KEY24: ' #
     ETX  4800,24
-    GOTO 오른쪽턴45_골프
-
+    'GOTO 오른쪽턴45_골프
     GOTO RX_EXIT
 KEY25: ' P1
     ETX  4800,25
-    GOTO 왼쪽턴60_골프
-
+    'GOTO 왼쪽턴60_골프
     GOTO RX_EXIT
 KEY26: ' ■
     ETX  4800,26
@@ -2953,7 +2389,6 @@ DIM 상하각 AS BYTE
     GOSUB 기본자세2
 
     GOTO RX_EXIT
-
 오른쪽턴5:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
@@ -2974,7 +2409,6 @@ DIM 상하각 AS BYTE
     GOSUB 기본자세2
 
     GOTO RX_EXIT
-
 오른쪽턴10:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
@@ -3059,7 +2493,6 @@ DIM 상하각 AS BYTE
 '-----------------------------------------------------------------------
 '				# 세리머니				
 '-----------------------------------------------------------------------
-
 만세:
     GOSUB 기본자세
     GOSUB Arm_motor_mode3
