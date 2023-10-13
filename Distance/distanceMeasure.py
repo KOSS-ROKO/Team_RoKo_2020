@@ -2,16 +2,20 @@ import cv2
 import numpy as np
 
 # 빨간 공의 크기 (미터 단위로)
-W = 0.1  # 예시로 10cm로 가정합니다.
+W = 0.04  # 예시로 10cm로 가정합니다.
 
 # 빨간 공의 이미지에서의 가로 크기 (픽셀 단위로)
 w = None  # 초점 거리 계산 후 설정합니다.
 
-cap = cv2.VideoCapture('ball4.avi')  
+cap = cv2.VideoCapture('Distance/ball_video/ball60.avi')  
 
 while True:
     # 프레임 읽기
     ret, frame = cap.read()
+    
+    if not ret:
+        print("비디오 종료")
+        break
     
     
     '''
@@ -54,7 +58,7 @@ while True:
     red_detected = cv2.bitwise_and(frame, frame, mask=mask)
 
 
-    contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)  # 객체 검출 (컨투어 사용)
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)  # 객체 검출 (컨투어 사용)
 
 
     # 빨간 공의 가로 크기를 측정 (w)
@@ -66,9 +70,9 @@ while True:
 
     # 초점 거리(f) 계산
     if w is not None:
-        #f = (w * 30) / W  
+        #f = (w * 30) / W  q
         # 실제 거리(d) 계산
-        d = (W * 230) / w
+        d = (W * 250) / w
         #print("this is focal lenght:", f)
         print("빨간 공까지의 거리 (미터):", d)
 
