@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import time
-from Core.Robo import Robo
-from Vision.Ball_middle import Ball
+from Robo import Robo
 from head import Head
+from Vision.Distance import Distance
+from Motion.Motion import Motion
 
 class Act:
     
@@ -60,6 +61,7 @@ class Controller:
                     continue
                 #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
                     #Head.big_UD_head()
+                    # 예외처리 : big up down 코드
             #고개 정면 코드 추가하기
 
             #small lr head
@@ -181,7 +183,7 @@ class Controller:
                 
 
                 first_detect_holecup_flag = 1 # 공 검출 완료
-                find_holecup = Ball.middle_ball()##########################################333?
+                find_holecup = robo._image_processor.middle_ball()##########################################333?
                 
                 
                 if find_holecup == "stop":
@@ -228,8 +230,69 @@ class Controller:
         
         
         elif act == Act.PUTTING:             ##### 4. 퍼팅
+            ##################### 2.의 중간 맞추는 코드 가져옴
+            ######## 홀컵 거리 재기 위해
+            big_lr_angle = 0           
+            max_right_flag = 0
+            small_lr_angle = 0
+            small_ud_angle = 0
+            #big lr head
+            while True:
+                is_object_in_frame, big_lr_temp = Head.big_LR_head("holecup", big_lr_angle)
+                if is_object_in_frame == True:
+                    break
+                elif is_object_in_frame == False:
+                    big_lr_angle = big_lr_temp
+                    continue
+                #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
+                    #Head.big_UD_head()
+                    # 예외처리 : big up down 코드
+            #고개 정면 코드 추가하기
+
+            #small lr head
+            while True:
+                is_vertical_middle, small_lr_temp = Head.small_LR_head("holecup", small_lr_angle)
+                if is_vertical_middle == True:
+                    break
+                elif is_vertical_middle == False:
+                    small_lr_angle = small_lr_temp
+                    continue
+
+            #small ud head
+            f = 450
+            while True:
+                is_horizontal_middle, small_ud_temp = Head.small_LR_head("holecup", small_ud_angle)
+                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
+                    #### 홀컵 까지의 대략적인 거리 재기 
+                    fake_holecup_dist = Distance.holecup_dist(f)
+                    break
+                elif is_horizontal_middle == False:
+                    small_ud_angle = small_ud_temp
+                    continue
+            ##########################################
+
+            # 홀컵 거리 인식에서 f값 결정
+            # 가까운지 먼지
+            if fake_holecup_dist >= 50:
+                f = 450
+            else : 
+                f = 270
+            # 홀컵 거리
+            holecup_dist = Distance.holecup_dist(f)
+
+            ###### 거리에 따라 퍼팅 강도 조절하기
+            if 0 < holecup_dist <= 10:
+                Motion.putting()
+                robo._motion.putting("left", 1) # def putting 짜야함 + 방향과 강도를 넘겨줌
+
             
-            pass
+
+
+
+
+
+
+
         
         elif act == Act.HOLEIN:             ##### 5. 홀인
             oneframe = robo._image_processor.ball_hole_oneframe()
