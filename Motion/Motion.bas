@@ -15,9 +15,9 @@ DIM 모터ONOFF    AS BYTE
 DIM 자이로ONOFF AS BYTE
 DIM 기울기앞뒤    AS INTEGER
 DIM 기울기좌우    AS INTEGER
+DIM 몇걸음 AS INTEGER
 DIM 머리좌우    AS INTEGER
 DIM 머리상하    AS INTEGER
-DIM 몇걸음 AS INTEGER
 
 DIM 곡선방향 AS BYTE
 
@@ -67,14 +67,18 @@ DIR G6B,1,1,1,1,1,1      '모터6~11번
 DIR G6C,0,0,0,1,1,0      '모터12~17번
 '************************************************
 OUT 52,0   '머리 LED 켜기
+
 '***** 초기선언 '************************************************
 보행순서 = 0
 반전체크 = 0
 기울기확인횟수 = 0
 보행횟수 = 1
 모터ONOFF = 0
-머리좌우 = 100 
-머리상하 = 100
+
+CONST 좌우영점 = 100 
+CONST 상하영점 = 113
+머리좌우 = 좌우영점
+머리상하 = 상하영점
 
 '****초기위치 피드백*****************************
 TEMPO 230
@@ -804,7 +808,6 @@ MAIN_2:
 
     ENDIF
 
-
     GOTO MAIN   
 '*******************************************
 '      MAIN 라벨로 가기
@@ -870,7 +873,6 @@ KEY15: ' A
     GOTO RX_EXIT
 KEY16: ' POWER
     ETX  4800,16
-
     GOSUB Leg_motor_mode3
     IF MODE = 0 THEN
         SPEED 10
@@ -927,7 +929,6 @@ KEY18: ' E
     'GOSUB 자이로OFF
     GOSUB 에러음
 KEY18_wait:
-
     ERX 4800,A,KEY18_wait   
 
     IF  A = 26 THEN
@@ -1246,17 +1247,21 @@ KEY108:
 KEY109:
     ETX 4800,109
     GOTO RX_EXIT
+'######### ------------------- KEY110-119 후진걸음
 KEY110:
     ETX 4800,110
+    보행횟수 = 1
+    GOTO 후진종종걸음
     GOTO RX_EXIT
-'######### ------------------- KEY111-114 옆걸음
 KEY111:
     ETX 4800,111
-GOTO 오른쪽옆걸음
+    보행횟수 = 3
+    GOTO 후진종종걸음
     GOTO RX_EXIT
 KEY112:
     ETX 4800,112
-    GOTO 왼쪽옆걸음
+    보행횟수 = 5
+    GOTO 후진종종걸음
     GOTO RX_EXIT
 KEY113:
     ETX 4800,113
@@ -1264,98 +1269,104 @@ KEY113:
 KEY114:
     ETX 4800,114
     GOTO RX_EXIT
-'######### ------------------- KEY115-120 후진걸음
 KEY115:
     ETX 4800,115
-    보행횟수 = 1
-    GOTO 후진종종걸음
     GOTO RX_EXIT
 KEY116:
     ETX 4800,116
-    보행횟수 = 3
-    GOTO 후진종종걸음
     GOTO RX_EXIT
 KEY117:
     ETX 4800,117
-    보행횟수 = 5
-    GOTO 후진종종걸음
     GOTO RX_EXIT
+'######### ------------------- KEY118-119 옆걸음
 KEY118:
     ETX 4800,118
+    GOTO 오른쪽옆걸음
     GOTO RX_EXIT
 KEY119:
     ETX 4800,119
-    GOTO RX_EXIT
-KEY120:
-    ETX 4800,120
+    GOTO 왼쪽옆걸음
     GOTO RX_EXIT
 '######### ------------------- KEY121-150 고개각도
+KEY120:
+    ETX 4800,120
+    GOTO 고개중앙
+    GOTO RX_EXIT
 KEY121:
     ETX 4800,121
-    GOTO 고개좌향3
+    GOTO 고개상하중앙
     GOTO RX_EXIT
 KEY122:
     ETX 4800,122
-    GOTO 고개우향3
+    GOTO 고개좌우중앙
     GOTO RX_EXIT
 KEY123:
     ETX 4800,123
-    GOTO 고개좌향10
     GOTO RX_EXIT
 KEY124:
     ETX 4800,124
-    GOTO 고개우향10
+    GOTO 고개하향3
     GOTO RX_EXIT
 KEY125:
     ETX 4800,125
-    GOTO 고개하향3
+    GOTO 고개하향6
     GOTO RX_EXIT
 KEY126:
     ETX 4800,126
-    GOTO 고개상향3
+    GOTO 고개하향9
     GOTO RX_EXIT
 KEY127:
     ETX 4800,127
-    GOTO 고개중앙
+    GOTO 하화각이동
     GOTO RX_EXIT
 KEY128:
     ETX 4800,128
     GOTO RX_EXIT
 KEY129:
     ETX 4800,129
+    GOTO 고개상향3
     GOTO RX_EXIT
 KEY130:
     ETX 4800,130
+    GOTO 고개상향6
     GOTO RX_EXIT
 KEY131:
     ETX 4800,131
+    GOTO 고개상향9
     GOTO RX_EXIT
 KEY132:
     ETX 4800,132
+    GOTO 상화각이동
     GOTO RX_EXIT
 KEY133:
     ETX 4800,133
     GOTO RX_EXIT
 KEY134:
     ETX 4800,134
+    GOTO 고개좌향3
     GOTO RX_EXIT
 KEY135:
     ETX 4800,135
+    GOTO 고개좌향6
     GOTO RX_EXIT
 KEY136:
     ETX 4800,136
+    GOTO 좌화각이동
     GOTO RX_EXIT
 KEY137:
     ETX 4800,137
     GOTO RX_EXIT
 KEY138:
     ETX 4800,138
+    GOTO 고개우향3
     GOTO RX_EXIT
 KEY139:
     ETX 4800,139
+    GOTO 고개우향6
     GOTO RX_EXIT
 KEY140:
     ETX 4800,140
+    GOTO 우화각이동
     GOTO RX_EXIT
 KEY141:
     ETX 4800,141
@@ -1428,79 +1439,76 @@ KEY160:
     ETX 4800,160
     GOTO 왼쪽턴60
     GOTO RX_EXIT
-'####### --------------------- KEY161-179 좌우퍼팅
-'퍼팅강도들은 임의로 지정했으므로 추후 수정할 것
-
-'#### 우퍼팅(->) --------------
 KEY161:
     ETX 4800,161
-    GOTO 우퍼팅1  '톡 치기
     GOTO RX_EXIT
 KEY162:
     ETX 4800,162
-    GOTO 우퍼팅2  '쪼금 더 세게
     GOTO RX_EXIT
 KEY163:
     ETX 4800,163
-    GOTO 우퍼팅3    '적당히 보다 좀 약하게
     GOTO RX_EXIT
 KEY164:
     ETX 4800,164
-    GOTO 우퍼팅4   '적당히 치기
     GOTO RX_EXIT
 KEY165:
     ETX 4800,165
-    GOTO 우퍼팅5      '세게 치기
     GOTO RX_EXIT
-
-'#### 좌퍼팅(<-) --------------
 KEY166:
     ETX 4800,166
-    GOTO 좌퍼팅1  '톡 치기
     GOTO RX_EXIT
 KEY167:
     ETX 4800,167
-    GOTO 좌퍼팅2  '쪼금 더 세게
     GOTO RX_EXIT
 KEY168:
     ETX 4800,168
-    GOTO 좌퍼팅3    '적당히 보다 좀 약하게
     GOTO RX_EXIT
 KEY169:
     ETX 4800,169
-    GOTO 좌퍼팅4    '적당히 치기
     GOTO RX_EXIT
+'####### --------------------- KEY170-189 좌우퍼팅
+'퍼팅강도들은 임의로 지정했으므로 추후 수정할 것
+'#### 우퍼팅(->) --------------
 KEY170:
     ETX 4800,170
-    GOTO 좌퍼팅5      '세게 치기
+    GOTO 우퍼팅1  '톡 치기
     GOTO RX_EXIT
-'--------------------------
 KEY171:
     ETX 4800,171
+    GOTO 우퍼팅2  '쪼금 더 세게
     GOTO RX_EXIT
 KEY172:
     ETX 4800,172
+    GOTO 우퍼팅3    '적당히 보다 좀 약하게
     GOTO RX_EXIT
 KEY173:
     ETX 4800,173
+    GOTO 우퍼팅4   '적당히 치기
     GOTO RX_EXIT
 KEY174:
     ETX 4800,174
+    GOTO 우퍼팅5      '세게 치기
     GOTO RX_EXIT
+'#### 좌퍼팅(<-) --------------
 KEY175:
     ETX 4800,175
+    GOTO 좌퍼팅1  '톡 치기
     GOTO RX_EXIT
 KEY176:
     ETX 4800,176
+    GOTO 좌퍼팅2  '쪼금 더 세게
     GOTO RX_EXIT
 KEY177:
     ETX 4800,177
+    GOTO 좌퍼팅3    '적당히 보다 좀 약하게
     GOTO RX_EXIT
 KEY178:
     ETX 4800,178
+    GOTO 좌퍼팅4    '적당히 치기
     GOTO RX_EXIT
 KEY179:
     ETX 4800,179
+    GOTO 좌퍼팅5      '세게 치기
     GOTO RX_EXIT
 '####### --------------------- KEY180 만세
 KEY180:
@@ -2237,55 +2245,120 @@ DIM 어드레스스위치 AS BYTE
 '-----------------------------------------------------------------------
 '				# 고개 함수				
 '-----------------------------------------------------------------------
-DIM 좌우각 AS BYTE
-DIM 상하각 AS BYTE
-
+'DIM 좌우각 AS BYTE
+'DIM 상하각 AS BYTE
 '좌우각 = 0
 '상하각 = 0
 
-고개좌향3:
+'좌우영점 = 100, 상하영점=113
+'머리좌우 = 100, 머리상하=113
+'북마크
+'# ----------------- 중앙 맞추기 ------------------- #
+고개중앙:
    SPEED 3
-   머리좌우= 머리좌우 - 3
-   SERVO 11, 머리좌우
+   머리상하 = 상하영점
+   머리좌우 = 좌우영점
+   SERVO 11,머리좌우
+   SERVO 16,머리상하
    GOTO RX_EXIT
 
-고개우향3:
+고개상하중앙:
    SPEED 3
-   머리좌우 = 머리좌우 + 3
-   SERVO 11, 머리좌우
+   머리상하 = 상하영점
+   SERVO 16,머리상하
    GOTO RX_EXIT
 
-고개좌향10:
+고개좌우중앙:
    SPEED 3
-   머리좌우= 머리좌우 - 10
-   SERVO 11, 머리좌우
+   머리좌우 = 좌우영점
+   SERVO 11,머리좌우
    GOTO RX_EXIT
 
-고개우향10:
-   SPEED 3
-   머리좌우 = 머리좌우 + 10
-   SERVO 11, 머리좌우
-   GOTO RX_EXIT
-
+'# -------------------- 고개 이동 ----------------------- #
 고개하향3:
    SPEED 3
    머리상하 = 머리상하 - 3
    SERVO 16, 머리상하
    GOTO RX_EXIT
 
+고개하향6:
+   SPEED 3
+   머리상하 = 머리상하 - 6
+   SERVO 16, 머리상하
+   GOTO RX_EXIT
+
+고개하향9:
+   SPEED 3
+   머리상하 = 머리상하 - 9
+   SERVO 16, 머리상하
+   GOTO RX_EXIT
+
+하화각이동:
+   SPEED 3
+   머리상하 = 머리상하 - 30
+   SERVO 16, 머리상하
+   GOTO RX_EXIT
+'------------------------
 고개상향3:
    SPEED 3
    머리상하= 머리상하 + 3
    SERVO 16, 머리상하
    GOTO RX_EXIT
 
-고개중앙:
+고개상향6:
    SPEED 3
-   머리상하 = 100
-   머리좌우 = 100
-   SERVO 11,머리좌우
-   SERVO 16,머리상하
+   머리상하= 머리상하 + 6
+   SERVO 16, 머리상하
    GOTO RX_EXIT
+
+고개상향9:
+   SPEED 3
+   머리상하= 머리상하 + 9
+   SERVO 16, 머리상하
+   GOTO RX_EXIT
+
+상화각이동:
+   SPEED 3
+   머리상하 = 머리상하 + 30
+   SERVO 16, 머리상하
+   GOTO RX_EXIT
+'--------------------
+고개좌향3:
+   SPEED 3
+   머리좌우= 머리좌우 - 3
+   SERVO 11, 머리좌우
+   GOTO RX_EXIT
+
+고개좌향6:
+   SPEED 3
+   머리좌우= 머리좌우 - 6
+   SERVO 11, 머리좌우
+   GOTO RX_EXIT
+
+좌화각이동:
+   SPEED 3
+   머리좌우= 머리좌우 - 30
+   SERVO 11, 머리좌우
+   GOTO RX_EXIT
+'-----------------------
+고개우향3:
+   SPEED 3
+   머리좌우= 머리좌우 + 3
+   SERVO 11, 머리좌우
+   GOTO RX_EXIT
+
+고개우향6:
+   SPEED 3
+   머리좌우= 머리좌우 + 6
+   SERVO 11, 머리좌우
+   GOTO RX_EXIT
+
+우화각이동:
+   SPEED 3
+   머리좌우= 머리좌우 + 30
+   SERVO 11, 머리좌우
+   GOTO RX_EXIT
+
 '-----------------------------------------------------------------------
 '				# 턴 함수				
 '-----------------------------------------------------------------------
