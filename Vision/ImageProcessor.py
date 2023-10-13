@@ -190,7 +190,95 @@ class ImageProcessor:
         
         return 1
 
-    
+
+
+    ############################################
+    ##### detect holecup for new distance ######
+    ############ return x  y  w  h #############
+    ############################################
+
+    def detect_holecup_xywh():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
+        
+        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+        lower_yellow = np.array([0, 80, 50])
+        upper_yellow = np.array([36, 250, 250])
+
+        yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
+        yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
+
+        cv2.imshow('Yellow Objects', yellow_objects)
+
+        blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
+        gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
+
+        cv2.imshow('Blurred Image', gray_frame)
+
+        _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+
+        cv2.imshow('Binary Image', binary_frame)
+
+        contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        ##### 홀 컵 점4개 찾기
+        # 가장 왼쪽과 오른쪽, 위쪽 아래쪽 점 찾기
+        xx, yy, ww, hh =0,0,0,0
+        
+        left_point_yellow, right_point_yellow = None, None
+        up_point_yellow, down_point_yellow = None, None
+        
+        if contours:
+            for contour in contours:
+                for point in contour:
+                    x = point[0][0]
+                    y = point[0][1]
+
+                    # 가장 왼쪽점 업데이트
+                    if left_point_yellow is None or x < left_point_yellow[0]:
+                        left_point_yellow = [x, y]
+
+                    # 가장 오른쪽점 업데이트
+                    if right_point_yellow is None or x > right_point_yellow[0]:
+                        right_point_yellow = [x, y]
+
+                    # 가장 아래점 업데이트
+                    if down_point_yellow is None or y > down_point_yellow[1]:
+                        down_point_yellow = [x, y]
+
+                    diameter = 0
+                    # 가장 위쪽점 업데이트
+                    if down_point_yellow is not None:
+                        diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 20
+
+                    # 제일 위쪽 점 계산
+                    up_point_yellow = [down_point_yellow[0], down_point_yellow[1] - diameter]
+
+
+        result = frame.copy()
+        if left_point_yellow is not None:
+            cv2.circle(result, tuple(left_point_yellow), 5, (0, 0, 255), -1)
+        if right_point_yellow is not None:
+            cv2.circle(result, tuple(right_point_yellow), 5, (0, 0, 255), -1)
+
+        if up_point_yellow is not None:
+            cv2.circle(result, tuple(up_point_yellow), 5, (0, 0, 255), -1)
+        if down_point_yellow is not None:
+            cv2.circle(result, tuple(down_point_yellow), 5, (0, 0, 255), -1)
+            
+        #### x, y, w, h 계산     
+        ww = right_point_yellow[0] - left_point_yellow[0]
+        hh = down_point_yellow[1] - up_point_yellow[1]
+        # print("lr: ",left_point_yellow, right_point_yellow)
+        # print("ud: ", up_point_yellow, down_point_yellow)
+        # print(left_point_yellow[0], up_point_yellow[1] ,ww, hh)
+
+        return (left_point_yellow[0], up_point_yellow[1] ,ww, hh)
+
+       
+
     
     
     
