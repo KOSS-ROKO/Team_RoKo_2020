@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import time
-from Robo import Robo
+from Core.Robo import Robo
 from Vision.Ball_middle import Ball
 from head import Head
 
