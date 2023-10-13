@@ -78,7 +78,7 @@ class Head:
         # elif check == "go far":
         #     return False, small_lr_angle 예외사항 
 
-    def big_UD_head(self, detect_object, direction):
+    def big_UD_head(self, detect_object, big_ud_angle):
         robo = self.robo
         
         check = False
@@ -89,7 +89,7 @@ class Head:
             check = robo._image_processor.detect_holecup() ##############함수 바꿔야함 
         
         if check == True:
-            return True # small head 부르기
+            return True, big_ud_angle # small head 부르기
         
         else:   # 물체가 화면에 안 보이는 경우 detect : False
             # 패닝 틸팅? or 걷기?
@@ -104,7 +104,7 @@ class Head:
             elif max_down_flag == 1:
                 robo._motion.head("up") ################# 3도보단 큰 각으로
                 big_ud_angle -= 10 # 10은 임의 값
-                
+            return False, big_ud_angle
                 
     def small_UD_head(self, detect_object, small_ud_angle):
         robo = self.robo
@@ -128,3 +128,19 @@ class Head:
         # elif find_ball == "go far": ##예외사항 
         #     pass 
     
+    
+                
+    def straight(self):
+        robo = self.robo
+        check = robo._image_processor.ball_hole_straight()
+
+        if check == "middle":                            
+            return True
+        
+        elif check == "go right":   ### 찌그째그 걸음으로 오른쪽으로 원그리며 이동
+            robo._motion.turn("right")    
+            return False               
+        elif check == "go left":    ## 똑같이 왼쪽으로 이동
+            robo._motion.turn("left")
+            return False
+        

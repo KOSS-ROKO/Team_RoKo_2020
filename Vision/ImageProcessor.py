@@ -13,10 +13,6 @@ warnings.simplefilter(
 
 print('code: ImageProcessor.py - ## Debug')
 
-if __name__ == "__main__":
-    from Ball_hole_oneframe import Oneframe
-    from Ball_middle import Ball  # 파일명 / class이름
-    from Holein import Holein
 
 
 
@@ -503,7 +499,7 @@ class ImageProcessor:
         
         
         
-    def middle_lr_ball():
+    def middle_lr_ball(): #### origin 고치기 
         
         origin = ImageProcessor.get_img()
         frame = origin.copy()
@@ -555,7 +551,24 @@ class ImageProcessor:
         #     print("go far")
         #     return "go far"
 
+
+
+
+    #########################################
+    #########################################
+    ########## ball_hole_straight ###########
+    #########################################
+    #########################################
+    
+    
+    def ball_hole_straight():
+        #여기서 cv로 일직선 판단 
+        # return left right middle
+        # 리턴값은 head.py의 straight로 넘어감
         
+        pass
+    
+    
         
         
     #########################################
