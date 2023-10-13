@@ -2,8 +2,9 @@
 
 import time
 from Robo import Robo
-from Vision.Ball_middle import Ball
 from head import Head
+from Vision.Distance import Distance
+from Motion.Motion import Motion
 
 class Act:
     
@@ -182,7 +183,7 @@ class Controller:
                 
 
                 first_detect_holecup_flag = 1 # 공 검출 완료
-                find_holecup = Ball.middle_ball()##########################################333?
+                find_holecup = robo._image_processor.middle_ball()##########################################333?
                 
                 
                 if find_holecup == "stop":
@@ -258,17 +259,34 @@ class Controller:
                     continue
 
             #small ud head
+            f = 450
             while True:
                 is_horizontal_middle, small_ud_temp = Head.small_LR_head("holecup", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                    #### 홀컵 까지의 거리 재기 
-                    
-
+                    #### 홀컵 까지의 대략적인 거리 재기 
+                    fake_holecup_dist = Distance.holecup_dist(f)
                     break
                 elif is_horizontal_middle == False:
                     small_ud_angle = small_ud_temp
                     continue
             ##########################################
+
+            # 홀컵 거리 인식에서 f값 결정
+            # 가까운지 먼지
+            if fake_holecup_dist >= 50:
+                f = 450
+            else : 
+                f = 270
+            # 홀컵 거리
+            holecup_dist = Distance.holecup_dist(f)
+
+            ###### 거리에 따라 퍼팅 강도 조절하기
+            if 0 < holecup_dist <= 10:
+                Motion.putting()
+                robo._motion.putting("left", 1) # def putting 짜야함 + 방향과 강도를 넘겨줌
+
+            
+
 
 
 
