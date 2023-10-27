@@ -4,7 +4,7 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('HoleCup/flag_video/flag1.avi')
+cap = cv2.VideoCapture('HoleCup/holecup190.avi')
 
 detected_circles = []
 

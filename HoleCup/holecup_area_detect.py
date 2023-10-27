@@ -5,7 +5,7 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('HoleCup/flag_video/flag1.avi')
+cap = cv2.VideoCapture('HoleCup/flag_video/holecup60.avi')
 
 while True:
     ret, frame = cap.read()
