@@ -97,6 +97,7 @@ class Controller:
             
             #big_ud_head
             is_ball_hole_oneframe = robo._image_processor.ball_hole_oneframe()
+
             if is_ball_hole_oneframe ==False:
                 # big ud head를 수행해라 아래 코드 고쳐야함
                 while True:
@@ -112,10 +113,11 @@ class Controller:
                         #Head.big_UD_head()
                         # 예외처리 : big up down 코드
                 #고개 정면 코드 추가하기
-            elif is_ball_hole_oneframe ==True:
+            elif is_ball_hole_oneframe == True:
                 while True:
                     # 공 홀컵 일직선 맞추기
-                    check_straight = robo._image_processor.straight()
+                    check_straight = Head.straight()
+                    # check_straight = robo._image_processor.straight()
                     if check_straight ==True:
                         # 거리 알고리즘 (홀 컵 거리재기)
                         break
