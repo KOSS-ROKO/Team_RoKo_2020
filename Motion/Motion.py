@@ -158,23 +158,6 @@ class Motion:
             self.TX_data_py2(dir_list[dir][angle])
             time.sleep(sleep)
 
-    # 팔 들고 돌기 (141~160)
-    def arm_turn(self, dir, angle, loop=1, sleep=0.5):
-        """ parameter :
-        dir : {LEFT, RIGHT}
-        """
-        dir_list = {
-            "LEFT": {
-                20: 155, 45: 156, 60: 157
-            },
-            "RIGHT": {
-                20: 158, 45: 159, 60: 160
-            }
-        }
-
-        for _ in range(loop):
-            self.TX_data_py2(dir_list[dir][angle])
-            time.sleep(sleep)
 
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
@@ -184,69 +167,6 @@ class Motion:
         dir_list = {"LEFT": 161, "RIGHT": 169}
         self.TX_data_py2(dir_list[dir])
 
-    # 계단 오르내리기 (171~174) [Stair]
-    def stair(self, dir):
-        """parameter :
-        dir : {LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN}
-        """
-        dir_list = {'LEFT_UP': 171, 'RIGHT_UP': 172,
-                    'LEFT_DOWN': 173, 'RIGHT_DOWN': 174}
-        self.TX_data_py2(dir_list[dir])
-        time.sleep(1)
-
-    # 장애물 치우기 (175~176) [Line/Stair/Danger]
-    def kick(self, dir):
-        """ parameter :
-        dir : {LEFT, RIGHT}
-        """
-        dir_list = {"LEFT": 175, "RIGHT": 176}
-        self.TX_data_py2(dir_list[dir])
-
-    # 집기 (181~186) [Danger]
-    def grab(self, dir):
-        """ parameter :
-        dir : {UP, DOWN, MISS}
-        """
-        dir_list = {"UP": 181, "DOWN": 185, "MISS": 184}
-        self.TX_data_py2(dir_list[dir])
-
-    # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self, dir="DEFAULT"):
-        """ parameter :
-        dir : {DEFAULT, LEFT, RIGHT}
-        """
-        dir_list = {"LEFT": 186, "RIGHT": 187, "DEFAULT": 188}
-        self.TX_data_py2(dir_list[dir])
-        time.sleep(1.5)   # 나중에 보고 초 조정하기
-
-    # 집고 옆으로 (189~192) [Danger]
-
-    def grab_sideway(self, dir, long=False):
-        """ parameter :
-        dir : {LEFT, RIGHT}
-        """
-        dir_list = {"LEFT": 189, "RIGHT": 191}
-        if long:
-            dir_list[dir] += 1
-        self.TX_data_py2(dir_list[dir])
-
-    # 집고 턴 (193~200) [Danger]
-    def grab_turn(self, dir, angle, loop=1, sleep=0.5):
-        """ parameter :
-        dir : {LEFT, RIGHT}
-        """
-        dir_list = {
-            "LEFT": {
-                10: 193, 20: 194, 45: 195, 60: 196
-            },
-            "RIGHT": {
-                10: 197, 20: 198, 45: 199, 60: 200
-            }
-        }
-
-        for _ in range(loop):
-            self.TX_data_py2(dir_list[dir][angle])
-            time.sleep(sleep)
 
     # 손 들고 걷기
     def handsUp_walk(self, loop=1):
@@ -254,33 +174,7 @@ class Motion:
             self.TX_data_py2(103)
             time.sleep(2)   # 나중에 보고 초 조정하기
 
-    # 방위 인식 (201~204)
-    def notice_direction(self, dir):
-        """parameter :
-        dir : {E, W, S, N}
-        """
-        dir_list = {'E': 201, 'W': 202, 'S': 203, 'N': 204}
-        self.TX_data_py2(dir_list[dir])
-        time.sleep(1)
 
-    # 위험지역 인식 (205~206)
-    def notice_area(self, area):
-        """parameter :
-        area : {BLACK, STAIR}
-        """
-        area_list = {'BLACK': 205, 'STAIR': 206}
-        self.TX_data_py2(area_list[area])
-
-    # 알파벳 인식 (207~210)
-    def notice_alpha(self, ls):
-        """parameter :
-        alphabet : {A, B, C, D}
-        """
-        alpha_list = {'A': 207, 'B': 208, 'C': 209, 'D': 210}
-        for i in ls:
-            if i in alpha_list:
-                self.TX_data_py2(alpha_list[i])
-                time.sleep(2)
     #퍼팅 위치에 서기 
     def pose(dir):
         #pose_list = {'A': 207, 'B': 208, 'C': 209, 'D': 210}

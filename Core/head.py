@@ -1,5 +1,4 @@
 from Robo import Robo
-from Vision.Ball_middle import Ball
 from Controller import Controller
 
 
