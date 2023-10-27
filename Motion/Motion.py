@@ -134,6 +134,7 @@ class Motion:
         time.sleep(0.3)
 
     # 돌기 (141~160)
+    # 값 조절 필요
     def turn(self, dir, angle, loop=1, sleep=0.5, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
@@ -147,11 +148,11 @@ class Motion:
             }
         }
 
-        if arm:
-            if dir == "LEFT":
-                dir_list[dir][angle] += 7
-            elif dir == "RIGHT":
-                dir_list[dir][angle] += 6
+        # if arm:
+        #     if dir == "LEFT":
+        #         dir_list[dir][angle] += 7
+        #     elif dir == "RIGHT":
+        #         dir_list[dir][angle] += 6
 
         for _ in range(loop):
             self.TX_data_py2(dir_list[dir][angle])
@@ -280,6 +281,14 @@ class Motion:
             if i in alpha_list:
                 self.TX_data_py2(alpha_list[i])
                 time.sleep(2)
+    #퍼팅 위치에 서기 
+    def pose(dir):
+        #pose_list = {'A': 207, 'B': 208, 'C': 209, 'D': 210}
+        if dir=="left":
+            pass
+        else:
+            pass
+            
 
     ############################################################
 

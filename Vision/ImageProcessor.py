@@ -60,7 +60,8 @@ class ImageProcessor:
     #########################################
     
     
-    def detect_ball():
+    def detect_ball(role="call_TF"):
+        
         
         origin = ImageProcessor.get_img()
         frame = origin.copy()
@@ -75,14 +76,17 @@ class ImageProcessor:
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
         imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
         imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
-
-        red_detected = cv2.bitwise_and(frame, frame, mask=imgThresh)
-
         
-        if cv2.countNonZero(imgThresh) > 0: # 값 바꾸세요
-            return True 
-        else:
-            return False
+        # red_detected = cv2.bitwise_and(frame, frame, mask=imgThresh)
+
+        if(role=="call_TF"):  
+            if cv2.countNonZero(imgThresh) > 0: # 값 바꾸세요
+                return True 
+            else:
+                return False
+            
+        elif(role=="call_video"):
+            return imgThresh
         
         
 
@@ -565,11 +569,63 @@ class ImageProcessor:
         #여기서 cv로 일직선 판단 
         # return left right middle
         # 리턴값은 head.py의 straight로 넘어감
-        
-        pass
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()
+
+        # BGR에서 HSV로 색상 공간 변환
+        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+        # 빨간색 범위 정의 (OpenCV에서는 HSV로 색상을 표현)
+        lower_red = np.array([160, 70, 20])
+        upper_red = np.array([178, 255, 255])
+
+        # 노란색 범위 정의
+        lower_yellow = np.array([0, 50, 50])
+        upper_yellow = np.array([45, 255, 255])
+
+        # 빨간색과 노란색 마스크 생성
+        red_mask = cv2.inRange(hsv_frame, lower_red, upper_red)
+        yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
+
+        # 빨간색과 노란색 물체 검출
+        red_contours, _ = cv2.findContours(red_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        cv2.imshow("red_contours", red_mask)
+        cv2.imshow("yellow_contours", yellow_mask)
+
+        # 빨간색과 노란색 물체의 중심 좌표 계산
+        red_center = None
+        yellow_center = None
+
+        if red_contours:
+            red_max_contour = max(red_contours, key=cv2.contourArea)
+            M = cv2.moments(red_max_contour)
+            if M["m00"] != 0:
+                red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+
+        if yellow_contours:
+            yellow_max_contour = max(yellow_contours, key=cv2.contourArea)
+            M = cv2.moments(yellow_max_contour)
+            if M["m00"] != 0:
+                yellow_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+                
+        # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
+        if red_center and yellow_center:
+            if abs(red_center[0] - yellow_center[0]) < 10:
+                result = "middle"
+
+            elif red_center[0] < yellow_center[0]:
+                
+                result = "left"
+            else:
+                result = "right"
+        else:
+            result = "none"
+
+        return result
+            
     
-    
-        
         
     #########################################
     #########################################
@@ -617,6 +673,17 @@ class ImageProcessor:
         else:
             return False
         
+    #########################################
+    #########################################
+    ###############  FIELD  #################
+    #########################################
+    #########################################    
+        
+    def field():
+        # return left and right 
+        ## 왼오 다 블랙 안보이면 기본형인 left로 ㄱㄱ
+        pass
+
         
         
     #########################################

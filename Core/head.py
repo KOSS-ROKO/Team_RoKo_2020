@@ -85,6 +85,7 @@ class Head:
         
         if detect_object == 'ball':
             check = robo._image_processor.detect_ball()
+            
         elif detect_object == 'hole_cup':
             check = robo._image_processor.detect_holecup() ##############함수 바꿔야함 
         
@@ -138,7 +139,7 @@ class Head:
             return True
         
         elif check == "go right":   ### 찌그째그 걸음으로 오른쪽으로 원그리며 이동
-            robo._motion.turn("right")    
+            robo._motion.turn("right")    # 값 조절 필요
             return False               
         elif check == "go left":    ## 똑같이 왼쪽으로 이동
             robo._motion.turn("left")
