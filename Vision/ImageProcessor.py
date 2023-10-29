@@ -226,7 +226,7 @@ class ImageProcessor:
 
         ##### 홀 컵 점4개 찾기
         # 가장 왼쪽과 오른쪽, 위쪽 아래쪽 점 찾기
-        xx, yy, ww, hh =0,0,0,0
+        xx, yy, ww, hh = 0,0,0,0
         
         left_point_yellow, right_point_yellow = None, None
         up_point_yellow, down_point_yellow = None, None
