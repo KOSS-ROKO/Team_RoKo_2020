@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # 동영상 파일을 열고 초기화합니다.
-video_path = '/home/user/Downloads/CV_EmbededSWC/src/f_v_long.avi'  # 동영상 파일 경로를 지정하세요.
+video_path = 'Field/f_v_long.avi'  # 동영상 파일 경로를 지정하세요.
 cap = cv2.VideoCapture(video_path)
 
 # 출력 동영상의 크기를 조정합니다.

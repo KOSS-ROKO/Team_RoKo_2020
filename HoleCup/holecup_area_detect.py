@@ -1,11 +1,7 @@
-# 가장 넓이가 큰 노란색 인식하기
-# <홀컵 기본 인식> 때 쓰일 예정 2
-### 이 파일이 전처리 값 정확 ###
-
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('HoleCup/flag_video/holecup60.avi')
+cap = cv2.VideoCapture('/home/user/2023ESWContest_Humanoid_RoKo/HoleCup/holecup190.avi')
 
 while True:
     ret, frame = cap.read()
@@ -50,15 +46,11 @@ while True:
             center_x = int(M["m10"] / M["m00"])
             center_y = int(M["m01"] / M["m00"])
 
-            # 노란색 물체의 크기에 따라 초록색 원 그리기
             radius = int(max_area ** 0.5 / 2)
             cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-            # 중심 좌표 표시
             cv2.circle(frame, (center_x, center_y), 2, (0, 0, 255), -1)
 
-            # 중심 좌표가 초록색 원 안에 있는지 확인
             if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
-                # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
                 cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
 
     cv2.imshow('Result', frame)
