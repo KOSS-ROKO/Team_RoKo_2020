@@ -508,11 +508,10 @@ class ImageProcessor:
                 return "stop"
             # 1~5번째 줄에서 검출되면 "go up" 출력
             elif y_center < cell_height * 5:
-                return "go up"
+                return "up"
             # 7~11번째 줄에서 검출되면 "go down" 출력
             elif y_center > cell_height * 6:
-                return "go down"
-        return None
+                return "down"
         # else:
         #     print("go far")
 
@@ -534,12 +533,12 @@ class ImageProcessor:
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
         elif midpoint[1] < cell_height * 5:
-            return "go up"
+            return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
         elif midpoint[1] > cell_height * 6:
-            return "go down"
-        else:
-            return "go far"
+            return "down"
+        # else:
+        #     return "go far"
 
 
 
@@ -720,9 +719,9 @@ class ImageProcessor:
         # 블랙 넓이에 따라 'go right' 또는 'go left'를 출력합니다.
         # 왼오 넓이 비슷할때, go left하기위해 +1000 정도 오차 범위 넣음 -> 추후 수정
         if left_black_area +1000 >= right_black_area:
-            result = 'go left'
+            result = 'left'
         else:
-            result = 'go right'
+            result = 'right'
 
         # 결과 프레임을 표시합니다.
         # cv2.putText(frame, result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
