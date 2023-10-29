@@ -292,12 +292,12 @@ class ImageProcessor:
                 return "stop"
             # 1~5번째 줄에서 검출되면 "go right" 출력
             elif x_center < cell_width * 5:
-                print("go right")
-                return "go right"
+                print("right")
+                return "right"
             # 7~11번째 줄에서 검출되면 "go left" 출력
             elif x_center > cell_width * 6:
-                print("go left")
-                return "go left"
+                print("left")
+                return "left"
         # else:
         #     print("go far")
         #     return "go far"
