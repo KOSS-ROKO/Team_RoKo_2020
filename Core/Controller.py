@@ -182,7 +182,6 @@ class Controller:
             # 홀컵 거리 재기
             ######## 홀컵 거리 재기 위해
             big_lr_angle = 0           
-            max_right_flag = 0
             small_lr_angle = 0
             small_ud_angle = 0
             #big lr head

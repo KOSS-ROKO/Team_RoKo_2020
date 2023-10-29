@@ -77,7 +77,6 @@ class ImageProcessor:
         imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
         imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
         
-        # red_detected = cv2.bitwise_and(frame, frame, mask=imgThresh)
 
         if(role=="call_TF"):  
             if cv2.countNonZero(imgThresh) > 0: # 값 바꾸세요
@@ -88,202 +87,21 @@ class ImageProcessor:
         elif(role=="call_video"):
             return imgThresh
         
-        
+        elif(role=="call_midpoint"):
 
-    def detect_arrow():
-        
-        origin = ImageProcessor.get_img()
-        frame = origin.copy()
-        
-        lower_yellow = np.array([0, 50, 50])
-        upper_yellow = np.array([45, 255, 255])
-
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-        yellow_mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
-
-        # 노란색 화살표 부분 표시
-        yellow_arrow = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-
-        # 노란색 화살표의 윤곽선 검출
-        contours, hierarchy = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # 화살표의 꼭짓점 표시
-        for cnt in contours:
-            area = cv2.contourArea(cnt)
-            if area > 500:  # 화살표로 판단할 최소한의 면적 조건
-                # 윤곽선 근사화(복잡한 윤곽선을 간단한 다각형으로 대체)
-                epsilon = 0.02 * cv2.arcLength(cnt, True)
-                approx = cv2.approxPolyDP(cnt, epsilon, True)  # 다각형 꼭지점 반환
-
-                if len(approx) == 7:  # 화살표로 판단할 근사화 결과의 꼭지점 개수 조건
-
-                    # 화살표 7개 꼭지점의 중간값 찾기
-                    center = np.mean(approx, axis=0)
-                    center_x = int(round(center[0][0]))
-                    center_y = int(round(center[0][1]))
-                    cv2.circle(frame, (center_x, center_y), 5, (0, 0, 255), -1)
-
-                    # 각 점과 중심점 사이의 거리 계산
-                    distances = [np.linalg.norm(point - center) for point in approx]
-
-                    # 거리가 가장 먼 두 점의 인덱스 찾기
-                    far_indices = np.argsort(distances)[:2]
-
-                    # 가장 가까운 두 꼭지점의 좌표
-                    closest_points = [approx[i][0] for i in far_indices]
-
-                    # 가장 가까운 두 꼭지점의 중간값 찾기
-                    far_center = np.mean(closest_points, axis=0)
-                    far_center_x = int(round(far_center[0]))
-                    far_center_y = int(round(far_center[1]))
-                    cv2.circle(frame, (far_center_x, far_center_y), 5, (255, 0, 0), -1)
-
-                    #방향 계산
-                    arrow_angle = np.arctan2(far_center_y - center_y, far_center_x - center_x)
-                    angle = np.degrees(arrow_angle)
-
-                    font = cv2.FONT_HERSHEY_SIMPLEX
-                    if -45 <= angle < 45:
-                        #cv2.putText(frame, 'RIGHT', (10, 85), font, 1, (255, 255, 0))
-                        return 'RIGHT'
-                    elif 45 <= angle < 135:
-                        #cv2.putText(frame, 'DOWN', (10, 85), font, 1, (255, 255, 0))
-                        return 'DOWN'
-                    elif -180 <= angle <= -135:
-                        #cv2.putText(frame, 'LEFT', (10, 85), font, 1, (255, 255, 0))
-                        return 'LEFT'
-                    elif 135 <= angle <= 180:
-                        cv2.putText(frame, 'LEFT', (10, 85), font, 1, (255, 255, 0))
-                        return 'LEFT'
-                    elif -135 < angle < -45:
-                        #cv2.putText(frame, 'UP', (10, 85), font, 1, (255, 255, 0))
-                        return 'UP'
-                return False
-                    
-
-    
-    def detect_field():
-        
-        origin = ImageProcessor.get_img()
-        frame = origin.copy()
-
-        # HSV 색상 공간으로 변환합니다.
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-        # 경기장 초록색만 검출하기 위한 색상 범위
-        # 경기장 색깔 범위 HSV : 색조, 채도, 명도
-        lower_green = np.array([30, 70, 40])  # 초록색 최소값
-        upper_green = np.array([85, 255, 255])  # 초록색 최대값
-
-        # 초록색 영역을 마스킹합니다.
-        mask = cv2.inRange(hsv, lower_green, upper_green)
-
-        # 경계를 찾습니다.
-        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # 경계를 그립니다.
-        cv2.drawContours(frame, contours, -1, (0, 255, 0), 2)
-
-        # 결과 프레임을 표시합니다.
-        cv2.imshow('Edge Detection', frame)
-        
-        return 1
-
-
-
-    ############################################
-    ##### detect holecup for new distance ######
-    ############ return x  y  w  h #############
-    ############################################
-
-    '''
-    def detect_holecup():
-        
-        origin = ImageProcessor.get_img()
-        frame = origin.copy()
-        
-        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-        lower_yellow = np.array([0, 80, 50])
-        upper_yellow = np.array([36, 250, 250])
-
-        yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
-        yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-
-        cv2.imshow('Yellow Objects', yellow_objects)
-
-        blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
-        gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
-
-        cv2.imshow('Blurred Image', gray_frame)
-
-        _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-
-        cv2.imshow('Binary Image', binary_frame)
-
-        contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        ##### 홀 컵 점4개 찾기
-        # 가장 왼쪽과 오른쪽, 위쪽 아래쪽 점 찾기
-        xx, yy, ww, hh = 0,0,0,0
-        
-        left_point_yellow, right_point_yellow = None, None
-        up_point_yellow, down_point_yellow = None, None
-        
-        if contours:
-            for contour in contours:
-                for point in contour:
-                    x = point[0][0]
-                    y = point[0][1]
-
-                    # 가장 왼쪽점 업데이트
-                    if left_point_yellow is None or x < left_point_yellow[0]:
-                        left_point_yellow = [x, y]
-
-                    # 가장 오른쪽점 업데이트
-                    if right_point_yellow is None or x > right_point_yellow[0]:
-                        right_point_yellow = [x, y]
-
-                    # 가장 아래점 업데이트
-                    if down_point_yellow is None or y > down_point_yellow[1]:
-                        down_point_yellow = [x, y]
-
-                    diameter = 0
-                    # 가장 위쪽점 업데이트
-                    if down_point_yellow is not None:
-                        diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 20
-
-                    # 제일 위쪽 점 계산
-                    up_point_yellow = [down_point_yellow[0], down_point_yellow[1] - diameter]
-
-
-        result = frame.copy()
-        if left_point_yellow is not None:
-            cv2.circle(result, tuple(left_point_yellow), 5, (0, 0, 255), -1)
-        if right_point_yellow is not None:
-            cv2.circle(result, tuple(right_point_yellow), 5, (0, 0, 255), -1)
-
-        if up_point_yellow is not None:
-            cv2.circle(result, tuple(up_point_yellow), 5, (0, 0, 255), -1)
-        if down_point_yellow is not None:
-            cv2.circle(result, tuple(down_point_yellow), 5, (0, 0, 255), -1)
+            red_contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             
-        #### x, y, w, h 계산     
-        ww = right_point_yellow[0] - left_point_yellow[0]
-        hh = down_point_yellow[1] - up_point_yellow[1]
-        # print("lr: ",left_point_yellow, right_point_yellow)
-        # print("ud: ", up_point_yellow, down_point_yellow)
-        # print(left_point_yellow[0], up_point_yellow[1] ,ww, hh)
-
-        return (left_point_yellow[0], up_point_yellow[1] ,ww, hh)
-
-    '''
+            if red_contours:
+                red_max_contour = max(red_contours, key=cv2.contourArea)
+                M = cv2.moments(red_max_contour)
+                if M["m00"] != 0:
+                    red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))      
+                    return red_center  
 
     
     
     
-    def detect_holecup(role="test"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
+    def detect_holecup(role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
         
         origin = ImageProcessor.get_img()
         frame = origin.copy()
@@ -554,46 +372,11 @@ class ImageProcessor:
         #여기서 cv로 일직선 판단 
         # return left right middle
         # 리턴값은 head.py의 straight로 넘어감
-        origin = ImageProcessor.get_img()
-        frame = origin.copy()
 
-        # BGR에서 HSV로 색상 공간 변환
-        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        # 빨간색 범위 정의 (OpenCV에서는 HSV로 색상을 표현)
-        lower_red = np.array([160, 70, 20])
-        upper_red = np.array([178, 255, 255])
+        red_center = ImageProcessor.detect_ball("call_midpoint")
+        yellow_center = ImageProcessor.detect_holecup("call_midpoint")
 
-        # 노란색 범위 정의
-        lower_yellow = np.array([0, 50, 50])
-        upper_yellow = np.array([45, 255, 255])
-
-        # 빨간색과 노란색 마스크 생성
-        red_mask = cv2.inRange(hsv_frame, lower_red, upper_red)
-        yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
-
-        # 빨간색과 노란색 물체 검출
-        red_contours, _ = cv2.findContours(red_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        cv2.imshow("red_contours", red_mask)
-        cv2.imshow("yellow_contours", yellow_mask)
-
-        # 빨간색과 노란색 물체의 중심 좌표 계산
-        red_center = None
-        yellow_center = None
-
-        if red_contours:
-            red_max_contour = max(red_contours, key=cv2.contourArea)
-            M = cv2.moments(red_max_contour)
-            if M["m00"] != 0:
-                red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-
-        if yellow_contours:
-            yellow_max_contour = max(yellow_contours, key=cv2.contourArea)
-            M = cv2.moments(yellow_max_contour)
-            if M["m00"] != 0:
-                yellow_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
         if red_center and yellow_center:
