@@ -113,17 +113,14 @@ class ImageProcessor:
 
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-
-        cv2.imshow('Yellow Objects', yellow_objects)
-
+        
         blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
         gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
 
-        cv2.imshow('Blurred Image', gray_frame)
 
         _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
-        cv2.imshow('Binary Image', binary_frame)
+        #cv2.imshow('Binary Image', binary_frame)
 
         contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
@@ -202,24 +199,21 @@ class ImageProcessor:
 
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-
-        cv2.imshow('Yellow Objects', yellow_objects)
+        
 
         blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
         gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
 
-        cv2.imshow('Blurred Image', gray_frame)
 
         _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
-        cv2.imshow('Binary Image', binary_frame)
+        #cv2.imshow('Binary Image', binary_frame)
 
         # 침식과 팽창 적용
         kernel = np.ones((5, 5), np.uint8)
         binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
         binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
 
-        cv2.imshow('erode and dilate', binary_frame)
 
         contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
