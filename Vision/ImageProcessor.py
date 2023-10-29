@@ -197,6 +197,7 @@ class ImageProcessor:
     ############ return x  y  w  h #############
     ############################################
 
+    '''
     def detect_holecup():
         
         origin = ImageProcessor.get_img()
@@ -277,12 +278,12 @@ class ImageProcessor:
 
         return (left_point_yellow[0], up_point_yellow[1] ,ww, hh)
 
-       
+    '''
 
     
     
-    '''
-    def detect_holecup_area():
+    
+    def detect_holecup(role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
         
         origin = ImageProcessor.get_img()
         frame = origin.copy()
@@ -334,13 +335,26 @@ class ImageProcessor:
                 if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
                     # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
                     cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-
-        #cv2.imshow('Result', frame)
-        #cv2.imshow('masked', yellow_mask)
+                
+                    
+                          
+        
+        
+        if(role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
+            if cv2.countNonZero(imgThresh) > 0: # 값 바꾸세요
+                return True 
+            else:
+                return False
+            
+        elif(role=="call_video"): # 
+            return binary_frame
+        
+        
+        
         
         return (center_x, center_y)
 
-        '''
+        
 
 
     #########################################
