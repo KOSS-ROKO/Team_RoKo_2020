@@ -2517,3 +2517,4 @@ DIM 어드레스스위치 AS BYTE
     GOSUB All_motor_Reset
     GOTO RX_EXIT
 	
+'and commit test
