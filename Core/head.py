@@ -22,7 +22,7 @@ class Head:
         if detect_object == 'ball':
             check = robo._image_processor.detect_ball()
         elif detect_object == 'hole_cup':
-            check = robo._image_processor.detect_holecup() ##############함수 바꿔야함 
+            check = robo._image_processor.detect_holecup()
         
         if check == True:
             # 공이 화면 안에 들어왔을 경우 big_lr_angle 만큼 몸 돌리기
@@ -86,7 +86,7 @@ class Head:
             check = robo._image_processor.detect_ball()
             
         elif detect_object == 'hole_cup':
-            check = robo._image_processor.detect_holecup() ##############함수 바꿔야함 
+            check = robo._image_processor.detect_holecup()
         
         if check == True:
             return True, big_ud_angle # small head 부르기
