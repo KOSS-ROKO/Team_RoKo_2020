@@ -113,8 +113,8 @@ class Head:
             direction = robo._image_processor.middle_ud_ball() ##함수 만들기
         elif detect_object == 'hole_cup':
             direction = robo._image_processor.middle_ud_holecup() ##함수 만들기
-        if direction == "stop":
             
+        if direction == "stop":
             return True, small_ud_angle
             
         elif direction == "up":
