@@ -283,7 +283,7 @@ class ImageProcessor:
     
     
     
-    def detect_holecup(role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
+    def detect_holecup(role="test"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
         
         origin = ImageProcessor.get_img()
         frame = origin.copy()
@@ -308,6 +308,14 @@ class ImageProcessor:
         cv2.imshow('Binary Image', binary_frame)
 
         contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        
+        ##### distance 할 때만 필요.
+        if contours:
+            largest_contour = max(contours, key=cv2.contourArea)
+            x, y, w, h = cv2.boundingRect(largest_contour)
+            
+        
 
         max_area = 0  # 가장 큰 노란색 물체의 면적
         max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
@@ -335,24 +343,24 @@ class ImageProcessor:
                 if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
                     # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
                     cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
+                    
+                    
                 
                     
-                          
         
-        
-        if(role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
-            if cv2.countNonZero(imgThresh) > 0: # 값 바꾸세요
+        if (role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
+            if cv2.countNonZero(binary_frame) > 0: # 값 바꾸세요
                 return True 
             else:
                 return False
             
-        elif(role=="call_video"): # 
-            return binary_frame
+        elif (role=="call_w"): ## 홀컵의 w 크기 return
+            return w 
+            
         
         
+                   
         
-        
-        return (center_x, center_y)
 
         
 
