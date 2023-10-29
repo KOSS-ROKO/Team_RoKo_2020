@@ -168,12 +168,6 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
 
-    # 손 들고 걷기
-    def handsUp_walk(self, loop=1):
-        for _ in range(loop):
-            self.TX_data_py2(103)
-            time.sleep(2)   # 나중에 보고 초 조정하기
-
 
     #퍼팅 위치에 서기 
     def pose(dir):
@@ -182,6 +176,16 @@ class Motion:
             pass
         else:
             pass
+        
+    
+    def putting():
+        pass
+    
+    
+    def ceremony():
+        pass
+    
+    
             
 
     ############################################################
