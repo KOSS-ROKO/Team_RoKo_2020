@@ -11,10 +11,10 @@ class Distance:
     def holecup_dist(f):
         W = 0.18 # 홀컵 크기
         
-        imgThresh = ImageProcessor.detect_holecup("call_video") # holecup area 인지 holecup cirle인지 나중에 정해줘야함
+        binary_frame = ImageProcessor.detect_holecup("call_video") # holecup area 인지 holecup cirle인지 나중에 정해줘야함
         
         # 노란 홀컵의 가로 크기를 측정 (w)
-        contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         if contours:
             largest_contour = max(contours, key=cv2.contourArea)
             x, y, w, h = cv2.boundingRect(largest_contour)
