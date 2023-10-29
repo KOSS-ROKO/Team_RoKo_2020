@@ -10,10 +10,10 @@ def divide_screen(frame):
     return frame
 
 # 저장된 영상을 읽어옵니다. 파일 경로를 적절히 수정하세요.
-cap = cv2.VideoCapture('flag_video/holecup60.avi')
+cap = cv2.VideoCapture('HoleCup/flag_video/flag2.avi')
 
 # 노란색 객체의 최소 넓이 설정
-min_yellow_area = 1000  # 이 값을 조정하여 객체의 크기에 대한 필터링을 변경할 수 있습니다.
+min_yellow_area = 10  # 이 값을 조정하여 객체의 크기에 대한 필터링을 변경할 수 있습니다.
 
 while True:
     # 영상 프레임 읽기
@@ -26,12 +26,13 @@ while True:
     divided_frame = divide_screen(frame)
 
     # 이미지에서 노란색 객체를 찾기 위한 HSV 범위
-    yellow_lower = np.array([20, 20, 100])
-    yellow_upper = np.array([36, 255, 255])
+    yellow_lower = np.array([10, 80, 50])
+    yellow_upper = np.array([36, 250, 250])
 
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     yellow_mask = cv2.inRange(hsv_frame, yellow_lower, yellow_upper)
     yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
+    cv2.imshow("yellow", yellow_objects)
 
     # 이미지 이진화
     gray_frame = cv2.cvtColor(yellow_objects, cv2.COLOR_BGR2GRAY)
