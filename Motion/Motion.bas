@@ -16,9 +16,6 @@ DIM 자이로ONOFF AS BYTE
 DIM 기울기앞뒤    AS INTEGER
 DIM 기울기좌우    AS INTEGER
 DIM 몇걸음 AS INTEGER
-DIM 머리좌우    AS INTEGER
-DIM 머리상하    AS INTEGER
-
 DIM 곡선방향 AS BYTE
 
 DIM 넘어진확인 AS BYTE
@@ -50,11 +47,9 @@ CONST 기울기확인시간 = 20  'ms
 
 CONST 적외선AD포트  = 4
 
-
 CONST min = 61   '뒤로넘어졌을때
 CONST max = 107   '앞으로넘어졌을때
 CONST COUNT_MAX = 3
-
 
 CONST 머리이동속도 = 10
 '************************************************
@@ -75,6 +70,8 @@ OUT 52,0   '머리 LED 켜기
 보행횟수 = 1
 모터ONOFF = 0
 
+DIM 머리좌우    AS INTEGER
+DIM 머리상하    AS INTEGER
 CONST 좌우영점 = 100 
 CONST 상하영점 = 113
 머리좌우 = 좌우영점
@@ -82,7 +79,7 @@ CONST 상하영점 = 113
 
 '****초기위치 피드백*****************************
 TEMPO 230
-MUSIC "cdefgh"
+'MUSIC "cdefgh"
 
 SPEED 5
 GOSUB MOTOR_ON
@@ -111,7 +108,7 @@ GOTO MAIN   '시리얼 수신 루틴으로 가기
 '************************************************
 시작음:
     TEMPO 220
-    MUSIC "O23EAB7EA>3#C"
+    'MUSIC "O23EAB7EA>3#C"
     RETURN
 종료음:
     TEMPO 220
@@ -119,12 +116,11 @@ GOTO MAIN   '시리얼 수신 루틴으로 가기
     RETURN
 에러음:
     TEMPO 250
-    MUSIC "FFF"
+    MUSIC "GFFF"
     RETURN
 '************************************************
 MOTOR_ON: '전포트서보모터사용설정
     GOSUB MOTOR_GET
-
     MOTOR G6B
     DELAY 50
     MOTOR G6C
@@ -132,7 +128,6 @@ MOTOR_ON: '전포트서보모터사용설정
     MOTOR G6A
     DELAY 50
     MOTOR G6D
-
     모터ONOFF = 0
     GOSUB 시작음         
     RETURN
@@ -162,30 +157,24 @@ MOTOR_SET: '위치값피드백
     RETURN
 '************************************************
 All_motor_Reset:
-
     MOTORMODE G6A,1,1,1,1,1,1
     MOTORMODE G6D,1,1,1,1,1,1
     MOTORMODE G6B,1,1,1,,,1
     MOTORMODE G6C,1,1,1,1,1
-
     RETURN
 '************************************************
 All_motor_mode2:
-
     MOTORMODE G6A,2,2,2,2,2
     MOTORMODE G6D,2,2,2,2,2
     MOTORMODE G6B,2,2,2,,,2
     MOTORMODE G6C,2,2,2,2,2
-
     RETURN
 '************************************************
 All_motor_mode3:
-
     MOTORMODE G6A,3,3,3,3,3
     MOTORMODE G6D,3,3,3,3,3
     MOTORMODE G6B,3,3,3,,,3
     MOTORMODE G6C,3,3,3,3,3
-
     RETURN
 '************************************************
 Leg_motor_mode1:
@@ -285,25 +274,20 @@ Arm_motor_mode3:
 '******************************************
 '**** 자이로감도 설정 ****
 자이로INIT:
-
     GYRODIR G6A, 0, 0, 1, 0,0
     GYRODIR G6D, 1, 0, 1, 0,0
-
     GYROSENSE G6A,200,150,30,150,0
     GYROSENSE G6D,200,150,30,150,0
-
     RETURN
 '***********************************************
 '**** 자이로감도 설정 ****
 자이로MAX:
-
     GYROSENSE G6A,250,180,30,180,0
     GYROSENSE G6D,250,180,30,180,0
 
     RETURN
 '***********************************************
 자이로MID:
-
     GYROSENSE G6A,200,150,30,150,0
     GYROSENSE G6D,200,150,30,150,0
 
@@ -317,33 +301,27 @@ Arm_motor_mode3:
 자이로ON:
     GYROSET G6A, 4, 3, 3, 3, 0
     GYROSET G6D, 4, 3, 3, 3, 0
-
     자이로ONOFF = 1
     RETURN
 '***********************************************
 자이로OFF:
     GYROSET G6A, 0, 0, 0, 0, 0
     GYROSET G6D, 0, 0, 0, 0, 0
-
-
     자이로ONOFF = 0
     RETURN
 '**********************************************
 RX_EXIT:
 
     ERX 4800, A, MAIN
-
     GOTO RX_EXIT
 '**********************************************
 GOSUB_RX_EXIT:
 
     ERX 4800, A, GOSUB_RX_EXIT2
-
     GOTO GOSUB_RX_EXIT
 
 GOSUB_RX_EXIT2:
     RETURN
-'**********************************************
 '****************************************
 뒤로일어나기:
     HIGHSPEED SETOFF
@@ -351,7 +329,6 @@ GOSUB_RX_EXIT2:
     PTP ALLON      
 
     GOSUB 자이로OFF
-
     GOSUB All_motor_Reset
 
     SPEED 15
@@ -529,7 +506,7 @@ GOSUB_RX_EXIT2:
         GOSUB 앞으로일어나기
     ENDIF
     RETURN
-    '**************************************************
+'**************************************************
 좌우기울기측정:
     FOR i = 0 TO COUNT_MAX
         B = AD(좌우기울기AD포트)   '기울기 좌우
@@ -546,8 +523,7 @@ GOSUB_RX_EXIT2:
         GOSUB 기본자세   
     ENDIF
     RETURN
-    '******************************************
-    '************************************************
+'************************************************
 SOUND_PLAY_CHK:
     DELAY 60
     SOUND_BUSY = IN(46)
@@ -555,9 +531,7 @@ SOUND_PLAY_CHK:
     DELAY 50
 
     RETURN
-    '************************************************
-
-    '************************************************
+'************************************************
 NUM_1_9:
     IF NUM = 1 THEN
         PRINT "1"
@@ -582,10 +556,8 @@ NUM_1_9:
     ENDIF
 
     RETURN
-    '************************************************
-    '************************************************
+'************************************************
 NUM_TO_ARR:
-
     NO_4 =  BUTTON_NO / 10000
     TEMP_INTEGER = BUTTON_NO MOD 10000
 
@@ -601,9 +573,8 @@ NUM_TO_ARR:
     NO_0 =  TEMP_INTEGER
 
     RETURN
-    '************************************************
+'************************************************
 Number_Play: '  BUTTON_NO = 숫자대입
-
 
     GOSUB NUM_TO_ARR
 
@@ -633,13 +604,8 @@ Number_Play: '  BUTTON_NO = 숫자대입
     '    GOSUB SOUND_PLAY_CHK
     RETURN
     '************************************************
-
     RETURN
-
-
-    '******************************************
-
-    ' ************************************************
+'************************************************
 적외선거리센서확인:
 
     적외선거리값 = AD(적외선AD포트)
@@ -649,10 +615,8 @@ Number_Play: '  BUTTON_NO = 숫자대입
         DELAY 200
     ENDIF
 
-
     RETURN
-
-    '******************************************
+'******************************************
 변수값_음성값출력:
 
     J = AD(적외선AD포트)   '적외선거리값 읽기
@@ -661,10 +625,8 @@ Number_Play: '  BUTTON_NO = 숫자대입
     GOSUB SOUND_PLAY_CHK
     GOSUB GOSUB_RX_EXIT
 
-
     RETURN
-
-    '************************************************  
+'************************************************  
 MAIN: '라벨설정
 
     ETX 4800, 38 ' 동작 멈춤 확인 송신 값
@@ -708,56 +670,58 @@ MAIN_2:
 '*******************************************
 '      MAIN 라벨로 가기
 '*******************************************
+'실험
 KEY1:
     ETX  4800,1
     GOTO 좌어드레스
     GOTO RX_EXIT 
 KEY2:
     ETX  4800,2
-    GOTO 좌추후퍼팅
+    GOTO 좌추후퍼팅1
     GOTO RX_EXIT
 KEY3:
     ETX  4800,3
-    'GOTO 오른쪽턴5_골프
+    GOTO 좌추후퍼팅2
     GOTO RX_EXIT
 KEY4:
     ETX  4800,4
-    'GOTO 왼쪽턴10_골프
+    GOTO 왼쪽턴5
     GOTO RX_EXIT
 KEY5:
     ETX  4800,5
-    'GOSUB 골프_오른쪽으로_샷1
+    GOSUB 왼쪽턴10
     GOTO RX_EXIT
 KEY6:
     ETX  4800,6
-    'GOTO 오른쪽턴10_골프
+    GOTO 왼쪽턴20
     GOTO RX_EXIT
 KEY7:
     ETX  4800,7
-    'GOTO 왼쪽턴20_골프
+    GOTO 왼쪽턴45
     GOTO RX_EXIT
 KEY8:
     ETX  4800,8
+    GOTO 왼쪽턴60
     GOTO RX_EXIT
 KEY9:
     ETX  4800,9
-    'GOTO 오른쪽턴20_골프
+    GOTO 오른쪽턴5
     GOTO RX_EXIT
 KEY10: '0
     ETX  4800,10
-    'GOTO 전진종종걸음_골프
+    GOTO 오른쪽턴10
     GOTO RX_EXIT
 KEY11: ' ▲
     ETX  4800,11
-    'GOTO 연속전진_골프
+    GOTO 오른쪽턴20
     GOTO RX_EXIT
 KEY12: ' ▼
     ETX  4800,12
-    'GOTO 연속후진_골프
+    GOTO 오른쪽턴45
     GOTO RX_EXIT
 KEY13: '▶
     ETX  4800,13
-    'GOTO 오른쪽옆으로70연속_골프
+    GOTO 오른쪽턴60
     GOTO RX_EXIT
 KEY14: ' ◀
     ETX  4800,14
@@ -868,7 +832,7 @@ KEY26: ' ■
     SPEED 5
     GOSUB 기본자세2   
     TEMPO 220
-    MUSIC "ff"
+    'MUSIC "ff"
     GOSUB 기본자세
     GOTO RX_EXIT
 KEY27: ' D
@@ -1403,7 +1367,7 @@ KEY178:
     GOTO RX_EXIT
 KEY179:
     ETX 4800,179
-    GOTO 좌퍼팅5      '세게 치기
+    GOTO 좌홀인용톡치기      '세게 치기
     GOTO RX_EXIT
 '####### --------------------- KEY180 만세
 KEY180:
@@ -1590,9 +1554,8 @@ KEY180:
     RETURN
 
 '### ------------------- 좌퍼팅 함수 ------------------- ###
-
 좌퍼팅1:
-    CONST 골프채높이 = 135
+    GOSUB All_motor_mode3
 
     SPEED 8
     MOVE G6A,97,  76, 145,  93, 100, 100
@@ -1606,136 +1569,115 @@ KEY180:
 
     DELAY 400
 
-    MOVE G6C,135,  40,  90, 10
+    'MOVE G6C,135,  40,  90, 10
     WAIT
 
-    '******* 퍼팅강도 ******
-    SPEED 2
-    MOVE G6C,135,  10,  70, 10
-    WAIT
-    DELAY 1000
-    '*********************
+   SPEED 6
+        MOVE G6C,135,  10,  80, 10
+        WAIT
+        DELAY 1000
 
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
-    WAIT
+		SPEED 8
+        MOVE G6C,135,  100,  10, 10
+        WAIT
 
-    MOVE G6C,135,  50,  60, 190
-    WAIT
+        MOVE G6C,135,  50,  60, 190
+        WAIT
+	
 
     GOSUB 기본자세
     RETURN
+    GOTO RX_EXIT
 '----------------------------------------
 좌퍼팅2:
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,150,  100,  10, 10
-    WAIT
-    MOVE G6C,135,  20,  90, 10
-    WAIT
-    DELAY 400
-    MOVE G6C,135,  40,  90, 10
-    WAIT
-    '******* 퍼팅강도 ******
-    SPEED 4
-    MOVE G6C,135,  10,  70, 10
-    WAIT
-    DELAY 1000
-    '*********************
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
-    WAIT
-    MOVE G6C,135,  50,  60, 190
-    WAIT
-    GOSUB 기본자세
-    RETURN
-'----------------------------------------
+   GOSUB All_motor_mode3
 
-좌퍼팅3:
     SPEED 8
     MOVE G6A,97,  76, 145,  93, 100, 100
     MOVE G6D,97,  76, 145,  93, 100, 100
     MOVE G6B,100,  35,  90,
     MOVE G6C,150,  100,  10, 10
     WAIT
+
     MOVE G6C,135,  20,  90, 10
     WAIT
     DELAY 400
-    MOVE G6C,135,  40,  90, 10
-    WAIT
-    '******* 퍼팅강도 ******
     SPEED 6
-    MOVE G6C,135,  10,  70, 10
-    WAIT
-    DELAY 1000
-    '*********************
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
-    WAIT
-    MOVE G6C,135,  50,  60, 190
-    WAIT
+        MOVE G6C,135,  10,  70, 25
+        WAIT
+        DELAY 1000
+
+		SPEED 8
+        MOVE G6C,135,  100,  10, 10
+        WAIT
+
+        MOVE G6C,135,  50,  60, 190
+        WAIT
     GOSUB 기본자세
     RETURN
+    GOTO RX_EXIT
 '----------------------------------------
+좌퍼팅3:
+    GOSUB All_motor_mode3
+    SPEED 8
+    MOVE G6A,97,  76, 145,  93, 100, 100
+    MOVE G6D,97,  76, 145,  93, 100, 100
+    MOVE G6B,100,  35,  90,
+    MOVE G6C,150,  100,  10, 10
+    WAIT
 
+    MOVE G6C,135,  20,  90, 10
+    WAIT
+    DELAY 400
+    SPEED 9
+        MOVE G6C,135,  10,  60, 25
+        WAIT
+        DELAY 1000
+
+		SPEED 8
+        MOVE G6C,135,  100,  10, 10
+        WAIT
+
+        MOVE G6C,135,  50,  60, 190
+        WAIT
+    
+    GOSUB 기본자세
+    RETURN
+    GOTO RX_EXIT
+'----------------------------------------
 좌퍼팅4:
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,150,  100,  10, 10
-    WAIT
-    MOVE G6C,135,  20,  90, 10
-    WAIT
-    DELAY 400
-    MOVE G6C,135,  40,  90, 10
-    WAIT
-    '******* 퍼팅강도 ******
-    SPEED 8
-    MOVE G6C,135,  10,  70, 10
-    WAIT
-    DELAY 1000
-    '*********************
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
-    WAIT
-    MOVE G6C,135,  50,  60, 190
-    WAIT
-    GOSUB 기본자세
+    MUSIC "cdg"
     RETURN
+    GOTO RX_EXIT
 '----------------------------------------
+좌홀인용톡치기:
+    GOSUB All_motor_mode3
 
-좌퍼팅5:
     SPEED 8
     MOVE G6A,97,  76, 145,  93, 100, 100
     MOVE G6D,97,  76, 145,  93, 100, 100
     MOVE G6B,100,  35,  90,
     MOVE G6C,150,  100,  10, 10
     WAIT
+
     MOVE G6C,135,  20,  90, 10
     WAIT
-    DELAY 400
-    MOVE G6C,135,  40,  90, 10
-    WAIT
-    '******* 퍼팅강도 ******
-    SPEED 10
-    MOVE G6C,135,  10,  70, 10
-    WAIT
-    DELAY 1000
-    '********************
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
-    WAIT
-    MOVE G6C,135,  50,  60, 190
-    WAIT
-    GOSUB 기본자세
-    RETURN
+    
+		SPEED 6
+        MOVE G6C,135,  20,  85, 10
+        WAIT
+        DELAY 1000
 
+		SPEED 8
+        MOVE G6C,135,  100,  10, 10
+        WAIT
+
+        MOVE G6C,135,  50,  60, 190
+        WAIT
+
+        GOSUB 기본자세
+    GOTO RX_EXIT
 '#### --------------어드레스 및 추후퍼팅 함수 ------------------- ####
-'아직 모션 번호 부여 안했고 함수만 만들어놓음 우어드레스도 아직 구현안함(필요하면 만들기)
-
 DIM 어드레스스위치 AS BYTE
 어드레스스위치 = 0
 
@@ -1753,31 +1695,110 @@ DIM 어드레스스위치 AS BYTE
     WAIT
 
     어드레스스위치 = 1
-
     GOTO RX_EXIT
 '----------------------------------------
-
-좌추후퍼팅:
+좌추후퍼팅1:
     IF 어드레스스위치 = 1 THEN
-	SPEED 6
-        MOVE G6C,135,  10,  70, 35
+		SPEED 6
+        MOVE G6C,135,  10,  80, 10
         WAIT
         DELAY 1000
 
-	SPEED 8
+		SPEED 8
         MOVE G6C,135,  100,  10, 10
         WAIT
 
         MOVE G6C,135,  50,  60, 190
         WAIT
 	
-	어드레스스위치=0
+		어드레스스위치=0
 
         GOSUB 기본자세
-
-        'RETURN
     ELSE
-	어드레스스위치=0
+		어드레스스위치=0
+    ENDIF
+    GOTO RX_EXIT
+    
+좌추후퍼팅2:
+    IF 어드레스스위치 = 1 THEN
+		SPEED 6
+        MOVE G6C,135,  10,  70, 25
+        WAIT
+        DELAY 1000
+
+		SPEED 8
+        MOVE G6C,135,  100,  10, 10
+        WAIT
+
+        MOVE G6C,135,  50,  60, 190
+        WAIT
+	
+		어드레스스위치=0
+
+        GOSUB 기본자세
+    ELSE
+		어드레스스위치=0
+    ENDIF
+    GOTO RX_EXIT   
+    
+좌추후퍼팅3:
+    IF 어드레스스위치 = 1 THEN
+		SPEED 9
+        MOVE G6C,135,  10,  60, 25
+        WAIT
+        DELAY 1000
+
+		SPEED 8
+        MOVE G6C,135,  100,  10, 10
+        WAIT
+
+        MOVE G6C,135,  50,  60, 190
+        WAIT
+	
+		어드레스스위치=0
+
+        GOSUB 기본자세
+    ELSE
+		어드레스스위치=0
+    ENDIF
+    GOTO RX_EXIT  
+'--------------------------------------------------------
+우어드레스:
+    GOSUB All_motor_mode3
+
+    SPEED 8
+    MOVE G6A,97,  76, 145,  93, 100, 100
+    MOVE G6D,97,  76, 145,  93, 100, 100
+    MOVE G6B,100,  35,  90,
+    MOVE G6C,150,  100,  10, 10
+    WAIT
+
+    MOVE G6C,135,  40,  40, 10
+    WAIT
+
+    MOVE G6C,135,  10,  80, 10
+    WAIT
+
+    어드레스스위치 = 1
+    GOTO RX_EXIT
+'----------------------------------------
+우추후퍼팅:
+    IF 어드레스스위치 = 1 THEN
+		SPEED 6
+    	MOVE G6C,140,  30,  100, 10
+    	WAIT
+   		DELAY 1000
+
+		SPEED 8
+
+        MOVE G6C,135,  50,  60, 190
+       	WAIT
+	
+		어드레스스위치=0
+
+        GOSUB 기본자세
+    ELSE
+		어드레스스위치=0
     ENDIF
     GOTO RX_EXIT
 '-----------------------------------------------------------------------
@@ -1787,7 +1808,6 @@ DIM 어드레스스위치 AS BYTE
 '걷기 스텝: 오른쪽으로 기울기 -> 왼발 들기 -> 왼발 뻗고 착지 -> 왼발 중심 이동 -> 오른발 들기 -> 오른발 뻗고 착지
 
 '#########  ------------------------------ 전진/후진종종걸음 #############
-
 전진종종걸음:
     GOSUB All_motor_mode3
     보행COUNT = 0
@@ -2490,3 +2510,11 @@ DIM 어드레스스위치 AS BYTE
     GOSUB 기본자세
     GOSUB All_motor_Reset
     GOTO RX_EXIT
+    
+
+공치기자세:
+    GOSUB 기본자세
+    GOSUB All_motor_Reset
+    GOTO RX_EXIT
+	
+'and commit test
