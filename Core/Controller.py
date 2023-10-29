@@ -131,8 +131,8 @@ class Controller:
             
             #big_ud_head
             is_ball_hole_oneframe = robo._image_processor.ball_hole_oneframe()
-
-            if is_ball_hole_oneframe ==False:
+    
+            if is_ball_hole_oneframe == False:
                 # big ud head를 수행해라 아래 코드 고쳐야함
                 while True:
                     ## 원래 공, 홀컵 둘다 검출해야함
