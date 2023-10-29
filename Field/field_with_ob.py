@@ -68,6 +68,7 @@ while cap.isOpened():
     right_black_area = cv2.countNonZero(cv2.inRange(right_half, (0, 0, 0), (0, 0, 0)))
 
     # 블랙 넓이에 따라 'go right' 또는 'go left'를 출력합니다.
+    # 왼오 넓이 비슷할때, go left하기위해 +1000 정도 오차 범위 넣음 -> 추후 수정
     if left_black_area +1000 >= right_black_area:
         result = 'go left'
     else:
