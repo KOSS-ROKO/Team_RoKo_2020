@@ -34,7 +34,7 @@ class Distance:
         # 초점 거리(f) 계산
         if w is not None:
             d = (W * f) / w
-            print("--- holecup_distance :", d)
+            print("--- ball_distance :", d)
             return d
 
     
