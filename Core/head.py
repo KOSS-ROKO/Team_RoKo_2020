@@ -7,7 +7,7 @@ class Head:
         pass
         
     robo = Robo()
-    big_lr_angle = 0
+    big_lr_angle = 100
     small_lr_angle = 0
     big_ud_angle = 0
     small_ud_angle = 0
@@ -37,15 +37,16 @@ class Head:
             # 패닝 틸팅? or 걷기?
             # 고개 각도 크게 돌리기, Find ball과 다름
             if max_right_flag == 0:
-                robo._motion.head("right") ################# 3도보단 큰 각으로
-                big_lr_angle += 10 # 10은 임의 값
-                if big_lr_angle == max(): # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                robo._motion.head("RIGHT", 30) ################# 3도보단 큰 각으로
+                big_lr_angle += 30 # 10은 임의 값
+                if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_right_flag = 1
-                    big_lr_angle = 0
-                    # 고개 정면(default)로 돌려놓기                        
+                    big_lr_angle = 100
+                    robo._motion.head("DEFAULT",2)  # 고개 정면(default)로 돌려놓기  
+
             elif max_right_flag == 1:
-                robo._motion.head("left") ################# 3도보단 큰 각으로
-                big_lr_angle -= 10 # 10은 임의 값
+                robo._motion.head("LEFT", 30) ################# 3도보단 큰 각으로
+                big_lr_angle -= 30 # 10은 임의 값
             return check, big_lr_angle
                 
     def small_LR_head(self, detect_object, small_lr_angle):
@@ -58,19 +59,19 @@ class Head:
 
         if check == "stop":
             # 공을 화면 중앙에 오도록 만드는 고개 각도 small_angle 만큼 몸 돌리기
-            if small_lr_angle > 0:
-                robo._motion.turn("right")
-            elif small_lr_angle < 0:
-                robo._motion.turn("left")
+            if small_lr_angle > 100:
+                robo._motion.turn("RIGHT",10)
+            elif small_lr_angle < 100:
+                robo._motion.turn("LEFT",10)
                             
             return True, small_lr_angle
             
-        elif check == "go right":
-            robo._motion.head("right") ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
+        elif check == "right":
+            robo._motion.head("RIGHT", 3) ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
             small_lr_angle += 3    
             return False, small_lr_angle                
-        elif check == "go left":
-            robo._motion.head("left") ################# 고개 왼쪽으로 돌리는 모션
+        elif check == "left":
+            robo._motion.head("LEFT", 3) ################# 고개 왼쪽으로 돌리는 모션
             small_lr_angle -= 3
             return False, small_lr_angle
         

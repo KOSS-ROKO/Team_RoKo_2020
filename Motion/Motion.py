@@ -106,31 +106,22 @@ class Motion:
         RIGHT:{30,45,60,90}
         }
         """
-        if dir == 'DOWN':
-            self.head_angle1 = angle
-        elif dir == 'LEFT' or dir == 'RIGHT':
-            self.head_angle2 = angle
-        elif dir == 'UPDOWN_CENTER':
-            self.head_angle1 = dir
-        elif dir == 'LEFTRIGHT_CENTER':
-            self.head_angle2 = dir
-        center_list = {'UPDOWN_CENTER': 140, 'LEFTRIGHT_CENTER': 135}
         dir_list = {
             'DOWN': {
-                20: 121, 30: 122, 45: 123, 50: 124, 60: 125, 70: 126, 80: 127, 90: 128, 100: 129, 110: 130
+                3: 124, 6: 125, 9: 126, 30: 127
             },
             'LEFT': {
-                30: 134, 45: 133, 60: 132, 90: 131
+                3: 134, 6: 135, 30: 136,
             },
             'RIGHT': {
-                30: 136, 45: 137, 60: 138, 90: 139
+                3: 138, 6: 139, 30: 140
+            },
+            'DEFAULT':{
+                1: 121, 2: 122 #121:상하, 122:좌우
             }
         }
 
-        if dir in center_list:
-            self.TX_data_py2(center_list[dir])
-        else:
-            self.TX_data_py2(dir_list[dir][angle])
+        self.TX_data_py2(dir_list[dir][angle])
         time.sleep(0.3)
 
     # 돌기 (141~160)
@@ -141,18 +132,12 @@ class Motion:
         """
         dir_list = {
             "LEFT": {
-                10: 141, 20: 142, 45: 143, 60: 144
+                5: 156, 10: 157, 20: 158, 45: 159, 60:160
             },
             "RIGHT": {
-                10: 145, 20: 146, 45: 147, 60: 148
+                5: 151, 10: 152, 20: 153, 45: 154, 60:155
             }
         }
-
-        # if arm:
-        #     if dir == "LEFT":
-        #         dir_list[dir][angle] += 7
-        #     elif dir == "RIGHT":
-        #         dir_list[dir][angle] += 6
 
         for _ in range(loop):
             self.TX_data_py2(dir_list[dir][angle])
@@ -178,12 +163,24 @@ class Motion:
             pass
         
     
-    def putting():
-        pass
+    def putting(self, power, dir, sleep=1): 
+        #power:1,2,3,4 // dir: LEFT/RIGHT
+        dir_list = {
+            "LEFT": {
+                1: 175, 2: 176, 3: 177, 4: 178, 5:179
+            },
+            "RIGHT": {
+                1: 170, 2: 171, 3: 172, 4: 173, 5:174
+            }
+        }
+        self.TX_data_py2(dir_list[dir][power])
+
+        time.sleep(sleep)
     
     
     def ceremony():
         pass
+
     
     
             
