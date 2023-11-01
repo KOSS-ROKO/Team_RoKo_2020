@@ -68,12 +68,81 @@ class Controller:
 
 
 
-        if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷
+        if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act)  # Debug
             
-            ################# 처음 티샷 모션 
-            robo._motion.teeshot("")
+            ######## 처음 티샷하기위해 #########
             
+            ######## act == Act.WALK_BALL에 Big UD 추가 ########
+            big_ud_angle = 0                   # 2. 공을 향해 걸어간다
+            big_lr_angle = 0            
+            small_lr_angle = 0
+            small_ud_angle = 0
+
+            ### big UD & LR 할까말까 결정 T / F
+            is_ball = robo._image_processor.detect_ball()
+
+            ### False면, big UD LR 해라
+            if is_ball == False:
+
+                # big UD head
+                while True:
+                    is_object_in_frame, big_ud_temp = Head.big_UD_head("ball", big_ud_angle)
+                    if is_object_in_frame == True:
+                        break
+                    elif is_object_in_frame == False:
+                        big_ud_angle = big_ud_temp
+                        continue
+
+                # big LR head
+                while True:
+                    is_object_in_frame, big_lr_temp = Head.big_LR_head("ball", big_lr_angle)
+                    if is_object_in_frame == True:
+                        break
+                    elif is_object_in_frame == False:
+                        big_lr_angle = big_lr_temp
+                        continue
+                    #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
+                        #Head.big_UD_head()
+                        # 예외처리 : big up down 코드
+                #고개 정면 코드 추가하기
+
+            ### True이거나 Big을 끝냈으면 small로 넘어가라
+               
+            #small lr head
+            while True:
+                is_vertical_middle, small_lr_temp = Head.small_LR_head("ball", small_lr_angle)
+                if is_vertical_middle == True:
+                    break
+                elif is_vertical_middle == False:
+                    small_lr_angle = small_lr_temp
+                    continue
+
+            #small ud head
+            while True:
+                is_horizontal_middle, small_ud_temp = Head.small_LR_head("ball", small_ud_angle)
+                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
+                    act = Act.PUTTING_POS 
+                    break
+                elif is_horizontal_middle == False:
+                    small_ud_angle = small_ud_temp
+                    continue
+
+
+            # 거리 측정 후 걷기
+            robo._motion.walk("FORWARD", 5, 0.1)
+            # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
+            # 걷는 횟수를 loop인자로 넘겨주면 됨.
+
+            ######### 퍼팅 위치에 서고 ########
+            ###### act == Act.PUTTING_POS
+            ###### 원래라면 퍼팅 포즈로 가서 << 원프레임, 스트레이트, 거리 재기 >> 해야하는데
+            ######------------------> 이거 지금 테스트 용으로 바로 퍼팅함
+            ######### 퍼팅한다 ########
+            robo._motion.putting("178", "L")
+            
+
+            # 이 바로 아래모션 좌퍼팅기준으로 썼네..
             # turn body left, 몸을 왼쪽으로 90도 돌림. / 고개는 이미 정면을 바라보고 있음.(바꿀 필요 없단 뜻)
             robo._motion.body_left("")
             
@@ -81,7 +150,7 @@ class Controller:
         
         
         elif act == Act.WALK_BALL: 
-            big_lr_angle = 0            ##### 2. 공을 향해 걸어간다
+            big_lr_angle = 0            ##### 2. 공을 향해 걸어간다 #################
             small_lr_angle = 0
             small_ud_angle = 0
             #big lr head
@@ -123,7 +192,7 @@ class Controller:
             # 걷는 횟수를 loop인자로 넘겨주면 됨.
                 
             
-        elif act == Act.PUTTING_POS:             ##### 3. 퍼팅 위치에 서기
+        elif act == Act.PUTTING_POS:             ##### 3. 퍼팅 위치에 서기 #################
             ###### 홀컵 중앙 맞추기 #######################
             big_lr_angle = 0           
             small_lr_angle = 0
@@ -175,7 +244,7 @@ class Controller:
             
         
         
-        elif act == Act.PUTTING:             ##### 4. 퍼팅
+        elif act == Act.PUTTING:             ##### 4. 퍼팅 #################
             ##################### 2.의 중간 맞추는 코드 가져옴
             ### 거리 알고리즘
             # 홀컵 middle 맞추기
@@ -268,7 +337,7 @@ class Controller:
             
 
         
-        elif act == Act.HOLEIN:             ##### 5. 홀인
+        elif act == Act.HOLEIN:             ##### 5. 홀인 #################
             oneframe = robo._image_processor.ball_hole_oneframe()
             
             if oneframe == True:

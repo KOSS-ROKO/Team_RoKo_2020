@@ -327,6 +327,40 @@ class ImageProcessor:
         # else:
         #     print("go far")
 
+    
+    def middle_lr_holecup():
+        
+        origin = ImageProcessor.get_img()
+        frame = origin.copy()   
+        
+        # 빨간색 객체 추출
+        red_detected = ImageProcessor.detect_holecup(frame)
+        
+
+        # 빨간색 객체 검출 및 위치 계산
+        non_zero_pixels = np.transpose(np.nonzero(red_detected))
+        
+        if non_zero_pixels.size > 0:
+            x_center = non_zero_pixels[:, 1].mean()
+            y_center = non_zero_pixels[:, 0].mean()
+            
+            cell_width = frame.shape[1] // 11
+
+            # 빨간 공이 중앙 세로줄인 6번째 줄에서 검출되면 "stop" 출력
+            if (cell_width * 5 <= x_center <= cell_width * 6):
+                print("stop")
+                return "stop"
+            # 1~5번째 줄에서 검출되면 "go right" 출력
+            elif x_center < cell_width * 5:
+                print("right")
+                return "right"
+            # 7~11번째 줄에서 검출되면 "go left" 출력
+            elif x_center > cell_width * 6:
+                print("left")
+                return "left"
+        # else:
+        #     print("go far")
+        #     return "go far"
 
 
 
