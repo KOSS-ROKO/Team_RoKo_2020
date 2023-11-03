@@ -25,37 +25,37 @@ class Controller:
 
     @classmethod
      ## 거리 측정
-    def distance(object):
-        f = 450
-        while True:
-            is_horizontal_middle, small_ud_temp = Head.small_LR_head(object, small_ud_angle)
-            if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                if object == "holecup":
-                    #### 홀컵 까지의 대략적인 거리 재기 
-                    fake_dist = Distance.holecup_dist(f)
-                    break
-                elif object == "ball":
-                    #### 공 까지의 대략적인 거리 재기
-                    fake_dist = Distance.ball_dist(f)
-                    break
+    # def distance(object):
+    #     f = 450
+    #     while True:
+    #         is_horizontal_middle, small_ud_temp = Head.small_LR_head(object, small_ud_angle)
+    #         if is_horizontal_middle == True: #최종 중앙 맞춰짐 
+    #             if object == "holecup":
+    #                 #### 홀컵 까지의 대략적인 거리 재기 
+    #                 fake_dist = Distance.holecup_dist(f)
+    #                 break
+    #             elif object == "ball":
+    #                 #### 공 까지의 대략적인 거리 재기
+    #                 fake_dist = Distance.ball_dist(f)
+    #                 break
 
-            elif is_horizontal_middle == False:
-                small_ud_angle = small_ud_temp
-                continue
+    #         elif is_horizontal_middle == False:
+    #             small_ud_angle = small_ud_temp
+    #             continue
  
-        # 홀컵 거리 인식에서 f값 결정
-        # 가까운지 먼지
-        if fake_dist >= 50:
-            f = 450
-        else : 
-            f = 270
-        # 홀컵 거리
-        if object == "holecup":
-            holecup_dist = Distance.holecup_dist(f)
-            return holecup_dist
-        else : # object == "ball"
-            ball_dist = Distance.ball_dist(f)
-            return ball_dist
+    #     # 홀컵 거리 인식에서 f값 결정
+    #     # 가까운지 먼지
+    #     if fake_dist >= 50:
+    #         f = 450
+    #     else : 
+    #         f = 270
+    #     # 홀컵 거리
+    #     if object == "holecup":
+    #         holecup_dist = Distance.holecup_dist(f)
+    #         return holecup_dist
+    #     else : # object == "ball"
+    #         ball_dist = Distance.ball_dist(f)
+    #         return ball_dist
     
 
     def start(self):
@@ -135,11 +135,16 @@ class Controller:
                     small_ud_angle = variable.Head_ud_angle
                     continue
 
+            # length = 거리 
+            length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
+            # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
+            #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
+            
+            # 걷는 횟수(loop) = (d - 15) / 한발자국 걷는 센치(5cm)
+            walk_loop = (length -15) / 5
 
             # 거리 측정 후 걷기
-            robo._motion.walk("FORWARD", 5, 0.1)
-            # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
-            # 걷는 횟수를 loop인자로 넘겨주면 됨.
+            robo._motion.walk("FORWARD", walk_loop, 0.1)
 
             ######### 퍼팅 위치에 서고 ########
             ###### act == Act.PUTTING_POS
@@ -149,7 +154,7 @@ class Controller:
             robo._motion.putting("LEFT", 4)
             
 
-            # 이 바로 아래모션 좌퍼팅기준으로 썼네..
+            # 아래 모션 좌퍼팅기준으로 썼네..
             # turn body left, 몸을 왼쪽으로 90도 돌림. / 고개는 이미 정면을 바라보고 있음.(바꿀 필요 없단 뜻)
             robo._motion.turn("LEFT", 60)   # <--고쳐야함. 몸 90도 돌려야하는데 지금 90없어서 60으로함 
             
@@ -193,12 +198,11 @@ class Controller:
                     continue
 
             # length = 거리 
+            length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
             # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
-            length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
-            # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
-            # 걷는 횟수를 loop인자로 넘겨주면 됨.
+            # 걷는 횟수(loop) = (d - 15) / 한발자국 걷는 센치(5cm)
             walk_loop = (length -15) / 5
 
             # 거리 측정 후 걷기
