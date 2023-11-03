@@ -97,7 +97,7 @@ class Controller:
             
                         continue
                     if big_ud_temp == 10:  # 한 사이클이 다 끝남
-                        variable.Head_ud_angle = Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
+                        variable.Head_ud_angle = variable.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
                         robo._motion.head("DEFAULT",1) # 고개 정면(default)로 돌려놓기 
                         go_to = "big_lr"  # LR로 갈지 구분
 
@@ -216,6 +216,15 @@ class Controller:
             small_lr_angle = 0
             small_ud_angle = 0
             
+            #######################
+            #######################
+            # 근데 공을 향해 걷고 나서 big ud는 하는데 왜 small을 안하지?
+            # small을 해서 중앙을 맞춰야 홀 컵 거리를 재는데...
+            # 그냥 straight하는중에 꽃게걸음하다가 중앙에 맞춰져있을거라고 생각한건가?
+            # 아님 252줄에서 거리 알고리즘 실행전에 small해줘야하나
+            #######################
+            #######################
+
             #big_ud_head
             is_ball_hole_oneframe = robo._image_processor.ball_hole_oneframe()
     
@@ -241,16 +250,7 @@ class Controller:
                     # check_straight = robo._image_processor.straight()
                     if check_straight ==True:
                         # 거리 알고리즘 (홀 컵 거리재기)
-                                     
-                        # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
-                        length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
-                        
-                        # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
-                        # 걷는 횟수를 loop인자로 넘겨주면 됨.
-                        walk_loop = (length -15) / 5
-
-                        # 거리 측정 후 걷기
-                        robo._motion.walk("FORWARD", walk_loop, 0.1)
+                            
                         break
                     else :
                         continue
@@ -262,12 +262,19 @@ class Controller:
                 robo._motion.pose("left")
             elif field == "right" :
                 robo._motion.pose("right")
-            ### 거리 알고리즘
+            ############# 거리 알고리즘 #############
             # 홀컵 middle 맞추기
             # 홀컵 거리 재기
+            length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
+            # 이 length를 퍼팅 파워로 바꿔주는 코드 필요 -> 직접해보면서 조절
+            power = length
+            # 그리고 여기서 
+            if length < 20:
+                act = Act.HOLEIN
                
             # 공 middle 맞추기
             # 공 거리 재기 => 15cm 거리 미세조정
+            length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
         
             
         
