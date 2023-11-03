@@ -122,11 +122,11 @@ class Head:
             return True, small_ud_angle
             
         elif direction == "up":
-            robo._motion.head("UP",3) ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
+            robo._motion.head("UP", 3) ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
             small_ud_angle += 3 
             return False, small_ud_angle          
         elif direction == "down":
-            robo._motion.head("DOWN",3) ################# 고개 왼쪽으로 돌리는 모션
+            robo._motion.head("DOWN", 3) ################# 고개 왼쪽으로 돌리는 모션
             small_ud_angle -= 3
             return False, small_ud_angle
         # elif find_ball == "go far": ##예외사항 
@@ -141,11 +141,11 @@ class Head:
         if check == "middle":                            
             return True
         elif check == "right":   ### 찌그째그 걸음으로 오른쪽으로 원그리며 이동
+            robo._motion.walk_side("RIGHT")
             robo._motion.turn("RIGHT", 5)    # 값 조절 필요
-            robo._motion.walk_side("RIGHT", 5)    # 값 조절 필요
             return False               
         elif check == "left":    ## 똑같이 왼쪽으로 이동
-            robo._motion.turn("LEFT", 5)
-            robo._motion.walk_side("RIGHT", 5)    # 값 조절 필요
+            robo._motion.walk_side("LEFT")
+            robo._motion.turn("LEFT", 5)    # 값 조절 필요
             return False
         
