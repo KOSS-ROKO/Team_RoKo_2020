@@ -73,7 +73,7 @@ OUT 52,0   '머리 LED 켜기
 DIM 머리좌우    AS INTEGER
 DIM 머리상하    AS INTEGER
 CONST 좌우영점 = 100
-CONST 상하영점 = 113
+CONST 상하영점 = 95
 머리좌우 = 좌우영점
 머리상하 = 상하영점
 
@@ -1075,11 +1075,13 @@ KEY102:
     GOTO RX_EXIT
 KEY103:
     ETX 4800,103
+    ERX 4800,A,후진기본걸음
+    보행횟수= A
+    GOTO 후진기본걸음
     GOTO RX_EXIT
 KEY104:
     ETX 4800,104
     GOTO RX_EXIT
-    '----------------------------------
 KEY105:
     ETX 4800,105
     GOTO RX_EXIT
@@ -1095,11 +1097,14 @@ KEY108:
 KEY109:
     ETX 4800,109
     GOTO RX_EXIT
+'----------------------------------공치기자세
 KEY110:
     ETX 4800,110
+    GOTO 공치기자세좌 
     GOTO RX_EXIT
 KEY111:
     ETX 4800,111
+    GOTO 공치기자세우 
     GOTO RX_EXIT
 KEY112:
     ETX 4800,112
@@ -2403,40 +2408,144 @@ KEY180:
 
 
 '만들으세요
-공치기자세좌:
+공치기자세우:
     GOSUB 기본자세
     GOSUB All_motor_Reset
     
     FOR i = 1 TO 4
-    	GOTO 오른쪽옆걸음
+        MOTORMODE G6A,3,3,3,3,2
+    	MOTORMODE G6D,3,3,3,3,2
+
+    	SPEED 12
+    	MOVE G6D, 95,  90, 125, 100, 107, 100
+    	MOVE G6A,107,  77, 147,  93, 107 , 100
+    	WAIT
+	
+    	SPEED 12
+    	MOVE G6D, 102,  77, 147, 93, 100, 100
+    	MOVE G6A,90,  80, 140,  95, 107, 100
+    	WAIT
+	
+    	SPEED 12
+    	MOVE G6D,95,  76, 147,  93, 98, 100
+    	MOVE G6A,95,  76, 147,  93, 98, 100
+    	WAIT
+	
+    	SPEED 3
+    	GOSUB 기본자세2
     NEXT i
     
     FOR j = 1 TO 4
-    	GOTO 왼쪽턴45
+	    MOTORMODE G6A,3,3,3,3,2
+	    MOTORMODE G6D,3,3,3,3,2
+	
+    	SPEED 10
+    	MOVE G6A,95,  106, 145,  63, 108, 100
+	    MOVE G6D,91,  46, 145,  123, 102, 100
+	    WAIT
+	
+	    SPEED 12
+	    MOVE G6A,91,  106, 145,  63, 108, 100
+	    MOVE G6D,88,  46, 145,  123, 102, 100
+	    WAIT
+	
+    	SPEED 8
+    	GOSUB 기본자세2
     NEXT j
     
     FOR i = 1 TO 4
-    	GOTO 오른쪽옆걸음
+        MOTORMODE G6A,3,3,3,3,2
+    	MOTORMODE G6D,3,3,3,3,2
+
+    	SPEED 12
+    	MOVE G6D, 95,  90, 125, 100, 107, 100
+    	MOVE G6A,107,  77, 147,  93, 107 , 100
+    	WAIT
+	
+    	SPEED 12
+    	MOVE G6D, 102,  77, 147, 93, 100, 100
+    	MOVE G6A,90,  80, 140,  95, 107, 100
+    	WAIT
+	
+    	SPEED 12
+    	MOVE G6D,95,  76, 147,  93, 98, 100
+    	MOVE G6A,95,  76, 147,  93, 98, 100
+    	WAIT
+	
+    	SPEED 3
+    	GOSUB 기본자세2
     NEXT i
     
     
     GOTO RX_EXIT
     
 '만들어라
-공치기자세우:
+공치기자세좌:
     GOSUB 기본자세
     GOSUB All_motor_Reset
     
     FOR i = 1 TO 4
-    	GOTO 왼쪽옆걸음
+    	MOTORMODE G6A,3,3,3,3,2
+    	MOTORMODE G6D,3,3,3,3,2
+
+    	SPEED 12
+    	MOVE G6A, 95,  90, 125, 100, 104, 100
+    	MOVE G6D,105,  76, 146,  93, 104, 100
+    	WAIT
+
+    	SPEED 12
+    	MOVE G6A, 102,  76, 146, 93, 100, 100
+    	MOVE G6D,90,  80, 140,  95, 107, 100
+    	WAIT
+
+    	SPEED 12
+    	MOVE G6A,95,  76, 146,  93, 98, 100
+    	MOVE G6D,95,  76, 146,  93, 98, 100
+    	WAIT
+
+    	SPEED 3
+    	GOSUB 기본자세2
     NEXT i
     
     FOR j = 1 TO 4
-    	GOTO 오른쪽턴45
+    	MOTORMODE G6A,3,3,3,3,2
+    	MOTORMODE G6D,3,3,3,3,2
+
+    	SPEED 10
+    	MOVE G6A,95,  46, 145,  123, 105, 100
+    	MOVE G6D,95,  106, 145,  63, 105, 100
+    	WAIT
+
+    	SPEED 12
+    	MOVE G6A,93,  46, 145,  123, 105, 100
+    	MOVE G6D,93,  106, 145,  63, 105, 100
+    	WAIT
+
+    	SPEED 8
+    	GOSUB 기본자세2
     NEXT j
     
     FOR i = 1 TO 4
-    	GOTO 왼쪽옆걸음
+    	MOTORMODE G6A,3,3,3,3,2
+    	MOTORMODE G6D,3,3,3,3,2
+
+    	SPEED 12
+    	MOVE G6A, 95,  90, 125, 100, 104, 100
+    	MOVE G6D,105,  76, 146,  93, 104, 100
+    	WAIT
+
+    	SPEED 12
+    	MOVE G6A, 102,  76, 146, 93, 100, 100
+    	MOVE G6D,90,  80, 140,  95, 107, 100
+    	WAIT
+
+    	SPEED 12
+    	MOVE G6A,95,  76, 146,  93, 98, 100
+    	MOVE G6D,95,  76, 146,  93, 98, 100
+    	WAIT
+
+    	SPEED 3
+    	GOSUB 기본자세2
     NEXT i
     
     GOTO RX_EXIT
@@ -2618,7 +2727,6 @@ KEY180:
     GOSUB Leg_motor_mode3
 
 
-
     IF 보행순서 = 0 THEN
         보행순서 = 1
 
@@ -2636,7 +2744,7 @@ KEY180:
         MOVE G6C,110
         WAIT
 
-        GOTO 후진기본걸음1  
+        GOTO 연속후진_골프_1   
     ELSE
         보행순서 = 0
 
@@ -2654,11 +2762,11 @@ KEY180:
         MOVE G6B,110
         WAIT
 
-
-        GOTO 후진기본걸음2
+        GOTO 연속후진_골프_2
 
     ENDIF
-후진기본걸음1:
+
+연속후진_골프_1:
     ETX 4800,12 '진행코드를 보냄
     SPEED 보행속도
 
@@ -2671,13 +2779,11 @@ KEY180:
     MOVE G6A,107,  85, 137,  93,  96
     WAIT
 
-
     GOSUB 앞뒤기울기측정
     IF 넘어진확인 = 1 THEN
         넘어진확인 = 0
         GOTO RX_EXIT
     ENDIF
-
 
     SPEED 11
 
@@ -2711,12 +2817,10 @@ KEY180:
     MOVE G6D,90, 98, 146,  69, 110
     WAIT
 
-
     SPEED 좌우속도
     MOVE G6A, 90,  60, 137, 120, 110
     MOVE G6D,107  85, 137,  93,  96
     WAIT
-
 
     GOSUB 앞뒤기울기측정
     IF 넘어진확인 = 1 THEN
@@ -2724,21 +2828,16 @@ KEY180:
         GOTO RX_EXIT
     ENDIF
 
-
     SPEED 11
     MOVE G6A,90, 90, 120, 105, 110
     MOVE G6D,110,  76, 146,  93,  96
     MOVE G6B, 90
     MOVE G6C,110
     WAIT
-    
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 후진기본걸음_stop
-
 
     ERX 4800,A, 연속후진_골프_1
     IF A <> A_old THEN
-후진기본걸음_stop:
+연속후진_골프_2_EXIT:
         HIGHSPEED SETOFF
         SPEED 5
 
