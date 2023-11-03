@@ -263,18 +263,14 @@ class ImageProcessor:
         
         
     def middle_lr_ball():
-        
-        origin = ImageProcessor.get_img()
-        frame = origin.copy()   
-        
+                
         # 빨간색 객체 추출
         red_point = ImageProcessor.detect_ball("call_midpoint")
         
-
         x_center = red_point[0]
         y_center = red_point[1]
         
-        cell_width = frame.shape[1] // 11
+        cell_width = 640 // 11
 
         # 빨간 공이 중앙 세로줄인 6번째 줄에서 검출되면 "stop" 출력
         if (cell_width * 5 <= x_center <= cell_width * 6):
@@ -295,89 +291,74 @@ class ImageProcessor:
 
 
     def middle_ud_ball():
-        origin = ImageProcessor.get_img()
-        frame = origin.copy()
             
         # 빨간색 객체 추출
-        red_objects = ImageProcessor.detect_ball(frame)
+        red_point = ImageProcessor.detect_ball("call_midpoint")
         
+        x_center = red_point[0]
+        y_center = red_point[1]
+        
+        cell_height = 480 // 11
 
-        # 빨간색 객체 검출 및 위치 계산
-        non_zero_pixels = np.transpose(np.nonzero(red_objects))
-
-        if non_zero_pixels.size > 0:
-            x_center = non_zero_pixels[:, 1].mean()
-            y_center = non_zero_pixels[:, 0].mean()
-            
-            cell_height = frame.shape[0] // 11
-
-            # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-            if (cell_height * 5 <= y_center <= cell_height * 6):
-                return "stop"
-            # 1~5번째 줄에서 검출되면 "go up" 출력
-            elif y_center < cell_height * 5:
-                return "up"
-            # 7~11번째 줄에서 검출되면 "go down" 출력
-            elif y_center > cell_height * 6:
-                return "down"
-        # else:
-        #     print("go far")
+        # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
+        if (cell_height * 5 <= y_center <= cell_height * 6):
+            return "stop"
+        # 1~5번째 줄에서 검출되면 "go up" 출력
+        elif y_center < cell_height * 5:
+            return "up"
+        # 7~11번째 줄에서 검출되면 "go down" 출력
+        elif y_center > cell_height * 6:
+            return "down"
+    # else:
+    #     print("go far")
 
     
     def middle_lr_holecup():
         
-        origin = ImageProcessor.get_img()
-        frame = origin.copy()   
         
         # 빨간색 객체 추출
-        red_detected = ImageProcessor.detect_holecup(frame)
-        
+        red_point = ImageProcessor.detect_holecup("call_midpoint")
 
-        # 빨간색 객체 검출 및 위치 계산
-        non_zero_pixels = np.transpose(np.nonzero(red_detected))
+        x_center = red_point[0]
+        y_center = red_point[1]
         
-        if non_zero_pixels.size > 0:
-            x_center = non_zero_pixels[:, 1].mean()
-            y_center = non_zero_pixels[:, 0].mean()
-            
-            cell_width = frame.shape[1] // 11
+        cell_width = 640 // 11
 
-            # 빨간 공이 중앙 세로줄인 6번째 줄에서 검출되면 "stop" 출력
-            if (cell_width * 5 <= x_center <= cell_width * 6):
-                print("stop")
-                return "stop"
-            # 1~5번째 줄에서 검출되면 "go right" 출력
-            elif x_center < cell_width * 5:
-                print("right")
-                return "right"
-            # 7~11번째 줄에서 검출되면 "go left" 출력
-            elif x_center > cell_width * 6:
-                print("left")
-                return "left"
-        # else:
-        #     print("go far")
-        #     return "go far"
+        # 빨간 공이 중앙 세로줄인 6번째 줄에서 검출되면 "stop" 출력
+        if (cell_width * 5 <= x_center <= cell_width * 6):
+            print("stop")
+            return "stop"
+        # 1~5번째 줄에서 검출되면 "go right" 출력
+        elif x_center < cell_width * 5:
+            print("right")
+            return "right"
+        # 7~11번째 줄에서 검출되면 "go left" 출력
+        elif x_center > cell_width * 6:
+            print("left")
+            return "left"
+    # else:
+    #     print("go far")
+    #     return "go far"
 
 
 
     def middle_ud_holecup():
         
-        origin = ImageProcessor.get_img()
-        frame = origin.copy()
-
-
-        midpoint = ImageProcessor.detect_holecup("call_midpoint")
-        cell_height = frame.shape[0] // 11
+        red_point = ImageProcessor.detect_holecup("call_midpoint")
         
+        x_center = red_point[0]
+        y_center = red_point[1]
+        
+        cell_height = 480 // 11
         
         # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 5 <= midpoint[1] <= cell_height * 6):
+        if (cell_height * 5 <= y_center <= cell_height * 6):
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif midpoint[1] < cell_height * 5:
+        elif y_center < cell_height * 5:
             return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif midpoint[1] > cell_height * 6:
+        elif y_center > cell_height * 6:
             return "down"
         # else:
         #     return "go far"
