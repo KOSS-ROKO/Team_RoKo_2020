@@ -26,10 +26,10 @@ class Head:
         
         if check == True:
             # 공이 화면 안에 들어왔을 경우 big_lr_angle 만큼 몸 돌리기
-            if Controller.big_lr_angle > 0:
-                robo._motion.turn("right")
-            elif big_lr_angle < 0:
-                robo._motion.turn("left")
+            if big_lr_angle > 100:
+                robo._motion.turn("RIGHT", abs(big_lr_angle - 100))
+            elif big_lr_angle < 100:
+                robo._motion.turn("LEFT", abs(big_lr_angle - 100))
 
             return True, big_lr_angle
         
@@ -42,7 +42,7 @@ class Head:
                 if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_right_flag = 1
                     big_lr_angle = 100
-                    robo._motion.head("DEFAULT",2)  # 고개 정면(default)로 돌려놓기  
+                    robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
 
             elif max_right_flag == 1:
                 robo._motion.head("LEFT", 30) ################# 3도보단 큰 각으로
@@ -60,9 +60,9 @@ class Head:
         if check == "stop":
             # 공을 화면 중앙에 오도록 만드는 고개 각도 small_angle 만큼 몸 돌리기
             if small_lr_angle > 100:
-                robo._motion.turn("RIGHT",10)
+                robo._motion.turn("RIGHT", abs(small_lr_angle - 100))
             elif small_lr_angle < 100:
-                robo._motion.turn("LEFT",10)
+                robo._motion.turn("LEFT", abs(small_lr_angle - 100))
                             
             return True, small_lr_angle
             
@@ -140,11 +140,12 @@ class Head:
 
         if check == "middle":                            
             return True
-        
-        elif check == "go right":   ### 찌그째그 걸음으로 오른쪽으로 원그리며 이동
-            robo._motion.turn("right")    # 값 조절 필요
+        elif check == "right":   ### 찌그째그 걸음으로 오른쪽으로 원그리며 이동
+            robo._motion.turn("RIGHT", 5)    # 값 조절 필요
+            robo._motion.walk_side("RIGHT", 5)    # 값 조절 필요
             return False               
-        elif check == "go left":    ## 똑같이 왼쪽으로 이동
-            robo._motion.turn("left")
+        elif check == "left":    ## 똑같이 왼쪽으로 이동
+            robo._motion.turn("LEFT", 5)
+            robo._motion.walk_side("RIGHT", 5)    # 값 조절 필요
             return False
         
