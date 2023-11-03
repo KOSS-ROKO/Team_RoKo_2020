@@ -643,7 +643,6 @@ MAIN_2:
     '**** 입력된 A값이 0 이면 MAIN 라벨로 가고
     '**** 1이면 KEY1 라벨, 2이면 key2로... 가는문
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28,KEY29,KEY30,KEY31,KEY32,KEY33,KEY34,KEY35,KEY36,KEY37,KEY38,KEY39,KEY40,KEY41,KEY42,KEY43,KEY44,KEY45,KEY46,KEY47,KEY48,KEY49,KEY50,KEY51,KEY52,KEY53,KEY54,KEY55,KEY56,KEY57,KEY58,KEY59,KEY60,KEY61,KEY62,KEY63,KEY64,KEY65,KEY66,KEY67,KEY68,KEY69,KEY70,KEY71,KEY72,KEY73,KEY74,KEY75,KEY76,KEY77,KEY78,KEY79,KEY80,KEY81,KEY82,KEY83,KEY84,KEY85,KEY86,KEY87,KEY88,KEY89,KEY90,KEY91,KEY92,KEY93,KEY94,KEY95,KEY96,KEY97,KEY98,KEY99,KEY100,KEY101,KEY102,KEY103,KEY104,KEY105,KEY106,KEY107,KEY108,KEY109,KEY110,KEY111,KEY112,KEY113,KEY114,KEY115,KEY116,KEY117,KEY118,KEY119,KEY120,KEY121,KEY122,KEY123,KEY124,KEY125,KEY126,KEY127,KEY128,KEY129,KEY130,KEY131,KEY132,KEY133,KEY134,KEY135,KEY136,KEY137,KEY138,KEY139,KEY140,KEY141,KEY142,KEY143,KEY144,KEY145,KEY146,KEY147,KEY148,KEY149,KEY150,KEY151,KEY152,KEY153,KEY154,KEY155,KEY156,KEY157,KEY158,KEY159,KEY160,KEY161,KEY162,KEY163,KEY164,KEY165,KEY166,KEY167,KEY168,KEY169,KEY170,KEY171,KEY172,KEY173,KEY174,KEY175,KEY176,KEY177,KEY178,KEY179,KEY180
-    '*****책갈피
 
     IF A > 100 AND A < 110 THEN
         BUTTON_NO = A - 100
@@ -1079,6 +1078,7 @@ KEY103:
     보행횟수= A
     GOTO 후진기본걸음
     GOTO RX_EXIT
+'---------------------------------
 KEY104:
     ETX 4800,104
     GOTO RX_EXIT
@@ -1097,7 +1097,7 @@ KEY108:
 KEY109:
     ETX 4800,109
     GOTO RX_EXIT
-'----------------------------------공치기자세
+'##############--------------공치기자세
 KEY110:
     ETX 4800,110
     GOTO 공치기자세좌 
@@ -1106,6 +1106,7 @@ KEY111:
     ETX 4800,111
     GOTO 공치기자세우 
     GOTO RX_EXIT
+'-------------------------------
 KEY112:
     ETX 4800,112
     GOTO RX_EXIT
@@ -1214,6 +1215,7 @@ KEY140:
     ETX 4800,140
     GOTO 우화각이동
     GOTO RX_EXIT
+'-------------------------------------
 KEY141:
     ETX 4800,141
     GOTO RX_EXIT
@@ -1226,11 +1228,14 @@ KEY143:
 KEY144:
     ETX 4800,144
     GOTO RX_EXIT
+'####-----------------------오른팔무빙
 KEY145:
     ETX 4800,145
+    GOSUB 오른팔내리기
     GOTO RX_EXIT
 KEY146:
     ETX 4800,146
+    GOSUB 오른팔돌아오기
     GOTO RX_EXIT
 KEY147:
     ETX 4800,147
@@ -1285,6 +1290,7 @@ KEY160:
     ETX 4800,160
     GOTO 왼쪽턴60
     GOTO RX_EXIT
+'--------------------------------
 KEY161:
     ETX 4800,161
     GOTO RX_EXIT
@@ -1354,7 +1360,7 @@ KEY178:
     GOTO RX_EXIT
 KEY179:
     ETX 4800,179
-    GOTO 좌홀인용톡치기      '세게 치기
+    GOTO 좌홀인용톡치기
     GOTO RX_EXIT
     '####### --------------------- KEY180 만세
 KEY180:
@@ -1368,11 +1374,11 @@ KEY180:
 '#                                				
 '#---------------------------------------------------------------------------------#
 
-    '-----------------------------------------------------------------------
-    '				# 퍼팅 함수				
-    '-----------------------------------------------------------------------
+'-----------------------------------------------------------------------
+'				# 퍼팅 함수				
+'-----------------------------------------------------------------------
 
-    '### ------------------- 우퍼팅 함수 ------------------- ###
+'### ------------------- 우퍼팅 함수 ------------------- ###
 우퍼팅1:
     SPEED 8
     MOVE G6A,97,  76, 145,  93, 100, 100
@@ -1631,8 +1637,8 @@ KEY180:
     GOTO RX_EXIT
     '----------------------------------------
 좌퍼팅4:
-    MUSIC "cdg"
-    RETURN
+    'MUSIC "cdg"
+    'RETURN
     GOTO RX_EXIT
     '----------------------------------------
 좌홀인용톡치기:
@@ -2551,8 +2557,6 @@ KEY180:
     GOTO RX_EXIT
 
 
-
-
 전진기본걸음:
     보행COUNT = 0
     보행속도 = 13
@@ -2851,5 +2855,15 @@ KEY180:
         GOSUB 기본자세2
         GOTO RX_EXIT
     ENDIF     
-
     GOTO 연속후진_골프_1
+
+
+오른팔내리기:
+	MOVE G6C,100,  30,  80, 190,
+	WAIT
+	RETURN
+	
+오른팔돌아오기:'기본자세 팔로
+	MOVE G6C,100,  30,  80, 190
+	WAIT
+	RETURN	
