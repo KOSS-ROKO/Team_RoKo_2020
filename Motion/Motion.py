@@ -166,7 +166,7 @@ class Motion:
             pass
         
     
-    def putting(self, power, dir, sleep=1): 
+    def putting(self, dir, power, sleep=1): 
         #power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
             "LEFT": {

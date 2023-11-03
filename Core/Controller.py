@@ -145,12 +145,12 @@ class Controller:
             ###### 원래라면 퍼팅 포즈로 가서 << 원프레임, 스트레이트, 거리 재기 >> 해야하는데
             ######------------------> 이거 지금 테스트 용으로 바로 퍼팅함
             ######### 퍼팅한다 ########
-            robo._motion.putting("178", "L")
+            robo._motion.putting("LEFT", 4)
             
 
             # 이 바로 아래모션 좌퍼팅기준으로 썼네..
             # turn body left, 몸을 왼쪽으로 90도 돌림. / 고개는 이미 정면을 바라보고 있음.(바꿀 필요 없단 뜻)
-            robo._motion.body_left("")
+            robo._motion.turn("LEFT", 60)   # <--고쳐야함. 몸 90도 돌려야하는데 지금 90없어서 60으로함 
             
             act = Act.WALK_BALL
         
@@ -195,11 +195,13 @@ class Controller:
             # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
             length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
-            # 거리 측정 후 걷기
-            
-            robo._motion.walk("FORWARD", 5, 0.1)
             # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
             # 걷는 횟수를 loop인자로 넘겨주면 됨.
+            walk_loop = (length -15) / 5
+
+            # 거리 측정 후 걷기
+            robo._motion.walk("FORWARD", walk_loop, 0.1)
+            
                 
             
         elif act == Act.PUTTING_POS:             ##### 3. 퍼팅 위치에 서기 #################
