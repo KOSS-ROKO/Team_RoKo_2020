@@ -156,7 +156,7 @@ class Motion:
         """ parameter :
         dir : {LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 161, "RIGHT": 169}
+        dir_list = {"LEFT": 119, "RIGHT": 118}
         self.TX_data_py2(dir_list[dir])
         time.sleep(0.1)
 
