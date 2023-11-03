@@ -74,7 +74,7 @@ class Controller:
             ######## 처음 티샷하기위해 #########
             
             ######## act == Act.WALK_BALL에 Big UD 추가 ########
-            big_ud_angle = 0                   # 2. 공을 향해 걸어간다
+            big_ud_angle = 100                   # 2. 공을 향해 걸어간다
             big_lr_angle = 100            
             small_lr_angle = 0
             small_ud_angle = 0

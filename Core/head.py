@@ -96,15 +96,15 @@ class Head:
             # 패닝 틸팅? or 걷기?
             # 고개 각도 크게 돌리기, Find ball과 다름
             if max_down_flag == 0:
-                robo._motion.head("down") ################# 3도보단 큰 각으로
-                big_ud_angle += 10 # 10은 임의 값
-                if big_ud_angle == max(): # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                robo._motion.head("DOWN",30) ################# 3도보단 큰 각으로
+                big_ud_angle += 30 # 10은 임의 값
+                if big_ud_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_down_flag = 1
-                    big_ud_angle = 0
-                    # 고개 정면(default)로 돌려놓기                        
+                    big_ud_angle = 100
+                    robo._motion.head("DEFAULT",1)# 고개 정면(default)로 돌려놓기                        
             elif max_down_flag == 1:
-                robo._motion.head("up") ################# 3도보단 큰 각으로
-                big_ud_angle -= 10 # 10은 임의 값
+                robo._motion.head("UP",30) ################# 3도보단 큰 각으로
+                big_ud_angle -= 30 # 30은 임의 값
             return False, big_ud_angle
                 
     def small_UD_head(self, detect_object, small_ud_angle):
@@ -119,11 +119,11 @@ class Head:
             return True, small_ud_angle
             
         elif direction == "up":
-            robo._motion.head("up") ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
+            robo._motion.head("UP",3) ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
             small_ud_angle += 3 
             return False, small_ud_angle          
-        elif direction == "dowm":
-            robo._motion.head("dowm") ################# 고개 왼쪽으로 돌리는 모션
+        elif direction == "down":
+            robo._motion.head("DOWN",3) ################# 고개 왼쪽으로 돌리는 모션
             small_ud_angle -= 3
             return False, small_ud_angle
         # elif find_ball == "go far": ##예외사항 
