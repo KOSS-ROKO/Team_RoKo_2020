@@ -80,22 +80,26 @@ class Motion:
                     self.distance = RX
 
     ############################################################
-    # 기본자세 (100)
+    # 기본자세 (99)
     def basic(self):
-        self.TX_data_py2(100)
+        self.TX_data_py2(99)
+        time.sleep(1.5)
 
     # 걷기 (101~120)
-    def walk(self, dir, loop=1, sleep=0.1, short=False):
+    def walk(self, dir, loop=1, short=False):
         """ parameter :
-        dir : {FORWARD, BACKWARD}
+        dir : {'JFORWARD', 'JBACKWARD', FORWARD, BACKWARD}
         """
-        dir_list = {'FORWARD': 101, "BACKWARD": 111}
-        if short:
-            dir_list[dir] += 1
+        # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
+        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103}
 
-        for _ in range(loop):
-            self.TX_data_py2(dir_list[dir])
-            time.sleep(sleep)
+        if dir in ['JFORWARD', 'JBACKWARD']:
+            self.TX_data_py2(dir_list[dir]), self.TX_data_py2(loop)
+            time.sleep(0.1*loop)
+        else:
+            self.TX_data_py2(dir_list[dir]), self.TX_data_py2(loop)
+            time.sleep(1*loop)
+
 
     # 머리 각도 (121~140)
     def head(self, dir, angle=0):
@@ -107,44 +111,44 @@ class Motion:
         }
         """
         dir_list = {
-            'DOWN': {
-                3: 124, 6: 125, 9: 126, 30: 127
-            },
-            'UP' : {
-                3: 129, 6: 130, 9: 131, 30: 132 # 포트번호 수정 
-            },
-            'LEFT': {
-                3: 134, 6: 135, 30: 136,
-            },
-            'RIGHT': {
-                3: 138, 6: 139, 30: 140
-            },
-            'DEFAULT':{
-                1: 121, 2: 122 #121:상하, 122:좌우
-            }
+            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127 },
+            'UP' : { 3: 129, 6: 130, 9: 131, 30: 132 },
+            'LEFT': { 3: 134, 6: 135, 30: 136 },
+            'RIGHT': { 3: 138, 6: 139, 30: 140 },
+            'DEFAULT': { 1: 121, 2: 122 }
         }
-
         self.TX_data_py2(dir_list[dir][angle])
         time.sleep(0.3)
 
     # 돌기 (141~160)
     # 값 조절 필요
-    def turn(self, dir, angle, loop=1, sleep=0.5, arm=False):
+    def turn(self, dir, angle=0, loop=1, sleep=0.5, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
         dir_list = {
-            "RIGHT": {
-                5: 156, 10: 157, 20: 158, 45: 159, 60:160
-            },
-            "LEFT": {
-                5: 151, 10: 152, 20: 153, 45: 154, 60:155
-            }
+            "LEFT": {45: 159, 20: 158, 10: 157, 5: 156},
+            "RIGHT": {45: 154, 20: 153, 10: 152, 5: 151}
         }
 
-        for _ in range(loop):
-            self.TX_data_py2(dir_list[dir][angle])
-            time.sleep(sleep)
+        while angle > 0:
+            angles = list(dir_list[dir].keys())
+            angles.sort(reverse=True)
+            for a in angles:
+                if angle >= a:
+                    print(f"Rotating {dir} by {a} degrees. {angle}")
+                    self.TX_data_py2(dir_list[dir][a])
+                    time.sleep(sleep)
+                    angle -= a
+                    break
+            if angle<5 and angle>2.5:
+                print(f"Rotating {dir} by {a} degrees. {angle}")
+                self.TX_data_py2(dir_list[dir][a])
+                time.sleep(sleep)
+                angle -= 5
+            if angle<2.5:  
+                print(f"Angle too small to rotate further. {angle}")
+                break
 
 
     # 옆으로 이동 (161~170)
@@ -154,38 +158,40 @@ class Motion:
         """
         dir_list = {"LEFT": 161, "RIGHT": 169}
         self.TX_data_py2(dir_list[dir])
+        time.sleep(0.1)
 
 
 
     #퍼팅 위치에 서기 
-    def pose(dir):
-        #pose_list = {'A': 207, 'B': 208, 'C': 209, 'D': 210}
+    def pose(self,dir):
+        # dir = ["left", "right"]
         if dir=="left":
-            pass
+            self.TX_data_py2(110)
+            time.sleep(10)
         else:
-            pass
+            self.TX_data_py2(111)
+            time.sleep(10)            
         
     
     def putting(self, dir, power, sleep=1): 
-        #power:1,2,3,4 // dir: LEFT/RIGHT
+        # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
-            "LEFT": {
-                1: 175, 2: 176, 3: 177, 4: 178, 5:179
-            },
-            "RIGHT": {
-                1: 170, 2: 171, 3: 172, 4: 173, 5:174
-            }
+            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
+            "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
         }
         self.TX_data_py2(dir_list[dir][power])
-
         time.sleep(sleep)
     
-    
-    def ceremony():
-        pass
+    def ceremony(self):
+        self.TX_data_py2(180)
+        time.sleep(2)
 
-    
-    
+    def Rarm(self, dir): #오른쪽 팔
+        dir_list = {'DOWN':145 ,'RESET':146}
+
+        self.TX_data_py2(dir_list[dir])
+        time.sleep(2)
+
             
 
     ############################################################
