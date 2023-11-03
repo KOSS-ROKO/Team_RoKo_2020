@@ -89,14 +89,15 @@ class Controller:
 
                 # big UD head
                 while True:
-                    is_object_in_frame, big_ud_temp = Head.big_UD_head("ball", big_ud_angle)
+                    is_object_in_frame, variable.Head_ud_angle = Head.big_UD_head("ball", big_ud_angle)
                     if is_object_in_frame == True:
                         break
                     elif is_object_in_frame == False:
-                        big_ud_angle = big_ud_temp
+                        big_ud_angle = variable.Head_ud_angle
+            
                         continue
                     if big_ud_temp == 10:  # 한 사이클이 다 끝남
-                        big_ud_angle = 100
+                        variable.Head_ud_angle = Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
                         robo._motion.head("DEFAULT",1) # 고개 정면(default)로 돌려놓기 
                         go_to = "big_lr"  # LR로 갈지 구분
 
@@ -126,12 +127,12 @@ class Controller:
 
             #small ud head
             while True:
-                is_horizontal_middle, small_ud_temp = Head.small_LR_head("ball", small_ud_angle)
+                is_horizontal_middle, variable.Head_ud_angle = Head.small_LR_head("ball", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     act = Act.PUTTING_POS 
                     break
                 elif is_horizontal_middle == False:
-                    small_ud_angle = small_ud_temp
+                    small_ud_angle = variable.Head_ud_angle
                     continue
 
 
@@ -194,6 +195,7 @@ class Controller:
             # length = 거리 
             # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
             length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
+            #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
             # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
             # 걷는 횟수를 loop인자로 넘겨주면 됨.
@@ -235,6 +237,16 @@ class Controller:
                     # check_straight = robo._image_processor.straight()
                     if check_straight ==True:
                         # 거리 알고리즘 (홀 컵 거리재기)
+                                     
+                        # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
+                        length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
+                        
+                        # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
+                        # 걷는 횟수를 loop인자로 넘겨주면 됨.
+                        walk_loop = (length -15) / 5
+
+                        # 거리 측정 후 걷기
+                        robo._motion.walk("FORWARD", walk_loop, 0.1)
                         break
                     else :
                         continue
