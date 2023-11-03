@@ -79,6 +79,7 @@ class Controller:
             big_lr_angle = 100            
             small_lr_angle = 0
             small_ud_angle = 0
+            go_to = "small"
 
             ### big UD & LR 할까말까 결정 T / F
             is_ball = robo._image_processor.detect_ball()
@@ -94,22 +95,26 @@ class Controller:
                     elif is_object_in_frame == False:
                         big_ud_angle = big_ud_temp
                         continue
+                    if big_ud_temp == 10:  # 한 사이클이 다 끝남
+                        big_ud_angle = 100
+                        robo._motion.head("DEFAULT",1) # 고개 정면(default)로 돌려놓기 
+                        go_to = "big_lr"  # LR로 갈지 구분
 
-                # big LR head
-                while True:
-                    is_object_in_frame, big_lr_temp = Head.big_LR_head("ball", big_lr_angle)
-                    if is_object_in_frame == True:
-                        break
-                    elif is_object_in_frame == False:
-                        big_lr_angle = big_lr_temp
-                        continue
-                    #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
-                        #Head.big_UD_head()
-                        # 예외처리 : big up down 코드
-                #고개 정면 코드 추가하기
+                if go_to == "big_lr" :
+                    # big LR head
+                    while True:
+                        is_object_in_frame, big_lr_temp = Head.big_LR_head("ball", big_lr_angle)
+                        if is_object_in_frame == True:
+                            break
+                        elif is_object_in_frame == False:
+                            big_lr_angle = big_lr_temp
+                            continue
+                        #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
+                            #Head.big_UD_head()
+                            # 예외처리 : big up down 코드
+                    #고개 정면 코드 추가하기
 
-            ### True이거나 Big을 끝냈으면 small로 넘어가라
-               
+            ### True이거나 Big을 끝냈으면 small로 넘어가라  
             #small lr head
             while True:
                 is_vertical_middle, small_lr_temp = Head.small_LR_head("ball", small_lr_angle)

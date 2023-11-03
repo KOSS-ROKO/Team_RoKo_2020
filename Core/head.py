@@ -101,10 +101,13 @@ class Head:
                 if big_ud_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_down_flag = 1
                     big_ud_angle = 100
-                    robo._motion.head("DEFAULT",1)# 고개 정면(default)로 돌려놓기                        
+                    robo._motion.head("DEFAULT",1)# 고개 정면(default)로 돌려놓기  
+
             elif max_down_flag == 1:
                 robo._motion.head("UP",30) ################# 3도보단 큰 각으로
                 big_ud_angle -= 30 # 30은 임의 값
+                #컨트롤러에서 하기로 함 if big_ud_angle == 10 :
+                    
             return False, big_ud_angle
                 
     def small_UD_head(self, detect_object, small_ud_angle):
