@@ -5,6 +5,7 @@ from Robo import Robo
 from head import Head
 from Vision.Distance import Distance
 from Motion.Motion import Motion
+import variable
 
 class Act:
     
@@ -185,8 +186,12 @@ class Controller:
                     small_ud_angle = small_ud_temp
                     continue
 
-
+            # length = 거리 
+            # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
+            length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
+            
             # 거리 측정 후 걷기
+            
             robo._motion.walk("FORWARD", 5, 0.1)
             # 걷는 횟수 = (d - 15) / 한발자국 걷는 센치(5cm)
             # 걷는 횟수를 loop인자로 넘겨주면 됨.
