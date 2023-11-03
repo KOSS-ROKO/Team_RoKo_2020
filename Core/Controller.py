@@ -23,41 +23,7 @@ class Controller:
     robo = Robo()
     act  = Act.TEESHOT
 
-    @classmethod
-     ## 거리 측정
-    # def distance(object):
-    #     f = 450
-    #     while True:
-    #         is_horizontal_middle, small_ud_temp = Head.small_LR_head(object, small_ud_angle)
-    #         if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-    #             if object == "holecup":
-    #                 #### 홀컵 까지의 대략적인 거리 재기 
-    #                 fake_dist = Distance.holecup_dist(f)
-    #                 break
-    #             elif object == "ball":
-    #                 #### 공 까지의 대략적인 거리 재기
-    #                 fake_dist = Distance.ball_dist(f)
-    #                 break
-
-    #         elif is_horizontal_middle == False:
-    #             small_ud_angle = small_ud_temp
-    #             continue
- 
-    #     # 홀컵 거리 인식에서 f값 결정
-    #     # 가까운지 먼지
-    #     if fake_dist >= 50:
-    #         f = 450
-    #     else : 
-    #         f = 270
-    #     # 홀컵 거리
-    #     if object == "holecup":
-    #         holecup_dist = Distance.holecup_dist(f)
-    #         return holecup_dist
-    #     else : # object == "ball"
-    #         ball_dist = Distance.ball_dist(f)
-    #         return ball_dist
-    
-
+    @classmethod  
     def start(self):
         # 정해진 파워로 한번 퍼팅.
         act = self.act
@@ -66,16 +32,17 @@ class Controller:
         max_right_flag = 0 ##위치 수정 필요 
         is_object_in_frame = False
         object_vertical_middle = False
-
-
-
+        
+        head = Head()
+        
+        
         if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act)  # Debug
             
             ######## 처음 티샷하기위해 #########
             
             ######## act == Act.WALK_BALL에 Big UD 추가 ########
-            big_ud_angle = 100                   # 2. 공을 향해 걸어간다
+            big_ud_angle = 100
             big_lr_angle = 100            
             small_lr_angle = 0
             small_ud_angle = 0
@@ -89,7 +56,7 @@ class Controller:
 
                 # big UD head
                 while True:
-                    is_object_in_frame, variable.Head_ud_angle = Head.big_UD_head("ball", big_ud_angle)
+                    is_object_in_frame, variable.Head_ud_angle = head.big_UD_head("ball", big_ud_angle)
                     if is_object_in_frame == True:
                         break
                     elif is_object_in_frame == False:
@@ -104,21 +71,21 @@ class Controller:
                 if go_to == "big_lr" :
                     # big LR head
                     while True:
-                        is_object_in_frame, big_lr_temp = Head.big_LR_head("ball", big_lr_angle)
+                        is_object_in_frame, big_lr_temp = head.big_LR_head("ball", big_lr_angle)
                         if is_object_in_frame == True:
                             break
                         elif is_object_in_frame == False:
                             big_lr_angle = big_lr_temp
                             continue
                         #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
-                            #Head.big_UD_head()
+                            #head.big_UD_head()
                             # 예외처리 : big up down 코드
                     #고개 정면 코드 추가하기
 
             ### True이거나 Big을 끝냈으면 small로 넘어가라  
             #small lr head
             while True:
-                is_vertical_middle, small_lr_temp = Head.small_LR_head("ball", small_lr_angle)
+                is_vertical_middle, small_lr_temp = head.small_LR_head("ball", small_lr_angle)
                 if is_vertical_middle == True:
                     break
                 elif is_vertical_middle == False:
@@ -127,7 +94,7 @@ class Controller:
 
             #small ud head
             while True:
-                is_horizontal_middle, variable.Head_ud_angle = Head.small_UD_head("ball", small_ud_angle)
+                is_horizontal_middle, variable.Head_ud_angle = head.small_UD_head("ball", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     act = Act.PUTTING_POS 
                     break
@@ -167,20 +134,20 @@ class Controller:
             small_ud_angle = 0
             #big lr head
             while True:
-                is_object_in_frame, big_lr_temp = Head.big_LR_head("ball", big_lr_angle)
+                is_object_in_frame, big_lr_temp = head.big_LR_head("ball", big_lr_angle)
                 if is_object_in_frame == True:
                     break
                 elif is_object_in_frame == False:
                     big_lr_angle = big_lr_temp
                     continue
                 #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
-                    #Head.big_UD_head()
+                    #head.big_UD_head()
                     # 예외처리 : big up down 코드
             #고개 정면 코드 추가하기
 
             #small lr head
             while True:
-                is_vertical_middle, small_lr_temp = Head.small_LR_head("ball", small_lr_angle)
+                is_vertical_middle, small_lr_temp = head.small_LR_head("ball", small_lr_angle)
                 if is_vertical_middle == True:
                     break
                 elif is_vertical_middle == False:
@@ -189,7 +156,7 @@ class Controller:
 
             #small ud head
             while True:
-                is_horizontal_middle, small_ud_temp = Head.small_LR_head("ball", small_ud_angle)
+                is_horizontal_middle, small_ud_temp = head.small_LR_head("ball", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     act = Act.PUTTING_POS 
                     break
@@ -234,7 +201,7 @@ class Controller:
             if is_holecup_in_frame == False:    
                 # big UD head
                 while True:
-                    is_object_in_frame, variable.Head_ud_angle = Head.big_UD_head("holecup", big_ud_angle)
+                    is_object_in_frame, variable.Head_ud_angle = head.big_UD_head("holecup", big_ud_angle)
                     if is_object_in_frame == True:
                         break
                     elif is_object_in_frame == False:
@@ -250,7 +217,7 @@ class Controller:
                     # big LR head
                     max_left_flag = 0
                     while True:
-                        is_object_in_frame, big_lr_temp, max_left_flag = Head.big_LR_head("holecup", big_lr_angle, max_left_flag)
+                        is_object_in_frame, big_lr_temp, max_left_flag = head.big_LR_head("holecup", big_lr_angle, max_left_flag)
                         if is_object_in_frame == True:
                             break
                         elif is_object_in_frame == False:
@@ -262,7 +229,7 @@ class Controller:
             ######### 홀컵을 기준으로 공의 왼오 판단       
             # small lr head
             while True:
-                is_vertical_middle, small_lr_temp = Head.small_LR_head("holecup", small_lr_angle)
+                is_vertical_middle, small_lr_temp = head.small_LR_head("holecup", small_lr_angle)
                 if is_vertical_middle == True:
                     break
                 elif is_vertical_middle == False:
@@ -271,7 +238,7 @@ class Controller:
 
             #small ud head
             while True:
-                is_horizontal_middle, variable.Head_ud_angle = Head.small_UD_head("holecup", small_ud_angle)
+                is_horizontal_middle, variable.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     #act = Act.PUTTING_POS 
                     break
@@ -285,7 +252,7 @@ class Controller:
                   
             while True:
                 # 공 홀컵 일직선 맞추기
-                check_straight = Head.straight()
+                check_straight = head.straight()
                 if check_straight == True: # 거리 알고리즘으로 넘어감
                     break
                 else:
@@ -301,13 +268,14 @@ class Controller:
                 robo._motion.pose("left")
             elif field == "right" :
                 robo._motion.pose("right")
-                
+            
+            ########################################    
             ############# 거리 알고리즘 #############
             
             # 홀컵 middle 맞추기
             #small ud head
             while True:
-                is_horizontal_middle, variable.Head_ud_angle = Head.small_UD_head("holecup", small_ud_angle)
+                is_horizontal_middle, variable.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     #act = Act.PUTTING_POS 
                     break
@@ -327,7 +295,7 @@ class Controller:
                 # 공 middle 맞추기
                 #small ud head
                 while True:
-                    is_horizontal_middle, variable.Head_ud_angle = Head.small_UD_head("ball", small_ud_angle)
+                    is_horizontal_middle, variable.Head_ud_angle = head.small_UD_head("ball", small_ud_angle)
                     if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                         break
                     elif is_horizontal_middle == False:
@@ -350,20 +318,20 @@ class Controller:
             small_ud_angle = 0
             #big lr head
             while True:
-                is_object_in_frame, big_lr_temp = Head.big_LR_head("holecup", big_lr_angle)
+                is_object_in_frame, big_lr_temp = head.big_LR_head("holecup", big_lr_angle)
                 if is_object_in_frame == True:
                     break
                 elif is_object_in_frame == False:
                     big_lr_angle = big_lr_temp
                     continue
                 #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
-                    #Head.big_UD_head()
+                    #head.big_UD_head()
                     # 예외처리 : big up down 코드
             #고개 정면 코드 추가하기
 
             #small lr head
             while True:
-                is_vertical_middle, small_lr_temp = Head.small_LR_head("holecup", small_lr_angle)
+                is_vertical_middle, small_lr_temp = head.small_LR_head("holecup", small_lr_angle)
                 if is_vertical_middle == True:
                     break
                 elif is_vertical_middle == False:
@@ -388,20 +356,20 @@ class Controller:
                 small_ud_angle = 0
                 #big lr head
                 while True:
-                    is_object_in_frame, big_lr_temp = Head.big_LR_head("ball", big_lr_angle)
+                    is_object_in_frame, big_lr_temp = head.big_LR_head("ball", big_lr_angle)
                     if is_object_in_frame == True:
                         break
                     elif is_object_in_frame == False:
                         big_lr_angle = big_lr_temp
                         continue
                     #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
-                        #Head.big_UD_head()
+                        #head.big_UD_head()
                         # 예외처리 : big up down 코드
                 #고개 정면 코드 추가하기
 
                 #small lr head
                 while True:
-                    is_vertical_middle, small_lr_temp = Head.small_LR_head("ball", small_lr_angle)
+                    is_vertical_middle, small_lr_temp = head.small_LR_head("ball", small_lr_angle)
                     if is_vertical_middle == True:
                         break
                     elif is_vertical_middle == False:
