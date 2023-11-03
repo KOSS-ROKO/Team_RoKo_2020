@@ -807,11 +807,10 @@ KEY21: ' △
 KEY22: ' *
     ETX  4800,22
     GOTO RX_EXIT
+'공치기자세 테스트
 KEY23: ' G
     ETX  4800,23
-    GOTO 왼쪽옆걸음
-    GOTO 왼쪽옆걸음
-    GOTO 왼쪽옆걸음
+	GOTO 공치기자세좌
     GOTO RX_EXIT
 KEY24: ' #
     ETX  4800,24
@@ -849,6 +848,7 @@ KEY31: ' ▽
     GOTO RX_EXIT
 KEY32: ' F
     ETX  4800,32
+    GOTO 공치기자세우
     GOTO RX_EXIT
     '***********************************
 KEY33:
@@ -1051,7 +1051,7 @@ KEY98:
     GOTO RX_EXIT
 KEY99:
     ETX 4800,99
-    GOTO 기본자세
+    GOSUB 기본자세
     GOTO RX_EXIT
     '*************북마크
     '######### ------------------- KEY100-110 전진걸음
@@ -1063,12 +1063,15 @@ KEY100:
     GOTO RX_EXIT
 KEY101:
     ETX 4800,101
-    ERX 4800,A,전진기본걸음
+	ERX 4800,A,후진종종걸음
     보행횟수= A
-    GOTO 전진기본걸음
+    GOTO 후진종종걸음
     GOTO RX_EXIT
 KEY102:
     ETX 4800,102
+    ERX 4800,A,전진기본걸음
+    보행횟수= A
+    GOTO 전진기본걸음
     GOTO RX_EXIT
 KEY103:
     ETX 4800,103
@@ -1092,12 +1095,8 @@ KEY108:
 KEY109:
     ETX 4800,109
     GOTO RX_EXIT
-    '######### ------------------- KEY110-119 후진걸음
 KEY110:
     ETX 4800,110
-	ERX 4800,A,후진종종걸음
-    보행횟수= A
-    GOTO 후진종종걸음
     GOTO RX_EXIT
 KEY111:
     ETX 4800,111
@@ -2408,6 +2407,18 @@ KEY180:
     GOSUB 기본자세
     GOSUB All_motor_Reset
     
+    FOR i = 1 TO 4
+    	GOTO 오른쪽옆걸음
+    NEXT i
+    
+    FOR j = 1 TO 4
+    	GOTO 왼쪽턴45
+    NEXT j
+    
+    FOR i = 1 TO 4
+    	GOTO 오른쪽옆걸음
+    NEXT i
+    
     
     GOTO RX_EXIT
     
@@ -2415,6 +2426,19 @@ KEY180:
 공치기자세우:
     GOSUB 기본자세
     GOSUB All_motor_Reset
+    
+    FOR i = 1 TO 4
+    	GOTO 왼쪽옆걸음
+    NEXT i
+    
+    FOR j = 1 TO 4
+    	GOTO 오른쪽턴45
+    NEXT j
+    
+    FOR i = 1 TO 4
+    	GOTO 왼쪽옆걸음
+    NEXT i
+    
     GOTO RX_EXIT
 
 
@@ -2585,3 +2609,148 @@ KEY180:
     WAIT
 
     GOTO 전진기본걸음1
+    
+'------------------------------------------------------------------    
+후진기본걸음:
+    넘어진확인 = 0
+    보행속도 = 12
+    좌우속도 = 4
+    GOSUB Leg_motor_mode3
+
+
+
+    IF 보행순서 = 0 THEN
+        보행순서 = 1
+
+        SPEED 4
+        MOVE G6A, 88,  71, 152,  91, 110
+        MOVE G6D,108,  76, 145,  93,  96
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        SPEED 10
+        MOVE G6A, 90, 100, 100, 115, 110
+        MOVE G6D,110,  76, 145,  93,  96
+        MOVE G6B,90
+        MOVE G6C,110
+        WAIT
+
+        GOTO 후진기본걸음1  
+    ELSE
+        보행순서 = 0
+
+        SPEED 4
+        MOVE G6D,  85,  71, 152,  91, 110
+        MOVE G6A, 108,  76, 146,  93,  96
+        MOVE G6C, 100
+        MOVE G6B, 100
+        WAIT
+
+        SPEED 10
+        MOVE G6D, 90, 100, 100, 115, 110
+        MOVE G6A,112,  76, 146,  93,  96
+        MOVE G6C,90
+        MOVE G6B,110
+        WAIT
+
+
+        GOTO 후진기본걸음2
+
+    ENDIF
+후진기본걸음1:
+    ETX 4800,12 '진행코드를 보냄
+    SPEED 보행속도
+
+    MOVE G6D,110,  76, 146, 93,  96
+    MOVE G6A,90, 98, 146,  69, 110
+    WAIT
+
+    SPEED 좌우속도
+    MOVE G6D, 90,  60, 137, 120, 110
+    MOVE G6A,107,  85, 137,  93,  96
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+
+    SPEED 11
+
+    MOVE G6D,90, 90, 120, 105, 110
+    MOVE G6A,112,  76, 146,  93, 96
+    MOVE G6B,110
+    MOVE G6C,90
+    WAIT
+
+    ERX 4800,A, 연속후진_골프_2
+    IF A <> A_old THEN
+연속후진_골프_1_EXIT:
+        HIGHSPEED SETOFF
+        SPEED 5
+
+        MOVE G6A, 108,  76, 146,  93,  96      
+        MOVE G6D,  85,  72, 148,  91, 106
+        MOVE G6B, 100
+        MOVE G6C, 100
+        WAIT   
+
+        SPEED 3
+        GOSUB 기본자세2
+        GOTO RX_EXIT
+    ENDIF
+
+연속후진_골프_2:
+    ETX 4800,12 '진행코드를 보냄
+    SPEED 보행속도
+    MOVE G6A,112,  76, 146, 93,  96
+    MOVE G6D,90, 98, 146,  69, 110
+    WAIT
+
+
+    SPEED 좌우속도
+    MOVE G6A, 90,  60, 137, 120, 110
+    MOVE G6D,107  85, 137,  93,  96
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+
+    SPEED 11
+    MOVE G6A,90, 90, 120, 105, 110
+    MOVE G6D,110,  76, 146,  93,  96
+    MOVE G6B, 90
+    MOVE G6C,110
+    WAIT
+    
+    보행COUNT = 보행COUNT + 1
+    IF 보행COUNT > 보행횟수 THEN  GOTO 후진기본걸음_stop
+
+
+    ERX 4800,A, 연속후진_골프_1
+    IF A <> A_old THEN
+후진기본걸음_stop:
+        HIGHSPEED SETOFF
+        SPEED 5
+
+        MOVE G6D, 106,  76, 146,  93,  96      
+        MOVE G6A,  85,  72, 148,  91, 106
+        MOVE G6B, 100
+        MOVE G6C, 100
+        WAIT   
+
+        SPEED 3
+        GOSUB 기본자세2
+        GOTO RX_EXIT
+    ENDIF     
+
+    GOTO 연속후진_골프_1
