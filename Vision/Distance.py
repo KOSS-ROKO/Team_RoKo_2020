@@ -1,9 +1,16 @@
 import cv2
 import numpy as np
 
-### 거리 재는 코드 ㅇㅇ
-from ImageProcessor import ImageProcessor
+# 전역 변수 선언
 
+global _Head_UD_Middle_Value
+global _Head_Length_list
+global Head_UD_Middle_Value_Measures
+Head_UD_Middle_Value_Measures = 100 # 기본값
+global Head_ud_angle
+global Length_Weight
+global Length_ServoAngle
+global Length_ServoAngle_dict
 
 
 class Distance:

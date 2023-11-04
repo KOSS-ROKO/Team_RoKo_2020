@@ -5,7 +5,7 @@ from Robo import Robo
 from head import Head
 from Vision.Distance import Distance
 from Motion.Motion import Motion
-import variable
+import Vision.Distance as Distance
 
 class Act:
     
@@ -53,14 +53,14 @@ class Controller:
 
                 # big UD head
                 while True:
-                    is_object_in_frame, variable.Head_ud_angle = head.big_UD_head("ball", big_ud_angle)
+                    is_object_in_frame, Distance.Head_ud_angle = head.big_UD_head("ball", big_ud_angle)
                     if is_object_in_frame == True:
                         break
                     elif is_object_in_frame == False:
-                        big_ud_angle = variable.Head_ud_angle
+                        big_ud_angle = Distance.Head_ud_angle
                     
-                        if variable.Head_ud_angle == 100:  # 한 사이클이 다 끝남
-                            variable.Head_ud_angle = variable.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
+                        if Distance.Head_ud_angle == 100:  # 한 사이클이 다 끝남
+                            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
                             robo._motion.head("DEFAULT",1) # 고개 정면(default)로 돌려놓기 
                             go_to = "big_lr"  # LR로 갈지 구분
                         else: continue
@@ -92,16 +92,16 @@ class Controller:
 
             #small ud head
             while True:
-                is_horizontal_middle, variable.Head_ud_angle = head.small_UD_head("ball", small_ud_angle)
+                is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head("ball", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     act = Act.PUTTING_POS 
                     break
                 elif is_horizontal_middle == False:
-                    small_ud_angle = variable.Head_ud_angle
+                    small_ud_angle = Distance.Head_ud_angle
                     continue
 
             # length = 거리 
-            length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
+            length = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             
             # 걷는 횟수(loop) = (d - 15) / 한발자국 걷는 센치(5cm)
             walk_loop = (length - 15) / 5
@@ -162,7 +162,7 @@ class Controller:
                     continue
 
             # length = 거리 
-            length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
+            length = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
             #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
@@ -186,15 +186,15 @@ class Controller:
             if is_holecup_in_frame == False:    
                 # big UD head
                 while True:
-                    is_object_in_frame, variable.Head_ud_angle = head.big_UD_head("holecup", big_ud_angle)
+                    is_object_in_frame, Distance.Head_ud_angle = head.big_UD_head("holecup", big_ud_angle)
                     if is_object_in_frame == True:
                         break
                     elif is_object_in_frame == False:
-                        big_ud_angle = variable.Head_ud_angle
+                        big_ud_angle = Distance.Head_ud_angle
             
                         continue
-                    if variable.Head_ud_angle == 10:  # 한 사이클이 다 끝남
-                        variable.Head_ud_angle = variable.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
+                    if Distance.Head_ud_angle == 10:  # 한 사이클이 다 끝남
+                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
                         robo._motion.head("DEFAULT", 1) # 고개 정면(default)로 돌려놓기 
                         go_to = "big_lr"  # LR로 갈지 구분
 
@@ -223,12 +223,12 @@ class Controller:
 
             #small ud head
             while True:
-                is_horizontal_middle, variable.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
+                is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     #act = Act.PUTTING_POS 
                     break
                 elif is_horizontal_middle == False:
-                    small_ud_angle = variable.Head_ud_angle
+                    small_ud_angle = Distance.Head_ud_angle
                     continue        
 
 
@@ -260,16 +260,16 @@ class Controller:
             # 홀컵 middle 맞추기
             #small ud head
             while True:
-                is_horizontal_middle, variable.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
+                is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     #act = Act.PUTTING_POS 
                     break
                 elif is_horizontal_middle == False:
-                    small_ud_angle = variable.Head_ud_angle
+                    small_ud_angle = Distance.Head_ud_angle
                     continue      
                 
             # 홀컵 거리 재기
-            holecup_dist = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
+            holecup_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             
             # 이 length를 퍼팅 파워로 바꿔주는 코드 필요 -> 직접해보면서 조절
             power = holecup_dist
@@ -280,14 +280,14 @@ class Controller:
                 # 공 middle 맞추기
                 #small ud head
                 while True:
-                    is_horizontal_middle, variable.Head_ud_angle = head.small_UD_head("ball", small_ud_angle)
+                    is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head("ball", small_ud_angle)
                     if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                         break
                     elif is_horizontal_middle == False:
-                        small_ud_angle = variable.Head_ud_angle
+                        small_ud_angle = Distance.Head_ud_angle
                         continue      
                 # 공 거리 재기 => 15cm 거리 미세조정
-                ball_dist = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
+                ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
         
             
         
