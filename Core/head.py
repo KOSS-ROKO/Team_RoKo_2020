@@ -1,18 +1,11 @@
 from Robo import Robo
-from Controller import Controller
-
 
 class Head:
     def __init__(self):
         pass
         
     robo = Robo()
-    big_lr_angle = 100
-    small_lr_angle = 0
-    big_ud_angle = 0
-    small_ud_angle = 0
 
-    max_right_flag = 0
         
     def big_LR_head(self, detect_object, big_lr_angle):
         robo = self.robo
@@ -30,7 +23,8 @@ class Head:
                 robo._motion.turn("RIGHT", abs(big_lr_angle - 100))
             elif big_lr_angle < 100:
                 robo._motion.turn("LEFT", abs(big_lr_angle - 100))
-
+            
+            robo._motion.head("DEFAULT", 2)
             return True, big_lr_angle
         
         else:   # 물체가 화면에 안 보이는 경우 detect : False
@@ -47,7 +41,8 @@ class Head:
             elif max_right_flag == 1:
                 robo._motion.head("LEFT", 30) ################# 3도보단 큰 각으로
                 big_lr_angle -= 30 # 10은 임의 값
-            return check, big_lr_angle
+            return check, big_lr_angle, max_right_flag
+                
                 
     def small_LR_head(self, detect_object, small_lr_angle):
         robo = self.robo
@@ -83,6 +78,8 @@ class Head:
         
         check = False
         
+        max_down_flag = 0
+        
         if detect_object == 'ball':
             check = robo._image_processor.detect_ball()
             
@@ -96,12 +93,12 @@ class Head:
             # 패닝 틸팅? or 걷기?
             # 고개 각도 크게 돌리기, Find ball과 다름
             if max_down_flag == 0:
-                robo._motion.head("DOWN",30) ################# 3도보단 큰 각으로
+                robo._motion.head("DOWN", 30) ################# 3도보단 큰 각으로
                 big_ud_angle += 30 # 10은 임의 값
                 if big_ud_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_down_flag = 1
                     big_ud_angle = 100
-                    robo._motion.head("DEFAULT",1)# 고개 정면(default)로 돌려놓기  
+                    robo._motion.head("DEFAULT", 1) # 고개 조금 올려놓기
 
             elif max_down_flag == 1:
                 robo._motion.head("UP",30) ################# 3도보단 큰 각으로
