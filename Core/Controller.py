@@ -139,15 +139,15 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        is_big_LR = big_LR("ball")
+                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
     
                     is_small_LR = small_LR("ball")
-                    robo._motion.head("DEFAULT", 2) # 고개 디폴트
                     
                     if is_small_LR == "Except" :
+                        robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         # big 알고리즘으로 넘어감
                         # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
-                        is_big_LR = big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                         
             # ud_for_dist 하기전에 고개 세팅
             robo._motion.head("DEFAULT", 2) # 고개 디폴트
@@ -155,16 +155,15 @@ class Controller:
             robo._motion.head("DEFAULT", 1) # 고개 디폴트
             
             UD_for_dist("ball")
-            
-
+        
 
             # length = 거리 
             ball_dist = Distance.Length_ServoAngle_dict.get(small_ud_angle)
             print(Distance.Length_ServoAngle_dict)
-            print(ball_dist , "=HIHIHIHI=",small_ud_angle)
+            print(ball_dist , "======HEE=====",small_ud_angle)
 
             # 걷는 횟수(loop) = (d - 15) / 한발자국 걷는 센치(5cm)
-            walk_loop = int((ball_dist - 12) // 5)
+            walk_loop = int((ball_dist - 12) // 5) # 12는 나중에 값 바꿔야됨.
  
             # 거리 측정 후 걷기
             robo._motion.walk("FORWARD", walk_loop, 2)
