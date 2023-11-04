@@ -28,10 +28,7 @@ class Controller:
         # 정해진 파워로 한번 퍼팅.
         act = self.act
         robo = self.robo
-        first_detect_ball_flag = 0
-        max_right_flag = 0 ##위치 수정 필요 
         is_object_in_frame = False
-        object_vertical_middle = False
         
         head = Head()
         
@@ -43,9 +40,9 @@ class Controller:
             
             ######## act == Act.WALK_BALL에 Big UD 추가 ########
             big_ud_angle = 100
-            big_lr_angle = 100            
-            small_lr_angle = 0
-            small_ud_angle = 0
+            big_lr_angle = 100   
+            small_ud_angle = 100         
+            small_lr_angle = 100
             go_to = "small"
 
             ### big UD & LR 할까말까 결정 T / F
@@ -61,12 +58,13 @@ class Controller:
                         break
                     elif is_object_in_frame == False:
                         big_ud_angle = variable.Head_ud_angle
-            
-                        continue
-                    if variable.Head_ud_angle == 10:  # 한 사이클이 다 끝남
-                        variable.Head_ud_angle = variable.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
-                        robo._motion.head("DEFAULT",1) # 고개 정면(default)로 돌려놓기 
-                        go_to = "big_lr"  # LR로 갈지 구분
+                    
+                        if variable.Head_ud_angle == 100:  # 한 사이클이 다 끝남
+                            variable.Head_ud_angle = variable.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
+                            robo._motion.head("DEFAULT",1) # 고개 정면(default)로 돌려놓기 
+                            go_to = "big_lr"  # LR로 갈지 구분
+                        else: continue
+                    
 
                 if go_to == "big_lr" :
                     # big LR head
@@ -104,16 +102,15 @@ class Controller:
 
             # length = 거리 
             length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle)
-            # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
-            #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
             # 걷는 횟수(loop) = (d - 15) / 한발자국 걷는 센치(5cm)
-            walk_loop = (length -15) / 5
+            walk_loop = (length - 15) / 5
 
             # 거리 측정 후 걷기
             robo._motion.walk("FORWARD", walk_loop, 0.1)
 
             ######### 퍼팅 위치에 서고 ########
+            ## 아직 옆에 설지, 정면으로 보고 설지 모름. 그래서 지금은 옆에 서는 걸로 했음
             ###### act == Act.PUTTING_POS
             ###### 원래라면 퍼팅 포즈로 가서 << 원프레임, 스트레이트, 거리 재기 >> 해야하는데
             ######------------------> 이거 지금 테스트 용으로 바로 퍼팅함
@@ -183,20 +180,8 @@ class Controller:
             small_lr_angle = 0
             small_ud_angle = 0
             
-            #######################
-            #######################
-            # 근데 공을 향해 걷고 나서 big ud는 하는데 왜 small을 안하지?
-            # small을 해서 중앙을 맞춰야 홀 컵 거리를 재는데...
-            # 그냥 straight하는중에 꽃게걸음하다가 중앙에 맞춰져있을거라고 생각한건가?
-            # 아님 252줄에서 거리 알고리즘 실행전에 small해줘야하나
-            #######################
-            #######################
-
-            #big_ud_head
-            #is_ball_hole_oneframe = robo._image_processor.ball_hole_oneframe()
             
             is_holecup_in_frame = robo._image_processor.detect_holecup()
-            
             
             if is_holecup_in_frame == False:    
                 # big UD head
