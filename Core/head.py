@@ -80,8 +80,8 @@ class Head:
             small_lr_angle -= 3
             return False, small_lr_angle
         
-        # elif check == "go far":
-        #     return False, small_lr_angle 예외사항 
+        else:   # 예외상황 : go far
+            return False, small_lr_angle 
 
     def big_UD_head(self, detect_object, big_ud_angle):
         robo = self.robo
