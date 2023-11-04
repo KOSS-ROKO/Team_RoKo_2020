@@ -81,7 +81,7 @@ class Head:
             return False, small_lr_angle
         
         else:   # 예외상황 : go far
-            return False, small_lr_angle 
+            return "Except_", small_lr_angle 
 
     def big_UD_head(self, detect_object, big_ud_angle):
         robo = self.robo
@@ -136,8 +136,8 @@ class Head:
             robo._motion.head("DOWN", 3) ################# 고개 왼쪽으로 돌리는 모션
             small_ud_angle -= 3
             return False, small_ud_angle
-        # elif find_ball == "go far": ##예외사항 
-        #     pass 
+        else: # 예외상황 : go far 
+            return "Except_", small_ud_angle
         
         
         
