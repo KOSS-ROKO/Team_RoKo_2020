@@ -60,12 +60,12 @@ class ImageProcessor:
     #########################################
     
     
-    def detect_ball(role="call_TF"):
+    def detect_ball(self, role="call_TF"):
         
         
-        origin = ImageProcessor.get_img()
+        origin = self.get_img()
         frame = origin.copy()
-        
+                
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
         imgThreshLow = cv2.inRange(imgHSV, (0, 200, 155), (50, 255, 255))
@@ -79,7 +79,7 @@ class ImageProcessor:
         
 
         if(role=="call_TF"):  
-            if cv2.countNonZero(imgThresh) > 0: # 값 바꾸세요
+            if cv2.countNonZero(imgThresh) > 50: # 값 바꾸세요
                 return True 
             else:
                 return False
@@ -95,8 +95,11 @@ class ImageProcessor:
                 red_max_contour = max(red_contours, key=cv2.contourArea)
                 M = cv2.moments(red_max_contour)
                 if M["m00"] != 0:
-                    red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))      
-                    return red_center  
+                    red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"])) 
+                    print(red_center)     
+                    return red_center
+            else:
+                return None
 
     
     
@@ -262,10 +265,13 @@ class ImageProcessor:
         
         
         
-    def middle_lr_ball():
+    def middle_lr_ball(self):
                 
         # 빨간색 객체 추출
-        red_point = ImageProcessor.detect_ball("call_midpoint")
+        red_point = self.detect_ball("call_midpoint")
+        
+        if red_point == None:
+            return None
         
         x_center = red_point[0]
         y_center = red_point[1]
@@ -290,10 +296,13 @@ class ImageProcessor:
 
 
 
-    def middle_ud_ball():
+    def middle_ud_ball(self):
             
         # 빨간색 객체 추출
-        red_point = ImageProcessor.detect_ball("call_midpoint")
+        red_point = self.detect_ball("call_midpoint")
+        
+        if red_point == None:
+            return None
         
         x_center = red_point[0]
         y_center = red_point[1]
@@ -313,14 +322,17 @@ class ImageProcessor:
     #     print("go far")
 
     
-    def middle_lr_holecup():
+    def middle_lr_holecup(self):
         
         
         # 빨간색 객체 추출
-        red_point = ImageProcessor.detect_holecup("call_midpoint")
+        yellow_point = self.detect_holecup("call_midpoint")
+        
+        if yellow_point == None:
+            return None
 
-        x_center = red_point[0]
-        y_center = red_point[1]
+        x_center = yellow_point[0]
+        y_center = yellow_point[1]
         
         cell_width = 640 // 11
 
@@ -342,12 +354,15 @@ class ImageProcessor:
 
 
 
-    def middle_ud_holecup():
+    def middle_ud_holecup(self):
         
-        red_point = ImageProcessor.detect_holecup("call_midpoint")
+        yellow_point = self.detect_holecup("call_midpoint")
         
-        x_center = red_point[0]
-        y_center = red_point[1]
+        if yellow_point == None:
+            return None
+        
+        x_center = yellow_point[0]
+        y_center = yellow_point[1]
         
         cell_height = 480 // 11
         
