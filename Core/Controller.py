@@ -31,10 +31,17 @@ class Controller:
         
         head = Head()
         
+        
+           
+                  
+        
+        go_to = "small"
+        
         #=======================================================#
         #                        Head def                       #         
         #=======================================================#
         def big_UD(object="ball"):
+            big_ud_angle = 100
             # big UD head
             while True:
                 is_object_in_frame, Distance.Head_ud_angle = head.big_UD_head(object, big_ud_angle)
@@ -52,6 +59,7 @@ class Controller:
                         
                         
         def big_LR(object="ball"):
+            big_lr_angle = 100
             max_right_flag = 0
             # big LR head
             while True:
@@ -67,6 +75,7 @@ class Controller:
             #고개 정면 코드 추가하기
 
         def small_LR(object="ball"):
+            small_lr_angle = 100
             while True:
                 print("---------start small lr head")
                 is_vertical_middle, small_lr_temp = head.small_LR_head("ball", small_lr_angle)
@@ -81,6 +90,7 @@ class Controller:
 
 
         def small_UD(object="ball"):
+            small_ud_angle = Distance.Head_UD_Middle_Value_Measures
             #small ud head
             while True:
                 is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
@@ -95,6 +105,7 @@ class Controller:
                          
 
         def UD_for_dist(object="ball"): # small ud head 변형
+            small_ud_angle = Distance.Head_UD_Middle_Value_Measures
             # 거리를 위한 고개 각도 내리기 
             while True:
                 print("---------start small ud head")
@@ -102,12 +113,12 @@ class Controller:
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     #act = Act.PUTTING_POS 
                     #variable.Head_ud_angle = 
-                    Distance.Head_up_angle = small_ud_temp
+                    Distance.Head_ud_angle = small_ud_temp
                     print(Distance.Head_ud_angle)
                     break
                 elif is_horizontal_middle == False:
                     small_ud_angle = small_ud_temp
-                    Distance.Head_up_angle = small_ud_temp
+                    Distance.Head_ud_angle = small_ud_temp
                     continue
             
 
@@ -121,11 +132,11 @@ class Controller:
             ######## 처음 티샷하기위해 #########
             
             ######## act == Act.WALK_BALL에 Big UD 추가 ########
-            big_ud_angle = 100
-            big_lr_angle = 100   
-            small_ud_angle = Distance.Head_UD_Middle_Value_Measures          
-            small_lr_angle = 100
-            go_to = "small"
+            # big_ud_angle = 100
+            # big_lr_angle = 100   
+            # small_ud_angle = Distance.Head_UD_Middle_Value_Measures          
+            # small_lr_angle = 100
+            # go_to = "small"
 
             ### big UD & LR 할까말까 결정 T / F
             is_ball = robo._image_processor.detect_ball()
@@ -148,7 +159,9 @@ class Controller:
                         # big 알고리즘으로 넘어감
                         # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
-                        
+                    else:
+                        break
+
             # ud_for_dist 하기전에 고개 세팅
             robo._motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
@@ -158,12 +171,13 @@ class Controller:
         
 
             # length = 거리 
-            ball_dist = Distance.Length_ServoAngle_dict.get(small_ud_angle)
+            ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             print(Distance.Length_ServoAngle_dict)
-            print(ball_dist , "======HEE=====",small_ud_angle)
+            print(ball_dist , "======HEE=====", Distance.Head_ud_angle)
 
             # 걷는 횟수(loop) = (d - 15) / 한발자국 걷는 센치(5cm)
-            walk_loop = int((ball_dist - 12) // 5) # 12는 나중에 값 바꿔야됨.
+            walk_loop = (ball_dist - 12) // 5 # 12는 나중에 값 바꿔야됨.
+            walk_loop = int(walk_loop)
  
             # 거리 측정 후 걷기
             robo._motion.walk("FORWARD", walk_loop, 2)
