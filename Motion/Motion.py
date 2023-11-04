@@ -136,18 +136,18 @@ class Motion:
             angles.sort(reverse=True)
             for a in angles:
                 if angle >= a:
-                    print(f"Rotating {dir} by {a} degrees. {angle}")
+                    print("Rotating", dir, " by a degrees.", angle)
                     self.TX_data_py2(dir_list[dir][a])
                     time.sleep(sleep)
                     angle -= a
                     break
-            if angle<5 and angle>2.5:
-                print(f"Rotating {dir} by {a} degrees. {angle}")
+            if angle < 5 and angle > 2.5:
+                print("Rotating", dir, " by a degrees.", angle)
                 self.TX_data_py2(dir_list[dir][a])
                 time.sleep(sleep)
                 angle -= 5
-            if angle<2.5:  
-                print(f"Angle too small to rotate further. {angle}")
+            if angle < 2.5:  
+                print("Angle too small to rotate further.", angle)
                 break
 
 
