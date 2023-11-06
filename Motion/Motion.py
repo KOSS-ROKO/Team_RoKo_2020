@@ -122,7 +122,7 @@ class Motion:
 
     # 돌기 (141~160)
     # 값 조절 필요
-    def turn(self, dir, angle=0, loop=1, sleep=0.5, arm=False):
+    def turn(self, dir, angle=0, loop=1, sleep=1, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -165,7 +165,7 @@ class Motion:
     #퍼팅 위치에 서기 
     def pose(self,dir):
         # dir = ["left", "right"]
-        if dir=="left":
+        if dir=="LEFT":
             self.TX_data_py2(110)
             time.sleep(10)
         else:

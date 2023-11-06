@@ -162,6 +162,7 @@ class Controller:
             
             UD_for_dist("ball")
             robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            time.sleep(2)
             
 
             # length = 거리 
@@ -197,10 +198,12 @@ class Controller:
 
             # 아래 모션 좌퍼팅기준으로 썼네..
             # turn body left, 몸을 왼쪽으로 90도 돌림. / 고개는 이미 정면을 바라보고 있음.(바꿀 필요 없단 뜻)
-            robo._motion.turn("LEFT", 45, 0, 2)   # <--고쳐야함. 몸 90도 돌려야하는데 지금 90없어서 60으로함 / loop 2번 돎 따라서 90도.
+            robo._motion.turn("LEFT", 90)   # <--고쳐야함. 몸 90도 돌려야하는데 지금 90없어서 60으로함 / loop 2번 돎 따라서 90도.
             print("turn LEFT")
 
-            act = Act.WALK_BALL
+            self.act = Act.WALK_BALL
+            
+            #return True
         
         #=======================================================#
         #                        2. Walk                        #         
@@ -208,6 +211,11 @@ class Controller:
         
         elif act == Act.WALK_BALL: 
         ##### 2. 공을 향해 걸어간다 #################
+
+            print("^^^^222222")
+            print("^^^^222222")
+            print("^^^^222222")
+            print("^^^^222222")
 
             robo._motion.head("DOWN", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 down 45도 모션 추가할듯?
             robo._motion.head("DOWN", 9)
@@ -263,7 +271,9 @@ class Controller:
                 
             
             
-            act = Act.PUTTING_POS
+            self.act = Act.PUTTING_POS
+            
+            #return True
                 
         #=======================================================#
         #                     3. Putting Pos                    #         
@@ -271,9 +281,11 @@ class Controller:
             
         elif act == Act.PUTTING_POS:             ##### 3. 퍼팅 위치에 서기 #################
             ###### 홀컵 중앙 맞추기 #######################
-            big_lr_angle = 0           
-            small_lr_angle = 0
-            small_ud_angle = 0
+            
+            print("^^^^333333")
+            print("^^^^333333")
+            print("^^^^333333")
+            print("^^^^333333")
             
             
             is_holecup_in_frame = robo._image_processor.detect_holecup()
@@ -281,109 +293,84 @@ class Controller:
             if is_holecup_in_frame == False:    
                 # big UD head
                 while True:
-                    is_object_in_frame, Distance.Head_ud_angle = head.big_UD_head("holecup", big_ud_angle)
-                    if is_object_in_frame == True:
-                        break
-                    elif is_object_in_frame == False:
-                        big_ud_angle = Distance.Head_ud_angle
-            
-                        continue
-                    if Distance.Head_ud_angle == 10:  # 한 사이클이 다 끝남
-                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
-                        robo._motion.head("DEFAULT", 1) # 고개 정면(default)로 돌려놓기 
-                        go_to = "big_lr"  # LR로 갈지 구분
-
-                if go_to == "big_lr" :
-                    # big LR head
-                    max_left_flag = 0
-                    while True:
-                        is_object_in_frame, big_lr_temp, max_left_flag = head.big_LR_head("holecup", big_lr_angle, max_left_flag)
-                        if is_object_in_frame == True:
-                            break
-                        elif is_object_in_frame == False:
-                            big_lr_angle = big_lr_temp
-                            continue
+                    is_big_UD = big_UD("holecup")
+                    if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
+                        big_LR("holecup")
                         
-                    robo._motion.head("DEFAULT", 2) # 고개 정면(default)로 돌려놓기 
-                    
-            ######### 홀컵을 기준으로 공의 왼오 판단       
-            # small lr head
-            while True:
-                is_vertical_middle, small_lr_temp = head.small_LR_head("holecup", small_lr_angle)
-                if is_vertical_middle == True:
-                    break
-                elif is_vertical_middle == False:
-                    small_lr_angle = small_lr_temp
-                    continue
+                    is_small_LR = small_LR("holecup")
 
-            #small ud head
-            while True:
-                is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
-                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                    #act = Act.PUTTING_POS 
-                    break
-                elif is_horizontal_middle == False:
-                    small_ud_angle = Distance.Head_ud_angle
-                    continue        
-
-
-            ###### 홀컵 찾음, 중앙 맞췄음. 이제 거리 재야됨
-            
-                  
+                    if is_small_LR == "Except" :
+                        robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        
+                        big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                    else:
+                        break
+                
+            ###### 홀컵 찾음, 중앙 맞췄음. 일직선 맞추고, 이제 거리 재야됨
+ 
             while True:
                 # 공 홀컵 일직선 맞추기
                 check_straight = head.straight()
                 if check_straight == True: # 거리 알고리즘으로 넘어감
                     break
                 else:
-                    continue
+                    continue                  
+                    
                 
+            ##### straight 알고리즘하다가 중앙이 흐트려졌을 거라 판단하여 -> 중앙 맞추기 시작
             
-            ##### 중앙 맞추기 시작
-              
             ### field 블랙 판별 => 좌우 퍼팅 결정   
             field = robo._image_processor.field() #return left, right
             #몸 퍼팅 위치에 서기
             if field == "left" :
-                robo._motion.pose("left")
+                robo._motion.pose("LEFT")
             elif field == "right" :
-                robo._motion.pose("right")
+                robo._motion.pose("RIGHT")
             
             ########################################    
             ############# 거리 알고리즘 #############
             
             # 홀컵 middle 맞추기
             #small ud head
-            while True:
-                is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head("holecup", small_ud_angle)
-                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                    #act = Act.PUTTING_POS 
-                    break
-                elif is_horizontal_middle == False:
-                    small_ud_angle = Distance.Head_ud_angle
-                    continue      
-                
+            
+            # ud_for_dist 하기전에 고개 세팅
+            robo._motion.head("DEFAULT", 2) # 고개 디폴트
+            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            robo._motion.head("DEFAULT", 1) # 고개 디폴트
+            
+            UD_for_dist("holecup")
+            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            time.sleep(2)
+                            
             # 홀컵 거리 재기
             holecup_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             
+            print("holecup dist : ", holecup_dist)
             # 이 length를 퍼팅 파워로 바꿔주는 코드 필요 -> 직접해보면서 조절
             power = holecup_dist
             
             if holecup_dist < 20: # 20 값 바꾸기
-                act = Act.HOLEIN
-            else:              
+                self.act = Act.HOLEIN
+                print("거리가 너무 작아서 HOLEIN으로!!!")
+            else:   #================= 공 거리 재기 =================#    
                 # 공 middle 맞추기
                 #small ud head
-                while True:
-                    is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head("ball", small_ud_angle)
-                    if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                        break
-                    elif is_horizontal_middle == False:
-                        small_ud_angle = Distance.Head_ud_angle
-                        continue      
+                Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                UD_for_dist("holecup")
+                robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+                time.sleep(2)
+    
                 # 공 거리 재기 => 15cm 거리 미세조정
                 ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
-        
+                Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                
+                self.act = Act.PUTTING
+                
+                print("ball dist : ", ball_dist)
+                
+                
+
+            
             
         #=======================================================#
         #                      4. Putting                       #         
@@ -395,9 +382,13 @@ class Controller:
             # 홀컵 middle 맞추기
             # 홀컵 거리 재기
             ######## 홀컵 거리 재기 위해
-            big_lr_angle = 0           
-            small_lr_angle = 0
-            small_ud_angle = 0
+            
+            print("^^^^444444")
+            print("^^^^444444")
+            print("^^^^444444")
+            print("^^^^444444")
+
+
             #big lr head
             while True:
                 is_object_in_frame, big_lr_temp = head.big_LR_head("holecup", big_lr_angle)

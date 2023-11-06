@@ -104,7 +104,7 @@ class ImageProcessor:
     
     
     
-    def detect_holecup(role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
+    def detect_holecup(self, role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
         
         origin = ImageProcessor.get_img()
         frame = origin.copy()
