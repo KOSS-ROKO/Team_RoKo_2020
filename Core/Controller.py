@@ -143,7 +143,7 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        is_big_LR = big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = small_LR("ball")
                     
