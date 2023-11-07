@@ -248,9 +248,11 @@ class Controller:
             robo._motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             robo._motion.head("DEFAULT", 1) # 고개 디폴트
+            time.sleep(1)
             
             UD_for_dist("ball")
             robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            time.sleep(2)
 
             # length = 거리 
             ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
@@ -274,10 +276,8 @@ class Controller:
             self.act = Act.PUTTING_POS
             
             #return True
+            
                 
-        #=======================================================#
-        #                     3. Putting Pos                    #         
-        #=======================================================#
             
         elif act == Act.PUTTING_POS:             ##### 3. 퍼팅 위치에 서기 #################
             ###### 홀컵 중앙 맞추기 #######################
@@ -367,6 +367,8 @@ class Controller:
                 self.act = Act.PUTTING
                 
                 print("ball dist : ", ball_dist)
+                
+            return True
                 
                 
 
