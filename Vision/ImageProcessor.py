@@ -106,7 +106,7 @@ class ImageProcessor:
     
     def detect_holecup(self, role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
         
-        origin = ImageProcessor.get_img()
+        origin = self.get_img()
         frame = origin.copy()
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -189,9 +189,9 @@ class ImageProcessor:
     
     
     
-    def par4_direction():
+    def par4_direction(self):
         
-        origin = ImageProcessor.get_img()
+        origin = self.get_img()
         frame = origin.copy()
         
         
@@ -388,14 +388,14 @@ class ImageProcessor:
     #########################################
     
     
-    def ball_hole_straight():
+    def ball_hole_straight(self):
         #여기서 cv로 일직선 판단 
         # return left right middle
         # 리턴값은 head.py의 straight로 넘어감
 
 
-        red_center = ImageProcessor.detect_ball("call_midpoint")
-        yellow_center = ImageProcessor.detect_holecup("call_midpoint")
+        red_center = self.detect_ball("call_midpoint")
+        yellow_center = self.detect_holecup("call_midpoint")
 
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
@@ -422,10 +422,10 @@ class ImageProcessor:
     #########################################
         
         
-    def ball_hole_oneframe():       
+    def ball_hole_oneframe(self):       
         
-        r_TF = ImageProcessor.detect_ball("call_TF")
-        y_TF = ImageProcessor.detect_holecup("call_TF")
+        r_TF = self.detect_ball("call_TF")
+        y_TF = self.detect_holecup("call_TF")
         
         if r_TF == True and y_TF == True:
             return True
@@ -450,7 +450,7 @@ class ImageProcessor:
         
     def field(self):
         # return left and right 
-        origin = ImageProcessor.get_img()
+        origin = self.get_img()
         frame = origin.copy()
     
         # HSV 색상 공간으로 변환합니다.
@@ -522,9 +522,9 @@ class ImageProcessor:
     #########################################
         
         
-    def detect_hole_in():
+    def detect_hole_in(self):
         
-        origin = ImageProcessor.get_img()
+        origin = self.get_img()
         frame = origin.copy()
         
         try:
@@ -600,7 +600,7 @@ class ImageProcessor:
             
             
             # 빨간공 인식
-            imgThresh = ImageProcessor.detect_ball(frame)
+            imgThresh = self.detect_ball(frame)
 
             cv2.imshow('Red Ball Binary Image', imgThresh) # 이진화된 이미지 표시
                 
