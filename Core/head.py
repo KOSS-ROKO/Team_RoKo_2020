@@ -19,7 +19,7 @@ class Head:
         
         if detect_object == 'ball':
             check = robo._image_processor.detect_ball()
-        elif detect_object == 'hole_cup':
+        elif detect_object == 'holecup':
             check = robo._image_processor.detect_holecup()
         
         if check == True:
@@ -57,7 +57,7 @@ class Head:
 
         if detect_object == 'ball':
             check = robo._image_processor.middle_lr_ball()
-        elif detect_object == 'hole_cup':
+        elif detect_object == 'holecup':
             check = robo._image_processor.middle_lr_holecup()
 
         if check == "stop":
@@ -72,16 +72,15 @@ class Head:
             return True, small_lr_angle
             
         elif check == "right":
-            robo._motion.head("RIGHT", 3) ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
-            small_lr_angle += 3    
+            robo._motion.head("LEFT", 3) ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
+            small_lr_angle -= 3    
             return False, small_lr_angle                
         elif check == "left":
-            robo._motion.head("LEFT", 3) ################# 고개 왼쪽으로 돌리는 모션
-            small_lr_angle -= 3
+            robo._motion.head("RIGHT", 3) ################# 고개 왼쪽으로 돌리는 모션
+            small_lr_angle += 3
             return False, small_lr_angle
-        
-        else:   # 예외상황 : go far
-            return False, small_lr_angle 
+        else:
+            return 0, small_lr_angle # 예외사항 
 
     def big_UD_head(self, detect_object, big_ud_angle):
         robo = self.robo
@@ -93,7 +92,7 @@ class Head:
         if detect_object == 'ball':
             check = robo._image_processor.detect_ball()
             
-        elif detect_object == 'hole_cup':
+        elif detect_object == 'holecup':
             check = robo._image_processor.detect_holecup()
         
         if check == True:
@@ -108,9 +107,11 @@ class Head:
                 big_ud_angle -= 30 # 10은 임의 값
                 if big_ud_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_down_flag = 1
-                    big_ud_angle = 19
+                    big_ud_angle = 55
                     time.sleep(1)
-                    robo._motion.head("UP", 9) # 고개 조금 올려놓기
+                    robo._motion.head("UP", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 UP 45도 모션 추가할듯?
+                    robo._motion.head("UP", 9)
+                    robo._motion.head("UP", 6)
                     time.sleep(1)
             elif max_down_flag == 1:
                 robo._motion.head("UP", 30) ################# 3도보단 큰 각으로
@@ -122,7 +123,7 @@ class Head:
 
         if detect_object == 'ball':
             direction = robo._image_processor.middle_ud_ball() ##함수 만들기
-        elif detect_object == 'hole_cup':
+        elif detect_object == 'holecup':
             direction = robo._image_processor.middle_ud_holecup() ##함수 만들기
             
         if direction == "stop":
@@ -149,7 +150,7 @@ class Head:
 
         if detect_object == 'ball':
             direction = robo._image_processor.middle_ud_ball() ##함수 만들기
-        elif detect_object == 'hole_cup':
+        elif detect_object == 'holecup':
             direction = robo._image_processor.middle_ud_holecup() ##함수 만들기
             
         if direction == "stop":
@@ -181,3 +182,5 @@ class Head:
             robo._motion.walk_side("LEFT")
             robo._motion.turn("LEFT", 5)    # 값 조절 필요
             return False
+        else: # check == "none"
+            return "Except"

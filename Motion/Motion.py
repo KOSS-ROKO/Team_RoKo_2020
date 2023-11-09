@@ -94,10 +94,12 @@ class Motion:
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103}
 
         if dir in ['JFORWARD', 'JBACKWARD']:
-            self.TX_data_py2(dir_list[dir]), self.TX_data_py2(loop)
+            self.TX_data_py2(dir_list[dir])
+            self.TX_data_py2(loop)
             time.sleep(0.1*loop)
         else:
-            self.TX_data_py2(dir_list[dir]), self.TX_data_py2(loop)
+            self.TX_data_py2(dir_list[dir])
+            self.TX_data_py2(loop)
             time.sleep(1*loop)
 
 
@@ -122,7 +124,7 @@ class Motion:
 
     # 돌기 (141~160)
     # 값 조절 필요
-    def turn(self, dir, angle=0, loop=1, sleep=0.5, arm=False):
+    def turn(self, dir, angle=0, loop=1, sleep=1, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -141,12 +143,12 @@ class Motion:
                     time.sleep(sleep)
                     angle -= a
                     break
-            if angle < 5 and angle > 2.5:
+            if angle<5 and angle>2.5:
                 print("Rotating", dir, " by a degrees.", angle)
                 self.TX_data_py2(dir_list[dir][a])
                 time.sleep(sleep)
                 angle -= 5
-            if angle < 2.5:  
+            if angle<2.5:  
                 print("Angle too small to rotate further.", angle)
                 break
 
@@ -174,6 +176,7 @@ class Motion:
         
     
     def putting(self, dir, power, sleep=1): 
+        print("Motion putting")
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
             "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
