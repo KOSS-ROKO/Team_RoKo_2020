@@ -94,10 +94,12 @@ class Motion:
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103}
 
         if dir in ['JFORWARD', 'JBACKWARD']:
-            self.TX_data_py2(dir_list[dir]), self.TX_data_py2(loop)
+            self.TX_data_py2(dir_list[dir])
+            self.TX_data_py2(loop)
             time.sleep(0.1*loop)
         else:
-            self.TX_data_py2(dir_list[dir]), self.TX_data_py2(loop)
+            self.TX_data_py2(dir_list[dir])
+            self.TX_data_py2(loop)
             time.sleep(1*loop)
 
 
