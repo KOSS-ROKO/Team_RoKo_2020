@@ -323,8 +323,24 @@ class Controller:
                     else:
                         break
 
-            
-                
+                # !! 근데, is_holecup_in_frame==True인 경우에 
+                # LR head값 어차피 안바뀌니까 여기에 넣어도 될듯 ??
+                ## 아니면 tab 한 번 더 줘서 고개 한 번당 sidewalk 한 번 해도됨
+
+                #====== holecup 고개 방향만큼 꽃게 걸음 ======#
+                side_walk = int(abs(100-Distance.Head_ud_angle)//10) # 식은 시행착오거치면서 변경예정
+
+                # side walk 방향 설정 
+                if Distance.Head_ud_angle < Head_UD_Middle_Value_Measures :
+                    # 고개가 왼쪽L이면 오른쪽R으로 side walk해라
+                    side_lr = "RIGHT"
+                else : 
+                    # 고개가 오른쪽R이면 왼쪽L으로 side walk해라
+                    side_lr = "LEFT"
+
+                # motion.py에 walk_side for문이 없어서 임시로 여기다 넣음
+                for i in range(side_walk):
+                    robo._motion.walk_side(side_lr)
                 
             
                     
