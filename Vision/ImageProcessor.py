@@ -65,6 +65,8 @@ class ImageProcessor:
         
         origin = self.get_img()
         frame = origin.copy()
+
+        cv2.imshow('frame', frame)
                 
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
@@ -96,7 +98,7 @@ class ImageProcessor:
                 M = cv2.moments(red_max_contour)
                 if M["m00"] != 0:
                     red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"])) 
-                    print(red_center)     
+                    #print(red_center)     
                     return red_center
             else:
                 return None
@@ -106,6 +108,8 @@ class ImageProcessor:
     
     def detect_holecup(self, role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
         
+        print("detect holecup start")
+
         origin = self.get_img()
         frame = origin.copy()
         
@@ -167,6 +171,7 @@ class ImageProcessor:
         
         if (role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
             if cv2.countNonZero(binary_frame) > 0: # 값 바꾸세요
+                print("holecup true")
                 return True 
             else:
                 return False
@@ -266,6 +271,7 @@ class ImageProcessor:
         
         
     def middle_lr_ball(self):
+        print("middle_lr_ball")
                 
         # 빨간색 객체 추출
         red_point = self.detect_ball("call_midpoint")
@@ -323,6 +329,7 @@ class ImageProcessor:
 
     
     def middle_lr_holecup(self):
+        print("middle_lr_ball")
         
         
         # 빨간색 객체 추출
@@ -395,7 +402,11 @@ class ImageProcessor:
 
 
         red_center = self.detect_ball("call_midpoint")
+        if not red_center:
+            print("red no")
         yellow_center = self.detect_holecup("call_midpoint")
+        if not yellow_center:
+            print("yellow no")
 
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
