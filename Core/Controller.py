@@ -36,7 +36,7 @@ class Controller:
            
                   
         
-        go_to = "small"
+
         
         #=======================================================#
         #                        Head def                       #         
@@ -331,7 +331,7 @@ class Controller:
                 side_walk = int(abs(100-Distance.Head_ud_angle)//10) # 식은 시행착오거치면서 변경예정
 
                 # side walk 방향 설정 
-                if Distance.Head_ud_angle < Head_UD_Middle_Value_Measures :
+                if Distance.Head_ud_angle < Distance.Head_UD_Middle_Value_Measures :
                     # 고개가 왼쪽L이면 오른쪽R으로 side walk해라
                     side_lr = "RIGHT"
                 else : 
