@@ -1,5 +1,4 @@
-# 2023ESWContest_Humanoid_2020_RoKo
-임베디드소프트웨어 경진대회 2023 지능형 휴머노이드 부문
+
  ## **Git Commit Rules**
 
 
