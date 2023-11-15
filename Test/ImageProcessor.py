@@ -41,10 +41,10 @@ class ImageProcessor:
     ########### 이미지 불러오기 ###########
     def get_img(self, show=False):
         img = self._cam.read()
-        img.set(3, 640)
-        img.set(4, 480)
-        img.set(5, 5)
-        cv2.imshow("imageProcessor-get_img", img)
+        # img.set(3, 640)
+        # img.set(4, 480)
+        # img.set(5, 5)
+        # cv2.imshow("imageProcessor-get_img", img)
         # 이미지를 받아오지 못하면 종료
         if img is None:
             exit()

@@ -318,7 +318,8 @@ class Controller:
             # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
             #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
-            robo._motion.walk("FORWARD10", walk_loop)
+            robo._motion.walk("FORWARD10", 1)
+            time.sleep(20)
             ball_dist -= 80
         
             # 80cm 뺀 남은 거리 측정 후 걷기

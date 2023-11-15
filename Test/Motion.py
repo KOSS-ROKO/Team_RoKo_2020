@@ -131,7 +131,7 @@ class Motion:
             'DEFAULT': { 1: 121, 2: 122 }
         }
         self.TX_data_py2(dir_list[dir][angle])
-        time.sleep(0.5)
+        time.sleep(0.2)
 
     # 돌기 (141~160)
     # 값 조절 필요
