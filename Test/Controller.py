@@ -337,6 +337,22 @@ class Controller:
                 print("walk_loop :", walk_loop)
                 robo._motion.walk("BACKWARD", walk_loop)
                 
+                
+            UD_for_dist("ball")  
+            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            time.sleep(2)          
+            ### 다 걸은 후 18CM에 맞게 한번더 측정, 종종걸음으로 이동  
+            while True:
+                print("ball dist :", ball_dist)
+                if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
+                    break
+                elif ball_dist < 16:
+                    robo._motion.walk("JBACKWARD")
+                    ball_dist += 3
+                elif ball_dist > 20:
+                    robo._motion.walk("JFORWARD")
+                    ball_dist -= 3
+                
             
             
             self.act = Act.PUTTING_POS
@@ -649,7 +665,7 @@ class Controller:
                     robo._motion.walk("JFORWARD")
                     ball_dist -= 3
 
-            time.sleep(5)
+            time.sleep(3)
 
             ### 진짜 퍼팅
             ###### 홀 컵 거리에 따라 퍼팅 강도 조절하기
