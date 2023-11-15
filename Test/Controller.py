@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.HOLEIN
+    act  = Act.TEESHOT
     robo = Robo()
 
 
@@ -244,14 +244,14 @@ class Controller:
             time.sleep(3)
             robo._motion.putting("left", 3, 3)
             print("putting")
-            time.sleep(5)
+            time.sleep(3)
 
             # 아래 모션 좌퍼팅기준으로 썼네..
             # turn body left, 몸을 왼쪽으로 90도 돌림. / 고개는 이미 정면을 바라보고 있음.(바꿀 필요 없단 뜻)
-            robo._motion.turn("LEFT", 45)
-            time.sleep(5)
             robo._motion.turn("LEFT", 60)
             time.sleep(3)
+            robo._motion.turn("LEFT", 60)
+            time.sleep(2)
             print("turn LEFT")
 
             self.act = Act.WALK_BALL
@@ -726,8 +726,8 @@ class Controller:
             robo._motion.head("DOWN", 6)
             time.sleep(2)
             oneframe = robo._image_processor.ball_hole_oneframe()
-            print("is oneframe?")
             if oneframe == True:
+                print("is oneframe? yesss")
                 check_holein = robo._image_processor.detect_hole_in()
                 if check_holein == True:
                     print("ceremony hehehehehe")

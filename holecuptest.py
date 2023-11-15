@@ -63,6 +63,7 @@ while True:
     yellow_lower = np.array([0, 71, 122])
     yellow_upper = np.array([36, 250, 250])
     
+    
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     yellow_mask = cv2.inRange(hsv_frame, yellow_lower, yellow_upper)
     yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
