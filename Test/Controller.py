@@ -273,6 +273,9 @@ class Controller:
             # robo._motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             # time.sleep(5)
             
+            robo._motion.walk("FORWARD10", 1)
+            time.sleep(15)
+            
             is_ball = robo._image_processor.detect_ball()
 
             ### False면, big UD LR 해라
@@ -318,11 +321,8 @@ class Controller:
             # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
             #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
-            robo._motion.walk("FORWARD10", 1)
-            time.sleep(20)
-            ball_dist -= 80
         
-            # 80cm 뺀 남은 거리 측정 후 걷기
+            # 무지성 10번 걸은 후, 남은 거리 측정 후 걷기
             if ball_dist >= 18:
                 if 18 <= ball_dist <=28:
                     walk_loop = int((ball_dist - 18) // 3)
@@ -337,22 +337,25 @@ class Controller:
                 walk_loop = int(walk_loop)
                 print("walk_loop :", walk_loop)
                 robo._motion.walk("BACKWARD", walk_loop)
-                
-                
-            UD_for_dist("ball")  
-            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            time.sleep(2)          
-            ### 다 걸은 후 18CM에 맞게 한번더 측정, 종종걸음으로 이동  
-            while True:
-                print("ball dist :", ball_dist)
-                if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
-                    break
-                elif ball_dist < 16:
-                    robo._motion.walk("JBACKWARD")
-                    ball_dist += 3
-                elif ball_dist > 20:
-                    robo._motion.walk("JFORWARD")
-                    ball_dist -= 3
+            
+            # 희 필독!
+            # 얘는 안 해도 될듯??? 희야 나중에 와서 할 때 만약에 위의 것들이 똑바로 되면 이 주석은 지우고 만약에 거리가 정확하지 않으면 한번더 재든가 말든가
+            # 니 맘대로 하삼 ㅋ
+            
+            # UD_for_dist("ball")  
+            # robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            # time.sleep(2)          
+            # ### 다 걸은 후 18CM에 맞게 한번더 측정, 종종걸음으로 이동  
+            # while True:
+            #     print("ball dist :", ball_dist)
+            #     if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
+            #         break
+            #     elif ball_dist < 16:
+            #         robo._motion.walk("JBACKWARD")
+            #         ball_dist += 3
+            #     elif ball_dist > 20:
+            #         robo._motion.walk("JFORWARD")
+            #         ball_dist -= 3
                 
             
             
