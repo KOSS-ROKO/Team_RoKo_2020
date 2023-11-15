@@ -86,22 +86,33 @@ class Motion:
         time.sleep(1.5)
 
     # 걷기 (101~120)
-    def walk(self, dir, loop=1, short=False):
+    def walk(self, dir, loop=1):
         """ parameter :
         dir : {'JFORWARD', 'JBACKWARD', FORWARD, BACKWARD}
         """
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103}
 
-        if dir in ['JFORWARD', 'JBACKWARD']:
-            self.TX_data_py2(dir_list[dir])
-            self.TX_data_py2(loop)
-            time.sleep(0.1*loop)
-        else:
-            self.TX_data_py2(dir_list[dir])
-            self.TX_data_py2(loop)
-            time.sleep(1*loop)
+        # for _ in range(loop):
+        #     if dir in ['JFORWARD', 'JBACKWARD']:
+        #         self.TX_data_py2(dir_list[dir])
+        #         time.sleep(2.5)
+        #     else:
+        #         self.TX_data_py2(dir_list[dir])
+        #         time.sleep(3)
 
+        
+        for i in range(loop):                
+            if dir in ['JFORWARD', 'JBACKWARD']:
+                self.TX_data_py2(dir_list[dir])
+                time.sleep(2.5)
+            else:
+                self.TX_data_py2(dir_list[dir])
+                time.sleep(3)
+
+            if i % 2 == 0:
+                self.TX_data_py2(157)
+                time.sleep(2)
 
     # 머리 각도 (121~140)
     def head(self, dir, angle=0):
@@ -113,14 +124,14 @@ class Motion:
         }
         """
         dir_list = {
-            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127 },
-            'UP' : { 3: 129, 6: 130, 9: 131, 30: 132 },
+            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141 },
+            'UP' : { 3: 129, 6: 130, 9: 131, 30: 132, 45: 142 },
             'LEFT': { 3: 134, 6: 135, 30: 136 },
             'RIGHT': { 3: 138, 6: 139, 30: 140 },
             'DEFAULT': { 1: 121, 2: 122 }
         }
         self.TX_data_py2(dir_list[dir][angle])
-        time.sleep(0.3)
+        time.sleep(0.5)
 
     # 돌기 (141~160)
     # 값 조절 필요
@@ -168,10 +179,10 @@ class Motion:
     def pose(self,dir):
         # dir = ["left", "right"]
         if dir=="left":
-            self.TX_data_py2(110)
+            self.TX_data_py2(111)
             time.sleep(10)
         else:
-            self.TX_data_py2(111)
+            self.TX_data_py2(110)
             time.sleep(10)            
         
     
@@ -179,8 +190,8 @@ class Motion:
         print("Motion putting")
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
-            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
-            "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
+            "left": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
+            "right": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
         }
         self.TX_data_py2(dir_list[dir][power])
         time.sleep(sleep)

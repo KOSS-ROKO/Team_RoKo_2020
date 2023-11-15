@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from Motion.Motion import Motion
-from Vision.ImageProcessor import ImageProcessor
+from Motion import Motion
+from ImageProcessor import ImageProcessor
 
 print('code: Robo.py - ## Debug')
 
