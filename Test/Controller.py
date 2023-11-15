@@ -318,27 +318,23 @@ class Controller:
             # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
             #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
-            
-
-            # 거리 측정 후 걷기
+            robo._motion.walk("FORWARD10", walk_loop)
+            ball_dist -= 80
+        
+            # 80cm 뺀 남은 거리 측정 후 걷기
             if ball_dist >= 18:
                 if 18 <= ball_dist <=28:
                     walk_loop = int((ball_dist - 18) // 3)
-                    print(walk_loop)
+                    print("walk_loop :", walk_loop)
                     robo._motion.walk("JFORWARD", walk_loop)
                 else:   ##
                     walk_loop = round((ball_dist - 18) / 8)  # -10은 거리 안정확해서 임시, int대신 round 반올림도 임시
-                    print(walk_loop)
+                    print("walk_loop :", walk_loop)
                     robo._motion.walk("FORWARD", walk_loop)
-                # 걷는 횟수(loop) = (d - 15) / 한발자국 걷는 센치(5cm)
-                # walk_loop = (ball_dist - 18) // 3 # 나중에 값 바꿔야됨.
-                # walk_loop = int(walk_loop)
-                # print("walk_loop", walk_loop)
-                # robo._motion.walk("FORWARD", walk_loop, 2)
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 walk_loop = (18 - ball_dist) // 8
                 walk_loop = int(walk_loop)
-                print(walk_loop)
+                print("walk_loop :", walk_loop)
                 robo._motion.walk("BACKWARD", walk_loop)
                 
             
