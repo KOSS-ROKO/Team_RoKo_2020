@@ -5,22 +5,13 @@ DIM MODE    AS BYTE
 DIM A          AS BYTE
 DIM A_old    AS BYTE
 DIM B       AS BYTE
-DIM C       AS BYTE
 DIM 보행속도    AS BYTE
 DIM 좌우속도    AS BYTE
-DIM 좌우속도2    AS BYTE
 DIM 보행순서    AS BYTE
-DIM 현재전압    AS BYTE
-DIM 반전체크    AS BYTE
 DIM 모터ONOFF    AS BYTE
 DIM 자이로ONOFF AS BYTE
-DIM 기울기앞뒤    AS INTEGER
-DIM 기울기좌우    AS INTEGER
-DIM 몇걸음 AS INTEGER
-DIM 곡선방향 AS BYTE
 
 DIM 넘어진확인 AS BYTE
-DIM 기울기확인횟수 AS BYTE
 DIM 보행횟수 AS BYTE
 DIM 보행COUNT AS BYTE
 
@@ -51,8 +42,6 @@ CONST 적외선AD포트  = 4
 CONST min = 61   '뒤로넘어졌을때
 CONST max = 107   '앞으로넘어졌을때
 CONST COUNT_MAX = 3
-
-CONST 머리이동속도 = 10
 '************************************************
 PTP SETON             '단위그룹별 점대점동작 설정
 PTP ALLON            '전체모터 점대점 동작 설정
@@ -66,8 +55,6 @@ OUT 52,0   '머리 LED 켜기
 
 '***** 초기선언 '************************************************
 보행순서 = 0
-반전체크 = 0
-기울기확인횟수 = 0
 보행횟수 = 1
 모터ONOFF = 0
 
@@ -77,7 +64,6 @@ CONST 좌우영점 = 100
 CONST 상하영점 = 95
 머리좌우 = 좌우영점
 머리상하 = 상하영점
-
 '****초기위치 피드백*****************************
 TEMPO 230
 'MUSIC "cdefgh"
@@ -90,21 +76,18 @@ S16 = MOTORIN(16)
 
 SERVO 11, 100
 SERVO 16, S16
-
 SERVO 16, 100
 
 GOSUB 전원초기자세
 GOSUB 기본자세
-
 GOSUB 자이로INIT
 GOSUB 자이로MID
 GOSUB 자이로ON
 
-PRINT "VOLUME 200 !"
+'PRINT "VOLUME 200 !"
 'PRINT "SOUND 12 !" '안녕하세요
 
 GOSUB All_motor_mode3
-
 GOTO MAIN   '시리얼 수신 루틴으로 가기
 '************************************************
 시작음:
