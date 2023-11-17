@@ -338,27 +338,7 @@ class Controller:
                 walk_loop = (18 - ball_dist) // 8
                 walk_loop = int(walk_loop)
                 print("walk_loop :", walk_loop)
-                robo._motion.walk("BACKWARD", walk_loop)
-            
-            # 희 필독!
-            # 얘는 안 해도 될듯??? 희야 나중에 와서 할 때 만약에 위의 것들이 똑바로 되면 이 주석은 지우고 만약에 거리가 정확하지 않으면 한번더 재든가 말든가
-            # 니 맘대로 하삼 ㅋ
-            
-            # UD_for_dist("ball")  
-            # robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            # time.sleep(2)          
-            # ### 다 걸은 후 18CM에 맞게 한번더 측정, 종종걸음으로 이동  
-            # while True:
-            #     print("ball dist :", ball_dist)
-            #     if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
-            #         break
-            #     elif ball_dist < 16:
-            #         robo._motion.walk("JBACKWARD")
-            #         ball_dist += 3
-            #     elif ball_dist > 20:
-            #         robo._motion.walk("JFORWARD")
-            #         ball_dist -= 3
-                
+                robo._motion.walk("BACKWARD", walk_loop)                
             
             
             self.act = Act.PUTTING_POS
