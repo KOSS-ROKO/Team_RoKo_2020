@@ -741,17 +741,6 @@ class Controller:
                 print("ball detect 555 => small lr할 거야")
                 small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
-            # robo._motion.head("DOWN", 30)
-            # print("head down 30 /5555")
-            # time.sleep(1)
-            # robo._motion.head("DOWN", 9)
-            # print("head down 9 /5555")
-            # time.sleep(1)
-            # robo._motion.head("DOWN", 6)
-            # print("head down 6 /5555")
-            # time.sleep(2)
-            
-            # Distance.Head_UD_Angle = 55
             
             oneframe = robo._image_processor.ball_hole_oneframe()
             if oneframe == True:
