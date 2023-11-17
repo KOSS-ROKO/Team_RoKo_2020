@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOT
+    act  = Act.PUTTING_POS
     robo = Robo()
 
 
@@ -523,6 +523,7 @@ class Controller:
             robo._motion.head("DEFAULT", 1) # 고개 디폴트
             
             robo._motion.head("DOWN", 45)
+            time.sleep(2)
             
             # ud_for_dist 하기전에 holecup 찾기
             # holecup찾기 (고개 O, 몸 X)
@@ -695,6 +696,7 @@ class Controller:
 
             robo._motion.turn("LEFT", 60)
             robo._motion.turn("LEFT", 45)
+            time.sleep(3)
 
             #return True
 
@@ -739,17 +741,17 @@ class Controller:
                 print("ball detect 555 => small lr할 거야")
                 small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
-            robo._motion.head("DOWN", 30)
-            print("head down 30 /5555")
-            time.sleep(1)
-            robo._motion.head("DOWN", 9)
-            print("head down 9 /5555")
-            time.sleep(1)
-            robo._motion.head("DOWN", 6)
-            print("head down 6 /5555")
-            time.sleep(2)
+            # robo._motion.head("DOWN", 30)
+            # print("head down 30 /5555")
+            # time.sleep(1)
+            # robo._motion.head("DOWN", 9)
+            # print("head down 9 /5555")
+            # time.sleep(1)
+            # robo._motion.head("DOWN", 6)
+            # print("head down 6 /5555")
+            # time.sleep(2)
             
-            Distance.Head_UD_Angle = 55
+            # Distance.Head_UD_Angle = 55
             
             oneframe = robo._image_processor.ball_hole_oneframe()
             if oneframe == True:
@@ -763,11 +765,10 @@ class Controller:
                 else:
                     print("holein fail")
                     # 몰라. 3번을 더 간단히?
-                    act = Act.WALK_BALL
-                    pass
+                    self.act = Act.WALK_BALL
 
             else:   
                 print('go putting pos')
                 # 퍼팅준비로 돌아감
-                act = Act.WALK_BALL
+                self.act = Act.WALK_BALL
 

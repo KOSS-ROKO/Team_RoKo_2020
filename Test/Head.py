@@ -249,7 +249,7 @@ class Head:
         elif check == "right":    ## 똑같이 왼쪽으로 이동
             robo._motion.walk_side("LEFT")
             time.sleep(1)
-            robo._motion.turn("RIGHT", 15)    # 값 조절 필요
+            robo._motion.turn("RIGHT", 20)    # 값 조절 필요
             return False
         else: # check == "none"
             return "Except"

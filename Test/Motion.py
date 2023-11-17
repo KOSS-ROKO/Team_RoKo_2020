@@ -180,10 +180,10 @@ class Motion:
         # dir = ["left", "right"]
         if dir=="left":
             self.TX_data_py2(111)
-            time.sleep(10)
+            time.sleep(7)
         else:
             self.TX_data_py2(110)
-            time.sleep(10)            
+            time.sleep(7)            
         
     
     def putting(self, dir, power, sleep=1): 
