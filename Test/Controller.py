@@ -223,12 +223,12 @@ class Controller:
             #     motion.walk("BACKWARD", walk_loop)
 
             if ball_dist > 18:
-                motion.walk("FORWARD", ball_dist)
+                motion.walk("FORWARD", ball_dist - 18)
                     
             elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist)
+                motion.walk("BACKWARD", ball_dist - 18)
 
             #return True
             
@@ -272,37 +272,10 @@ class Controller:
             print("^^^^222222")
             
             #motion.head("DEFAULT", 1)
-            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
-            time.sleep(5)
+            #motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
+            #time.sleep(5)
             
-            while True:
-                # 공 홀컵 일직선 맞추기
-                print("!!call straight ")
-                check_straight = head.straight()
-                if check_straight == True: # 거리 알고리즘으로 넘어감
-                    print("straight true!!")
-                    break
-                elif check_straight == "Except":
-                    print("straight except")
-                    while True:
-                        motion.head("DEFAULT", 1)
-                        is_big_UD = big_UD("ball")
-                        
-                        if is_big_UD == "Except":
-                            big_LR("ball")
-                        is_small_LR = small_LR("ball")
-                        
-                        if is_small_LR == "Except" :
-                            motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                            # big 알고리즘으로 넘어감
-                            # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
-                            big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
-                        else:
-                            break
-                else:
-                    continue
-            
-            
+
             
             is_ball = robo._image_processor.detect_ball()
 
@@ -351,13 +324,13 @@ class Controller:
             
         
             # 무지성 10번 걸은 후, 남은 거리 측정 후 걷기
-            if ball_dist > 18:
-                motion.walk("FORWARD", ball_dist)
+            if ball_dist > 26:  # 18+8 (화면에 여유있게 들어오도록)
+                motion.walk("FORWARD", ball_dist - 26)
                     
-            elif ball_dist == 18:
+            elif ball_dist == 26:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist)            
+                motion.walk("BACKWARD", ball_dist - 26)            
             
             
             self.act = Act.PUTTING_POS
@@ -468,7 +441,7 @@ class Controller:
                     continue   
             '''   
 
-            '''
+            
             while True:
                 # 공 홀컵 일직선 맞추기
                 print("!!call straight ")
@@ -495,7 +468,7 @@ class Controller:
                             break
                 else:
                     continue
-            '''            
+                     
                     
                 
             ##### straight 알고리즘하다가 중앙이 흐트려졌을 거라 판단하여 -> 중앙 맞추기 시작
@@ -552,14 +525,8 @@ class Controller:
             
             print("holecup dist : ", Distance.holecup_dist)
             # 이 length를 퍼팅 파워로 바꿔주는 코드 필요 -> 직접해보면서 조절
-            power = Distance.holecup_dist
             
-            # if Distance.holecup_dist < 20: # 20 값 바꾸기
-            #     #self.act = Act.HOLEIN
-                 
-            #     print("거리가 너무 작아서 HOLEIN으로!!!")
-            # else:
-            #     self.act = Act.PUTTING
+
             self.act = Act.PUTTING
 
             # 공 거리는 Act 4(PUTTING)에서 재기

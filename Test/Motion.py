@@ -108,8 +108,7 @@ class Motion:
 
 
 
-        dist = dist-18 
-        print("motion.py dist: ", dist)
+        print("motion.py dist - 18or26: ", dist)
                
         ############
         if dir=="FORWARD":
