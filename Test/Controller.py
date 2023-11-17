@@ -505,10 +505,10 @@ class Controller:
             Distance.field = "left" ##temp
             #몸 퍼팅 위치에 서기
             if Distance.field == "left" :
-                print("field left!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                print("field left!!")
                 robo._motion.pose("LEFT")
             elif Distance.field == "right" :
-                print("field right!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                print("field right!!")
                 robo._motion.pose("RIGHT")
 
             
@@ -740,9 +740,17 @@ class Controller:
                 small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
             robo._motion.head("DOWN", 30)
+            print("head down 30 /5555")
+            time.sleep(1)
             robo._motion.head("DOWN", 9)
+            print("head down 9 /5555")
+            time.sleep(1)
             robo._motion.head("DOWN", 6)
+            print("head down 6 /5555")
             time.sleep(2)
+            
+            Distance.Head_UD_Angle = 55
+            
             oneframe = robo._image_processor.ball_hole_oneframe()
             if oneframe == True:
                 print("is oneframe? yesss")
