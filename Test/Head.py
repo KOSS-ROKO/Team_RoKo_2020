@@ -234,7 +234,7 @@ class Head:
         #     pass 
     
     
-                
+        '''   
     def straight(self):
         robo = self.robo
         check = robo._image_processor.ball_hole_straight()
@@ -254,7 +254,9 @@ class Head:
         else: # check == "none"
             return "Except"
         
-        '''def straight(self):
+        '''
+        
+    def straight(self):
         robo = self.robo
         check = robo._image_processor.ball_hole_straight()
 
@@ -271,4 +273,4 @@ class Head:
             robo._motion.turn("RIGHT", 10)    # 값 조절 필요
             return False
         else: # check == "none"
-            return "Except"'''
+            return "Except"

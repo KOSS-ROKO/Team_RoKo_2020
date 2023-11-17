@@ -270,9 +270,37 @@ class Controller:
             print("^^^^222222")
             print("^^^^222222")
             print("^^^^222222")
-            # motion.head("DEFAULT", 1)
-            # motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
-            # time.sleep(5)
+            
+            #motion.head("DEFAULT", 1)
+            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
+            time.sleep(5)
+            
+            while True:
+                # 공 홀컵 일직선 맞추기
+                print("!!call straight ")
+                check_straight = head.straight()
+                if check_straight == True: # 거리 알고리즘으로 넘어감
+                    print("straight true!!")
+                    break
+                elif check_straight == "Except":
+                    print("straight except")
+                    while True:
+                        motion.head("DEFAULT", 1)
+                        is_big_UD = big_UD("ball")
+                        
+                        if is_big_UD == "Except":
+                            big_LR("ball")
+                        is_small_LR = small_LR("ball")
+                        
+                        if is_small_LR == "Except" :
+                            motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                            # big 알고리즘으로 넘어감
+                            # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
+                            big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        else:
+                            break
+                else:
+                    continue
             
             
             
@@ -407,7 +435,7 @@ class Controller:
             ###### 홀컵 찾음, 중앙 맞췄음. 일직선 맞추고, 이제 거리 재야됨
 
             
- 
+            '''
             while True:
                 # 공 홀컵 일직선 맞추기 => 홀컵만으로 판별
                 print("!!call straight ")
@@ -437,7 +465,8 @@ class Controller:
                         else:
                             break
                 else:
-                    continue      
+                    continue   
+            '''   
 
             '''
             while True:

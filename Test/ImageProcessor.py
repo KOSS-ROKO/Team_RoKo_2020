@@ -424,7 +424,7 @@ class ImageProcessor:
     #########################################
     #########################################
     
-    
+    '''
     def ball_hole_straight(self):
         #여기서 cv로 일직선 판단 
         # return left right middle
@@ -452,37 +452,38 @@ class ImageProcessor:
 
         return result
     
-
+    '''
+    
     # < Straight 원본 >
 
-    # def ball_hole_straight(self):
-    #     #여기서 cv로 일직선 판단 
-    #     # return left right middle
-    #     # 리턴값은 head.py의 straight로 넘어감
+    def ball_hole_straight(self):
+        #여기서 cv로 일직선 판단 
+        # return left right middle
+        # 리턴값은 head.py의 straight로 넘어감
 
 
-    #     red_center = self.detect_ball("call_midpoint")
-    #     if not red_center:
-    #         print("red no")
-    #     yellow_center = self.detect_holecup("call_midpoint")
-    #     if not yellow_center:
-    #         print("yellow no")
+        red_center = self.detect_ball("call_midpoint")
+        if not red_center:
+            print("red no")
+        yellow_center = self.detect_holecup("call_midpoint")
+        if not yellow_center:
+            print("yellow no")
 
                 
-    #     # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
-    #     if red_center and yellow_center:
-    #         if abs(red_center[0] - yellow_center[0]) < 10:
-    #             result = "middle"
+        # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
+        if red_center and yellow_center:
+            if abs(red_center[0] - yellow_center[0]) < 10:
+                result = "middle"
 
-    #         elif red_center[0] < yellow_center[0]:
+            elif red_center[0] < yellow_center[0]:
                 
-    #             result = "left"
-    #         else:
-    #             result = "right"
-    #     else:
-    #         result = "none"
+                result = "left"
+            else:
+                result = "right"
+        else:
+            result = "none"
 
-    #     return result
+        return result
             
     
         
