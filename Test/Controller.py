@@ -256,6 +256,9 @@ class Controller:
 
             self.act = Act.WALK_BALL
             
+            robo._motion.walk("FORWARD10", 1)
+            time.sleep(15)
+            
             #return True
         
         #=======================================================#
@@ -273,8 +276,7 @@ class Controller:
             # robo._motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             # time.sleep(5)
             
-            robo._motion.walk("FORWARD10", 1)
-            time.sleep(15)
+            
             
             is_ball = robo._image_processor.detect_ball()
 
