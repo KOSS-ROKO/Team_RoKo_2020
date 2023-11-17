@@ -748,4 +748,7 @@ class Controller:
                 print('go putting pos')
                 # 퍼팅준비로 돌아감
                 self.act = Act.WALK_BALL
+            
+            
+            return True
 
