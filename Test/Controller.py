@@ -19,7 +19,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.PUTTING_POS
+    act  = Act.TEESHOT
     robo = Robo()
 
 
@@ -602,4 +602,4 @@ class Controller:
                 self.act = Act.WALK_BALL
             
             
-            return True
+            #return True
