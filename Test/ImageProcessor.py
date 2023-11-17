@@ -77,8 +77,11 @@ class ImageProcessor:
                 
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
-        imgThreshLow = cv2.inRange(imgHSV, (0, 200, 155), (50, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 155, 50), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 50, 155), (50, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 50, 50), (179, 255, 255))
+
+        imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
