@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from ImageProcessor import ImageProcessor
 import time
 from Robo import Robo
 from Head import Head
@@ -86,21 +85,6 @@ class Controller:
                     continue
                 else : # is_vertical_middle == Except_
                     return "Except"
-
-
-        def small_UD(object="ball"):
-            small_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            #small ud head
-            while True:
-                is_horizontal_middle, Distance.Head_ud_angle = head.small_UD_head(object, small_ud_angle)
-                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                    #act = Act.PUTTING_POS 
-                    return "Success"
-                elif is_horizontal_middle == False:
-                    small_ud_angle = Distance.Head_ud_angle
-                    continue  
-                else: # is_horizontal_middle == Except_
-                    return "Except"
                          
 
         def UD_for_dist(object="ball"): # small ud head 변형
@@ -122,11 +106,6 @@ class Controller:
 
         def holecup_UD_for_dist(): # small ud head 변형
             small_ud_angle = 10
-            
-            #현재 고개 55도에서 10도로
-            # motion.head("DOWN", 30) # 고개 10도로 내리고 공 detect 시작 !
-            # motion.head("DOWN", 9) 
-            # motion.head("DOWN", 6) 
             
             # 거리를 위한 고개 각도 올리기 
             while True:
@@ -154,11 +133,7 @@ class Controller:
         
         if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act) # Debug
-            
-            ######## act == Act.WALK_BALL에 Big UD 추가 ########
 
-
-            ### big UD & LR 할까말까 결정 T / F
             is_ball = robo._image_processor.detect_ball()
 
             ### False면, big UD LR 해라
@@ -197,30 +172,11 @@ class Controller:
             # length = 거리 
             ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             print(Distance.Length_ServoAngle_dict)
-            print("=====================================")
-            print(ball_dist , "======HEE=====", Distance.Head_ud_angle)
-            print("=====================================")
+            print("==========================================")
+            print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
+            print("==========================================")
 
-            
- 
-            # # 거리 측정 후 걷기
-            # if ball_dist > 18:
-            #     # 걷는 횟수(loop) = (d - 15) / 한발자국 걷는 센치(5cm)
-            #     if 18 < ball_dist <= 21:
-            #         walk_loop = int((ball_dist - 18) // 3)
-            #         print(walk_loop)
-            #         motion.walk("JFORWARD", walk_loop)
-            #     else:
-            #         walk_loop = int((ball_dist - 18) // 8)
-            #         print(walk_loop)
-            #         motion.walk("FORWARD", walk_loop)
-            # elif ball_dist == 18:
-            #     print("correct!")
-            # else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-            #     walk_loop = (18 - ball_dist) // 8
-            #     walk_loop = int(walk_loop)  
-            #     print(walk_loop)
-            #     motion.walk("BACKWARD", walk_loop)
+
 
             if ball_dist > 18:
                 motion.walk("FORWARD", ball_dist - 18)
@@ -230,22 +186,14 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
 
-            #return True
-            
-
-            ######### 퍼팅 위치에 서고 ########
-            ## 아직 옆에 설지, 정면으로 보고 설지 모름. 그래서 지금은 옆에 서는 걸로 했음
-            ###### act == Act.PUTTING_POS
-            ###### 원래라면 퍼팅 포즈로 가서 << 원프레임, 스트레이트, 거리 재기 >> 해야하는데
-            ######------------------> 이거 지금 테스트 용으로 바로 퍼팅함
-            ######### 퍼팅한다 ########
+            # PUTTING
             time.sleep(3)
             motion.putting("left", 3, 2)
             print("putting")
             time.sleep(3)
 
-            # 아래 모션 좌퍼팅기준으로 썼네..
-            # turn body left, 몸을 왼쪽으로 90도 돌림. / 고개는 이미 정면을 바라보고 있음.(바꿀 필요 없단 뜻)
+
+            # turn body left, 몸을 왼쪽으로 90도 돌림.
             motion.turn("LEFT", 60)
             time.sleep(7)
             motion.turn("LEFT", 60)
@@ -274,8 +222,7 @@ class Controller:
             #motion.head("DEFAULT", 1)
             #motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             #time.sleep(5)
-            
-
+        
             
             is_ball = robo._image_processor.detect_ball()
 
@@ -288,7 +235,6 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        # big LR 시행하기전에 UD 45도로
                         motion.head("UP", 9) # after Teeshot 고개 60
                         motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
@@ -297,8 +243,6 @@ class Controller:
                     
                     if is_small_LR == "Except" :
                         motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        # big 알고리즘으로 넘어감
-                        # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                     else:
                         break
@@ -319,8 +263,6 @@ class Controller:
             # length = 거리 
             ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             print("ball distance :", ball_dist)
-            # 인자 값으로 서보모터 값 들어가야함 (원래 값 + 변한 값)
-            #length = variable.Length_ServoAngle_dict.get(variable.Head_ud_angle +  small_ud_angle)
             
         
             # 무지성 10번 걸은 후, 남은 거리 측정 후 걷기
@@ -349,9 +291,7 @@ class Controller:
             print("^^^^333333")
             print("^^^^333333")
 
-            motion.head("DOWN", 30) # 고개 45도로 내리고 공 detect 시작 !
-            motion.head("DOWN", 9)
-            motion.head("DOWN", 6)
+            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(1)
             Distance.Head_UD_Angle = 55
             
@@ -379,14 +319,11 @@ class Controller:
                     else:
                         break
 
-                # !! 근데, is_holecup_in_frame==True인 경우에 
-                # LR head값 어차피 안바뀌니까 여기에 넣어도 될듯 ??
-                ## 아니면 tab 한 번 더 줘서 고개 한 번당 sidewalk 한 번 해도됨
-
+               
                 #====== holecup 고개 방향만큼 꽃게 걸음 ======#
-                side_walk = int(abs(100-Distance.Head_ud_angle)//10) # 식은 시행착오거치면서 변경예정
+                side_walk = int(abs(100-Distance.Head_lr_angle)//10) # 식은 시행착오거치면서 변경예정
 
-                print("**flower dog start**")
+                print("**꽃게 걸음 시작**")
                 # side walk 방향 설정 
                 if  Distance.small_lr_angle < 100:
                     # 고개가 왼쪽L이면 오른쪽R으로 side walk해라
@@ -485,11 +422,9 @@ class Controller:
                 motion.pose("RIGHT")
 
             
-            ########################################    
-            ############# 거리 알고리즘 #############
+            ''' 홀컵 찾기, 홀컵 거리 재기 안 할 거라 일단 주석처리했음
             
-            # 홀컵 middle 맞추기
-            
+            # 거리 알고리즘    
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
@@ -513,7 +448,6 @@ class Controller:
                     break
             
             
-            
             motion.head("DOWN", 45)
             Distance.Head_UD_Angle = 10
             holecup_UD_for_dist() # 홀컵 거리 재기
@@ -525,48 +459,14 @@ class Controller:
             
             print("holecup dist : ", Distance.holecup_dist)
             # 이 length를 퍼팅 파워로 바꿔주는 코드 필요 -> 직접해보면서 조절
-            
+            '''
 
             self.act = Act.PUTTING
 
             # 공 거리는 Act 4(PUTTING)에서 재기
-            '''
-            else:   #================= 공 거리 재기 =================#    
-                # 공 middle 맞추기
-                motion.head("DEFAULT", 2) # 고개 정면 LR으로
-                
-                ### 이연이 포즈 모션 정확하면 필요없긴함 
-                while True:
-                    big_LR("ball")
-                    is_small_LR = small_LR("ball")
 
-                    if is_small_LR == "Except" :
-                        print("ball small lr except")
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        
-                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
-                    else:
-                        break
-                ###
-                
-                #small ud head
-                Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-                UD_for_dist("ball")
-                motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-                time.sleep(2)
-    
-                # 공 거리 재기 => 15cm 거리 미세조정
-                ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
-                Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-                
-                self.act = Act.PUTTING
-                
-                print("ball dist : ", ball_dist)'''
-                
             #return True
 
-            
-        
         
         
         
@@ -575,11 +475,6 @@ class Controller:
         #=======================================================#
         
         elif act == Act.PUTTING:             ##### 4. 퍼팅 #################
-            ##################### 2.의 중간 맞추는 코드 가져옴
-            ### 거리 알고리즘
-            # 홀컵 middle 맞추기
-            # 홀컵 거리 재기
-            ######## 홀컵 거리 재기 위해
             
             print("^^^^444444")
             print("^^^^444444")
@@ -594,30 +489,15 @@ class Controller:
             time.sleep(1)
 
             Distance.Head_UD_Angle = 55
-
-
-            # print("ball not detected")
-            # # big UD head
-            # while True:
-            #     big_LR("ball")
-            #     is_small_LR = small_LR("ball")
-
-            #     if is_small_LR == "Except" :
-            #         print("ball small lr except")
-            #         motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                    
-            #         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
-            #     else:
-            #         break
-                         
-            # print("ball YESYES")
+            
+    
 
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
 
-            UD_for_dist("ball") # 거리 재기
+            UD_for_dist("ball") # 공 거리 재기
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
 
@@ -625,7 +505,7 @@ class Controller:
             ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             print(Distance.Length_ServoAngle_dict)
             print("=====================================")
-            print("bal dist:" ,ball_dist , " head ud angle:", Distance.Head_ud_angle)
+            print("balL dist:" , ball_dist , " head ud angle:", Distance.Head_ud_angle)
             print("=====================================")
             
             while True:
@@ -641,6 +521,11 @@ class Controller:
 
             time.sleep(3)
 
+                
+            ### 건웅 오빠 필독!
+            ### 퍼팅 직전 공의 위치 정확히 두는 코드 여기 들어가야함! 꽃게걸음으로 좌우 조절 
+                
+                
             ### 진짜 퍼팅
             motion.putting(Distance.field, 1, 2)
             time.sleep(5)
@@ -648,7 +533,7 @@ class Controller:
                 
             self.act = Act.HOLEIN
 
-            motion.turn("LEFT", 60)
+            motion.turn("LEFT", 45)
             time.sleep(5)
             motion.turn("LEFT", 45)
             time.sleep(3)
@@ -713,9 +598,8 @@ class Controller:
 
             else:   
                 print('go putting pos')
-                # 퍼팅준비로 돌아감
+                # 원프레임이 아니라서 다시 WALK BALL로
                 self.act = Act.WALK_BALL
             
             
             return True
-
