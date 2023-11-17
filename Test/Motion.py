@@ -86,58 +86,68 @@ class Motion:
         time.sleep(1.5)
 
     # 걷기 (101~120)
-    def walk(self, dir, dist, loop=1):
+    def walk(self, dir, dist=0, loop=1):
         """ parameter :
         dir : {'JFORWARD', 'JBACKWARD', FORWARD, BACKWARD}
         """
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104}
         
-        for i in range(loop):                
-            if dir in ['JFORWARD', 'JBACKWARD']:
-                self.TX_data_py2(dir_list[dir])
-                time.sleep(2.5)
-            else:
-                self.TX_data_py2(dir_list[dir])
-                time.sleep(3)
+        # for i in range(loop):                
+        #     if dir in ['JFORWARD', 'JBACKWARD']:
+        #         self.TX_data_py2(dir_list[dir])
+        #         time.sleep(2.5)
+        #     else:
+        #         self.TX_data_py2(dir_list[dir])
+        #         time.sleep(3)
 
-            if i % 2 == 0:
-                self.TX_data_py2(157)
-                time.sleep(2)
+        #     if i % 2 == 0:
+        #         self.TX_data_py2(157)
+        #         time.sleep(2)
+
+
+
 
         dist = dist-18 
+        print("motion.py dist: ", dist)
                
         ############
         if dir=="FORWARD":
             while dist > 0:            
                 if dist >= 8:
-                    print("FORWARD", dir, " by a degrees.", dist)
+                    print(dir, dist)
                     self.TX_data_py2(dir_list["FORWARD"])
-                    time.sleep(1)
+                    time.sleep(3)
                     dist -= 8
+                    continue
                 elif dist < 8 and dist >= 2:
-                    print("FORWARD", dir, " by a degrees.", dist)
+                    print(dir, dist)
                     self.TX_data_py2(dir_list["JFORWARD"])
-                    time.sleep(1)
+                    time.sleep(3)
                     dist -= 3
+                    continue
                 elif dist < 2 :  
                     print("FORWARD too small to WALK further.", dist)
                     break
-        else:
+        elif dir=="BACKWARD":
             while dist < 0:            
                 if dist <= -8:
                     print("BACKWARD", dir, " by a degrees.", dist)
                     self.TX_data_py2(dir_list["BACKWARD"])
-                    time.sleep(1)
+                    time.sleep(3)
                     dist += 8
                 elif -8 < dist <= -2:
                     print("Rotating", dir, " by a degrees.", dist)
                     self.TX_data_py2(dir_list["JBACKWARD"])
-                    time.sleep(1)
+                    time.sleep(3)
                     dist += 3
                 elif dist > -2:  
                     print("Angle too small to rotate further.", dist)
                     break
+        else:
+            self.TX_data_py2(dir_list[dir])
+            time.sleep(3)
+
                     
 
     # 머리 각도 (121~140)

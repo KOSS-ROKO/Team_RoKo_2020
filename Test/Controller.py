@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOT
+    act  = Act.PUTTING_POS
     robo = Robo()
 
 
@@ -31,6 +31,7 @@ class Controller:
         robo = self.robo
         
         head = Head()
+        motion = Motion()
         
         
         #=======================================================#
@@ -123,9 +124,9 @@ class Controller:
             small_ud_angle = 10
             
             #현재 고개 55도에서 10도로
-            # Motion.head("DOWN", 30) # 고개 10도로 내리고 공 detect 시작 !
-            # Motion.head("DOWN", 9) 
-            # Motion.head("DOWN", 6) 
+            # motion.head("DOWN", 30) # 고개 10도로 내리고 공 detect 시작 !
+            # motion.head("DOWN", 9) 
+            # motion.head("DOWN", 6) 
             
             # 거리를 위한 고개 각도 올리기 
             while True:
@@ -173,7 +174,7 @@ class Controller:
                     is_small_LR = small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         # big 알고리즘으로 넘어감
                         # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -184,12 +185,12 @@ class Controller:
                 small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
             # ud_for_dist 하기전에 고개 세팅
-            Motion.head("DEFAULT", 2) # 고개 디폴트
+            motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            Motion.head("DEFAULT", 1) # 고개 디폴트
+            motion.head("DEFAULT", 1) # 고개 디폴트
             
             UD_for_dist("ball")
-            Motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
             
 
@@ -208,28 +209,28 @@ class Controller:
             #     if 18 < ball_dist <= 21:
             #         walk_loop = int((ball_dist - 18) // 3)
             #         print(walk_loop)
-            #         Motion.walk("JFORWARD", walk_loop)
+            #         motion.walk("JFORWARD", walk_loop)
             #     else:
             #         walk_loop = int((ball_dist - 18) // 8)
             #         print(walk_loop)
-            #         Motion.walk("FORWARD", walk_loop)
+            #         motion.walk("FORWARD", walk_loop)
             # elif ball_dist == 18:
             #     print("correct!")
             # else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
             #     walk_loop = (18 - ball_dist) // 8
             #     walk_loop = int(walk_loop)  
             #     print(walk_loop)
-            #     Motion.walk("BACKWARD", walk_loop)
+            #     motion.walk("BACKWARD", walk_loop)
 
             if ball_dist > 18:
-                Motion.walk("FORWARD", ball_dist)
+                motion.walk("FORWARD", ball_dist)
                     
             elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                Motion.walk("BACKWARD", ball_dist)
+                motion.walk("BACKWARD", ball_dist)
 
-
+            #return True
             
 
             ######### 퍼팅 위치에 서고 ########
@@ -239,24 +240,24 @@ class Controller:
             ######------------------> 이거 지금 테스트 용으로 바로 퍼팅함
             ######### 퍼팅한다 ########
             time.sleep(3)
-            Motion.putting("left", 3, 2)
+            motion.putting("left", 3, 2)
             print("putting")
             time.sleep(3)
 
             # 아래 모션 좌퍼팅기준으로 썼네..
             # turn body left, 몸을 왼쪽으로 90도 돌림. / 고개는 이미 정면을 바라보고 있음.(바꿀 필요 없단 뜻)
-            Motion.turn("LEFT", 60)
-            time.sleep(2)
-            Motion.turn("LEFT", 60)
+            motion.turn("LEFT", 60)
+            time.sleep(7)
+            motion.turn("LEFT", 60)
             time.sleep(2)
             print("turn LEFT")
 
             self.act = Act.WALK_BALL
             
-            Motion.walk("FORWARD10", 1)
+            motion.walk("FORWARD10", 1)
             time.sleep(15)
             
-            return True
+            # return True
         
         #=======================================================#
         #                        2. Walk                        #         
@@ -269,8 +270,8 @@ class Controller:
             print("^^^^222222")
             print("^^^^222222")
             print("^^^^222222")
-            # Motion.head("DEFAULT", 1)
-            # Motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
+            # motion.head("DEFAULT", 1)
+            # motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             # time.sleep(5)
             
             
@@ -287,14 +288,14 @@ class Controller:
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         # big LR 시행하기전에 UD 45도로
-                        Motion.head("UP", 9) # after Teeshot 고개 60
-                        Motion.head("UP", 6)
+                        motion.head("UP", 9) # after Teeshot 고개 60
+                        motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         # big 알고리즘으로 넘어감
                         # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -304,14 +305,14 @@ class Controller:
                 small_LR("ball") # small lr 함으로써 중앙 맞춰짐
             
             # ud_for_dist 하기전에 고개 세팅
-            Motion.head("DEFAULT", 2) # 고개 디폴트
+            motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            Motion.head("DEFAULT", 1) # 고개 디폴트
+            motion.head("DEFAULT", 1) # 고개 디폴트
             time.sleep(1)
             
             print("ball detected")
             UD_for_dist("ball")
-            Motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
 
             # length = 거리 
@@ -322,20 +323,13 @@ class Controller:
             
         
             # 무지성 10번 걸은 후, 남은 거리 측정 후 걷기
-            if ball_dist >= 18:
-                if 18 <= ball_dist <=28:
-                    walk_loop = int((ball_dist - 18) // 3)
-                    print("walk_loop :", walk_loop)
-                    Motion.walk("JFORWARD", walk_loop)
-                else:   ##
-                    walk_loop = round((ball_dist - 18) / 8)  # -10은 거리 안정확해서 임시, int대신 round 반올림도 임시
-                    print("walk_loop :", walk_loop)
-                    Motion.walk("FORWARD", walk_loop)
+            if ball_dist > 18:
+                motion.walk("FORWARD", ball_dist)
+                    
+            elif ball_dist == 18:
+                print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                walk_loop = (18 - ball_dist) // 8
-                walk_loop = int(walk_loop)
-                print("walk_loop :", walk_loop)
-                Motion.walk("BACKWARD", walk_loop)                
+                motion.walk("BACKWARD", ball_dist)            
             
             
             self.act = Act.PUTTING_POS
@@ -354,16 +348,16 @@ class Controller:
             print("^^^^333333")
             print("^^^^333333")
 
-            Motion.head("DOWN", 30) # 고개 45도로 내리고 공 detect 시작 !
-            Motion.head("DOWN", 9)
-            Motion.head("DOWN", 6)
+            motion.head("DOWN", 30) # 고개 45도로 내리고 공 detect 시작 !
+            motion.head("DOWN", 9)
+            motion.head("DOWN", 6)
             time.sleep(1)
             Distance.Head_UD_Angle = 55
             
             
             is_holecup_in_frame = robo._image_processor.detect_holecup()
             
-            Motion.head("DEFAULT", 1) # 고개 상하 디폴트
+            motion.head("DEFAULT", 1) # 고개 상하 디폴트
             
             if is_holecup_in_frame == False:    
                 print("holecup NONONONONONO")
@@ -378,7 +372,7 @@ class Controller:
                     print("small lr finished")
 
                     if is_small_LR == "Except" :
-                        Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         
                         big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                     else:
@@ -405,9 +399,9 @@ class Controller:
                 print("side walk -------", side_walk)
                 # motion.py에 walk_side for문이 없어서 임시로 여기다 넣음
                 for _ in range(side_walk):
-                    Motion.walk_side(side_lr)
+                    motion.walk_side(side_lr)
                 
-            Motion.head("DEFAULT", 2) # LR 한 후 고개 디폴트
+            motion.head("DEFAULT", 2) # LR 한 후 고개 디폴트
                     
             print("holecup YES")
             ###### 홀컵 찾음, 중앙 맞췄음. 일직선 맞추고, 이제 거리 재야됨
@@ -428,7 +422,7 @@ class Controller:
                         # 홀컵이 안보이는 경우이므로, 홀컵을 찾는 과정
                         # 문제점 : 홀컵 UD는 몸을 움직이지 않음. 근데 몸 움직여야함ㅠ
 
-                        Motion.head("DEFAULT", 1)
+                        motion.head("DEFAULT", 1)
                         is_big_UD = big_UD("holecup")
                         
                         if is_big_UD == "Except":
@@ -436,7 +430,7 @@ class Controller:
                         is_small_LR = small_LR("holecup")
                         
                         if is_small_LR == "Except" :
-                            Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                            motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                             # big 알고리즘으로 넘어감
 
                             big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -456,7 +450,7 @@ class Controller:
                 elif check_straight == "Except":
                     print("straight except")
                     while True:
-                        Motion.head("DEFAULT", 1)
+                        motion.head("DEFAULT", 1)
                         is_big_UD = big_UD("ball")
                         
                         if is_big_UD == "Except":
@@ -464,7 +458,7 @@ class Controller:
                         is_small_LR = small_LR("ball")
                         
                         if is_small_LR == "Except" :
-                            Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                            motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                             # big 알고리즘으로 넘어감
                             # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                             big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -483,10 +477,10 @@ class Controller:
             #몸 퍼팅 위치에 서기
             if Distance.field == "left" :
                 print("field left!!")
-                Motion.pose("LEFT")
+                motion.pose("LEFT")
             elif Distance.field == "right" :
                 print("field right!!")
-                Motion.pose("RIGHT")
+                motion.pose("RIGHT")
 
             
             ########################################    
@@ -495,11 +489,11 @@ class Controller:
             # 홀컵 middle 맞추기
             
             # ud_for_dist 하기전에 고개 세팅
-            Motion.head("DEFAULT", 2) # 고개 디폴트
+            motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            Motion.head("DEFAULT", 1) # 고개 디폴트
+            motion.head("DEFAULT", 1) # 고개 디폴트
             
-            Motion.head("DOWN", 45)
+            motion.head("DOWN", 45)
             time.sleep(2)
             
             # ud_for_dist 하기전에 holecup 찾기
@@ -510,7 +504,7 @@ class Controller:
 
                 if is_small_LR == "Except" :
                     print("holecup small lr except")
-                    Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                    motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                     
                     big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                 else:
@@ -518,10 +512,10 @@ class Controller:
             
             
             
-            Motion.head("DOWN", 45)
+            motion.head("DOWN", 45)
             Distance.Head_UD_Angle = 10
             holecup_UD_for_dist() # 홀컵 거리 재기
-            Motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
                             
             # 홀컵 거리 재기
@@ -543,7 +537,7 @@ class Controller:
             '''
             else:   #================= 공 거리 재기 =================#    
                 # 공 middle 맞추기
-                Motion.head("DEFAULT", 2) # 고개 정면 LR으로
+                motion.head("DEFAULT", 2) # 고개 정면 LR으로
                 
                 ### 이연이 포즈 모션 정확하면 필요없긴함 
                 while True:
@@ -552,7 +546,7 @@ class Controller:
 
                     if is_small_LR == "Except" :
                         print("ball small lr except")
-                        Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                     else:
@@ -562,7 +556,7 @@ class Controller:
                 #small ud head
                 Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
                 UD_for_dist("ball")
-                Motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+                motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
                 time.sleep(2)
     
                 # 공 거리 재기 => 15cm 거리 미세조정
@@ -597,10 +591,10 @@ class Controller:
             print("^^^^444444")
 
 
-            Motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
-            # Motion.head("DOWN", 30) # 고개 45도로 내리고 공 detect 시작 !
-            # Motion.head("DOWN", 9) # 고개 45도로 내리고 공 detect 시작 !
-            # Motion.head("DOWN", 6) # 고개 45도로 내리고 공 detect 시작 !
+            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
+            # motion.head("DOWN", 30) # 고개 45도로 내리고 공 detect 시작 !
+            # motion.head("DOWN", 9) # 고개 45도로 내리고 공 detect 시작 !
+            # motion.head("DOWN", 6) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(1)
 
             Distance.Head_UD_Angle = 55
@@ -614,7 +608,7 @@ class Controller:
 
             #     if is_small_LR == "Except" :
             #         print("ball small lr except")
-            #         Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+            #         motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                     
             #         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
             #     else:
@@ -623,12 +617,12 @@ class Controller:
             # print("ball YESYES")
 
             # ud_for_dist 하기전에 고개 세팅
-            Motion.head("DEFAULT", 2) # 고개 디폴트
+            motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            Motion.head("DEFAULT", 1) # 고개 디폴트
+            motion.head("DEFAULT", 1) # 고개 디폴트
 
-            UD_for_dist("ball") # 홀컵 거리 재기
-            Motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            UD_for_dist("ball") # 거리 재기
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
 
             # length = 거리 
@@ -643,23 +637,24 @@ class Controller:
                 if 15 <= ball_dist <= 21: # 거리 값 조정 필요!
                     break
                 elif ball_dist < 15:
-                    Motion.walk("JBACKWARD")
+                    motion.walk("JBACKWARD")
                     ball_dist += 3
                 elif ball_dist > 21:
-                    Motion.walk("JFORWARD")
+                    motion.walk("JFORWARD")
                     ball_dist -= 3
 
             time.sleep(3)
 
             ### 진짜 퍼팅
-            Motion.putting(Distance.field, 1, 2)
-            time.sleep(2)
+            motion.putting(Distance.field, 1, 2)
+            time.sleep(5)
                 
                 
             self.act = Act.HOLEIN
 
-            Motion.turn("LEFT", 60)
-            Motion.turn("LEFT", 45)
+            motion.turn("LEFT", 60)
+            time.sleep(5)
+            motion.turn("LEFT", 45)
             time.sleep(3)
 
             #return True
@@ -687,7 +682,7 @@ class Controller:
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         print("big ud except 555")
                         # big LR 시행하기전에 UD 45도로
-                        Motion.head("DOWN", 45)
+                        motion.head("DOWN", 45)
                         
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
@@ -695,7 +690,7 @@ class Controller:
                     
                     if is_small_LR == "Except" :
                         print("small lr except 555")
-                        Motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         # big 알고리즘으로 넘어감
                         # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -713,7 +708,7 @@ class Controller:
                 if check_holein == True:
                     print("ceremony hehehehehe")
                     # 세레모니
-                    Motion.ceremony()
+                    motion.ceremony()
                     return True
                 else:
                     print("holein fail")
