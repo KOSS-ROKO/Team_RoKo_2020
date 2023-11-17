@@ -190,7 +190,7 @@ class Controller:
             time.sleep(3)
             motion.putting("left", 3, 2)
             print("putting")
-            time.sleep(3)
+            time.sleep(5)
 
 
             # turn body left, 몸을 왼쪽으로 90도 돌림.
@@ -595,6 +595,11 @@ class Controller:
                     print("holein fail")
                     # 몰라. 3번을 더 간단히?
                     self.act = Act.WALK_BALL
+                    
+                    motion.head("DEFAULT", 1)
+                    time.sleep(1)
+                    motion.head("DOWN", 45)
+                    time.sleep(1)
 
             else:   
                 print('go putting pos')
