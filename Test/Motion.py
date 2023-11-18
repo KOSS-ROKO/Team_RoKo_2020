@@ -91,7 +91,9 @@ class Motion:
         dir : {'JFORWARD', 'JBACKWARD', FORWARD, BACKWARD}
         """
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
-        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104}
+        # 2Jforward = 2센치 종종걸음
+        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104,
+                    '2JFORWARD': 105, "2JBACKWARD": 106}
         
         # for i in range(loop):                
         #     if dir in ['JFORWARD', 'JBACKWARD']:
@@ -159,11 +161,11 @@ class Motion:
         }
         """
         dir_list = {
-            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141},
+            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141 },
             'UP' : { 3: 129, 6: 130, 9: 131, 30: 132, 45: 142 },
             'LEFT': { 3: 134, 6: 135, 30: 136 },
             'RIGHT': { 3: 138, 6: 139, 30: 140 },
-            'DEFAULT': { 1: 121, 2: 122, 63:143 }
+            'DEFAULT': { 1: 121, 2: 122, 6: 143 }
         }
         self.TX_data_py2(dir_list[dir][angle])
         time.sleep(0.2)
@@ -204,7 +206,8 @@ class Motion:
         """ parameter :
         dir : {LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 119, "RIGHT": 118}
+        # dir_list = {"LEFT": 119, "RIGHT": 118}
+        dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116}
         self.TX_data_py2(dir_list[dir])
         time.sleep(0.1)
 

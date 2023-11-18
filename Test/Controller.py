@@ -547,7 +547,23 @@ class Controller:
                     is_center = True
                 else:
                     reference_point = [400, 160]
-                    distance_from_reference = calculate_distance_from_reference(red_center, reference_point)
+                    dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                    x,y = dx/2, dy
+                    if(abs(dx)>=25):
+                        if (dx<0):
+                            while(abs(dx)//30):
+                                robo._motion.walk_side("LEFT10")
+                        else:
+                            while(abs(dx)//30):
+                                robo._motion.walk_side("Right10")
+                    if(abs(dy)>=25):
+                        if (dy<0):
+                            while(abs(dy)//30):
+                                robo._motion.walk_side("2JBACKWARD")
+                        else:
+                            while(abs(dy)//30):
+                                robo._motion.walk_side("2JFORWARD")
+                        
                     
             ### 퍼팅 직전 공의 위치 정확히 두는 코드 여기 들어가야함! 꽃게걸음으로 좌우 조절 
                 
