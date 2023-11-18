@@ -521,7 +521,12 @@ class Controller:
 
             time.sleep(3)
 
-                
+            
+            center = robo._image_processor.detect_ball("call_midpoint")
+            print("++++++++++++++++++")
+            
+            print(center)
+            print("++++++++++++++++++")
             ### 건웅 오빠 필독!
             ### 퍼팅 직전 공의 위치 정확히 두는 코드 여기 들어가야함! 꽃게걸음으로 좌우 조절 
                 
