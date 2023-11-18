@@ -61,7 +61,7 @@ OUT 52,0   '머리 LED 켜기
 DIM 머리좌우    AS INTEGER
 DIM 머리상하    AS INTEGER
 CONST 좌우영점 = 100
-CONST 상하영점 = 95
+CONST 상하영점 = 100
 머리좌우 = 좌우영점
 머리상하 = 상하영점
 '****초기위치 피드백*****************************
@@ -589,6 +589,7 @@ MAIN_2:
     GOSUB 앞뒤기울기측정
     GOSUB 좌우기울기측정
     GOSUB 적외선거리센서확인
+    GOSUB All_motor_Reset
 
     ERX 4800,A,MAIN_2
 
@@ -624,44 +625,44 @@ MAIN_2:
     '      MAIN 라벨로 가기
     '*******************************************
     '실험
+    '리모컨
 KEY1:
     ETX  4800,1
-    '여기에요 
-    GOTO 좌퍼팅1
+    GOTO 우퍼팅1
     GOTO RX_EXIT
 KEY2:
     ETX  4800,2
-    GOTO 좌퍼팅2
+    GOTO 우퍼팅2
     GOTO RX_EXIT
 KEY3:
     ETX  4800,3
-    GOTO 좌퍼팅3
+    GOTO 우퍼팅3
     GOTO RX_EXIT
 KEY4:
     ETX  4800,4
-    GOTO 좌홀인용톡치기
+    GOTO 좌퍼팅1
     GOTO RX_EXIT
 KEY5:
     ETX  4800,5
-    GOTO 우퍼팅1
+    GOTO 좌퍼팅2
     GOTO RX_EXIT
 KEY6:
     ETX  4800,6
-    GOTO 우퍼팅3
+    GOTO 좌퍼팅3
     GOTO RX_EXIT
 KEY7:
     ETX  4800,7
     GOTO RX_EXIT
 KEY8:
     ETX  4800,8
-    GOTO 왼쪽턴10
     GOTO RX_EXIT
 KEY9:
     ETX  4800,9
+    GOTO 좌살살
     GOTO RX_EXIT
 KEY10: '0
     ETX  4800,10
-    GOTO 왼쪽옆걸음
+    GOTO 우살살
     GOTO RX_EXIT
 '-------------------------
 KEY11: ' ▲
@@ -675,7 +676,6 @@ KEY12: ' ▼
     
 KEY26: ' ■
     ETX  4800,26
-
     SPEED 5
     GOSUB 기본자세
     TEMPO 220
@@ -691,7 +691,7 @@ KEY14: ' ◀
     ETX  4800,14
     GOTO 전진기본한걸음
     GOTO RX_EXIT
-'-------------------------    
+'-------------------------    --------------------
 KEY16: ' POWER
     ETX  4800,16
     GOSUB Leg_motor_mode3
@@ -741,15 +741,13 @@ KEY16_1:
     GOTO KEY16_1
 
     GOTO RX_EXIT
-  '--------------------------------  
+  '--------------------------------  ----------------
 KEY15: ' A
     ETX  4800,15
-    GOTO 왼쪽턴5
     GOTO RX_EXIT   
      
 KEY20: ' B
     ETX  4800,20
-    GOTO 왼쪽턴10
     GOTO RX_EXIT
     
 KEY17: ' C
@@ -778,18 +776,22 @@ KEY23: ' G
 '--------------------------------
 KEY22: ' *
     ETX  4800,22
+    GOSUB 좌어드레스
     GOTO RX_EXIT
 
 KEY24: ' #
     ETX  4800,24
+    GOSUB 우어드레스
     GOTO RX_EXIT
 
 KEY25: ' P1
     ETX  4800,25
+    GOTO 전진2종종걸음
     GOTO RX_EXIT
     
 KEY19: ' P2
     ETX  4800,19
+    GOTO 후진2종종걸음
     GOTO RX_EXIT
 '-----------------------------
 KEY21: ' △
@@ -1015,7 +1017,7 @@ KEY99:
     ETX 4800,99
     GOSUB 기본자세
     GOTO RX_EXIT
-    '*************북마크
+    '*************북마크 모션키
     '######### ------------------- KEY100-110 전진걸음
     ' 로봇 제대로 안걷는 이유가 통신 과정 중의 문제일 수 있으니까 횟수 결정 변수 바꾸어서 시험해보기
 KEY100:
@@ -1044,9 +1046,11 @@ KEY104:
 '-------------------------------------------
 KEY105:
     ETX 4800,105
+    GOTO 전진2종종걸음
     GOTO RX_EXIT
 KEY106:
     ETX 4800,106
+	GOTO 후진2종종걸음
     GOTO RX_EXIT
 KEY107:
     ETX 4800,107
@@ -1067,32 +1071,36 @@ KEY111:
     GOTO 공치기자세우
     GOTO RX_EXIT
     '-------------------------------
+    '######### ------------------- KEY112-119 옆걸음
 KEY112:
     ETX 4800,112
+    GOTO 오른쪽옆걸음10
     GOTO RX_EXIT
 KEY113:
     ETX 4800,113
+    GOTO 왼쪽옆걸음10
     GOTO RX_EXIT
 KEY114:
     ETX 4800,114
+    GOTO 오른쪽옆걸음20
     GOTO RX_EXIT
 KEY115:
     ETX 4800,115
+    GOTO 왼쪽옆걸음20
     GOTO RX_EXIT
 KEY116:
     ETX 4800,116
+    GOTO 오른쪽옆걸음70
     GOTO RX_EXIT
 KEY117:
     ETX 4800,117
+    GOTO 왼쪽옆걸음70
     GOTO RX_EXIT
-    '######### ------------------- KEY118-119 옆걸음
 KEY118:
     ETX 4800,118
-    GOTO 오른쪽옆걸음
     GOTO RX_EXIT
 KEY119:
     ETX 4800,119
-    GOTO 왼쪽옆걸음
     GOTO RX_EXIT
     '######### ------------------- KEY121-150 고개각도
 KEY120:
@@ -1184,8 +1192,10 @@ KEY142:
     ETX 4800,142
     GOTO 고개상향45
     GOTO RX_EXIT
+'--------------------------------------------
 KEY143:
     ETX 4800,143
+    GOTO 고개하향63
     GOTO RX_EXIT
 KEY144:
     ETX 4800,144
@@ -1199,6 +1209,7 @@ KEY146:
     ETX 4800,146
     GOSUB 오른팔돌아오기
     GOTO RX_EXIT
+'--------------------------------------
 KEY147:
     ETX 4800,147
     GOTO RX_EXIT
@@ -1297,11 +1308,9 @@ KEY172:
     GOTO RX_EXIT
 KEY173:
     ETX 4800,173
-    GOTO 우퍼팅4   '적당히 치기
     GOTO RX_EXIT
 KEY174:
     ETX 4800,174
-    GOTO 우퍼팅5      '세게 치기
     GOTO RX_EXIT
     '#### 좌퍼팅(<-) --------------
 KEY175:
@@ -1318,11 +1327,9 @@ KEY177:
     GOTO RX_EXIT
 KEY178:
     ETX 4800,178
-    GOTO 좌퍼팅4    '적당히 치기
     GOTO RX_EXIT
 KEY179:
     ETX 4800,179
-    GOTO 좌홀인용톡치기
     GOTO RX_EXIT
     '####### --------------------- KEY180 만세
 KEY180:
@@ -1391,7 +1398,6 @@ KEY180:
     머리좌우 = 좌우영점
     SERVO 11,머리좌우
     GOTO RX_EXIT
-
     '-------------------- -----하향 
 고개하향3:
     SPEED 3
@@ -1416,6 +1422,11 @@ KEY180:
 고개하향45:
     SPEED 3
     머리상하= 머리상하 -45
+    SERVO 16, 머리상하
+    GOTO RX_EXIT
+고개하향63:
+    SPEED 3
+    머리상하= 상하영점 - 63
     SERVO 16, 머리상하
     GOTO RX_EXIT
     '------------------------ -------상향
@@ -1486,17 +1497,14 @@ KEY180:
     MOVE G6A,100,  81, 145,  88, 106, 100
     MOVE G6D,94,  71, 145, 98, 100, 100
     WAIT
-
     SPEED 12
     MOVE G6A,97,  81, 145,  88, 104, 100
     MOVE G6D,91,  71, 145, 98, 96, 100
     WAIT
-
     SPEED 6
     MOVE G6A,101,  76, 146,  93, 98, 100
     MOVE G6D,101,  76, 146,  93, 98, 100
     WAIT
-
     GOSUB 기본자세
     GOTO RX_EXIT
 왼쪽턴10:
@@ -1506,17 +1514,14 @@ KEY180:
     MOVE G6A,100,  86, 145,  83, 106, 100
     MOVE G6D,94,  66, 145, 103, 100, 100
     WAIT
-
     SPEED 12
     MOVE G6A,97,  86, 145,  83, 104, 100
     MOVE G6D,91,  66, 145, 103, 96, 100
     WAIT
-
     SPEED 6
     MOVE G6A,101,  76, 146,  93, 98, 100
     MOVE G6D,101,  76, 146,  93, 98, 100
     WAIT
-
     GOSUB 기본자세
     GOTO RX_EXIT
 왼쪽턴20:
@@ -1526,7 +1531,6 @@ KEY180:
     MOVE G6A,95,  96, 145,  73, 108, 100
     MOVE G6D,91,  56, 145,  113, 102, 100
     WAIT
-
     SPEED 12
     MOVE G6A,91,  96, 145,  73, 108, 100
     MOVE G6D,88,  56, 145,  113, 102, 100
@@ -1535,40 +1539,33 @@ KEY180:
     MOVE G6A,101,  76, 146,  93, 98, 100
     MOVE G6D,101,  76, 146,  93, 98, 100
     WAIT
-
     GOSUB 기본자세
     GOTO RX_EXIT
 왼쪽턴45:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-
     SPEED 10
     MOVE G6A,95,  106, 145,  63, 108, 100
     MOVE G6D,91,  46, 145,  123, 102, 100
     WAIT
-
     SPEED 12
     MOVE G6A,91,  106, 145,  63, 108, 100
     MOVE G6D,88,  46, 145,  123, 102, 100
     WAIT
-
     SPEED 8
     GOSUB 기본자세
     GOTO RX_EXIT
 왼쪽턴60:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-
     SPEED 15
     MOVE G6A,95,  116, 145,  53, 108, 100
     MOVE G6D,91,  36, 145,  133, 102, 100
     WAIT
-
     SPEED 15
     MOVE G6A,91,  116, 145,  53, 108, 100
     MOVE G6D,88,  36, 145,  133, 102, 100
     WAIT
-
     SPEED 10
     GOSUB 기본자세
     GOTO RX_EXIT
@@ -1580,7 +1577,6 @@ KEY180:
     MOVE G6A,97,  71, 145,  98, 103, 100
     MOVE G6D,97,  81, 145,  88, 103, 100
     WAIT
-
     SPEED 12
     MOVE G6A,94,  71, 145,  98, 101, 100
     MOVE G6D,94,  81, 145,  88, 101, 100
@@ -1589,7 +1585,6 @@ KEY180:
     MOVE G6A,101,  76, 146,  93, 98, 100
     MOVE G6D,101,  76, 146,  93, 98, 100
     WAIT
-
     GOSUB 기본자세
     GOTO RX_EXIT
 오른쪽턴10:
@@ -1599,7 +1594,6 @@ KEY180:
     MOVE G6A,97,  66, 145,  103, 103, 100
     MOVE G6D,97,  86, 145,  83, 103, 100
     WAIT
-
     SPEED 12
     MOVE G6A,94,  66, 145,  103, 101, 100
     MOVE G6D,94,  86, 145,  83, 101, 100
@@ -1608,7 +1602,6 @@ KEY180:
     MOVE G6A,101,  76, 146,  93, 98, 100
     MOVE G6D,101,  76, 146,  93, 98, 100
     WAIT
-
     GOSUB 기본자세
     GOTO RX_EXIT
 오른쪽턴20:
@@ -1618,51 +1611,41 @@ KEY180:
     MOVE G6A,95,  56, 145,  113, 105, 100
     MOVE G6D,95,  96, 145,  73, 105, 100
     WAIT
-
     SPEED 12
     MOVE G6A,93,  56, 145,  113, 105, 100
     MOVE G6D,93,  96, 145,  73, 105, 100
     WAIT
-
     SPEED 6
     MOVE G6A,101,  76, 146,  93, 98, 100
     MOVE G6D,101,  76, 146,  93, 98, 100
-
     WAIT
-
     GOSUB 기본자세
     GOTO RX_EXIT
 오른쪽턴45:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-
     SPEED 10
     MOVE G6A,95,  46, 145,  123, 105, 100
     MOVE G6D,95,  106, 145,  63, 105, 100
     WAIT
-
     SPEED 12
     MOVE G6A,93,  46, 145,  123, 105, 100
     MOVE G6D,93,  106, 145,  63, 105, 100
     WAIT
-
     SPEED 8
     GOSUB 기본자세
     GOTO RX_EXIT
 오른쪽턴60:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-
     SPEED 15
     MOVE G6A,95,  36, 145,  133, 105, 100
     MOVE G6D,95,  116, 145,  53, 105, 100
     WAIT
-
     SPEED 15
     MOVE G6A,90,  36, 145,  133, 105, 100
     MOVE G6D,90,  116, 145,  53, 105, 100
     WAIT
-
     SPEED 10
     GOSUB 기본자세
     GOTO RX_EXIT
@@ -1670,9 +1653,201 @@ KEY180:
     '				# 종종 및 옆걸음 함수				
     '-----------------------------------------------------------------------
     '#########  ------------ 전진종종걸음------------- #############
+'******************************************
+전진2종종걸음:
+    GOSUB All_motor_mode3
+    보행COUNT = 0
+    SPEED 7
+    HIGHSPEED SETON
+
+    IF 보행순서 = 0 THEN
+        보행순서 = 1
+        MOVE G6A,95,  76, 147,  93, 101
+        MOVE G6D,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 전진2종종걸음_1
+    ELSE
+        보행순서 = 0
+        MOVE G6D,93,  76, 147,  93, 101
+        MOVE G6A,104,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 전진2종종걸음_4
+    ENDIF
+    
+전진2종종걸음_1:
+    MOVE G6A,95,  90, 125, 100, 104
+    MOVE G6D,103,  76, 146,  93,  102
+    MOVE G6B, 90
+    MOVE G6C,115
+    WAIT
+전진2종종걸음_2:
+    MOVE G6A,107,   73, 140, 103,  100
+    MOVE G6D, 90,  83, 146,  85, 102
+    WAIT
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    'IF 보행COUNT > 보행횟수 THEN  GOTO 전진2종종걸음_2_stop
+
+전진2종종걸음_2_stop:
+    MOVE G6D,93,  90, 125, 95, 104
+    MOVE G6A,107,  76, 145,  91,  102
+    MOVE G6C, 100
+    MOVE G6B,100
+    WAIT
+    HIGHSPEED SETOFF
+    SPEED 15
+    GOSUB 안정화자세
+    SPEED 5
+    GOSUB 기본자세
+
+    GOTO RX_EXIT
+
+전진2종종걸음_4:
+    MOVE G6D,95,  88, 125, 103, 104
+    MOVE G6A,107,  76, 146,  93,  102
+    MOVE G6C, 85
+    MOVE G6B,110
+    WAIT
+전진2종종걸음_5:
+    MOVE G6D,102,    74, 140, 103,  100
+    MOVE G6A, 97,  83, 146,  85, 102
+    WAIT
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    ' IF 보행COUNT > 보행횟수 THEN  GOTO 전진2종종걸음_5_stop
+
+전진2종종걸음_5_stop:
+    MOVE G6A,95,  90, 125, 95, 104
+    MOVE G6D,104,  76, 145,  91,  102
+    MOVE G6B, 100
+    MOVE G6C,100
+    WAIT
+    HIGHSPEED SETOFF
+    SPEED 15
+    GOSUB 안정화자세
+    SPEED 5
+    GOSUB 기본자세
+
+    GOTO RX_EXIT
+'-------------------------------------------------
+후진2종종걸음:
+    GOSUB All_motor_mode3
+    넘어진확인 = 0
+    보행COUNT = 0
+    SPEED 7
+    HIGHSPEED SETON
+
+    IF 보행순서 = 0 THEN
+        보행순서 = 1
+        MOVE G6A,95,  76, 145,  93, 101
+        MOVE G6D,101,  76, 145,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 후진2종종걸음_1
+    ELSE
+        보행순서 = 0
+        MOVE G6D,95,  76, 145,  93, 101
+        MOVE G6A,101,  76, 145,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 후진2종종걸음_4
+    ENDIF
+
+후진2종종걸음_1:
+    MOVE G6D,104,  76, 147,  93,  102
+    MOVE G6A,95,  95, 120, 95, 104
+    MOVE G6B,115
+    MOVE G6C,85
+    WAIT
+후진2종종걸음_2:
+    MOVE G6A, 103,  79, 147,  89, 100
+    MOVE G6D,95,   65, 147, 103,  102
+    WAIT
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+    ' 보행COUNT = 보행COUNT + 1
+    ' IF 보행COUNT > 보행횟수 THEN  GOTO 후진2종종걸음_3_stop
+
+후진2종종걸음_2_stop:
+    MOVE G6D,95,  85, 130, 100, 104
+    MOVE G6A,104,  77, 146,  93,  102
+    MOVE G6C, 100
+    MOVE G6B,100
+    WAIT
+
+    'SPEED 15
+    GOSUB 안정화자세
+    HIGHSPEED SETOFF
+    SPEED 5
+    GOSUB 기본자세
+    GOTO RX_EXIT
+
+후진2종종걸음_4:
+    MOVE G6A,104,  76, 147,  93,  102
+    MOVE G6D,95,  95, 120, 95, 104
+    MOVE G6C,115
+    MOVE G6B,85
+    WAIT
+후진2종종걸음_5:
+    MOVE G6D, 103,  79, 147,  89, 100
+    MOVE G6A,95,   65, 147, 103,  102
+    WAIT
+    
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    'IF 보행COUNT > 보행횟수 THEN  GOTO 후진2종종걸음_6_stop
+
+후진2종종걸음_5_stop:
+    MOVE G6A,95,  85, 130, 100, 104
+    MOVE G6D,104,  77, 146,  93,  102
+    MOVE G6B, 100
+    MOVE G6C,100
+    WAIT
+
+    'SPEED 15
+    GOSUB 안정화자세
+    HIGHSPEED SETOFF
+    SPEED 5
+    GOSUB 기본자세
+
+    'DELAY 400
+    GOTO RX_EXIT
+'=======================================================
 전진종종걸음:
     보행COUNT = 0
     GOSUB All_motor_mode3
+    'GOSUB All_motor_Reset
     SPEED 7
     HIGHSPEED SETON
 
@@ -1885,9 +2060,8 @@ KEY180:
 
     GOTO 후진종종걸음_1
 
-
     '############ ---------------- 옆걸음 ----------------############
-오른쪽옆걸음:
+오른쪽옆걸음10:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
 
@@ -1908,10 +2082,9 @@ KEY180:
 
     SPEED 3
     GOSUB 기본자세
-
     GOTO RX_EXIT
 
-왼쪽옆걸음:
+왼쪽옆걸음10:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
 
@@ -1932,13 +2105,95 @@ KEY180:
 
     SPEED 3
     GOSUB 기본자세
+    GOTO RX_EXIT
+'------------------------------------
+오른쪽옆걸음20:
+    SPEED 12
+    MOVE G6D, 93,  90, 120, 105, 104, 100
+    MOVE G6A,103,  76, 145,  93, 104, 100
+    WAIT
 
+    SPEED 12
+    MOVE G6D, 102,  77, 145, 93, 100, 100
+    MOVE G6A,90,  80, 140,  95, 107, 100
+    WAIT
+
+    SPEED 15
+    MOVE G6D,98,  76, 145,  93, 100, 100
+    MOVE G6A,98,  76, 145,  93, 100, 100
+    WAIT
+
+    SPEED 8
+    GOSUB 기본자세
+    GOTO RX_EXIT
+왼쪽옆걸음20:
+    SPEED 12
+    MOVE G6A, 93,  90, 120, 105, 104, 100
+    MOVE G6D,103,  76, 145,  93, 104, 100
+    WAIT
+
+    SPEED 12
+    MOVE G6A, 102,  77, 145, 93, 100, 100
+    MOVE G6D,90,  80, 140,  95, 107, 100
+    WAIT
+
+    SPEED 15
+    MOVE G6A,98,  76, 145,  93, 100, 100
+    MOVE G6D,98,  76, 145,  93, 100, 100
+    WAIT
+
+    SPEED 8
+    GOSUB 기본자세
+    GOTO RX_EXIT
+'-------------------------------------------------------
+오른쪽옆걸음70:
+    SPEED 10
+    MOVE G6D, 90,  90, 120, 105, 110, 100
+    MOVE G6A,100,  76, 146,  93, 107, 100
+    MOVE G6B,100,  40
+    MOVE G6C,100,  40
+    WAIT
+
+    SPEED 12
+    MOVE G6D, 102,  76, 147, 93, 100, 100
+    MOVE G6A,83,  78, 140,  96, 115, 100
+    WAIT
+
+    SPEED 10
+    MOVE G6D,98,  76, 146,  93, 100, 100
+    MOVE G6A,98,  76, 146,  93, 100, 100
+    WAIT
+
+    SPEED 15
+    GOSUB 기본자세
+    GOTO RX_EXIT
+왼쪽옆걸음70:
+    SPEED 10
+    MOVE G6A, 90,  90, 120, 105, 110, 100	
+    MOVE G6D,100,  76, 146,  93, 107, 100	
+    MOVE G6B,100,  40
+    MOVE G6C,100,  40
+    WAIT
+
+    SPEED 12
+    MOVE G6A, 102,  76, 147, 93, 100, 100
+    MOVE G6D,83,  78, 140,  96, 115, 100
+    WAIT
+
+    SPEED 10
+    MOVE G6A,98,  76, 146,  93, 100, 100
+    MOVE G6D,98,  76, 146,  93, 100, 100
+    WAIT
+
+    SPEED 15	
+    GOSUB 기본자세
     GOTO RX_EXIT
 
- '---------------------------------------------------------------------------------------
+ '--------------------------------------------------------------------------------------
     '##########         기본 걸음 함수 (한걸음, n걸음 단위)            ####################
     '---------------------------------------------------------------------------------------
 전진기본한걸음:
+    GOSUB Leg_motor_mode3
     SPEED 4
     MOVE G6A, 88,  74, 144,  95, 110
     MOVE G6D,108,  76, 146,  93,  96
@@ -2045,16 +2300,13 @@ KEY180:
     MOVE G6A,107,  85, 137,  93,  96
     WAIT
 
-
     GOSUB 앞뒤기울기측정
     IF 넘어진확인 = 1 THEN
         넘어진확인 = 0
         GOTO RX_EXIT
     ENDIF
 
-
     SPEED 11
-
     MOVE G6D,90, 90, 120, 105, 110
     MOVE G6A,112,  76, 146,  93, 96
     MOVE G6B,110
@@ -2066,19 +2318,16 @@ KEY180:
     MOVE G6D,90, 98, 146,  69, 110
     WAIT
 
-
     SPEED 좌우속도
     MOVE G6A, 90,  60, 137, 120, 110
     MOVE G6D,107  85, 137,  93,  96
     WAIT
-
 
     GOSUB 앞뒤기울기측정
     IF 넘어진확인 = 1 THEN
         넘어진확인 = 0
         GOTO RX_EXIT
     ENDIF
-
 
     SPEED 11
     MOVE G6A,90, 90, 120, 105, 110
@@ -2089,7 +2338,6 @@ KEY180:
     '3
     HIGHSPEED SETOFF
     SPEED 5
-
     MOVE G6D, 106,  76, 146,  93,  96
     MOVE G6A,  85,  72, 148,  91, 106
     MOVE G6B, 100
@@ -2170,7 +2418,6 @@ KEY180:
     MOVE G6B,110
     MOVE G6C,90
     WAIT
-    'check = 2
 
 전진기본10걸음_3:
     SPEED 13
@@ -2191,7 +2438,7 @@ KEY180:
     ENDIF
 
     보행COUNT = 보행COUNT + 1
-    '!!!!!!!!!!!!!!!! 걸음 수 변경 부분 !!!!!!!!!!!!!!!1
+    '@@----------------------- 걸음 수 변경 부분 ------------------------@@
     IF 보행COUNT = 10 THEN  GOTO 전진기본10걸음_stop
 
     IF check = 1 THEN
@@ -2229,12 +2476,17 @@ KEY180:
     '------------------------------------------------------------
     '                #  Right Arms
     '------------------------------------------------------------
+'GOSUB 서브루틴임!!!
 오른팔내리기:
-    MOVE G6C,100,  30,  80, 190,
+	GOSUB Arm_motor_mode3
+    MOVE G6B,100, 100,  81, 100, 100, 100 '왼팔 제어 
+    MOVE G6C, 100,  30,  80,  90,  99, 100 '오른팔 제어
     WAIT
     RETURN
 
 오른팔돌아오기: '기본자세 팔로
+	GOSUB Arm_motor_mode3
+	MOVE G6B,100,  30,  80,
     MOVE G6C,100,  30,  80, 190
     WAIT
     RETURN	
@@ -2245,7 +2497,7 @@ KEY180:
     GOSUB 기본자세
     GOSUB All_motor_Reset
 
-    FOR i = 1 TO 4         '왼쪽으로 걸음
+    FOR i = 1 TO 7        '왼쪽으로 걸음
         MOTORMODE G6A,3,3,3,3,2
         MOTORMODE G6D,3,3,3,3,2
 
@@ -2318,7 +2570,7 @@ KEY180:
     GOSUB All_motor_Reset
 
     '왼쪽으로 걸음
-    FOR i = 1 TO 4
+    FOR i = 1 TO 7
         MOTORMODE G6A,3,3,3,3,2
         MOTORMODE G6D,3,3,3,3,2
 
@@ -2417,29 +2669,35 @@ KEY180:
     WAIT
     RETURN
 '------------------------------------------------------------
+    '### ------------------- 홀인용 톡 치는 퍼팅 살살 ------------------- ###
+좌살살: '약 20-25센치 이동함 매우 약한 힘으로 
+    GOSUB 좌어드레스
+'    MOVE G6C,135,  20,  90, 10
+    DELAY 200
+    WAIT
 
+    SPEED 6
+    
+    MOVE G6C,135,  20,  82, 10 '85 ->82
+    WAIT
+    DELAY 1000
+
+    SPEED 8
+    MOVE G6C,135,  100,  10, 10
+    WAIT
+
+    MOVE G6C,135,  50,  60, 190
+    WAIT
+
+    GOSUB 기본자세
+    GOTO RX_EXIT
+우살살:
+    GOTO RX_EXIT
     '### ------------------- 우퍼팅 함수 ------------------- ###
 우퍼팅1:
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,100,  130,  10, 10
-    WAIT
-
-    MOVE G6C,145,  130,  10, 10
-    WAIT
-
-    MOVE G6C,145,  60,  10, 10
-    WAIT
-
-    MOVE G6C,135,  40,  30, 10
-    WAIT
-
-    MOVE G6C,140,  10,  80, 10
-    WAIT
-
+	GOSUB 우어드레스
     DELAY 400
+
 
     MOVE G6B,100,  35,  90,
     MOVE G6C,140,  10,  70, 10
@@ -2460,21 +2718,9 @@ KEY180:
     GOTO RX_EXIT
     '----------------------------------------
 우퍼팅2:
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,100,  130,  10, 10
-    WAIT
-    MOVE G6C,145,  130,  10, 10
-    WAIT
-    MOVE G6C,145,  60,  10, 10
-    WAIT
-    MOVE G6C,135,  40,  30, 10
-    WAIT
-    MOVE G6C,140,  10,  80, 10
-    WAIT
+	GOSUB 우어드레스
     DELAY 400
+    
     MOVE G6B,100,  35,  90,
     MOVE G6C,140,  10,  70, 10
     WAIT
@@ -2490,29 +2736,18 @@ KEY180:
     GOSUB 기본자세
     GOTO RX_EXIT
     '----------------------------------------
-
 우퍼팅3:
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,100,  130,  10, 10
-    WAIT
-    MOVE G6C,145,  130,  10, 10
-    WAIT
-    MOVE G6C,145,  60,  10, 10
-    WAIT
-    MOVE G6C,135,  40,  30, 10
-    WAIT
-    MOVE G6C,140,  10,  80, 10
-    WAIT
+	GOSUB 우어드레스
     DELAY 400
+    
     MOVE G6B,100,  35,  90,
     MOVE G6C,140,  10,  70, 10
     WAIT
     '**** 퍼팅강도 ******
-    SPEED 5
-    MOVE G6C,140,  30,  100, 10
+    SPEED 10	
+
+	MOVE G6C, 135,  12,  81,
+'    MOVE G6C,140,  30,  100, 10
     WAIT
     DELAY 1000
     '******************
@@ -2521,87 +2756,18 @@ KEY180:
     WAIT
     GOSUB 기본자세
     GOTO RX_EXIT
-    '----------------------------------------
-
-우퍼팅4:
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,100,  130,  10, 10
-    WAIT
-    MOVE G6C,145,  130,  10, 10
-    WAIT
-    MOVE G6C,145,  60,  10, 10
-    WAIT
-    MOVE G6C,135,  40,  30, 10
-    WAIT
-    MOVE G6C,140,  10,  80, 10
-    WAIT
-    DELAY 400
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,140,  10,  70, 10
-    WAIT
-    '**** 퍼팅강도 ******
-    SPEED 7
-    MOVE G6C,140,  30,  100, 10
-    WAIT
-    DELAY 1000
-    '******************
-    SPEED 8
-    MOVE G6C,135,  50,  60, 190
-    WAIT
-    GOSUB 기본자세
-    GOTO RX_EXIT
-    '----------------------------------------
-
-우퍼팅5:
-    SPEED 8
-    MOVE G6A,97,  76, 145,  93, 100, 100
-    MOVE G6D,97,  76, 145,  93, 100, 100
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,100,  130,  10, 10
-    WAIT
-    MOVE G6C,145,  130,  10, 10
-    WAIT
-    MOVE G6C,145,  60,  10, 10
-    WAIT
-    MOVE G6C,135,  40,  30, 10
-    WAIT
-    MOVE G6C,140,  10,  80, 10
-    WAIT
-    DELAY 400
-    MOVE G6B,100,  35,  90,
-    MOVE G6C,140,  10,  70, 10
-    WAIT
-    '**** 퍼팅강도 ******
-    SPEED 9
-    MOVE G6C,140,  30,  100, 10
-    WAIT
-    DELAY 1000
-    '******************
-    SPEED 8
-    MOVE G6C,135,  50,  60, 190
-    WAIT
-    GOSUB 기본자세
-    GOTO RX_EXIT
-
     '### ------------------- 좌퍼팅 함수 ------------------- ###
-
-좌살살:
-    GOTO RX_EXIT
-우살살:
-    GOTO RX_EXIT
-
     '-------------------------------------------------------
 좌퍼팅1:
     GOSUB 좌어드레스
-
+'    MOVE G6C,135,  20,  90, 10
     DELAY 400
     WAIT
 
     SPEED 6
-    MOVE G6C,135,  10,  80, 10
+    'MOVE G6C,135,  10,  80, 10 '기존 좌퍼팅1
+    MOVE G6C,135,  10,  88,  10
+
     WAIT
     DELAY 1000
 
@@ -2618,9 +2784,11 @@ KEY180:
     '----------------------------------------
 좌퍼팅2:
     GOSUB 좌어드레스
-
+'    MOVE G6C,135,  20,  90, 10
     SPEED 6
-    MOVE G6C,135,  20,  85, 10
+    
+    'MOVE G6C,135,  20,  85, 10 
+    MOVE G6C,135,  10,  82,  10
     WAIT
     DELAY 1000
 
@@ -2650,96 +2818,73 @@ KEY180:
     WAIT
 
     GOSUB 기본자세
-    'RETURN
     GOTO RX_EXIT
     '----------------------------------------
-좌퍼팅4:
-    'MUSIC "cdg"
-    'RETURN
-    GOTO RX_EXIT
-    '----------------------------------------
-좌홀인용톡치기:
-    GOSUB 좌어드레스
-    DELAY 200
+
+
+'------------------------------------------------------------------------------------------------------------
+'음... 생각보다 부정확한!
+연속오른쪽옆으로70:
+    SPEED 10
+    MOVE G6D, 90,  90, 120, 105, 110, 100
+    MOVE G6A,100,  76, 146,  93, 107, 100
+    MOVE G6B,100,  40
+    MOVE G6C,100,  40
     WAIT
 
-    SPEED 6
-    MOVE G6C,135,  20,  85, 10
-    WAIT
-    DELAY 1000
-
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
+    SPEED 12
+    MOVE G6D, 102,  76, 147, 93, 100, 100
+    MOVE G6A,83,  78, 140,  96, 115, 100
     WAIT
 
-    MOVE G6C,135,  50,  60, 190
+    SPEED 10
+    MOVE G6D,98,  76, 146,  93, 100, 100
+    MOVE G6A,98,  76, 146,  93, 100, 100
     WAIT
 
-    GOSUB 기본자세
-    GOTO RX_EXIT
-    '#### --------------어드레스 및 추후퍼팅 함수 ------------------- ####
-좌추후퍼팅1:
-    SPEED 6
-    MOVE G6C,135,  10,  80, 10
-    WAIT
-    DELAY 1000
-
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
-    WAIT
-
-    MOVE G6C,135,  50,  60, 190
+    SPEED 15
+    MOVE G6A,100,  76, 145,  93, 100, 100
+    MOVE G6D,100,  76, 145,  93, 100, 100
     WAIT
 
 
-    GOSUB 기본자세
-    GOTO RX_EXIT
+    ERX 4800,A,연속오른쪽옆으로70
 
-좌추후퍼팅2:
-    SPEED 6
-    MOVE G6C,135,  10,  70, 25
-    WAIT
-    DELAY 1000
+    IF A <> A_old THEN
+        GOSUB 기본자세
+        GOTO MAIN
+    ENDIF
+    GOTO 연속오른쪽옆으로70
 
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
-    WAIT
-
-    MOVE G6C,135,  50,  60, 190
-    WAIT
-
-    GOSUB 기본자세
-
-    GOTO RX_EXIT
-
-좌추후퍼팅3:
-    SPEED 9
-    MOVE G6C,135,  10,  60, 25
-    WAIT
-    DELAY 1000
-
-    SPEED 8
-    MOVE G6C,135,  100,  10, 10
+연속왼쪽옆으로70:
+    SPEED 10
+    MOVE G6A, 90,  90, 120, 105, 110, 100	
+    MOVE G6D,100,  76, 146,  93, 107, 100	
+    MOVE G6B,100,  40
+    MOVE G6C,100,  40
     WAIT
 
-    MOVE G6C,135,  50,  60, 190
+    SPEED 12
+    MOVE G6A, 102,  76, 147, 93, 100, 100
+    MOVE G6D,83,  78, 140,  96, 115, 100
     WAIT
 
-
-    GOSUB 기본자세
-    GOTO RX_EXIT
-    '----------------------------------------
-우추후퍼팅:
-    SPEED 6
-    MOVE G6C,140,  30,  100, 10
-    WAIT
-    DELAY 1000
-
-    SPEED 8
-
-    MOVE G6C,135,  50,  60, 190
+    SPEED 10
+    MOVE G6A,98,  76, 146,  93, 100, 100
+    MOVE G6D,98,  76, 146,  93, 100, 100
     WAIT
 
+    SPEED 15
+    MOVE G6A,100,  76, 145,  93, 100, 100
+    MOVE G6D,100,  76, 145,  93, 100, 100
+    WAIT	
 
-    GOSUB 기본자세
-    GOTO RX_EXIT
+
+    ERX 4800,A,연속왼쪽옆으로70
+
+    IF A <> A_old THEN
+        GOSUB 기본자세
+        GOTO MAIN
+    ENDIF
+    GOTO 연속왼쪽옆으로70
+
