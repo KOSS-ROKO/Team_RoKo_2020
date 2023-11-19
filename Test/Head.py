@@ -56,8 +56,8 @@ class Head:
                         robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
                 return check, big_lr_angle, max_right_flag
         
-        elif detect_object == 'holecup':
-            check = robo._image_processor.detect_holecup()
+        elif detect_object == 'ball2':
+            check = robo._image_processor.detect_ball()
         
             if check == False:
              # 물체가 화면에 안 보이는 경우 detect : False
