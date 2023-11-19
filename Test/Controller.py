@@ -333,7 +333,7 @@ class Controller:
 
                
                 #====== holecup 고개 방향만큼 꽃게 걸음 ======#
-                side_walk = int(abs(100-Distance.Head_lr_angle)//10) # 식은 시행착오거치면서 변경예정
+                side_walk = int(abs(100-Distance.small_lr_angle)//10) # 식은 시행착오거치면서 변경예정
 
                 print("**꽃게 걸음 시작**")
                 # side walk 방향 설정 
@@ -553,16 +553,20 @@ class Controller:
                         if (dx<0):
                             while(abs(dx)//30):
                                 robo._motion.walk_side("LEFT10")
+                                time.sleep(1)
                         else:
                             while(abs(dx)//30):
                                 robo._motion.walk_side("Right10")
+                                time.sleep(1)
                     if(abs(dy)>=25):
                         if (dy<0):
                             while(abs(dy)//30):
                                 robo._motion.walk_side("2JBACKWARD")
+                                time.sleep(1)
                         else:
                             while(abs(dy)//30):
                                 robo._motion.walk_side("2JFORWARD")
+                                time.sleep(1)
                         
                     
             ### 퍼팅 직전 공의 위치 정확히 두는 코드 여기 들어가야함! 꽃게걸음으로 좌우 조절 
