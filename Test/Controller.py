@@ -55,17 +55,17 @@ class Controller:
                         
                         
         def big_LR(object="ball"):
-            big_lr_angle = 100
+            Distance.small_lr_angle = 100
             max_right_flag = 0
             print("THis is ", object)
             # big LR head
             while True:
-                is_object_in_frame, big_lr_temp, max_right_flag = head.big_LR_head(object, big_lr_angle, max_right_flag)
+                is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.small_lr_angle, max_right_flag)
                 if is_object_in_frame == True:
                     break
                 elif is_object_in_frame == False:
-                    big_lr_angle = big_lr_temp
-                    print("big_lr_angle : ", big_lr_angle)
+                    Distance.small_lr_angle = small_lr_temp
+                    print("small_lr_angle : ", Distance.small_lr_angle)
                     continue
                 #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
                     #head.big_UD_head()
@@ -170,6 +170,103 @@ class Controller:
                     
             else:
                 small_LR("ball") # small lr 함으로써 중앙 맞춰짐
+
+            # ud_for_dist 하기전에 고개 세팅
+            motion.head("DEFAULT", 2) # 고개 디폴트
+            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            motion.head("DEFAULT", 1) # 고개 디폴트
+            
+            UD_for_dist("ball")
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            time.sleep(2)
+            
+
+            # length = 거리 
+            ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
+            print(Distance.Length_ServoAngle_dict)
+            print("==========================================")
+            print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
+            print("==========================================")
+
+
+
+            if ball_dist > 18:
+                motion.walk("FORWARD", ball_dist - 18)
+                    
+            elif ball_dist == 18:
+                print("correct!")
+            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
+                motion.walk("BACKWARD", ball_dist - 18)
+
+            # PUTTING
+            time.sleep(3)
+            motion.putting("left", 3, 2)
+            print("putting")
+            time.sleep(5)
+
+
+            # turn body left, 몸을 왼쪽으로 90도 돌림.
+            motion.turn("LEFT", 60)
+            time.sleep(7)
+            motion.turn("LEFT", 60)
+            time.sleep(2)
+            print("turn LEFT")
+
+            self.act = Act.WALK_BALL
+            
+            motion.walk("FORWARD10", 1)
+            time.sleep(15)
+            
+            # return True
+            
+            
+        #=======================================================#
+        #                      1. Teeshot2                      #         
+        #=======================================================#
+        
+        
+        elif act == Act.TEESHOT2:                 ##### 1. 시작 및 티샷 #################
+            print("ACT: ", act) # Debug
+            
+            is_ball = robo._image_processor.detect_ball()
+            
+            ### False면, big UD LR 해라
+            if is_ball == False:                
+                while True:
+                    # big UD head
+                    is_big_UD = big_UD("ball")
+
+                    #if go_to == "big_lr" :
+                    if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
+                        big_LR("ball2")  # big은 알아서 고개 디폴트 함 
+                    
+                    is_small_LR = small_LR("ball2")
+                    
+                    if is_small_LR == "Except" :
+                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        # big 알고리즘으로 넘어감
+                        # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
+                        big_LR("ball2") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                    else:
+                        break
+                    
+            else:
+                small_LR("ball2") # small lr 함으로써 중앙 맞춰짐
+                
+            
+            if Distance.small_lr_angle <= 70:
+                motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
+                print("1번 점에서 확인")
+            elif Distance.small_lr_angle >= 130:
+                motion.walk_side("RIGHT70") # loop문 추가
+                print("3번 점에서 확인")
+            else:
+                print("2번 점에서 확인")
+            
+            motion.pose("left")
+                
+
+            #-----------------------------------------------------------------------------------------------------
 
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
