@@ -592,16 +592,6 @@ class Controller:
             print("^^^^444444")
 
 
-            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
-            # motion.head("DOWN", 30) # 고개 45도로 내리고 공 detect 시작 !
-            # motion.head("DOWN", 9) # 고개 45도로 내리고 공 detect 시작 !
-            # motion.head("DOWN", 6) # 고개 45도로 내리고 공 detect 시작 !
-            time.sleep(1)
-
-            Distance.Head_UD_Angle = 55
-            
-    
-
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
