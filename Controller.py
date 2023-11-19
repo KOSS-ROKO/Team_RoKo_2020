@@ -61,12 +61,12 @@ class Controller:
             print("THis is ", object)
             # big LR head
             while True:
-                is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, small_lr_angle, max_right_flag)
+                is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.small_lr_angle, max_right_flag)
                 if is_object_in_frame == True:
                     break
                 elif is_object_in_frame == False:
-                    small_lr_angle = small_lr_temp
-                    print("small_lr_angle : ", small_lr_angle)
+                    Distance.small_lr_angle = small_lr_temp
+                    print("small_lr_angle : ", Distance.small_lr_angle)
                     continue
                 #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
                     #head.big_UD_head()
