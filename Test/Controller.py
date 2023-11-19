@@ -7,11 +7,12 @@ import Distance
 
 
 class Act:
-    TEESHOT = 1          # 1. 맨 처음 티샷  
-    WALK_BALL = 2        # 2. 공까지 걸어가기 (걸음수)
-    PUTTING_POS = 3      # 3. 퍼팅 위치에 서기
-    PUTTING = 4          # 4. 퍼팅
-    HOLEIN = 5           # 5. 홀인
+    TEESHOT1 = 1          # 1. 맨 처음 티샷  
+    TEESHOT2 = 2
+    WALK_BALL = 3        # 2. 공까지 걸어가기 (걸음수)
+    PUTTING_POS = 4      # 3. 퍼팅 위치에 서기
+    PUTTING = 5          # 4. 퍼팅
+    HOLEIN = 6           # 5. 홀인
 
 class Controller:
 
@@ -19,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOT
+    act  = Act.TEESHOT1
     robo = Robo()
 
 
