@@ -126,7 +126,19 @@ class Controller:
 
                     continue
             
+            
+        def is_point_inside_rectangle(point, rectangle):
+            x, y = point
+            x1, y1, x2, y2, x3, y3, x4, y4 = rectangle
+            return x1 <= x <= x2 and y1 <= y <= y4
 
+        # 좌표가 사각형 밖에 있다면 기준 좌표로부터 얼마나 떨어져 있는지 계산하는 함수 정의
+        def calculate_distance_from_reference(center, reference):
+            cx, cy = center
+            rx, ry = reference
+            dx = cx - rx
+            dy = cy - ry
+            return dx, dy    
         #=======================================================#
         #                      1. Teeshot                       #         
         #=======================================================#
@@ -321,7 +333,7 @@ class Controller:
 
                
                 #====== holecup 고개 방향만큼 꽃게 걸음 ======#
-                side_walk = int(abs(100-Distance.Head_lr_angle)//10) # 식은 시행착오거치면서 변경예정
+                side_walk = int(abs(100-Distance.small_lr_angle)//10) # 식은 시행착오거치면서 변경예정
 
                 print("**꽃게 걸음 시작**")
                 # side walk 방향 설정 
@@ -520,9 +532,43 @@ class Controller:
                     ball_dist -= 3
 
             time.sleep(3)
-
-                
+            
             ### 건웅 오빠 필독!
+            
+            motion.head("DEFAULT",63)
+            red_center = robo._image_processor.detect_ball("call_midpoint")
+            print("++++++++++++++++++")
+            print(red_center)
+            print("++++++++++++++++++")
+            is_center = False
+            while not is_center:
+                rectangle_coordinates = [388, 140, 422, 140, 422, 180, 388, 180]
+                if is_point_inside_rectangle(red_center, rectangle_coordinates):
+                    is_center = True
+                else:
+                    reference_point = [400, 160]
+                    dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                    x,y = dx/2, dy
+                    if(abs(dx)>=25):
+                        if (dx<0):
+                            while(abs(dx)//30):
+                                robo._motion.walk_side("LEFT10")
+                                time.sleep(1)
+                        else:
+                            while(abs(dx)//30):
+                                robo._motion.walk_side("Right10")
+                                time.sleep(1)
+                    if(abs(dy)>=25):
+                        if (dy<0):
+                            while(abs(dy)//30):
+                                robo._motion.walk_side("2JBACKWARD")
+                                time.sleep(1)
+                        else:
+                            while(abs(dy)//30):
+                                robo._motion.walk_side("2JFORWARD")
+                                time.sleep(1)
+                        
+                    
             ### 퍼팅 직전 공의 위치 정확히 두는 코드 여기 들어가야함! 꽃게걸음으로 좌우 조절 
                 
                 
