@@ -200,10 +200,10 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
 
             # PUTTING
-            #time.sleep(3)
+            time.sleep(3)
             motion.putting("left", 3, 2)
             print("putting")
-            #time.sleep(5)
+            time.sleep(5)
 
 
             # turn body left, 몸을 왼쪽으로 90도 돌림.

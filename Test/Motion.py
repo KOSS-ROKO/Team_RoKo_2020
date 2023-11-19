@@ -39,12 +39,12 @@ class Motion:
         return decorated
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
-        self.lock.acquire()
-        self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        # self.lock.acquire()
+        # self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         try:
             print('test')
-            #self.lock.acquire()
-            #self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+            self.lock.acquire()
+            self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         finally:
             self.lock.release()
             time.sleep(0.02)
