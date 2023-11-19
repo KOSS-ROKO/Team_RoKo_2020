@@ -8,7 +8,6 @@ import serial
 import time
 from threading import Thread, Lock
 
-
 # -----------------------------------------------
 class Motion:
     def __init__(self, sleep_time=0):
@@ -19,6 +18,9 @@ class Motion:
         self.threading_Time = 0.01
         self.sleep_time = sleep_time
         self.lock = Lock()
+
+        #self.lock.clear()
+        
         self.distance = 0
         BPS = 4800  # 4800,9600,14400, 19200,28800, 57600, 115200
         # ---------local Serial Port : ttyS0 --------
@@ -38,15 +40,31 @@ class Motion:
 
         return decorated
 
-    def TX_data_py2(self, one_byte):  # one_byte= 0~255
+    def TX_data_py2(self, one_byte, timeout=5):  # one_byte= 0~255
+        success = False
         try:
-            self.lock.acquire()
-            self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+            success = self.lock.acquire(timeout=timeout)
+            print("ㅎㅗㅏㄱㅇㅣㄴ", success)
+            if success:
+                print("tx data")
+                self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+                time.sleep(0.02)
         finally:
-            self.lock.release()
-            time.sleep(0.02)
+            if success and self.lock.locked:
+                print('ㅇㅣㄱㅔ ㄷㅗㅣㄱㅗ ㅇㅣㅆㄴㅏㅇㅛ?')
+                self.lock.release()
+                print(self.lock.locked()) # trueㅁㅕㄴ ㄹㅏㄱ ㅎㅗㅣㄱㄷㅡㄱㅎㅏㄴㅅㅏㅇㅌㅐ
 
+        
+        # try:
+        #     self.lock.acquire()
+        #     self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        # finally:
+        #     self.lock.release()
+        #     time.sleep(0.02)
+    '''
     def RX_data(self):
+        print("rx_data")
         time.sleep(0.02)
         if self.serial_port.inWaiting() > 0:
             result = self.serial_port.read(1)
@@ -54,8 +72,30 @@ class Motion:
             return RX
         else:
             return 0
+        '''
+    def RX_data(self):
+        time.sleep(0.02)
 
+        if self.serial_port.inwalting() == 0:
+            print( "RX_DATA ㅇㅏㄴㄷㅗㅐ!!")
+        else:
+            print('ㅇㅗㅣㅇㅏㄴㅎㄷㅗㅣ')
+
+        while self.serial_port.inwalting() > 0:
+            result = self.serial_port.read(1)
+            RX = ord(result)
+            print("RX check: ", RX)
+
+            if RX == 16 or RX == 15:
+                self.receiving_exit = 0
+                setting.SICK += 1
+
+        
+
+
+    
     def Receiving(self, ser):
+        print("receiving")
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
@@ -67,6 +107,7 @@ class Motion:
                 time.sleep(0.5)
                 result = ser.read(1)
                 RX = ord(result)
+                print("RX check 2: ", RX)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16:
                     self.receiving_exit = 0
@@ -78,6 +119,7 @@ class Motion:
                         continue
                 elif RX != 200:
                     self.distance = RX
+            
 
     ############################################################
     # 기본자세 (99)
