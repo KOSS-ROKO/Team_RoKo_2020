@@ -144,7 +144,7 @@ class Controller:
         #                      1. Teeshot                       #         
         #=======================================================#
         
-        if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷 #################
+        if act == Act.TEESHOT1:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act) # Debug
 
             is_ball = robo._image_processor.detect_ball()
@@ -200,15 +200,15 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
 
             # PUTTING
-            time.sleep(3)
+            #time.sleep(3)
             motion.putting("left", 3, 2)
             print("putting")
-            time.sleep(5)
+            #time.sleep(5)
 
 
             # turn body left, 몸을 왼쪽으로 90도 돌림.
             motion.turn("LEFT", 60)
-            time.sleep(7)
+            #time.sleep(7)
             motion.turn("LEFT", 60)
             time.sleep(2)
             print("turn LEFT")
