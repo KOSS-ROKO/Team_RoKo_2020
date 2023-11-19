@@ -522,14 +522,14 @@ class Controller:
             
             while True:
                 print("ball dist :", ball_dist)
-                if 15 <= ball_dist <= 21: # 거리 값 조정 필요!
+                if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
                     break
-                elif ball_dist < 15:
-                    motion.walk("JBACKWARD")
-                    ball_dist += 3
-                elif ball_dist > 21:
-                    motion.walk("JFORWARD")
-                    ball_dist -= 3
+                elif ball_dist < 16:
+                    motion.walk("2JBACKWARD")
+                    ball_dist += 2
+                elif ball_dist > 20:
+                    motion.walk("2JFORWARD")
+                    ball_dist -= 2
 
             time.sleep(3)
             

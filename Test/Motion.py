@@ -121,13 +121,19 @@ class Motion:
                     time.sleep(3)
                     dist -= 8
                     continue
-                elif dist < 8 and dist >= 2:
+                elif dist < 8 and dist >= 5:
                     print(dir, dist)
                     self.TX_data_py2(dir_list["JFORWARD"])
                     time.sleep(3)
-                    dist -= 3
+                    dist -= 5
                     continue
-                elif dist < 2 :  
+                elif 2 <= dist < 5 :  
+                    print(dir, dist)
+                    self.TX_data_py2(dir_list["2JFORWARD"])
+                    time.sleep(3)
+                    dist -= 2
+                    continue
+                elif 2 < dist:  
                     print("FORWARD too small to WALK further.", dist)
                     break
         elif dir=="BACKWARD":
@@ -137,11 +143,16 @@ class Motion:
                     self.TX_data_py2(dir_list["BACKWARD"])
                     time.sleep(3)
                     dist += 8
-                elif -8 < dist <= -2:
+                elif -8 < dist <= -5:
                     print("Rotating", dir, " by a degrees.", dist)
                     self.TX_data_py2(dir_list["JBACKWARD"])
                     time.sleep(3)
-                    dist += 3
+                    dist += 5
+                elif -5 < dist <= -2:
+                    print("Rotating", dir, " by a degrees.", dist)
+                    self.TX_data_py2(dir_list["2JBACKWARD"])
+                    time.sleep(3)
+                    dist += 2
                 elif dist > -2:  
                     print("Angle too small to rotate further.", dist)
                     break
