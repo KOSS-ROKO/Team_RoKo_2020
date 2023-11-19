@@ -8,6 +8,7 @@ import serial
 import time
 from threading import Thread, Lock
 
+
 # -----------------------------------------------
 class Motion:
     def __init__(self, sleep_time=0):
@@ -18,9 +19,6 @@ class Motion:
         self.threading_Time = 0.01
         self.sleep_time = sleep_time
         self.lock = Lock()
-
-        #self.lock.clear()
-        
         self.distance = 0
         BPS = 4800  # 4800,9600,14400, 19200,28800, 57600, 115200
         # ---------local Serial Port : ttyS0 --------
@@ -40,31 +38,22 @@ class Motion:
 
         return decorated
 
-    def TX_data_py2(self, one_byte, timeout=5):  # one_byte= 0~255
-        success = False
+    def TX_data_py2(self, one_byte):  # one_byte= 0~255
+        # self.lock.acquire()
+        # self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         try:
-            success = self.lock.acquire(timeout=timeout)
-            print("ㅎㅗㅏㄱㅇㅣㄴ", success)
-            if success:
-                print("tx data")
-                self.serial_port.write(serial.to_bytes([one_byte]))  # python3
-                time.sleep(0.02)
+            print('test1')
+            self.lock.acquire()
+            print('test11')
+            self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         finally:
-            if success and self.lock.locked:
-                print('ㅇㅣㄱㅔ ㄷㅗㅣㄱㅗ ㅇㅣㅆㄴㅏㅇㅛ?')
-                self.lock.release()
-                print(self.lock.locked()) # trueㅁㅕㄴ ㄹㅏㄱ ㅎㅗㅣㄱㄷㅡㄱㅎㅏㄴㅅㅏㅇㅌㅐ
+            print('test2')
+            self.lock.release()
+            print('test22')
+            time.sleep(0.02)
 
-        
-        # try:
-        #     self.lock.acquire()
-        #     self.serial_port.write(serial.to_bytes([one_byte]))  # python3
-        # finally:
-        #     self.lock.release()
-        #     time.sleep(0.02)
-    '''
     def RX_data(self):
-        print("rx_data")
+        print('rx_data')
         time.sleep(0.02)
         if self.serial_port.inWaiting() > 0:
             result = self.serial_port.read(1)
@@ -72,30 +61,9 @@ class Motion:
             return RX
         else:
             return 0
-        '''
-    def RX_data(self):
-        time.sleep(0.02)
 
-        if self.serial_port.inwalting() == 0:
-            print( "RX_DATA ㅇㅏㄴㄷㅗㅐ!!")
-        else:
-            print('ㅇㅗㅣㅇㅏㄴㅎㄷㅗㅣ')
-
-        while self.serial_port.inwalting() > 0:
-            result = self.serial_port.read(1)
-            RX = ord(result)
-            print("RX check: ", RX)
-
-            if RX == 16 or RX == 15:
-                self.receiving_exit = 0
-                setting.SICK += 1
-
-        
-
-
-    
     def Receiving(self, ser):
-        print("receiving")
+        print('receiving')
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
@@ -107,7 +75,6 @@ class Motion:
                 time.sleep(0.5)
                 result = ser.read(1)
                 RX = ord(result)
-                print("RX check 2: ", RX)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16:
                     self.receiving_exit = 0
@@ -119,7 +86,6 @@ class Motion:
                         continue
                 elif RX != 200:
                     self.distance = RX
-            
 
     ############################################################
     # 기본자세 (99)
@@ -128,22 +94,81 @@ class Motion:
         time.sleep(1.5)
 
     # 걷기 (101~120)
-    def walk(self, dir, loop=1, short=False):
+    def walk(self, dir, dist=0, loop=1):
         """ parameter :
         dir : {'JFORWARD', 'JBACKWARD', FORWARD, BACKWARD}
         """
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
-        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103}
+        # 2Jforward = 2센치 종종걸음
+        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104,
+                    '2JFORWARD': 105, "2JBACKWARD": 106}
+        
+        # for i in range(loop):                
+        #     if dir in ['JFORWARD', 'JBACKWARD']:
+        #         self.TX_data_py2(dir_list[dir])
+        #         time.sleep(2.5)
+        #     else:
+        #         self.TX_data_py2(dir_list[dir])
+        #         time.sleep(3)
 
-        if dir in ['JFORWARD', 'JBACKWARD']:
-            self.TX_data_py2(dir_list[dir])
-            self.TX_data_py2(loop)
-            time.sleep(0.1*loop)
+        #     if i % 2 == 0:
+        #         self.TX_data_py2(157)
+        #         time.sleep(2)
+
+
+
+
+        print("motion.py dist - 18or26: ", dist)
+               
+        ############
+        if dir=="FORWARD":
+            while dist > 0:            
+                if dist >= 8:
+                    print(dir, dist)
+                    self.TX_data_py2(dir_list["FORWARD"])
+                    time.sleep(3)
+                    dist -= 8
+                    continue
+                elif dist < 8 and dist >= 5:
+                    print(dir, dist)
+                    self.TX_data_py2(dir_list["JFORWARD"])
+                    time.sleep(3)
+                    dist -= 5
+                    continue
+                elif 2 <= dist < 5 :  
+                    print(dir, dist)
+                    self.TX_data_py2(dir_list["2JFORWARD"])
+                    time.sleep(3)
+                    dist -= 2
+                    continue
+                elif 2 < dist:  
+                    print("FORWARD too small to WALK further.", dist)
+                    break
+        elif dir=="BACKWARD":
+            while dist < 0:            
+                if dist <= -8:
+                    print("BACKWARD", dir, " by a degrees.", dist)
+                    self.TX_data_py2(dir_list["BACKWARD"])
+                    time.sleep(3)
+                    dist += 8
+                elif -8 < dist <= -5:
+                    print("Rotating", dir, " by a degrees.", dist)
+                    self.TX_data_py2(dir_list["JBACKWARD"])
+                    time.sleep(3)
+                    dist += 5
+                elif -5 < dist <= -2:
+                    print("Rotating", dir, " by a degrees.", dist)
+                    self.TX_data_py2(dir_list["2JBACKWARD"])
+                    time.sleep(3)
+                    dist += 2
+                elif dist > -2:  
+                    print("Angle too small to rotate further.", dist)
+                    break
         else:
             self.TX_data_py2(dir_list[dir])
-            self.TX_data_py2(loop)
-            time.sleep(1*loop)
+            time.sleep(3)
 
+                    
 
     # 머리 각도 (121~140)
     def head(self, dir, angle=0):
@@ -155,14 +180,14 @@ class Motion:
         }
         """
         dir_list = {
-            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127 },
-            'UP' : { 3: 129, 6: 130, 9: 131, 30: 132 },
+            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141 },
+            'UP' : { 3: 129, 6: 130, 9: 131, 30: 132, 45: 142 },
             'LEFT': { 3: 134, 6: 135, 30: 136 },
             'RIGHT': { 3: 138, 6: 139, 30: 140 },
-            'DEFAULT': { 1: 121, 2: 122 }
+            'DEFAULT': { 1: 121, 2: 122, 63: 143 }
         }
         self.TX_data_py2(dir_list[dir][angle])
-        time.sleep(0.3)
+        time.sleep(0.2)
 
     # 돌기 (141~160)
     # 값 조절 필요
@@ -171,8 +196,8 @@ class Motion:
         dir : {LEFT, RIGHT}
         """
         dir_list = {
-            "LEFT": {45: 159, 20: 158, 10: 157, 5: 156},
-            "RIGHT": {45: 154, 20: 153, 10: 152, 5: 151}
+            "LEFT": {60: 160, 45: 159, 20: 158, 10: 157, 5: 156},
+            "RIGHT": {60: 155, 45: 154, 20: 153, 10: 152, 5: 151}
         }
 
         while angle > 0:
@@ -200,7 +225,8 @@ class Motion:
         """ parameter :
         dir : {LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 119, "RIGHT": 118}
+        # dir_list = {"LEFT": 119, "RIGHT": 118}
+        dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116}
         self.TX_data_py2(dir_list[dir])
         time.sleep(0.1)
 
@@ -210,19 +236,19 @@ class Motion:
     def pose(self,dir):
         # dir = ["left", "right"]
         if dir=="left":
-            self.TX_data_py2(110)
-            time.sleep(10)
-        else:
             self.TX_data_py2(111)
-            time.sleep(10)            
+            time.sleep(7)
+        else:
+            self.TX_data_py2(110)
+            time.sleep(7)            
         
     
     def putting(self, dir, power, sleep=1): 
         print("Motion putting")
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
-            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
-            "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
+            "left": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
+            "right": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
         }
         self.TX_data_py2(dir_list[dir][power])
         time.sleep(sleep)

@@ -42,14 +42,18 @@ class Motion:
         # self.lock.acquire()
         # self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         try:
-            print('test')
+            print('test1')
             self.lock.acquire()
+            print('test11')
             self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         finally:
+            print('test2')
             self.lock.release()
+            print('test22')
             time.sleep(0.02)
 
     def RX_data(self):
+        print('rxdata')
         time.sleep(0.02)
         if self.serial_port.inWaiting() > 0:
             result = self.serial_port.read(1)
@@ -59,6 +63,7 @@ class Motion:
             return 0
 
     def Receiving(self, ser):
+        print("receiving")
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:

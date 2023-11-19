@@ -36,9 +36,10 @@ class Controller:
         if act == Act.TEESHOT1:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act) # Debug
             time.sleep(2)
-            print("tlqkf")
-            motion.walk_side('LEFT')
+            print("controller")
+            motion.walk_side('LEFT10')
             time.sleep(1)
+            #receiving_exit = 0
             return True
 
        
