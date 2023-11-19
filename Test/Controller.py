@@ -8,11 +8,13 @@ import Distance
 # Par 4
 
 class Act:
-    TEESHOT = 1          # 1. 맨 처음 티샷  
-    WALK_BALL = 2        # 2. 공까지 걸어가기 (걸음수)
-    PUTTING_POS = 3      # 3. 퍼팅 위치에 서기
-    PUTTING = 4          # 4. 퍼팅
-    HOLEIN = 5           # 5. 홀인
+    TEESHOT1 = 1          # 1. 맨 처음 티샷  
+    TEESHOT2 = 2
+    SECSHOT = 3
+    WALK_BALL = 4       # 2. 공까지 걸어가기 (걸음수)
+    PUTTING_POS = 5      # 3. 퍼팅 위치에 서기
+    PUTTING = 6         # 4. 퍼팅
+    HOLEIN = 7           # 5. 홀인
 
 class Controller:
 
@@ -20,7 +22,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOT
+    act  = Act.TEESHOT1
     robo = Robo()
 
 
@@ -142,16 +144,13 @@ class Controller:
             return dx, dy    
         
         #=======================================================#
-        #                      1. Teeshot                       #         
+        #                      1. Teeshot 1                       #         
         #=======================================================#
         
-        if act == Act.TEESHOT:                 ##### 1. 시작 및 티샷 #################
+        if act == Act.TEESHOT1:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act) # Debug
 
-            #================================#
-            #           첫번째 티샷            #
-            #================================#
-            print("^^첫번째 티샷^^")
+            print("^^첫번째 티샷 111^^")
             is_ball = robo._image_processor.detect_ball()
 
             ### False면, big UD LR 해라
@@ -218,9 +217,92 @@ class Controller:
             time.sleep(2)
             print("turn LEFT")
 
-            #================================#
-            #           두번째 티샷            #
-            #================================#
+            self.act = Act.SECSHOT
+
+        #=======================================================#
+        #                      2. Teeshot 2                       #         
+        #=======================================================#
+        
+        if act == Act.TEESHOT2:                 ##### 1. 시작 및 티샷 #################
+            print("ACT: ", act) # Debug
+
+            print("^^첫번째 티샷  222^^")
+            is_ball = robo._image_processor.detect_ball()
+
+            ### False면, big UD LR 해라
+            if is_ball == False:                
+                while True:
+                    # big UD head
+                    is_big_UD = big_UD("ball")
+
+                    #if go_to == "big_lr" :
+                    if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
+                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                    
+                    is_small_LR = small_LR("ball")
+                    
+                    if is_small_LR == "Except" :
+                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        # big 알고리즘으로 넘어감
+                        # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
+                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                    else:
+                        break
+                    
+            else:
+                small_LR("ball") # small lr 함으로써 중앙 맞춰짐
+
+            # ud_for_dist 하기전에 고개 세팅
+            motion.head("DEFAULT", 2) # 고개 디폴트
+            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            motion.head("DEFAULT", 1) # 고개 디폴트
+            
+            UD_for_dist("ball")
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            time.sleep(2)
+            
+
+            # length = 거리 
+            ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
+            print(Distance.Length_ServoAngle_dict)
+            print("==========================================")
+            print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
+            print("==========================================")
+
+
+
+            if ball_dist > 18:
+                motion.walk("FORWARD", ball_dist - 18)
+                    
+            elif ball_dist == 18:
+                print("correct!")
+            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
+                motion.walk("BACKWARD", ball_dist - 18)
+
+            # PUTTING
+            time.sleep(3)
+            motion.putting("left", 3, 2)
+            print("putting")
+            time.sleep(5)
+
+
+            # turn body left, 몸을 왼쪽으로 90도 돌림.
+            motion.turn("LEFT", 60)
+            time.sleep(7)
+            motion.turn("LEFT", 60)
+            time.sleep(2)
+            print("turn LEFT")
+
+            self.act = Act.SECSHOT
+
+
+        #=======================================================#
+        #                      3. SECSHOT (두번째 티샷)                        #         
+        #=======================================================#
+
+        elif act == Act.SECSHOT:                 ##### 1. 시작 및 티샷 #################
+            print("ACT: ", act) # Debug
+
             print("^^두번째 티샷^^")
 
             # 10걸음 아님! 적당한 값으로 바꿔야함
