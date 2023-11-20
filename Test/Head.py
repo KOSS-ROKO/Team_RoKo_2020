@@ -56,8 +56,38 @@ class Head:
                         robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
                 return check, big_lr_angle, max_right_flag
         
-        elif detect_object == 'ball2':
+        elif detect_object == 'ball2': # 턴하지 않음
             check = robo._image_processor.detect_ball()
+        
+            if check == False:
+             # 물체가 화면에 안 보이는 경우 detect : False
+                # 패닝 틸팅? or 걷기?
+                # 고개 각도 크게 돌리기, Find ball과 다름
+                if max_right_flag == 0:
+                    print("head LEFT")
+                    robo._motion.head("LEFT", 30) ################# 3도보단 큰 각으로
+                    time.sleep(0.2)
+                    big_lr_angle -= 30 # 10은 임의 값
+                    if big_lr_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                        max_right_flag = 0
+                        big_lr_angle = 100
+                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
+                                            
+                elif max_right_flag == 1:
+                    print("head RIGHT")
+                    robo._motion.head("RIGHT", 30) ################# 3도보단 큰 각으로
+                    time.sleep(0.2)
+                    big_lr_angle += 30 # 10은 임의 값
+                    if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                        max_right_flag = 1
+                        big_lr_angle = 100 
+                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
+
+                        
+                return check, big_lr_angle, max_right_flag
+            
+        elif detect_object == 'holecup': # 턴하지 않음
+            check = robo._image_processor.detect_holecup()
         
             if check == False:
              # 물체가 화면에 안 보이는 경우 detect : False
@@ -107,6 +137,24 @@ class Head:
                                 
                 return True, small_lr_angle
             
+            elif check == "right":
+                robo._motion.head("LEFT", 3) ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
+                small_lr_angle -= 3    
+                return False, small_lr_angle                
+            elif check == "left":
+                robo._motion.head("RIGHT", 3) ################# 고개 왼쪽으로 돌리는 모션
+                small_lr_angle += 3
+                return False, small_lr_angle
+            else:
+                return 0, small_lr_angle # 예외사항 
+        
+        elif detect_object == 'ball2':
+            check = robo._image_processor.middle_lr_ball()
+
+            if check == "stop":
+                # small_angle 만큼 몸 돌리지않기 !                             
+                return True, small_lr_angle
+                
             elif check == "right":
                 robo._motion.head("LEFT", 3) ################# 고개 오른쪽으로 돌리는 모션 / 3도 씩 움직이기
                 small_lr_angle -= 3    

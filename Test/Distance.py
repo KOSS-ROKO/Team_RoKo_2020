@@ -14,8 +14,8 @@ global Length_ServoAngle_dict
 global holecup_dist
 global field
 field = "left"
-global small_lr_angle
-small_lr_angle = 100
+global head_lr_angle
+head_lr_angle = 100
 
 _Head_UD_Middle_Value = 100
 _Head_ServoAngle_list = [i*3+1 for i in range(30)]

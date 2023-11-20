@@ -7,8 +7,8 @@ import Distance
 
 
 class Act:
-    TEESHOT1 = 1          # 1. 맨 처음 티샷  
-    TEESHOT2 = 2
+    TEESHOTA = 1          # 1. 맨 처음 티샷  
+    TEESHOTB = 2
     WALK_BALL = 3        # 2. 공까지 걸어가기 (걸음수)
     PUTTING_POS = 4      # 3. 퍼팅 위치에 서기
     PUTTING = 5          # 4. 퍼팅
@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOT1
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -56,17 +56,17 @@ class Controller:
                         
                         
         def big_LR(object="ball"):
-            Distance.small_lr_angle = 100
+            Distance.head_lr_angle = 100
             max_right_flag = 0
             print("THis is ", object)
             # big LR head
             while True:
-                is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.small_lr_angle, max_right_flag)
+                is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.head_lr_angle, max_right_flag)
                 if is_object_in_frame == True:
                     break
                 elif is_object_in_frame == False:
-                    Distance.small_lr_angle = small_lr_temp
-                    print("small_lr_angle : ", Distance.small_lr_angle)
+                    Distance.head_lr_angle = small_lr_temp
+                    print("head_lr_angle : ", Distance.head_lr_angle)
                     continue
                 #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
                     #head.big_UD_head()
@@ -74,15 +74,15 @@ class Controller:
             #고개 정면 코드 추가하기
 
         def small_LR(object="ball"):
-            Distance.small_lr_angle = 100
+            Distance.head_lr_angle = 100
             while True:
                 print("---------start small lr head")
-                is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.small_lr_angle)
+                is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
                 if is_vertical_middle == True:
                     return "Success" #break
     
                 elif is_vertical_middle == False:
-                    Distance.small_lr_angle = small_lr_temp
+                    Distance.head_lr_angle = small_lr_temp
                     continue
                 else : # is_vertical_middle == Except_
                     return "Except"
@@ -141,10 +141,10 @@ class Controller:
             dy = cy - ry
             return dx, dy    
         #=======================================================#
-        #                      1. Teeshot                       #         
+        #                      1. Teeshot A                     #         
         #=======================================================#
         
-        if act == Act.TEESHOT1:                 ##### 1. 시작 및 티샷 #################
+        if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act) # Debug
 
             is_ball = robo._image_processor.detect_ball()
@@ -226,7 +226,7 @@ class Controller:
         #=======================================================#
         
         
-        elif act == Act.TEESHOT2:                 ##### 1. 시작 및 티샷 #################
+        elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act) # Debug
             
             is_ball = robo._image_processor.detect_ball()
@@ -255,18 +255,20 @@ class Controller:
                 small_LR("ball2") # small lr 함으로써 중앙 맞춰짐
                 
             
-            if Distance.small_lr_angle <= 70:
+            if Distance.head_lr_angle <= 80:
                 motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
+                motion.pose("right")
+                motion.turn("RIGHT", 15)
                 print("1번 점에서 확인")
-            elif Distance.small_lr_angle >= 130:
+            elif Distance.head_lr_angle >= 120:
                 motion.walk_side("RIGHT70") # loop문 추가
+                motion.pose("left")
+                motion.turn("LEFT", 15)
                 print("3번 점에서 확인")
             else:
                 print("2번 점에서 확인")
+                motion.pose("left")
             
-            motion.pose("left")
-                
-
             #-----------------------------------------------------------------------------------------------------
 
             # ud_for_dist 하기전에 고개 세팅
@@ -431,15 +433,15 @@ class Controller:
 
                
                 #====== holecup 고개 방향만큼 꽃게 걸음 ======#
-                side_walk = int(abs(100-Distance.small_lr_angle)//10) # 식은 시행착오거치면서 변경예정
+                side_walk = int(abs(100-Distance.head_lr_angle)//10) # 식은 시행착오거치면서 변경예정
 
                 print("**꽃게 걸음 시작**")
                 # side walk 방향 설정 
-                if  Distance.small_lr_angle < 100:
+                if  Distance.head_lr_angle < 100:
                     # 고개가 왼쪽L이면 오른쪽R으로 side walk해라
                     print("꽃게 걸음 오른쪽")
                     side_lr = "RIGHT"
-                elif Distance.small_lr_angle > 100 : 
+                elif Distance.head_lr_angle > 100 : 
                     # 고개가 오른쪽R이면 왼쪽L으로 side walk해라
                     print("꽃게 걸음 왼쪽")
                     side_lr = "LEFT"
