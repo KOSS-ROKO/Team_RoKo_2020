@@ -53,7 +53,7 @@ class Motion:
             time.sleep(0.02)
 
     def RX_data(self):
-        print('rxdata')
+        print('rx_data')
         time.sleep(0.02)
         if self.serial_port.inWaiting() > 0:
             result = self.serial_port.read(1)
@@ -63,7 +63,7 @@ class Motion:
             return 0
 
     def Receiving(self, ser):
-        print("receiving")
+        print('receiving')
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
