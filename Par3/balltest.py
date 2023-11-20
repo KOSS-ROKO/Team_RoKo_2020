@@ -31,24 +31,8 @@ while True:
     imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
 
     red_detected = cv2.bitwise_and(frame, frame, mask=imgThresh)
+
     
-    
-    
-    ''' 원본 코드(hsv 빨간색으로만 인식)
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    
-    # 빨간색 범위를 정의
-    lower_red = np.array([170, 100, 45])
-    upper_red = np.array([177, 255, 255])
-    
-    # HSV 이미지에서 빨간색 마스크 생성
-    mask = cv2.inRange(hsv, lower_red, upper_red)
-    
-    # 원본 이미지에서 마스크로 빨간색 부분 추출
-    red_detected = cv2.bitwise_and(frame, frame, mask=mask)
-    '''
-    
-    # 결과 화면 표시
     cv2.imshow('Original', frame)
     cv2.imshow('Red Detected', red_detected)
     
