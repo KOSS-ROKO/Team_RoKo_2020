@@ -41,6 +41,10 @@ class ImageProcessor:
     ########### 이미지 불러오기 ###########
     def get_img(self, show=False):
         img = self._cam.read()
+        # img.set(3, 640)
+        # img.set(4, 480)
+        # img.set(5, 5)
+        # cv2.imshow("imageProcessor-get_img", img)
         # 이미지를 받아오지 못하면 종료
         if img is None:
             exit()
@@ -66,12 +70,18 @@ class ImageProcessor:
         origin = self.get_img()
         frame = origin.copy()
 
+        #frame.set(3, 640)
+        #frame.set(4, 480)
+        #frame.set(5, 5)
         cv2.imshow('frame', frame)
                 
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
-        imgThreshLow = cv2.inRange(imgHSV, (0, 200, 155), (50, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 155, 50), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 50, 155), (50, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 50, 50), (179, 255, 255))
+
+        imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
@@ -81,7 +91,7 @@ class ImageProcessor:
         
 
         if(role=="call_TF"):  
-            if cv2.countNonZero(imgThresh) > 50: # 값 바꾸세요
+            if cv2.countNonZero(imgThresh) > 30: # 값 바꾸세요
                 return True 
             else:
                 return False
@@ -112,10 +122,12 @@ class ImageProcessor:
 
         origin = self.get_img()
         frame = origin.copy()
+
+        
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        lower_yellow = np.array([0, 80, 50])
+        lower_yellow = np.array([0, 71, 122])
         upper_yellow = np.array([36, 250, 250])
 
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
@@ -170,8 +182,8 @@ class ImageProcessor:
 
         
         if (role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
-            if cv2.countNonZero(binary_frame) > 0: # 값 바꾸세요
-                print("holecup true")
+            if cv2.countNonZero(binary_frame) > 50: # 값 바꾸세요
+                #print("holecup true")
                 return True 
             else:
                 return False
@@ -180,7 +192,28 @@ class ImageProcessor:
             return w 
         
         elif (role=="call_midpoint"): ## 홀컵의 중앙 좌표 return
-            return (center_x, center_y)
+
+            if max_area_contour is not None:
+                M = cv2.moments(max_area_contour)
+                if M["m00"] != 0:
+                    center_x = int(M["m10"] / M["m00"])
+                    center_y = int(M["m01"] / M["m00"])
+
+                    # 노란색 물체의 크기에 따라 초록색 원 그리기
+                    # radius = int(max_area ** 0.5 / 2)
+                    # cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
+                    # 중심 좌표 표시
+                    # cv2.circle(frame, (center_x, center_y), 2, (0, 0, 255), -1)
+
+                    # 중심 좌표가 초록색 원 안에 있는지 확인
+                    if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
+                        # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
+                        cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
+
+                    return (center_x, center_y)
+                
+                else:
+                    return None
 
 
         
@@ -285,15 +318,15 @@ class ImageProcessor:
         cell_width = 640 // 11
 
         # 빨간 공이 중앙 세로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_width * 5 <= x_center <= cell_width * 6):
+        if (cell_width * 6 <= x_center <= cell_width * 7):
             print("stop")
             return "stop"
         # 1~5번째 줄에서 검출되면 "go right" 출력
-        elif x_center < cell_width * 5:
+        elif x_center < cell_width * 6:
             print("right")
             return "right"
         # 7~11번째 줄에서 검출되면 "go left" 출력
-        elif x_center > cell_width * 6:
+        elif x_center > cell_width * 7:
             print("left")
             return "left"
     # else:
@@ -313,23 +346,23 @@ class ImageProcessor:
         x_center = red_point[0]
         y_center = red_point[1]
         
-        cell_height = 480 // 11
+        cell_height = 480 // 13
 
         # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 5 <= y_center <= cell_height * 6):
+        if (cell_height * 6 <= y_center <= cell_height * 7):
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 5:
+        elif y_center < cell_height * 6:
             return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 6:
+        elif y_center > cell_height * 7:
             return "down"
     # else:
     #     print("go far")
 
     
     def middle_lr_holecup(self):
-        print("middle_lr_ball")
+        print("middle_lr_holecup")
         
         
         # 빨간색 객체 추출
@@ -371,16 +404,16 @@ class ImageProcessor:
         x_center = yellow_point[0]
         y_center = yellow_point[1]
         
-        cell_height = 480 // 11
+        cell_height = 480 // 13
         
         # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 5 <= y_center <= cell_height * 6):
+        if (cell_height * 6 <= y_center <= cell_height * 7):
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 5:
+        elif y_center < cell_height * 6:
             return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 6:
+        elif y_center > cell_height * 7:
             return "down"
         # else:
         #     return "go far"
@@ -394,7 +427,38 @@ class ImageProcessor:
     #########################################
     #########################################
     
+    '''
+    def ball_hole_straight(self):
+        #여기서 cv로 일직선 판단 
+        # return left right middle
+        # 리턴값은 head.py의 straight로 넘어감
+
+
+        # red_center = self.detect_ball("call_midpoint")
+        # if not red_center:
+        #     print("red no")
+        yellow_center = self.detect_holecup("call_midpoint")
+        if not yellow_center:
+            print("yellow no")
+
+                
+        # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
+        if yellow_center:
+            if 300 <= yellow_center[0] <= 340 :
+                result = "middle"
+            elif yellow_center[0] < 300:
+                result = "left"
+            else:
+                result = "right"
+        else:
+            result = "none"
+
+        return result
     
+    '''
+    
+    # < Straight 원본 >
+
     def ball_hole_straight(self):
         #여기서 cv로 일직선 판단 
         # return left right middle
@@ -540,7 +604,7 @@ class ImageProcessor:
         
         try:
             # 노란색 홀컵 검출
-            yellow_lower = np.array([20, 20, 100])
+            yellow_lower = np.array([0, 50, 100])
             yellow_upper = np.array([36, 250, 250])
             
             hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -564,7 +628,7 @@ class ImageProcessor:
             
             ##### 가장 왼쪽과 오른쪽, 위쪽 아래쪽 점 찾기
             
-            left_point_y, right_point_y = None, None
+            left_point_yellow, right_point_yellow = None, None
             up_point_yellow, down_point_yellow = None, None
             
             if contours:
@@ -611,7 +675,7 @@ class ImageProcessor:
             
             
             # 빨간공 인식
-            imgThresh = self.detect_ball(frame)
+            imgThresh = self.detect_ball("call_video")
 
             cv2.imshow('Red Ball Binary Image', imgThresh) # 이진화된 이미지 표시
                 
@@ -659,21 +723,21 @@ class ImageProcessor:
 
 
             ##### 홀인 여부 판단
-            if left_point_y is not None and right_point_y is not None:
-                A, A_prime = left_point_y[0], right_point_y[0]
+            if left_point_yellow is not None and left_point_yellow is not None:
+                A, A_prime = left_point_yellow[0], right_point_yellow[0]
                 B, B_prime = left_point_red[0], right_point_red[0]
 
-                C, C_prime = left_point_yellow[1], right_point_yellow[1]
-                D, D_prime = left_point_red[1], right_point_red[1]
+                C, C_prime = up_point_yellow[1], down_point_yellow[1]
+                D, D_prime = up_point_red[1], down_point_red[1]
                 
-                if A < B < A_prime and A < B_prime < A_prime and C < D < C_prime and C < D_prime < C_prime:
-                    hole_result = True
+                #if A < B < A_prime and A < B_prime < A_prime and C < D < C_prime and C < D_prime < C_prime:
+                if A < B < B_prime < A_prime and C < D < D_prime < C_prime:
+                    hole_result = True 
                 else:
                     hole_result = False
             else:
-                hole_result = False
-                
-            return hole_result        
+                hole_result = False 
+            return hole_result     
         
         except Exception as e:
             return "Error"
