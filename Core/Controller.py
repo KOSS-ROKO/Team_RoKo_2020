@@ -257,17 +257,31 @@ class Controller:
             
             if Distance.head_lr_angle <= 80:
                 motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
+                time.sleep(1)
+                motion.walk_side("LEFT70")
+                time.sleep(1)
+                motion.walk_side("LEFT70")
+                time.sleep(1)
                 motion.pose("right")
+                time.sleep(1)
                 motion.turn("RIGHT", 15)
+                time.sleep(1)
                 print("1번 점에서 확인")
             elif Distance.head_lr_angle >= 120:
                 motion.walk_side("RIGHT70") # loop문 추가
+                time.sleep(1)
+                motion.walk_side("RIGHT70")
+                time.sleep(1)
+                motion.walk_side("RIGHT70")
                 motion.pose("left")
+                time.sleep(1)
                 motion.turn("LEFT", 15)
+                time.sleep(1)
                 print("3번 점에서 확인")
             else:
                 print("2번 점에서 확인")
                 motion.pose("left")
+                time.sleep(1)
             
             #-----------------------------------------------------------------------------------------------------
 
