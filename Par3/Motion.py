@@ -39,17 +39,11 @@ class Motion:
         return decorated
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
-        # self.lock.acquire()
-        # self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         try:
-            print('test1')
             self.lock.acquire()
-            print('test11')
             self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         finally:
-            print('test2')
             self.lock.release()
-            print('test22')
             time.sleep(0.02)
 
     def RX_data(self):
@@ -63,7 +57,6 @@ class Motion:
             return 0
 
     def Receiving(self, ser):
-        print("receiving")
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
