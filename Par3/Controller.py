@@ -2,8 +2,8 @@
 import time
 from Robo import Robo
 from Head import Head
-from Motion import Motion
-from Vision import Distance
+from . import Motion
+import Distance
 
 
 class Act:
