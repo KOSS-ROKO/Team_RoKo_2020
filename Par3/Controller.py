@@ -2,7 +2,7 @@
 import time
 from Robo import Robo
 from Head import Head
-from . import Motion
+from Motion import Motion
 import Distance
 
 
