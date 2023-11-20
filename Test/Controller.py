@@ -8,8 +8,8 @@ import Distance
 # Par 4
 
 class Act:
-    TEESHOT1 = 1          # 1. 맨 처음 티샷  
-    TEESHOT2 = 2
+    TEESHOTA = 1          # 1. 맨 처음 티샷  
+    TEESHOTB = 2
     SECSHOT = 3
     WALK_BALL = 4       # 2. 공까지 걸어가기 (걸음수)
     PUTTING_POS = 5      # 3. 퍼팅 위치에 서기
@@ -22,7 +22,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOT1
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -144,10 +144,10 @@ class Controller:
             return dx, dy    
         
         #=======================================================#
-        #                      1. Teeshot 1                       #         
+        #                      1. Teeshot A                     #         
         #=======================================================#
         
-        if act == Act.TEESHOT1:                 ##### 1. 시작 및 티샷 #################
+        if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act) # Debug
 
             print("^^첫번째 티샷 111^^")
@@ -220,10 +220,10 @@ class Controller:
             self.act = Act.SECSHOT
 
         #=======================================================#
-        #                      2. Teeshot 2                       #         
+        #                      2. Teeshot B                     #         
         #=======================================================#
         
-        if act == Act.TEESHOT2:                 ##### 1. 시작 및 티샷 #################
+        if act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act) # Debug
 
             print("^^첫번째 티샷  222^^")
@@ -251,6 +251,38 @@ class Controller:
                     
             else:
                 small_LR("ball") # small lr 함으로써 중앙 맞춰짐
+
+            # 점 3개 중에 결정
+            if Distance.head_lr_angle <= 80:
+                motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
+                time.sleep(1)
+                motion.walk_side("LEFT70")
+                time.sleep(1)
+                motion.walk_side("LEFT70")
+                time.sleep(1)
+                motion.pose("right")
+                time.sleep(1)
+                motion.turn("RIGHT", 20)
+                time.sleep(1)
+                print("1번 점에서 확인")
+            elif Distance.head_lr_angle >= 120:
+                motion.walk_side("RIGHT70") # loop문 추가
+                time.sleep(1)
+                motion.walk_side("RIGHT70")
+                time.sleep(1)
+                motion.walk_side("RIGHT70")
+                motion.pose("left")
+                time.sleep(1)
+                #motion.turn("LEFT", 15)    # 파4 : 3번에서 직선으로 치기
+                time.sleep(1)
+                print("3번 점에서 확인")
+            else:
+                motion.turn("RIGHT", 10)
+                time.sleep(1)
+                print("2번 점에서 확인")
+                motion.pose("left")
+                time.sleep(1)
+
 
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
@@ -297,7 +329,7 @@ class Controller:
 
 
         #=======================================================#
-        #                      3. SECSHOT (두번째 티샷)                        #         
+        #                      3. SECSHOT (두번째 티샷)           #         
         #=======================================================#
 
         elif act == Act.SECSHOT:                 ##### 1. 시작 및 티샷 #################
