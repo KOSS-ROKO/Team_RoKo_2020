@@ -257,7 +257,7 @@ class Controller:
             else:
                 small_LR("ball2") # small lr 함으로써 중앙 맞춰짐
                 
-            
+            point = 0
             if Distance.head_lr_angle <= 80:
                 motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
                 time.sleep(1)
@@ -270,6 +270,7 @@ class Controller:
                 motion.turn("RIGHT", 15)
                 time.sleep(1)
                 print("1번 점에서 확인")
+                point = 1
             elif Distance.head_lr_angle >= 120:
                 motion.walk_side("RIGHT70") # loop문 추가
                 time.sleep(1)
@@ -282,10 +283,12 @@ class Controller:
                 motion.turn("LEFT", 15)
                 time.sleep(1)
                 print("3번 점에서 확인")
+                point = 3
             else:
                 print("2번 점에서 확인")
                 motion.pose("LEFT")
                 time.sleep(1)
+                point = 2
             
             #-----------------------------------------------------------------------------------------------------
 
@@ -310,12 +313,48 @@ class Controller:
 
             if ball_dist > 18:
                 motion.walk("FORWARD", ball_dist - 18)
-                    
             elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
 
+            
+            if point == 1:
+                time.sleep(1)
+                motion.putting("right", 3)
+                time.sleep(5)
+                
+                motion.turn("RIGHT", 60)
+                time.sleep(7)
+                motion.turn("RIGHT", 60)
+                time.sleep(2)
+            elif point == 2:
+                time.sleep(1)
+                motion.putting("left", 3)
+                time.sleep(5)
+                
+                motion.turn("LEFT", 60)
+                time.sleep(7)
+                motion.turn("LEFT", 60)
+                time.sleep(2)
+            elif point == 3:
+                time.sleep(1)
+                motion.putting("left", 3)
+                time.sleep(5)
+                
+                motion.turn("LEFT", 60)
+                time.sleep(7)
+                motion.turn("LEFT", 60)
+                time.sleep(2)
+                
+            self.act = Act.WALK_BALL
+            
+            motion.walk("FORWARD10", 1)
+            time.sleep(15)
+            
+            return True
+                
+            '''
             # PUTTING
             time.sleep(3)
             motion.putting("left", 3, 2)
@@ -336,6 +375,7 @@ class Controller:
             time.sleep(15)
             
             return True
+            '''
         
         #=======================================================#
         #                        2. Walk                        #         
