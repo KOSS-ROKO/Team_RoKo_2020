@@ -69,9 +69,10 @@ class Head:
                     time.sleep(0.2)
                     big_lr_angle -= 30 # 10은 임의 값
                     if big_lr_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                        max_right_flag = 0
+                        max_right_flag = 1
                         big_lr_angle = 100
                         robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
+                        time.sleep(1)
                                             
                 elif max_right_flag == 1:
                     print("head RIGHT")
@@ -79,12 +80,15 @@ class Head:
                     time.sleep(0.2)
                     big_lr_angle += 30 # 10은 임의 값
                     if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                        max_right_flag = 1
+                        max_right_flag = 0
                         big_lr_angle = 100 
-                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
+                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
+                        time.sleep(1) 
 
                         
                 return check, big_lr_angle, max_right_flag
+            else:
+                return True, big_lr_angle, max_right_flag
             
         elif detect_object == 'holecup': # 턴하지 않음
             check = robo._image_processor.detect_holecup()
@@ -99,7 +103,7 @@ class Head:
                     time.sleep(0.2)
                     big_lr_angle -= 30 # 10은 임의 값
                     if big_lr_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                        max_right_flag = 0
+                        max_right_flag = 1
                         big_lr_angle = 100
                         robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
                                             
@@ -109,7 +113,7 @@ class Head:
                     time.sleep(0.2)
                     big_lr_angle += 30 # 10은 임의 값
                     if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                        max_right_flag = 1
+                        max_right_flag = 0
                         big_lr_angle = 100 
                         robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
 
@@ -209,7 +213,7 @@ class Head:
                 big_ud_angle -= 30 # 10은 임의 값
                 if big_ud_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_down_flag = 1
-                    big_ud_angle = 55
+                    big_ud_angle = 64
                     time.sleep(1)
                     robo._motion.head("UP", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 UP 45도 모션 추가할듯?
                     robo._motion.head("UP", 9)

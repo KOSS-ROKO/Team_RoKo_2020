@@ -121,20 +121,18 @@ class Motion:
                     self.TX_data_py2(dir_list["FORWARD"])
                     time.sleep(3)
                     dist -= 8
-                    continue
                 elif dist < 8 and dist >= 5:
                     print(dir, dist)
                     self.TX_data_py2(dir_list["JFORWARD"])
                     time.sleep(3)
                     dist -= 5
-                    continue
                 elif 2 <= dist < 5 :  
                     print(dir, dist)
                     self.TX_data_py2(dir_list["2JFORWARD"])
                     time.sleep(3)
                     dist -= 2
                     continue
-                elif 2 < dist:  
+                elif 2 > dist:  
                     print("FORWARD too small to WALK further.", dist)
                     break
         elif dir=="BACKWARD":
@@ -228,12 +226,15 @@ class Motion:
     #퍼팅 위치에 서기 
     def pose(self,dir):
         # dir = ["left", "right"]
-        if dir=="left":
+        if dir=="RIGHT":
             self.TX_data_py2(111)
             time.sleep(7)
-        else:
+        elif dir=="LEFT":
             self.TX_data_py2(110)
-            time.sleep(7)            
+            time.sleep(7)  
+        else:  
+            self.TX_data_py2(110)
+            time.sleep(7)          
         
     
     def putting(self, dir, power, sleep=1): 

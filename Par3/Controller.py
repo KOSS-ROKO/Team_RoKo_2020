@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -47,8 +47,8 @@ class Controller:
                 elif is_object_in_frame == False:
                     big_ud_angle = Distance.Head_ud_angle
                 
-                    if Distance.Head_ud_angle == 55: # Distance.Head_UD_Middle_Value_Measures - 100 + 10 + 45:  # big ud 한 사이클이 끝남. / 9는 바뀔 수 있는 값
-                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
+                    if Distance.Head_ud_angle == 64: # Distance.Head_UD_Middle_Value_Measures - 100 + 10 + 45:  # big ud 한 사이클이 끝남. / 9는 바뀔 수 있는 값
+                        #Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
                         #go_to = "big_lr"  # LR로 갈지 구분
                         return "Except"
                     else: 
@@ -74,7 +74,7 @@ class Controller:
             #고개 정면 코드 추가하기
 
         def small_LR(object="ball"):
-            Distance.head_lr_angle = 100
+            # Distance.head_lr_angle = 100
             while True:
                 print("---------start small lr head")
                 is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
@@ -222,7 +222,7 @@ class Controller:
             
             
         #=======================================================#
-        #                      1. Teeshot2                      #         
+        #                      1. Teeshot B                     #         
         #=======================================================#
         
         
@@ -236,6 +236,9 @@ class Controller:
                 while True:
                     # big UD head
                     is_big_UD = big_UD("ball")
+                    motion.head("DOWN", 9)
+                    motion.head("DOWN", 6)
+                    Distance.Head_ud_angle -= 15
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
@@ -262,7 +265,7 @@ class Controller:
                 time.sleep(1)
                 motion.walk_side("LEFT70")
                 time.sleep(1)
-                motion.pose("right")
+                motion.pose("RIGHT")
                 time.sleep(1)
                 motion.turn("RIGHT", 15)
                 time.sleep(1)
@@ -273,14 +276,15 @@ class Controller:
                 motion.walk_side("RIGHT70")
                 time.sleep(1)
                 motion.walk_side("RIGHT70")
-                motion.pose("left")
+                time.sleep(1)
+                motion.pose("LEFT")
                 time.sleep(1)
                 motion.turn("LEFT", 15)
                 time.sleep(1)
                 print("3번 점에서 확인")
             else:
                 print("2번 점에서 확인")
-                motion.pose("left")
+                motion.pose("LEFT")
                 time.sleep(1)
             
             #-----------------------------------------------------------------------------------------------------
@@ -331,7 +335,7 @@ class Controller:
             motion.walk("FORWARD10", 1)
             time.sleep(15)
             
-            # return True
+            return True
         
         #=======================================================#
         #                        2. Walk                        #         
