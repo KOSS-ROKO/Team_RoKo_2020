@@ -93,7 +93,7 @@ class Motion:
         """
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
         # 2Jforward = 2센치 종종걸음
-        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104,
+        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104, "FORWARD14": 107, "FORWARD15": 108,
                     '2JFORWARD': 105, "2JBACKWARD": 106}
         
         # for i in range(loop):                
