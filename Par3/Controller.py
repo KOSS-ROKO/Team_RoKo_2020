@@ -267,8 +267,6 @@ class Controller:
                 time.sleep(1)
                 motion.pose("RIGHT")
                 time.sleep(1)
-                motion.turn("RIGHT", 15)
-                time.sleep(1)
                 print("1번 점에서 확인")
                 point = 1
             elif Distance.head_lr_angle >= 120:
@@ -279,8 +277,6 @@ class Controller:
                 motion.walk_side("RIGHT70")
                 time.sleep(1)
                 motion.pose("LEFT")
-                time.sleep(1)
-                motion.turn("LEFT", 15)
                 time.sleep(1)
                 print("3번 점에서 확인")
                 point = 3
@@ -321,12 +317,14 @@ class Controller:
             
             if point == 1:
                 time.sleep(1)
+                motion.turn("RIGHT", 15)
+                time.sleep(1)
                 motion.putting("right", 3)
                 time.sleep(5)
                 
                 motion.turn("RIGHT", 60)
-                time.sleep(7)
-                motion.turn("RIGHT", 60)
+                time.sleep(6)
+                motion.turn("RIGHT", 45)
                 time.sleep(2)
             elif point == 2:
                 time.sleep(1)
@@ -334,21 +332,23 @@ class Controller:
                 time.sleep(5)
                 
                 motion.turn("LEFT", 60)
-                time.sleep(7)
+                time.sleep(6)
                 motion.turn("LEFT", 60)
                 time.sleep(2)
             elif point == 3:
+                time.sleep(1)
+                motion.turn("LEFT", 15)
                 time.sleep(1)
                 motion.putting("left", 3)
                 time.sleep(5)
                 
                 motion.turn("LEFT", 60)
-                time.sleep(7)
-                motion.turn("LEFT", 60)
+                time.sleep(6)
+                motion.turn("LEFT", 45)
                 time.sleep(2)
                 
             self.act = Act.WALK_BALL
-            
+            time.sleep(6)
             motion.walk("FORWARD10", 1)
             time.sleep(15)
             
