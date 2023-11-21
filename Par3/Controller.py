@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -145,7 +145,7 @@ class Controller:
         #=======================================================#
         
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
-            print("ACT: ", act) # Debug
+            print("ACT: ", act, "Teeshot A") # Debug
 
             is_ball = robo._image_processor.detect_ball()
 
@@ -227,7 +227,7 @@ class Controller:
         
         
         elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
-            print("ACT: ", act) # Debug
+            print("ACT: ", act, "Teeshot B") # Debug
             
             is_ball = robo._image_processor.detect_ball()
             
@@ -317,7 +317,7 @@ class Controller:
             
             if point == 1:
                 time.sleep(1)
-                motion.turn("RIGHT", 15)
+                motion.turn("RIGHT", 10)
                 time.sleep(1)
                 motion.putting("right", 3)
                 time.sleep(5)
@@ -337,7 +337,7 @@ class Controller:
                 time.sleep(2)
             elif point == 3:
                 time.sleep(1)
-                motion.turn("LEFT", 15)
+                motion.turn("LEFT", 10)
                 time.sleep(1)
                 motion.putting("left", 3)
                 time.sleep(5)
@@ -349,10 +349,10 @@ class Controller:
                 
             self.act = Act.WALK_BALL
             time.sleep(6)
-            motion.walk("FORWARD10", 1)
+            motion.walk("FORWARD10", 2)
             time.sleep(15)
             
-            return True
+            # return True
                 
             '''
             # PUTTING
@@ -803,4 +803,4 @@ class Controller:
                 self.act = Act.WALK_BALL
             
             
-            #return True
+            return True
