@@ -558,9 +558,11 @@ class Controller:
                     break
                 elif check_straight == "Except":
                     print("straight except")
+                    
                     while True:
-                        motion.head("DEFAULT", 1)
-                        is_big_UD = big_UD("ball")
+                        # 매번 고개 디폴트했다가 54도로 갔다가 하는 거
+                        # motion.head("DEFAULT", 1)
+                        # is_big_UD = big_UD("ball")
                         
                         if is_big_UD == "Except":
                             big_LR("ball")
