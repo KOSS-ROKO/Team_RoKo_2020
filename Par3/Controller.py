@@ -141,7 +141,7 @@ class Controller:
 
                     continue
             
-            
+        #####건웅####
         def is_point_inside_rectangle(point, rectangle):
             x, y = point
             x1, y1, x2, y2, x3, y3, x4, y4 = rectangle
@@ -154,6 +154,9 @@ class Controller:
             dx = cx - rx
             dy = cy - ry
             return dx, dy    
+        ##########
+        
+        
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
@@ -707,6 +710,49 @@ class Controller:
             time.sleep(3)
             
             ### 건웅 오빠 필독!
+            motion.head("DEFAULT",63)
+
+            time.sleep(1)
+            red_center = robo._image_processor.detect_ball('call_midpoint')
+            print("++++++++++++++++++")
+            print(robo._image_processor.detect_ball(),red_center)
+            print("++++++++++++++++++")
+            is_center = False
+            move_center = red_center
+            x,y = reference_point = [394, 291]
+            w = 20
+            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
+            while not is_center:
+                red_center = robo._image_processor.detect_ball('call_midpoint')
+                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                print(red_center, dx,dy)
+                if is_point_inside_rectangle(red_center, rectangle_coordinates):
+                    is_center = True
+                else:
+                    if(abs(dy)>=30):
+                        if (dy<0):
+                            #while(abs(dy)//30):
+                                motion.walk("2JFORWARD")
+                                #dy += 30
+                                time.sleep(1)
+                        else:
+                            #while(abs(dy)//30):
+                                motion.walk("2JBACKWARD")
+                                #dy -= 30
+                                time.sleep(1)
+                    if(abs(dx)>=30):
+                        if (dx<0):
+                            #while(abs(dx)//30):
+                                motion.walk_side("LEFT10")
+                                #dx += 30
+                                time.sleep(1)
+                        else:
+                            #while(abs(dx)//30):
+                                motion.walk_side("RIGHT10")
+                                #dx -=30
+                                time.sleep(1)
+        
+            ################
             
             motion.head("DEFAULT",63)
             red_center = robo._image_processor.detect_ball("call_midpoint")
