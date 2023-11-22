@@ -8,7 +8,7 @@ def mouse_callback(event, x, y, flags, param):
 
         # 좌표에서 색상값 (BGR) 출력
         color_bgr = frame[y, x]
-        print(f"BGR 값: {color_bgr}")
+        # print(f"BGR 값: {color_bgr}")
 
         # BGR을 HSV로 변환
         color_hsv = cv2.cvtColor(np.uint8([[color_bgr]]), cv2.COLOR_BGR2HSV)[0][0]
