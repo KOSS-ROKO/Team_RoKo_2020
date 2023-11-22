@@ -219,7 +219,7 @@ class Controller:
             
             
             
-            ## 건웅 오빠 ㅋ
+            ## 건웅 오빠
             
             motion.head("DEFAULT",63)
 
@@ -784,7 +784,7 @@ class Controller:
 
             time.sleep(3)
             
-            ### 건웅 오빠 필독!
+            ### 건웅 오빠
             motion.head("DEFAULT",63)
 
             time.sleep(1)
