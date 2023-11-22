@@ -77,8 +77,8 @@ class ImageProcessor:
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
         
-        imgThreshLow = cv2.inRange(imgHSV, (0, 50, 60), (10, 200, 200))
-        imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 200, 200))
+        imgThreshLow = cv2.inRange(imgHSV, (0, 50, 60), (10, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
@@ -127,7 +127,7 @@ class ImageProcessor:
         # lower_yellow = np.array([0, 71, 122])
         # upper_yellow = np.array([36, 250, 250])
         
-        lower_yellow = np.array([20, 30, 80])
+        lower_yellow = np.array([24, 40, 85])
         upper_yellow = np.array([36, 250, 250])
 
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
