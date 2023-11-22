@@ -318,11 +318,13 @@ class Head:
             robo._motion.walk_side("RIGHT10")
             time.sleep(1)
             robo._motion.turn("LEFT", 10)    # 값 조절 필요
+            time.sleep(1)
             return False               
         elif check == "left":    ## 똑같이 왼쪽으로 이동
             robo._motion.walk_side("LEFT10")
             time.sleep(1)
             robo._motion.turn("RIGHT", 10)    # 값 조절 필요
+            time.sleep(1)
             return False
         else: # check == "none"
             return "Except"
