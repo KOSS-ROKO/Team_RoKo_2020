@@ -20,7 +20,8 @@ ACT = "TEESFOTA"
 # PUTTING = 5          # 4. 퍼팅
 # HOLEIN = 6           # 5. 홀인
 
-
+head = Head()
+motion = Motion()
 
 
 ########### 이미지 불러오기 ###########
