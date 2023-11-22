@@ -224,17 +224,28 @@ class Motion:
 
 
     #퍼팅 위치에 서기 
-    def pose(self,dir):
+    def pose(self,dir, TB=False):
         # dir = ["left", "right"]
-        if dir=="RIGHT":
-            self.TX_data_py2(111)
-            time.sleep(7)
-        elif dir=="LEFT":
-            self.TX_data_py2(110)
-            time.sleep(7)  
-        else:  
-            self.TX_data_py2(110)
-            time.sleep(7)          
+        if TB:
+            if dir=="RIGHT":
+                self.TX_data_py2(111)
+                time.sleep(7)
+            elif dir=="LEFT":
+                self.TX_data_py2(110)
+                time.sleep(7)  
+            else:  
+                self.TX_data_py2(110)
+                time.sleep(7) 
+        else: # TB= True
+            if dir=="RIGHT":
+                self.TX_data_py2(148)
+                time.sleep(7)
+            elif dir=="LEFT":
+                self.TX_data_py2(147)
+                time.sleep(7)  
+            else:  
+                self.TX_data_py2(147)
+                time.sleep(7)
         
     
     def putting(self, dir, power, sleep=1): 
