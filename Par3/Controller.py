@@ -414,14 +414,16 @@ class Controller:
 
             if ball_dist > 18:
                 motion.walk("FORWARD", ball_dist - 18)
+                time.sleep(1)
             elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
+                time.sleep(1)
                 
                 
             ## 건웅 오빠
-            
+            time.sleep(1)
             motion.head("DEFAULT",63)
 
             time.sleep(1)
@@ -463,43 +465,6 @@ class Controller:
                                 motion.walk_side("RIGHT10")
                                 #dx -=30
                                 time.sleep(1)
-        
-            
-            motion.head("DEFAULT",63)
-            red_center = robo._image_processor.detect_ball("call_midpoint")
-            print("++++++++++++++++++")
-            print(red_center)
-            print("++++++++++++++++++")
-            is_center = False
-            while not is_center:
-                rectangle_coordinates = [388, 140, 422, 140, 422, 180, 388, 180]
-                if is_point_inside_rectangle(red_center, rectangle_coordinates):
-                    is_center = True
-                else:
-                    reference_point = [400, 160]
-                    dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
-                    x,y = dx/2, dy
-                    if(abs(dx)>=25):
-                        if (dx<0):
-                            while(abs(dx)//30):
-                                robo._motion.walk_side("LEFT10")
-                                time.sleep(1)
-                        else:
-                            while(abs(dx)//30):
-                                robo._motion.walk_side("Right10")
-                                time.sleep(1)
-                    if(abs(dy)>=25):
-                        if (dy<0):
-                            while(abs(dy)//30):
-                                robo._motion.walk("2JBACKWARD")
-                                time.sleep(1)
-                        else:
-                            while(abs(dy)//30):
-                                robo._motion.walk("2JFORWARD")
-                                time.sleep(1)
-                                
-                                
-
             
             if point == 1:
                 time.sleep(1)

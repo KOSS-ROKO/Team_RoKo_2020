@@ -244,7 +244,7 @@ class Motion:
         # dir_list = {"LEFT": 119, "RIGHT": 118}
         dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116}
         self.TX_data_py2(dir_list[dir])
-        time.sleep(0.1)
+        time.sleep(1)
 
 
 
