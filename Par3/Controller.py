@@ -281,7 +281,7 @@ class Controller:
                 time.sleep(1)
                 motion.walk_side("LEFT70")
                 time.sleep(1)
-                motion.pose("RIGHT")
+                motion.pose("RIGHT", True)
                 time.sleep(1)
                 print("1번 점에서 확인")
                 point = 1
@@ -300,7 +300,7 @@ class Controller:
                 point = 3
             else:
                 print("2번 점에서 확인")
-                motion.pose("LEFT")
+                motion.pose("LEFT", True)
                 time.sleep(1)
                 point = 2
             
@@ -335,7 +335,7 @@ class Controller:
             
             if point == 1:
                 time.sleep(1)
-                motion.turn("RIGHT", 10)
+                motion.turn("RIGHT", 15)
                 time.sleep(1)
                 motion.putting("right", 3)
                 time.sleep(5)
@@ -355,20 +355,22 @@ class Controller:
                 time.sleep(2)
             elif point == 3:
                 time.sleep(1)
-                motion.turn("LEFT", 10)
+                motion.turn("LEFT", 15)
                 time.sleep(1)
                 motion.putting("left", 3)
                 time.sleep(5)
                 
                 motion.turn("LEFT", 60)
                 time.sleep(5)
-                motion.turn("LEFT", 45)
+                motion.turn("LEFT", 60)
+                time.sleep(2)
+                motion.turn("LEFT", 10)
                 time.sleep(2)
                  
             self.act = Act.WALK_BALL
-            time.sleep(6)
-            motion.walk("FORWARD10", 2)
-            time.sleep(15)
+            time.sleep(1)
+            motion.walk("FORWARD14", 1)
+            time.sleep(25)
             
             # return True
                 

@@ -72,7 +72,7 @@ class Motion:
                 if RX == 16:
                     self.receiving_exit = 0
                     break
-                elif RX == 200:
+                elif RX == 38:
                     try:
                         self.lock.release()
                     except:
