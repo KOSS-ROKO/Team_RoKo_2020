@@ -296,6 +296,7 @@ class Controller:
                                 robo._motion.walk_side("2JFORWARD")
                                 time.sleep(1)
 
+
             # PUTTING
             time.sleep(3)
             motion.putting("left", 3, 2)

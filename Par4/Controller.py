@@ -728,8 +728,53 @@ class Controller:
 
             time.sleep(3)
 
-            #### 퍼팅 직전 공의 위치 정확히 두는 코드
-             
+
+
+
+            ## 건웅 오빠 ㅋ
+            
+            motion.head("DEFAULT",63)
+
+            time.sleep(1)
+            red_center = robo._image_processor.detect_ball('call_midpoint')
+            print("++++++++++++++++++")
+            print(robo._image_processor.detect_ball(),red_center)
+            print("++++++++++++++++++")
+            is_center = False
+            move_center = red_center
+            x,y = reference_point = [394, 291]
+            w = 20
+            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
+            while not is_center:
+                red_center = robo._image_processor.detect_ball('call_midpoint')
+                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                print(red_center, dx,dy)
+                if is_point_inside_rectangle(red_center, rectangle_coordinates):
+                    is_center = True
+                else:
+                    if(abs(dy)>=30):
+                        if (dy<0):
+                            #while(abs(dy)//30):
+                                motion.walk("2JFORWARD")
+                                #dy += 30
+                                time.sleep(1)
+                        else:
+                            #while(abs(dy)//30):
+                                motion.walk("2JBACKWARD")
+                                #dy -= 30
+                                time.sleep(1)
+                    if(abs(dx)>=30):
+                        if (dx<0):
+                            #while(abs(dx)//30):
+                                motion.walk_side("LEFT10")
+                                #dx += 30
+                                time.sleep(1)
+                        else:
+                            #while(abs(dx)//30):
+                                motion.walk_side("RIGHT10")
+                                #dx -=30
+                                time.sleep(1)
+            
             motion.head("DEFAULT",63)
             red_center = robo._image_processor.detect_ball("call_midpoint")
             print("++++++++++++++++++")
@@ -762,6 +807,9 @@ class Controller:
                             while(abs(dy)//30):
                                 robo._motion.walk_side("2JFORWARD")
                                 time.sleep(1)
+
+
+
 
              ### 진짜 두번째 티샷
             motion.putting(Distance.field, 1, 2)
