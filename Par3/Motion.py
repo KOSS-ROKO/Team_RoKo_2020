@@ -181,6 +181,7 @@ class Motion:
                     print("Angle too small to rotate further.", dist)
                     break
         else:
+            print("else walk")
             self.TX_data_py2(dir_list[dir])
             time.sleep(3)
 

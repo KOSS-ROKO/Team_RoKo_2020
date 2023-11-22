@@ -85,6 +85,8 @@ class ImageProcessor:
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
         imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
         imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
+
+        
         
 
         if(role=="call_TF"):  
