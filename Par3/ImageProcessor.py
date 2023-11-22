@@ -139,7 +139,9 @@ class ImageProcessor:
 
         _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
-        #cv2.imshow('Binary Image', binary_frame)
+        kernel = np.ones((5, 5), np.uint8)
+        binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
+        binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
 
         contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
@@ -188,8 +190,8 @@ class ImageProcessor:
             else:
                 return False
             
-        elif (role=="call_w"): ## 홀컵의 w 크기 return
-            return w 
+        elif (role=="call_video"): ## 홀컵의 w 크기 return
+            return binary_frame 
         
         elif (role=="call_midpoint"): ## 홀컵의 중앙 좌표 return
 
@@ -603,25 +605,8 @@ class ImageProcessor:
         frame = origin.copy()
         
         try:
-            # 노란색 홀컵 검출
-            yellow_lower = np.array([0, 50, 100])
-            yellow_upper = np.array([36, 250, 250])
             
-            hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            yellow_mask = cv2.inRange(hsv_frame, yellow_lower, yellow_upper)
-            yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-            
-            blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
-            gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
-            
-            _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            
-            # 이미지 전처리 - 침식, 팽창
-            kernel = np.ones((5, 5), np.uint8)
-            binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
-            binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
-            
-            cv2.imshow('Yellow Holecup Binary Image', binary_frame) # 이진화된 이미지 표시
+            binary_frame = self.detect_holecup("call_video")
             
             contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) # 노란색 홀컵 윤곽선
             
