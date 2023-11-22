@@ -70,24 +70,26 @@ class ImageProcessor:
         origin = self.get_img()
         frame = origin.copy()
 
-        #frame.set(3, 640)
-        #frame.set(4, 480)
-        #frame.set(5, 5)
-        cv2.imshow('frame', frame)
                 
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 50, 155), (50, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 50, 50), (179, 255, 255))
 
-        imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+        
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
+
+        imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
         imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
         imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
+
+        
         
 
         if(role=="call_TF"):  
@@ -127,8 +129,11 @@ class ImageProcessor:
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        lower_yellow = np.array([0, 71, 122])
-        upper_yellow = np.array([36, 250, 250])
+        # lower_yellow = np.array([0, 71, 122])
+        # upper_yellow = np.array([36, 250, 250])
+        
+        lower_yellow = np.array([10, 30, 20])
+        upper_yellow = np.array([40, 255, 255])
 
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
@@ -139,7 +144,9 @@ class ImageProcessor:
 
         _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
-        #cv2.imshow('Binary Image', binary_frame)
+        kernel = np.ones((5, 5), np.uint8)
+        binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
+        binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
 
         contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
@@ -154,7 +161,7 @@ class ImageProcessor:
         max_area = 0  # 가장 큰 노란색 물체의 면적
         max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
 
-        for contour in contours:
+        for contour in contours: 
             area = cv2.contourArea(contour)
 
             if area > max_area:
@@ -188,8 +195,8 @@ class ImageProcessor:
             else:
                 return False
             
-        elif (role=="call_w"): ## 홀컵의 w 크기 return
-            return w 
+        elif (role=="call_video"): ## 홀컵의 w 크기 return
+            return binary_frame 
         
         elif (role=="call_midpoint"): ## 홀컵의 중앙 좌표 return
 
@@ -603,25 +610,8 @@ class ImageProcessor:
         frame = origin.copy()
         
         try:
-            # 노란색 홀컵 검출
-            yellow_lower = np.array([0, 50, 100])
-            yellow_upper = np.array([36, 250, 250])
             
-            hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            yellow_mask = cv2.inRange(hsv_frame, yellow_lower, yellow_upper)
-            yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-            
-            blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
-            gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
-            
-            _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            
-            # 이미지 전처리 - 침식, 팽창
-            kernel = np.ones((5, 5), np.uint8)
-            binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
-            binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
-            
-            cv2.imshow('Yellow Holecup Binary Image', binary_frame) # 이진화된 이미지 표시
+            binary_frame = self.detect_holecup("call_video")
             
             contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) # 노란색 홀컵 윤곽선
             
