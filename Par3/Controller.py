@@ -265,12 +265,16 @@ class Controller:
                 time.sleep(1)
                 motion.walk_side("LEFT70")
                 time.sleep(1)
+                motion.walk_side("LEFT70")
+                time.sleep(1)
                 motion.pose("RIGHT")
                 time.sleep(1)
                 print("1번 점에서 확인")
                 point = 1
             elif Distance.head_lr_angle >= 120:
                 motion.walk_side("RIGHT70") # loop문 추가
+                time.sleep(1)
+                motion.walk_side("RIGHT70")
                 time.sleep(1)
                 motion.walk_side("RIGHT70")
                 time.sleep(1)
@@ -343,10 +347,10 @@ class Controller:
                 time.sleep(5)
                 
                 motion.turn("LEFT", 60)
-                time.sleep(6)
+                time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
-                
+                 
             self.act = Act.WALK_BALL
             time.sleep(6)
             motion.walk("FORWARD10", 2)
