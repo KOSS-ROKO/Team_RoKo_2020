@@ -157,6 +157,8 @@ class Controller:
             dy = cy - ry
             return dx, dy    
         
+        
+        
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
@@ -216,6 +218,85 @@ class Controller:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
+                
+            ## 건웅 오빠
+            
+            motion.head("DEFAULT",63)
+
+            time.sleep(1)
+            red_center = robo._image_processor.detect_ball('call_midpoint')
+            print("++++++++++++++++++")
+            print(robo._image_processor.detect_ball(),red_center)
+            print("++++++++++++++++++")
+            is_center = False
+            move_center = red_center
+            x,y = reference_point = [394, 291]
+            w = 20
+            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
+            while not is_center:
+                red_center = robo._image_processor.detect_ball('call_midpoint')
+                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                print(red_center, dx,dy)
+                if is_point_inside_rectangle(red_center, rectangle_coordinates):
+                    is_center = True
+                else:
+                    if(abs(dy)>=30):
+                        if (dy<0):
+                            #while(abs(dy)//30):
+                                motion.walk("2JFORWARD")
+                                #dy += 30
+                                time.sleep(1)
+                        else:
+                            #while(abs(dy)//30):
+                                motion.walk("2JBACKWARD")
+                                #dy -= 30
+                                time.sleep(1)
+                    if(abs(dx)>=30):
+                        if (dx<0):
+                            #while(abs(dx)//30):
+                                motion.walk_side("LEFT10")
+                                #dx += 30
+                                time.sleep(1)
+                        else:
+                            #while(abs(dx)//30):
+                                motion.walk_side("RIGHT10")
+                                #dx -=30
+                                time.sleep(1)
+        
+            
+            motion.head("DEFAULT",63)
+            red_center = robo._image_processor.detect_ball("call_midpoint")
+            print("++++++++++++++++++")
+            print(red_center)
+            print("++++++++++++++++++")
+            is_center = False
+            while not is_center:
+                rectangle_coordinates = [388, 140, 422, 140, 422, 180, 388, 180]
+                if is_point_inside_rectangle(red_center, rectangle_coordinates):
+                    is_center = True
+                else:
+                    reference_point = [400, 160]
+                    dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                    x,y = dx/2, dy
+                    if(abs(dx)>=25):
+                        if (dx<0):
+                            while(abs(dx)//30):
+                                robo._motion.walk_side("LEFT10")
+                                time.sleep(1)
+                        else:
+                            while(abs(dx)//30):
+                                robo._motion.walk_side("Right10")
+                                time.sleep(1)
+                    if(abs(dy)>=25):
+                        if (dy<0):
+                            while(abs(dy)//30):
+                                robo._motion.walk_side("2JBACKWARD")
+                                time.sleep(1)
+                        else:
+                            while(abs(dy)//30):
+                                robo._motion.walk_side("2JFORWARD")
+                                time.sleep(1)
+                                
 
             # PUTTING
             time.sleep(3)
@@ -283,6 +364,7 @@ class Controller:
                 time.sleep(1)
                 motion.pose("RIGHT", True)
                 time.sleep(1)
+                motion.turn("RIGHT", 15)
                 print("1번 점에서 확인")
                 point = 1
             elif Distance.head_lr_angle >= 120:
@@ -296,6 +378,7 @@ class Controller:
                 time.sleep(1)
                 motion.pose("LEFT")
                 time.sleep(1)
+                motion.turn("LEFT", 15)
                 print("3번 점에서 확인")
                 point = 3
             else:
@@ -333,10 +416,89 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
 
+
+
+            ## 건웅 오빠
+            
+            motion.head("DEFAULT",63)
+
+            time.sleep(1)
+            red_center = robo._image_processor.detect_ball('call_midpoint')
+            print("++++++++++++++++++")
+            print(robo._image_processor.detect_ball(),red_center)
+            print("++++++++++++++++++")
+            is_center = False
+            move_center = red_center
+            x,y = reference_point = [394, 291]
+            w = 20
+            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
+            while not is_center:
+                red_center = robo._image_processor.detect_ball('call_midpoint')
+                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                print(red_center, dx,dy)
+                if is_point_inside_rectangle(red_center, rectangle_coordinates):
+                    is_center = True
+                else:
+                    if(abs(dy)>=30):
+                        if (dy<0):
+                            #while(abs(dy)//30):
+                                motion.walk("2JFORWARD")
+                                #dy += 30
+                                time.sleep(1)
+                        else:
+                            #while(abs(dy)//30):
+                                motion.walk("2JBACKWARD")
+                                #dy -= 30
+                                time.sleep(1)
+                    if(abs(dx)>=30):
+                        if (dx<0):
+                            #while(abs(dx)//30):
+                                motion.walk_side("LEFT10")
+                                #dx += 30
+                                time.sleep(1)
+                        else:
+                            #while(abs(dx)//30):
+                                motion.walk_side("RIGHT10")
+                                #dx -=30
+                                time.sleep(1)
+        
+    
+            
+            motion.head("DEFAULT",63)
+            red_center = robo._image_processor.detect_ball("call_midpoint")
+            print("++++++++++++++++++")
+            print(red_center)
+            print("++++++++++++++++++")
+            is_center = False
+            while not is_center:
+                rectangle_coordinates = [388, 140, 422, 140, 422, 180, 388, 180]
+                if is_point_inside_rectangle(red_center, rectangle_coordinates):
+                    is_center = True
+                else:
+                    reference_point = [400, 160]
+                    dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                    x,y = dx/2, dy
+                    if(abs(dx)>=25):
+                        if (dx<0):
+                            while(abs(dx)//30):
+                                robo._motion.walk_side("LEFT10")
+                                time.sleep(1)
+                        else:
+                            while(abs(dx)//30):
+                                robo._motion.walk_side("Right10")
+                                time.sleep(1)
+                    if(abs(dy)>=25):
+                        if (dy<0):
+                            while(abs(dy)//30):
+                                robo._motion.walk_side("2JBACKWARD")
+                                time.sleep(1)
+                        else:
+                            while(abs(dy)//30):
+                                robo._motion.walk_side("2JFORWARD")
+                                time.sleep(1)
+            
             
             if point == 1:
-                time.sleep(1)
-                motion.turn("RIGHT", 15)
                 time.sleep(1)
                 motion.putting("right", 3)
                 time.sleep(5)
@@ -355,8 +517,6 @@ class Controller:
                 motion.turn("LEFT", 60)
                 time.sleep(2)
             elif point == 3:
-                time.sleep(1)
-                motion.turn("LEFT", 15)
                 time.sleep(1)
                 motion.putting("left", 3)
                 time.sleep(5)
@@ -933,19 +1093,7 @@ class Controller:
             time.sleep(3)
             
            #####건웅####
-            def is_point_inside_rectangle(point, rectangle):
-                x, y = point
-                x1, y1, x2, y2, x3, y3, x4, y4 = rectangle
-                return x1 <= x <= x2 and y1 <= y <= y4
-
-            # 좌표가 사각형 밖에 있다면 기준 좌표로부터 얼마나 떨어져 있는지 계산하는 함수 정의
-            def calculate_distance_from_reference(center, reference):
-                cx, cy = center
-                rx, ry = reference
-                dx = cx - rx
-                dy = cy - ry
-                return dx, dy    
-            ##########
+            
             
             motion.head("DEFAULT",63)
             red_center = robo._image_processor.detect_ball("call_midpoint")
