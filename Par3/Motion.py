@@ -39,9 +39,9 @@ class Motion:
 
         return decorated
 
-    def TX_data_py2(self, one_byte):  # one_byte= 0~255
+    def TX_data(self, one_byte):
         self.lock = True
-        self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        self.serial_port.write(serial.to_bytes([one_byte]))
         time.sleep(0.1)
         '''
         try:
@@ -108,7 +108,7 @@ class Motion:
     ############################################################
     # 기본자세 (99)
     def basic(self):
-        self.TX_data_py2(99)
+        self.TX_data(99)
         time.sleep(1.5)
 
     # 걷기 (101~120)
@@ -123,23 +123,22 @@ class Motion:
 
 
         print("motion.py dist - 18or26: ", dist)
-               
-        ############
+        
         if (dir == "FORWARD") or (dir == "2JFORWARD"):
             while dist > 0:            
                 if dist >= 8:
                     print(dir, dist)
-                    self.TX_data_py2(dir_list["FORWARD"])
+                    self.TX_data(dir_list["FORWARD"])
                     time.sleep(3)
                     dist -= 8
                 elif dist < 8 and dist >= 5:
                     print(dir, dist)
-                    self.TX_data_py2(dir_list["JFORWARD"])
+                    self.TX_data(dir_list["JFORWARD"])
                     time.sleep(3)
                     dist -= 5
                 elif 2 <= dist < 5 :  
                     print(dir, dist)
-                    self.TX_data_py2(dir_list["2JFORWARD"])
+                    self.TX_data(dir_list["2JFORWARD"])
                     time.sleep(3)
                     dist -= 2
                     continue
@@ -150,17 +149,17 @@ class Motion:
             while dist < 0:            
                 if dist <= -8:
                     print("BACKWARD", dir, " by a degrees.", dist)
-                    self.TX_data_py2(dir_list["BACKWARD"])
+                    self.TX_data(dir_list["BACKWARD"])
                     time.sleep(3)
                     dist += 8
                 elif -8 < dist <= -5:
                     print("Rotating", dir, " by a degrees.", dist)
-                    self.TX_data_py2(dir_list["JBACKWARD"])
+                    self.TX_data(dir_list["JBACKWARD"])
                     time.sleep(3)
                     dist += 5
                 elif -5 < dist <= -2:
                     print("Rotating", dir, " by a degrees.", dist)
-                    self.TX_data_py2(dir_list["2JBACKWARD"])
+                    self.TX_data(dir_list["2JBACKWARD"])
                     time.sleep(3)
                     dist += 2
                 elif dist > -2:  
@@ -168,10 +167,12 @@ class Motion:
                     break
         else:
             print("else walk")
-            self.TX_data_py2(dir_list[dir])
+            self.TX_data(dir_list[dir])
             time.sleep(3)
 
-                    
+    def arms_off(self):
+        self.TX_data(181)    
+        time.sleep(1)         
 
     # 머리 각도 (121~140)
     def head(self, dir, angle=0):
@@ -189,7 +190,7 @@ class Motion:
             'RIGHT': { 3: 138, 6: 139, 30: 140 },
             'DEFAULT': { 1: 121, 2: 122, 63: 143 }
         }
-        self.TX_data_py2(dir_list[dir][angle])
+        self.TX_data(dir_list[dir][angle])
         time.sleep(0.2)
 
     # 돌기 (141~160)
@@ -209,13 +210,13 @@ class Motion:
             for a in angles:
                 if angle >= a:
                     print("Rotating", dir, " by a degrees.", angle)
-                    self.TX_data_py2(dir_list[dir][a])
+                    self.TX_data(dir_list[dir][a])
                     time.sleep(sleep)
                     angle -= a
                     break
             if angle<5 and angle>2.5:
                 print("Rotating", dir, " by a degrees.", angle)
-                self.TX_data_py2(dir_list[dir][a])
+                self.TX_data(dir_list[dir][a])
                 time.sleep(sleep)
                 angle -= 5
             if angle<2.5:  
@@ -230,7 +231,7 @@ class Motion:
         """
         # dir_list = {"LEFT": 119, "RIGHT": 118}
         dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116}
-        self.TX_data_py2(dir_list[dir])
+        self.TX_data(dir_list[dir])
         time.sleep(1)
 
 
@@ -240,23 +241,23 @@ class Motion:
         # dir = ["left", "right"]
         if TB:
             if dir=="RIGHT":
-                self.TX_data_py2(111)
+                self.TX_data(111)
                 time.sleep(7)
             elif dir=="LEFT":
-                self.TX_data_py2(110)
+                self.TX_data(110)
                 time.sleep(7)  
             else:  
-                self.TX_data_py2(110)
+                self.TX_data(110)
                 time.sleep(7) 
         else: # TB= True
             if dir=="RIGHT":
-                self.TX_data_py2(148)
+                self.TX_data(148)
                 time.sleep(7)
             elif dir=="LEFT":
-                self.TX_data_py2(147)
+                self.TX_data(147)
                 time.sleep(7)  
             else:  
-                self.TX_data_py2(147)
+                self.TX_data(147)
                 time.sleep(7)
         
     
@@ -267,17 +268,17 @@ class Motion:
             "left": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
             "right": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
         }
-        self.TX_data_py2(dir_list[dir][power])
+        self.TX_data(dir_list[dir][power])
         time.sleep(sleep)
     
     def ceremony(self):
-        self.TX_data_py2(180)
+        self.TX_data(180)
         time.sleep(2)
 
     def Rarm(self, dir): #오른쪽 팔
         dir_list = {'DOWN':145 ,'RESET':146}
 
-        self.TX_data_py2(dir_list[dir])
+        self.TX_data(dir_list[dir])
         time.sleep(2)
 
             
