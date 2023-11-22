@@ -1,29 +1,26 @@
 import cv2
 import numpy as np
 
+# 초기화
+mouse_x, mouse_y = 0, 0
+
+# 마우스 이벤트 콜백 함수 정의
+def mouse_callback(event, x, y, flags, param):
+    global mouse_x, mouse_y
+    mouse_x, mouse_y = x, y
+
+# 내장 카메라 열기
 cap = cv2.VideoCapture(0)
 
+# 해상도, 프레임 설정
 cap.set(3, 640)
 cap.set(4, 480)
 cap.set(5, 5)
 
-# 마우스 이벤트 콜백 함수 정의
-def mouse_callback(event, x, y, flags, param):
-    if event == cv2.EVENT_LBUTTONDOWN:
-        print(f"마우스 좌표: ({x}, {y})")
-
-        # 좌표에서 색상값 (BGR) 출력
-        color_bgr = frame[y, x]
-        # print(f"BGR 값: {color_bgr}")
-
-        # BGR을 HSV로 변환
-        color_hsv = cv2.cvtColor(np.uint8([[color_bgr]]), cv2.COLOR_BGR2HSV)[0][0]
-        print(f"HSV 값: {color_hsv}")
-
-# 내장 카메라 열기
-
-# 윈도우 생성 및 마우스 이벤트 콜백 함수 등록
+# 윈도우 생성
 cv2.namedWindow('Camera')
+
+# 마우스 이벤트 콜백 함수 등록
 cv2.setMouseCallback('Camera', mouse_callback)
 
 while True:
@@ -31,9 +28,16 @@ while True:
     ret, frame = cap.read()
 
     # 마우스 포인터 현재 위치 표시
-    x, y = cv2.getWindowImageRect('Camera')[0:2]
-    x += frame.shape[1] + 10
-    cv2.putText(frame, f'Mouse: ({x},{y})', (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, f'coordinate: ({mouse_x},{mouse_y})', (mouse_x, mouse_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1, cv2.LINE_AA)
+
+    # 마우스 포인터 위치의 색상값 (BGR) 출력
+    if mouse_y < frame.shape[0] and mouse_x < frame.shape[1]:
+        color_bgr = frame[mouse_y, mouse_x]
+        # cv2.putText(frame, f'BGR: {color_bgr}', (mouse_x, mouse_y + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+
+        # BGR을 HSV로 변환
+        color_hsv = cv2.cvtColor(np.uint8([[color_bgr]]), cv2.COLOR_BGR2HSV)[0][0]
+        cv2.putText(frame, f'HSV: {color_hsv}', (mouse_x, mouse_y + 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1, cv2.LINE_AA)
 
     # 화면에 프레임 출력
     cv2.imshow('Camera', frame)
