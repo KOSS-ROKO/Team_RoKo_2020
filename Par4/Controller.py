@@ -932,7 +932,20 @@ class Controller:
 
             time.sleep(3)
             
-            ### 건웅 오빠 필독!
+           #####건웅####
+            def is_point_inside_rectangle(point, rectangle):
+                x, y = point
+                x1, y1, x2, y2, x3, y3, x4, y4 = rectangle
+                return x1 <= x <= x2 and y1 <= y <= y4
+
+            # 좌표가 사각형 밖에 있다면 기준 좌표로부터 얼마나 떨어져 있는지 계산하는 함수 정의
+            def calculate_distance_from_reference(center, reference):
+                cx, cy = center
+                rx, ry = reference
+                dx = cx - rx
+                dy = cy - ry
+                return dx, dy    
+            ##########
             
             motion.head("DEFAULT",63)
             red_center = robo._image_processor.detect_ball("call_midpoint")
