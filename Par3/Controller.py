@@ -235,6 +235,10 @@ class Controller:
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
+                if(red_center == None):  
+                    motion.walk("2JBACKWARD")
+                    time.sleep(1)
+                    continue
                 dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
                 #print(red_center, dx,dy)
                 if is_point_inside_rectangle(red_center, rectangle_coordinates):
@@ -254,6 +258,8 @@ class Controller:
                         else:
                                 motion.walk_side("RIGHT10")
                                 time.sleep(1)
+                    else:
+                        break
             print("성공함요")
             
             
@@ -275,7 +281,7 @@ class Controller:
 
             self.act = Act.WALK_BALL
             
-            motion.walk("FORWARD12", 1)
+            motion.walk("FORWARD12")
             time.sleep(20)
             
             # return True
@@ -399,7 +405,12 @@ class Controller:
             w = 20
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
+                time.sleep(0.1)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
+                if(red_center == None):  
+                    motion.walk("2JBACKWARD")
+                    time.sleep(1)
+                    continue
                 dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
                 #print(red_center, dx,dy)
                 if is_point_inside_rectangle(red_center, rectangle_coordinates):
@@ -421,7 +432,7 @@ class Controller:
                             motion.walk_side("RIGHT10")
                             time.sleep(1)
                     else:
-                        continue
+                        break
             print("성공함요")
             
             if point == 1:
@@ -788,6 +799,10 @@ class Controller:
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
+                if(red_center == None):  
+                    motion.walk("2JBACKWARD")
+                    time.sleep(1)
+                    continue
                 dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
                 #print(red_center, dx,dy)
                 if is_point_inside_rectangle(red_center, rectangle_coordinates):
@@ -809,7 +824,7 @@ class Controller:
                             motion.walk_side("RIGHT10")
                             time.sleep(1)
                     else:
-                        continue
+                        break
             print("성공함요")
             
                         
