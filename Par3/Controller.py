@@ -289,11 +289,11 @@ class Controller:
                     if(abs(dy)>=25):
                         if (dy<0):
                             while(abs(dy)//30):
-                                robo._motion.walk_side("2JBACKWARD")
+                                robo._motion.walk("2JBACKWARD")
                                 time.sleep(1)
                         else:
                             while(abs(dy)//30):
-                                robo._motion.walk_side("2JFORWARD")
+                                robo._motion.walk("2JFORWARD")
                                 time.sleep(1)
 
 
@@ -314,7 +314,7 @@ class Controller:
             self.act = Act.WALK_BALL
             
             motion.walk("FORWARD12", 1)
-            time.sleep(15)
+            time.sleep(20)
             
             # return True
             
@@ -326,6 +326,7 @@ class Controller:
         
         elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
+
             
             is_ball = robo._image_processor.detect_ball()
             
@@ -490,11 +491,11 @@ class Controller:
                     if(abs(dy)>=25):
                         if (dy<0):
                             while(abs(dy)//30):
-                                robo._motion.walk_side("2JBACKWARD")
+                                robo._motion.walk("2JBACKWARD")
                                 time.sleep(1)
                         else:
                             while(abs(dy)//30):
-                                robo._motion.walk_side("2JFORWARD")
+                                robo._motion.walk("2JFORWARD")
                                 time.sleep(1)
                                 
                                 
@@ -940,11 +941,11 @@ class Controller:
                     if(abs(dy)>=25):
                         if (dy<0):
                             while(abs(dy)//30):
-                                robo._motion.walk_side("2JBACKWARD")
+                                robo._motion.walk("2JBACKWARD")
                                 time.sleep(1)
                         else:
                             while(abs(dy)//30):
-                                robo._motion.walk_side("2JFORWARD")
+                                robo._motion.walk("2JFORWARD")
                                 time.sleep(1)
                         
                     

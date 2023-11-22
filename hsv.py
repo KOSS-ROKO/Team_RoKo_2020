@@ -1,6 +1,12 @@
 import cv2
 import numpy as np
 
+cap = cv2.VideoCapture(0)
+
+cap.set(3, 640)
+cap.set(4, 480)
+cap.set(5, 5)
+
 # 마우스 이벤트 콜백 함수 정의
 def mouse_callback(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
@@ -15,7 +21,6 @@ def mouse_callback(event, x, y, flags, param):
         print(f"HSV 값: {color_hsv}")
 
 # 내장 카메라 열기
-cap = cv2.VideoCapture(0)
 
 # 윈도우 생성 및 마우스 이벤트 콜백 함수 등록
 cv2.namedWindow('Camera')

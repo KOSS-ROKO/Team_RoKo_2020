@@ -1433,11 +1433,11 @@ if __name__ == '__main__':
                     if(abs(dy)>=25):
                         if (dy<0):
                             while(abs(dy)//30):
-                                robo._motion.walk_side("2JBACKWARD")
+                                robo._motion.walk("2JBACKWARD")
                                 time.sleep(1)
                         else:
                             while(abs(dy)//30):
-                                robo._motion.walk_side("2JFORWARD")
+                                robo._motion.walk("2JFORWARD")
                                 time.sleep(1)
                         
                     
