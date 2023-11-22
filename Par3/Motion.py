@@ -125,7 +125,7 @@ class Motion:
         print("motion.py dist - 18or26: ", dist)
                
         ############
-        if dir=="FORWARD" or "2JFORWARD":
+        if (dir == "FORWARD") or (dir == "2JFORWARD"):
             while dist > 0:            
                 if dist >= 8:
                     print(dir, dist)
@@ -146,7 +146,7 @@ class Motion:
                 elif 2 > dist:  
                     print("FORWARD too small to WALK further.", dist)
                     break
-        elif dir=="BACKWARD" or "2JBACKWARD":
+        elif (dir == "BACKWARD") or (dir == "2JBACKWARD"):
             while dist < 0:            
                 if dist <= -8:
                     print("BACKWARD", dir, " by a degrees.", dist)

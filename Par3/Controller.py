@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTB
+    act  = Act.PUTTING_POS
     robo = Robo()
 
 
@@ -463,10 +463,10 @@ class Controller:
                 motion.turn("LEFT", 60)
                 time.sleep(6)
                 motion.turn("LEFT", 10)
-                time.sleep(2)
+                time.sleep(5)
                  
             self.act = Act.WALK_BALL
-            time.sleep(10)
+            time.sleep(1)
             print("start forward 12")
             motion.walk("FORWARD12")
             time.sleep(25)
@@ -659,7 +659,7 @@ class Controller:
                     
                     while True:
                         motion.head("DEFAULT", 1)
-                        Distance.Head_ud_angle =100
+                        Distance.Head_ud_angle = 100
                         # 매번 고개 디폴트했다가 54도로 갔다가 하는 거
                         is_big_UD = big_UD("ball")
                         
