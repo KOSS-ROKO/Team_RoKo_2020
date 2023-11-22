@@ -87,7 +87,7 @@ class Controller:
                 else : # is_vertical_middle == Except_
                     return "Except"
                 
-        def small_LR(object="ball"):    # ball은 small lr끝난뒤 몸, 고개 그대로, 끝.
+        def small_LR(object="ball2"):    # ball은 small lr끝난뒤 몸, 고개 그대로, 끝.
             #Distance.head_lr_angle = 100
             while True:
                 print("---------start small lr head")
@@ -236,7 +236,7 @@ class Controller:
             
             
         #=======================================================#
-        #                      1. Teeshot B                     #         
+        #                      2. Teeshot B                     #         
         #=======================================================#
         
         
