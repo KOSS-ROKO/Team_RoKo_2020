@@ -120,20 +120,6 @@ class Motion:
         # 2Jforward = 2센치 종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104, "FORWARD12": 107, "FORWARD14": 108, "FORWARD15": 109,
                     '2JFORWARD': 105, "2JBACKWARD": 106}
-        
-        # for i in range(loop):                
-        #     if dir in ['JFORWARD', 'JBACKWARD']:
-        #         self.TX_data_py2(dir_list[dir])
-        #         time.sleep(2.5)
-        #     else:
-        #         self.TX_data_py2(dir_list[dir])
-        #         time.sleep(3)
-
-        #     if i % 2 == 0:
-        #         self.TX_data_py2(157)
-        #         time.sleep(2)
-
-
 
 
         print("motion.py dist - 18or26: ", dist)
