@@ -22,7 +22,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -292,6 +292,8 @@ class Controller:
         
         if act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
+            motion.walk("FORWARD12")
+            return True
 
             print("^^첫번째 티샷  222^^")
             is_ball = robo._image_processor.detect_ball()

@@ -18,7 +18,8 @@ class Motion:
         self.receiving_exit = 1
         self.threading_Time = 0.01
         self.sleep_time = sleep_time
-        self.lock = Lock()
+        #self.lock = Lock()
+        self.lock = False
         self.distance = 0
         BPS = 4800  # 4800,9600,14400, 19200,28800, 57600, 115200
         # ---------local Serial Port : ttyS0 --------
@@ -39,14 +40,20 @@ class Motion:
         return decorated
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
+        self.lock = True
+        self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        time.sleep(0.1)
+        '''
         try:
             self.lock.acquire()
             self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         finally:
             self.lock.release()
             time.sleep(0.02)
+        '''
 
     def RX_data(self):
+        print('rxdata')
         time.sleep(0.02)
         if self.serial_port.inWaiting() > 0:
             result = self.serial_port.read(1)
@@ -56,6 +63,24 @@ class Motion:
             return 0
 
     def Receiving(self, ser):
+        self.receiving_exit = 1
+        while True:
+            time.sleep(self.threading_Time)
+            # 수신받은 데이터의 수가 0보다 크면 데이터를 읽고 출력
+            while ser.inWaiting() > 0:
+                # Rx, 수신
+                result = ser.read(1) # 시리얼 포트에서 한 바이트(문자)를 읽어와 result 변수에 저장
+                RX = ord(result)
+                if RX == 38:
+                    self.lock = False
+                # print("RX=" + str(RX))
+                else:
+                    self.distance = RX
+                # -----  remocon 16 Code  Exit ------
+                
+            if self.receiving_exit == 0:
+                break
+        '''
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
@@ -71,13 +96,14 @@ class Motion:
                 if RX == 16:
                     self.receiving_exit = 0
                     break
-                elif RX == 200:
+                elif RX == 38:
                     try:
                         self.lock.release()
                     except:
                         continue
                 elif RX != 200:
                     self.distance = RX
+        '''
 
     ############################################################
     # 기본자세 (99)
@@ -92,51 +118,35 @@ class Motion:
         """
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
         # 2Jforward = 2센치 종종걸음
-        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104,
+        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104, "FORWARD12": 107, "FORWARD14": 108, "FORWARD15": 109,
                     '2JFORWARD': 105, "2JBACKWARD": 106}
-        
-        # for i in range(loop):                
-        #     if dir in ['JFORWARD', 'JBACKWARD']:
-        #         self.TX_data_py2(dir_list[dir])
-        #         time.sleep(2.5)
-        #     else:
-        #         self.TX_data_py2(dir_list[dir])
-        #         time.sleep(3)
-
-        #     if i % 2 == 0:
-        #         self.TX_data_py2(157)
-        #         time.sleep(2)
-
-
 
 
         print("motion.py dist - 18or26: ", dist)
                
         ############
-        if dir=="FORWARD":
+        if (dir == "FORWARD") or (dir == "2JFORWARD"):
             while dist > 0:            
                 if dist >= 8:
                     print(dir, dist)
                     self.TX_data_py2(dir_list["FORWARD"])
                     time.sleep(3)
                     dist -= 8
-                    continue
                 elif dist < 8 and dist >= 5:
                     print(dir, dist)
                     self.TX_data_py2(dir_list["JFORWARD"])
                     time.sleep(3)
                     dist -= 5
-                    continue
                 elif 2 <= dist < 5 :  
                     print(dir, dist)
                     self.TX_data_py2(dir_list["2JFORWARD"])
                     time.sleep(3)
                     dist -= 2
                     continue
-                elif 2 < dist:  
+                elif 2 > dist:  
                     print("FORWARD too small to WALK further.", dist)
                     break
-        elif dir=="BACKWARD":
+        elif (dir == "BACKWARD") or (dir == "2JBACKWARD"):
             while dist < 0:            
                 if dist <= -8:
                     print("BACKWARD", dir, " by a degrees.", dist)
@@ -157,6 +167,7 @@ class Motion:
                     print("Angle too small to rotate further.", dist)
                     break
         else:
+            print("else walk")
             self.TX_data_py2(dir_list[dir])
             time.sleep(3)
 
@@ -220,19 +231,33 @@ class Motion:
         # dir_list = {"LEFT": 119, "RIGHT": 118}
         dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116}
         self.TX_data_py2(dir_list[dir])
-        time.sleep(0.1)
+        time.sleep(1)
 
 
 
     #퍼팅 위치에 서기 
-    def pose(self,dir):
+    def pose(self,dir, TB=False):
         # dir = ["left", "right"]
-        if dir=="left":
-            self.TX_data_py2(111)
-            time.sleep(7)
-        else:
-            self.TX_data_py2(110)
-            time.sleep(7)            
+        if TB:
+            if dir=="RIGHT":
+                self.TX_data_py2(111)
+                time.sleep(7)
+            elif dir=="LEFT":
+                self.TX_data_py2(110)
+                time.sleep(7)  
+            else:  
+                self.TX_data_py2(110)
+                time.sleep(7) 
+        else: # TB= True
+            if dir=="RIGHT":
+                self.TX_data_py2(148)
+                time.sleep(7)
+            elif dir=="LEFT":
+                self.TX_data_py2(147)
+                time.sleep(7)  
+            else:  
+                self.TX_data_py2(147)
+                time.sleep(7)
         
     
     def putting(self, dir, power, sleep=1): 
