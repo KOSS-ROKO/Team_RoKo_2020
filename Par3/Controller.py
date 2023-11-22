@@ -369,7 +369,7 @@ class Controller:
                  
             self.act = Act.WALK_BALL
             time.sleep(1)
-            motion.walk("FORWARD14", 1)
+            motion.walk("FORWARD12", 1)
             time.sleep(25)
             
             # return True
