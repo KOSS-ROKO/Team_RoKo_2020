@@ -242,25 +242,17 @@ class Controller:
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
-                            #while(abs(dy)//30):
                                 motion.walk("2JFORWARD")
-                                #dy += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dy)//30):
                                 motion.walk("2JBACKWARD")
-                                #dy -= 30
                                 time.sleep(1)
                     if(abs(dx)>=30):
                         if (dx<0):
-                            #while(abs(dx)//30):
                                 motion.walk_side("LEFT10")
-                                #dx += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dx)//30):
                                 motion.walk_side("RIGHT10")
-                                #dx -=30
                                 time.sleep(1)
         
             
@@ -411,25 +403,17 @@ class Controller:
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
-                            #while(abs(dy)//30):
                                 motion.walk("2JFORWARD")
-                                #dy += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dy)//30):
                                 motion.walk("2JBACKWARD")
-                                #dy -= 30
                                 time.sleep(1)
                     if(abs(dx)>=30):
                         if (dx<0):
-                            #while(abs(dx)//30):
                                 motion.walk_side("LEFT10")
-                                #dx += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dx)//30):
                                 motion.walk_side("RIGHT10")
-                                #dx -=30
                                 time.sleep(1)
         
     
@@ -693,25 +677,17 @@ class Controller:
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
-                            #while(abs(dy)//30):
                                 motion.walk("2JFORWARD")
-                                #dy += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dy)//30):
                                 motion.walk("2JBACKWARD")
-                                #dy -= 30
                                 time.sleep(1)
                     if(abs(dx)>=30):
                         if (dx<0):
-                            #while(abs(dx)//30):
                                 motion.walk_side("LEFT10")
-                                #dx += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dx)//30):
                                 motion.walk_side("RIGHT10")
-                                #dx -=30
                                 time.sleep(1)
             
             
@@ -1071,25 +1047,17 @@ class Controller:
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
-                            #while(abs(dy)//30):
                                 motion.walk("2JFORWARD")
-                                #dy += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dy)//30):
                                 motion.walk("2JBACKWARD")
-                                #dy -= 30
                                 time.sleep(1)
                     if(abs(dx)>=30):
                         if (dx<0):
-                            #while(abs(dx)//30):
                                 motion.walk_side("LEFT10")
-                                #dx += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dx)//30):
                                 motion.walk_side("RIGHT10")
-                                #dx -=30
                                 time.sleep(1)
                         
                     

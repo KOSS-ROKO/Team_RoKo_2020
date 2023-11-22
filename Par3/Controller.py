@@ -242,25 +242,17 @@ class Controller:
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
-                            #while(abs(dy)//30):
                                 motion.walk("2JFORWARD")
-                                #dy += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dy)//30):
                                 motion.walk("2JBACKWARD")
-                                #dy -= 30
                                 time.sleep(1)
                     if(abs(dx)>=30):
                         if (dx<0):
-                            #while(abs(dx)//30):
                                 motion.walk_side("LEFT10")
-                                #dx += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dx)//30):
                                 motion.walk_side("RIGHT10")
-                                #dx -=30
                                 time.sleep(1)
             
             
@@ -414,25 +406,17 @@ class Controller:
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
-                            #while(abs(dy)//30):
                                 motion.walk("2JFORWARD")
-                                #dy += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dy)//30):
                                 motion.walk("2JBACKWARD")
-                                #dy -= 30
                                 time.sleep(1)
                     if(abs(dx)>=30):
                         if (dx<0):
-                            #while(abs(dx)//30):
                                 motion.walk_side("LEFT10")
-                                #dx += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dx)//30):
                                 motion.walk_side("RIGHT10")
-                                #dx -=30
                                 time.sleep(1)
             
             if point == 1:
@@ -472,28 +456,7 @@ class Controller:
             
             # return True
                 
-            '''
-            # PUTTING
-            time.sleep(3)
-            motion.putting("left", 3, 2)
-            print("putting")
-            time.sleep(5)
 
-
-            # turn body left, 몸을 왼쪽으로 90도 돌림.
-            motion.turn("LEFT", 60)
-            time.sleep(7)
-            motion.turn("LEFT", 60)
-            time.sleep(2)
-            print("turn LEFT")
-
-            self.act = Act.WALK_BALL
-            
-            motion.walk("FORWARD10", 1)
-            time.sleep(15)
-            
-            return True
-            '''
         
         #=======================================================#
         #                        2. Walk                        #         
@@ -826,25 +789,17 @@ class Controller:
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
-                            #while(abs(dy)//30):
                                 motion.walk("2JFORWARD")
-                                #dy += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dy)//30):
                                 motion.walk("2JBACKWARD")
-                                #dy -= 30
                                 time.sleep(1)
                     if(abs(dx)>=30):
                         if (dx<0):
-                            #while(abs(dx)//30):
                                 motion.walk_side("LEFT10")
-                                #dx += 30
                                 time.sleep(1)
                         else:
-                            #while(abs(dx)//30):
                                 motion.walk_side("RIGHT10")
-                                #dx -=30
                                 time.sleep(1)
         
             
