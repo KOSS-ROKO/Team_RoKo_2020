@@ -19,7 +19,7 @@ class Motion:
         self.threading_Time = 0.01
         self.sleep_time = sleep_time
         #self.lock = Lock()
-        self.lock = False()
+        self.lock = False
         self.distance = 0
         BPS = 4800  # 4800,9600,14400, 19200,28800, 57600, 115200
         # ---------local Serial Port : ttyS0 --------
