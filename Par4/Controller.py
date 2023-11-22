@@ -49,8 +49,8 @@ class Controller:
                 elif is_object_in_frame == False:
                     big_ud_angle = Distance.Head_ud_angle
                 
-                    if Distance.Head_ud_angle == 55: # Distance.Head_UD_Middle_Value_Measures - 100 + 10 + 45:  # big ud 한 사이클이 끝남. / 9는 바뀔 수 있는 값
-                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
+                    if Distance.Head_ud_angle == 64: # Distance.Head_UD_Middle_Value_Measures - 100 + 10 + 45:  # big ud 한 사이클이 끝남. / 9는 바뀔 수 있는 값
+                        #Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
                         #go_to = "big_lr"  # LR로 갈지 구분
                         return "Except"
                     else: 
@@ -58,17 +58,17 @@ class Controller:
                         
                         
         def big_LR(object="ball"):
-            Distance.small_lr_angle = 100
+            Distance.head_lr_angle = 100
             max_right_flag = 0
             print("THis is ", object)
             # big LR head
             while True:
-                is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.small_lr_angle, max_right_flag)
+                is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.head_lr_angle, max_right_flag)
                 if is_object_in_frame == True:
                     break
                 elif is_object_in_frame == False:
-                    Distance.small_lr_angle = small_lr_temp
-                    print("small_lr_angle : ", Distance.small_lr_angle)
+                    Distance.head_lr_angle = small_lr_temp
+                    print("head_lr_angle : ", Distance.head_lr_angle)
                     continue
                 #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
                     #head.big_UD_head()
@@ -143,7 +143,7 @@ class Controller:
 
                     continue
             
-            
+        ###########
         def is_point_inside_rectangle(point, rectangle):
             x, y = point
             x1, y1, x2, y2, x3, y3, x4, y4 = rectangle
@@ -156,6 +156,7 @@ class Controller:
             dx = cx - rx
             dy = cy - ry
             return dx, dy    
+        ##########  
         
         
         
