@@ -470,9 +470,9 @@ class Controller:
             print("^^^^222222")
             print("^^^^222222")
             
-            #motion.head("DEFAULT", 1)
-            #motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
-            #time.sleep(5)
+            motion.head("DEFAULT", 1)
+            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
+            time.sleep(2)
         
             
             is_ball = robo._image_processor.detect_ball()
