@@ -402,7 +402,7 @@ class Controller:
             time.sleep(1)
             red_center = robo._image_processor.detect_ball('call_midpoint')
             print("++++++++++++++++++")
-            print(robo._image_processor.detect_ball(),red_center)
+            print("ball은? ", robo._image_processor.detect_ball(),red_center)
             print("++++++++++++++++++")
             is_center = False
             move_center = red_center
@@ -413,6 +413,7 @@ class Controller:
                 time.sleep(0.1)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 if(red_center == None):  
+                    print("red center가 None임 Backwardㄱㄱ")
                     motion.walk("2JBACKWARD")
                     time.sleep(1)
                     continue
@@ -420,23 +421,29 @@ class Controller:
                 #print(red_center, dx,dy)
                 if is_point_inside_rectangle(red_center, rectangle_coordinates):
                     is_center = True
+                    print("이제 is_center = True다 !!")
                     break
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
                             motion.walk("2JFORWARD")
                             time.sleep(1)
+                            print("1")
                         else:
                             motion.walk("2JBACKWARD")
                             time.sleep(1)
+                            print("2")
                     elif(abs(dx)>=30):
                         if (dx<0):
                             motion.walk_side("LEFT10")
                             time.sleep(1)
+                            print("3")
                         else:
                             motion.walk_side("RIGHT10")
                             time.sleep(1)
+                            print("4")
                     else:
+                        print("else 문 =========>")
                         break
             print("성공함요")
             
