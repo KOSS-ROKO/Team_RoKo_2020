@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.PUTTING_POS
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -243,21 +243,26 @@ class Controller:
                 #print(red_center, dx,dy)
                 if is_point_inside_rectangle(red_center, rectangle_coordinates):
                     is_center = True
+                    break   
                 else:
                     if(abs(dy)>=30):
                         if (dy<0):
                                 motion.walk("2JFORWARD")
                                 time.sleep(1)
+                                print("1")
                         else:
                                 motion.walk("2JBACKWARD")
                                 time.sleep(1)
+                                print("2")
                     elif(abs(dx)>=30):
                         if (dx<0):
                                 motion.walk_side("LEFT10")
                                 time.sleep(1)
+                                print("3")
                         else:
                                 motion.walk_side("RIGHT10")
                                 time.sleep(1)
+                                print("4")
                     else:
                         break
             print("성공함요")

@@ -80,8 +80,11 @@ class ImageProcessor:
         # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
 
-        imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
+
+        imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
