@@ -102,51 +102,62 @@ class Motion:
 
         print("Motion.py walk funct")
         
-        if (dir == "FORWARD") or (dir == "2JFORWARD"):
+        if (dir == "FORWARD") or (dir == "JFORWARD"):
             while dist > 0:            
                 if dist >= 8:
                     print(dir, dist)
                     self.TX_data(dir_list["FORWARD"])
                     time.sleep(3)
                     dist -= 8
-                elif dist < 8 and dist >= 5:
+                elif 4 <= dist < 8:
                     print(dir, dist)
                     self.TX_data(dir_list["JFORWARD"])
                     time.sleep(3)
-                    dist -= 5
-                elif 2 <= dist < 5 :  
-                    print(dir, dist)
-                    self.TX_data(dir_list["2JFORWARD"])
-                    time.sleep(3)
-                    dist -= 2
-                    continue
-                elif 2 > dist:  
+                    dist -= 4
+                # elif 2 <= dist < 4:  
+                #     print(dir, dist)
+                #     self.TX_data(dir_list["2JFORWARD"])
+                #     time.sleep(3)
+                #     dist -= 1
+                #     continue
+                elif 4 > dist:  
                     print("FORWARD too small to WALK further.", dist)
                     break
-        elif (dir == "BACKWARD") or (dir == "2JBACKWARD"):
+        elif (dir == "BACKWARD") or (dir == "JBACKWARD"):
             while dist < 0:            
                 if dist <= -8:
                     print("BACKWARD", dir, " by a degrees.", dist)
                     self.TX_data(dir_list["BACKWARD"])
                     time.sleep(3)
                     dist += 8
-                elif -8 < dist <= -5:
+                elif -8 < dist <= -4:
                     print("Rotating", dir, " by a degrees.", dist)
                     self.TX_data(dir_list["JBACKWARD"])
                     time.sleep(3)
-                    dist += 5
-                elif -5 < dist <= -2:
-                    print("Rotating", dir, " by a degrees.", dist)
-                    self.TX_data(dir_list["2JBACKWARD"])
-                    time.sleep(3)
-                    dist += 2
-                elif dist > -2:  
+                    dist += 4
+                # elif -5 < dist <= -2:
+                #     print("Rotating", dir, " by a degrees.", dist)
+                #     self.TX_data(dir_list["2JBACKWARD"])
+                #     time.sleep(3)
+                #     dist += 1
+                elif dist > -4:  
                     print("Angle too small to rotate further.", dist)
                     break
-        else:
-            print("else walk")
-            self.TX_data(dir_list[dir])
+        elif dir == "2JFORWARD":
+            self.TX_data(dir_list["2JFORWARD"])
             time.sleep(3)
+            dist -= 1
+        elif dir == "2JBACKWARD":
+            print("Rotating", dir, " by a degrees.", dist)
+            self.TX_data(dir_list["2JBACKWARD"])
+            time.sleep(3)
+            dist += 1
+        else:
+            print("else????? walk")
+            #self.TX_data(dir_list[dir])
+            time.sleep(3)
+            
+            
 
     def arms_off(self):
         self.TX_data(181)    
@@ -154,13 +165,6 @@ class Motion:
 
     # 머리 각도 (121~140)
     def head(self, dir, angle=0):
-        """ parameter :
-        dir : {DOWN, LEFT, RIGHT, UPDOWN_CENTER, LEFTRIGHT_CENTER}
-        angle: {DOWN:{20,30,40,45,60,70,80,90,100,110},
-        LEFT:{30,45,60,90},
-        RIGHT:{30,45,60,90}
-        }
-        """
         dir_list = {
             'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141 },
             'UP' : { 3: 129, 6: 130, 9: 131, 30: 132, 45: 142 },
@@ -172,7 +176,6 @@ class Motion:
         time.sleep(0.2)
 
     # 돌기 (141~160)
-    # 값 조절 필요
     def turn(self, dir, angle=0, loop=1, sleep=1, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
@@ -204,10 +207,6 @@ class Motion:
 
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
-        """ parameter :
-        dir : {LEFT, RIGHT}
-        """
-        # dir_list = {"LEFT": 119, "RIGHT": 118}
         dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116}
         self.TX_data(dir_list[dir])
         time.sleep(1)
@@ -215,8 +214,7 @@ class Motion:
 
 
     #퍼팅 위치에 서기 
-    def pose(self,dir, TB=False):
-        # dir = ["left", "right"]
+    def pose(self, dir, TB=False):
         if TB:
             if dir=="RIGHT":
                 self.TX_data(111)
