@@ -134,10 +134,10 @@ class Head:
             # 공을 화면 중앙에 오도록 만드는 고개 각도 small_angle 만큼 몸 돌리기
                 if small_lr_angle > 100:
                     robo._motion.turn("RIGHT", abs(small_lr_angle - 100))
-                    robo._motion.turn("RIGHT", 10)
+                    #robo._motion.turn("RIGHT", 10)
                 elif small_lr_angle < 100:
                     robo._motion.turn("LEFT", abs(small_lr_angle - 100))
-                    robo._motion.turn("LEFT", 10)
+                    #robo._motion.turn("LEFT", 10)
                                 
                 return True, small_lr_angle
             
@@ -214,7 +214,7 @@ class Head:
                 if big_ud_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_down_flag = 1
                     big_ud_angle = 64
-                    time.sleep(1)
+                    time.sleep(2)
                     robo._motion.head("UP", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 UP 45도 모션 추가할듯?
                     robo._motion.head("UP", 9)
                     robo._motion.head("UP", 6)

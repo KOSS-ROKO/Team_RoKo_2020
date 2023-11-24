@@ -338,7 +338,7 @@ class Controller:
                 time.sleep(0.2)
                 motion.pose("LEFT", True)
                 time.sleep(0.2)
-                motion.turn("LEFT", 15)
+                motion.turn("LEFT", 10)
                 print("3번 점에서 확인")
                 point = 3
             else:
@@ -811,6 +811,9 @@ class Controller:
             print("^^^^^^^^5555555")
             print("^^^^^^^^5555555")
             print("^^^^^^^^5555555")
+
+            motion.head("DEFAULT", 1)
+            time.sleep(1)
             
             ###### Find ball for HOLEIN ######
             is_ball = robo._image_processor.detect_ball()
