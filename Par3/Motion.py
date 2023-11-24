@@ -26,6 +26,7 @@ class Motion:
         # ---------USB Serial Port : ttyAMA0 --------
         self.serial_port = serial.Serial('/dev/ttyS0', BPS, timeout=0.01)
         self.serial_port.flush()  # serial cls
+        time.sleep(0.5)
         self.serial_t = Thread(target=self.Receiving, args=(self.serial_port,))
         self.serial_t.daemon = True
         self.serial_t.start()
@@ -48,6 +49,7 @@ class Motion:
     #         time.sleep(0.02)
 
     def TX_data(self, one_byte):  # one_byte= 0~255
+        print("TX_data")
         #ser.write(chr(int(one_byte)))          #python2.7
         self.serial_port.write(serial.to_bytes([one_byte]))  #python3
 
@@ -63,6 +65,7 @@ class Motion:
     #         return 0
 
     def RX_data(self, serial):
+        print("RX_data")
         global Temp_count
         try:
             if serial.inWaiting() > 0:
@@ -102,6 +105,7 @@ class Motion:
     #                 self.distance = RX
 
     def Receiving(self, ser):
+        print("Receiving")
         global receiving_exit
         receiving_exit = 1
         while True:
