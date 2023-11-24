@@ -228,7 +228,7 @@ class Motion:
                 time.sleep(7)
             elif dir=="LEFT":
                 self.TX_data(110)
-                time.sleep(7)  
+                time.sleep(7)   
             else:  
                 self.TX_data(110)
                 time.sleep(7) 
