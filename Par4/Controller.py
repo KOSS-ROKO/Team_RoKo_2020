@@ -144,67 +144,54 @@ class Controller:
                     continue
             
         ###########
-        def is_point_inside_rectangle(point, rectangle):
-            x, y = point
-            x1, y1, x2, y2, x3, y3, x4, y4 = rectangle
-            return x1 <= x <= x2 and y1 <= y <= y4
-
-        # 좌표가 사각형 밖에 있다면 기준 좌표로부터 얼마나 떨어져 있는지 계산하는 함수 정의
-        def calculate_distance_from_reference(center, reference):
-            cx, cy = center
-            rx, ry = reference
-            dx = cx - rx
-            dy = cy - ry
-            return dx, dy   
-        
         def ball_pos(): ## 건웅 오빠
             
             motion.head("DEFAULT",63)
 
             time.sleep(1)
-            red_center = robo._image_processor.detect_ball('call_midpoint')
             print("++++++++++++++++++")
-            print(robo._image_processor.detect_ball(),red_center)
+            print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            move_center = red_center
-            x,y = reference_point = [394, 291]
+            x,y = reference_point = [374, 316]
             w = 20
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
+                motion.head("DEFAULT",63)
+                time.sleep(2)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
-                if(red_center == None):  
+                x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
+                print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
+                if(x1 <= red_center[0] <= x2 and y1 <= red_center[1] <= y4):    
+                    print("성공함요")
+                    break                              
+                if(red_center == None): 
+                    print("지금 화면안에 빨간 공 안보임")
                     motion.walk("2JBACKWARD")
-                    time.sleep(1)
+                    time.sleep(2)
                     continue
-                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
-                #print(red_center, dx,dy)
-                if is_point_inside_rectangle(red_center, rectangle_coordinates):
-                    is_center = True
-                    break   
-                else:
-                    if(abs(dy)>=30):
-                        if (dy<0):
-                                motion.walk("2JFORWARD")
-                                time.sleep(1)
-                                print("1")
-                        else:
-                                motion.walk("2JBACKWARD")
-                                time.sleep(1)
-                                print("2")
-                    elif(abs(dx)>=30):
-                        if (dx<0):
-                                motion.walk_side("LEFT10")
-                                time.sleep(1)
-                                print("3")
-                        else:
-                                motion.walk_side("RIGHT10")
-                                time.sleep(1)
-                                print("4")
+                dx = red_center[0] - reference_point[0]
+                dy = red_center[1] - reference_point[1]
+                
+                print("중앙에서 떨어진 거리: ", dx, dy, abs(dx),abs(dy))
+                print("dx//30: ",dx//30 ,"dy//30",dy//30)
+                if(abs(dy)>=30):
+                    if (dy<0):
+                        motion.walk("2JFORWARD")
+                        print("1")
                     else:
-                        break
-            print("성공함요") 
-        ##########  
+                        motion.walk("2JBACKWARD")
+                        print("2")
+                elif(abs(dx)>=30):
+                    if (dx<0):
+                        motion.walk_side("LEFT10")
+                        print("3")
+                    else:
+                        motion.walk_side("RIGHT10")
+                        print("4")
+                else:
+                    is_center = True
+        ##########
         
         
         
