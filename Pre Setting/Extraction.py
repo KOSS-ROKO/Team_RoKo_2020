@@ -31,18 +31,20 @@ hsv_Lower1 = 0
 hsv_Upper1 = 0
 
 #----------- 
+0,144,44,145,116,255,125,50
+1,150,87,122,74,160,86,22
 color_num = [   0,  1,  2,  3,  4]
     
-h_max =     [ 255, 65,196,111,110]
-h_min =     [  55,  0,158, 59, 74]
+h_max =     [ 144,150,196,111,110]
+h_min =     [  44, 87,158, 59, 74]
     
-s_max =     [ 162,200,223,110,255]
-s_min =     [ 114,140,150, 51,133]
+s_max =     [ 145,122,223,110,255]
+s_min =     [ 116,74,150, 51,133]
     
-v_max =     [  77,151,239,156,255]
-v_min =     [   0,95,104, 61,104]
+v_max =     [ 255,160,239,156,255]
+v_min =     [ 125, 86,104, 61,104]
     
-min_area =  [  50, 50, 50, 10, 10]
+min_area =  [  50, 20, 50, 10, 10]
 
 now_color = 0
 serial_use = 1
@@ -58,6 +60,10 @@ threading_Time = 5/1000.
 Config_File_Name ='YUV.dat'
     
 #-----------------------------------------------
+
+
+x0, y0, w0, h0, a0, b0, c0, d0 = 0
+red_ball, is_red_ball, red_ball_center, red_Area = 0
 
 def nothing(x):
     pass
@@ -475,12 +481,16 @@ if __name__ == '__main__':
                 Area = 255
             if Area > min_area[now_color]:
                 x4, y4, w4, h4 = cv2.boundingRect(c0)
+                a0, b0, c0, d0 = [x4+w4/2,y4],[x4+w4,y4+h4/2],[x4+w4/2,y4+h4],[x4,y4+h4/2]
+                is_red_ball, red_ball_center = True, [x4+w4/2,y4+h4/2]
                 cv2.rectangle(frame, (x4, y4), (x4 + w4, y4 + h4), (0, 255, 0), 2)
+                [cv2.circle(img, tuple(point), 5, (0, 0, 255), -1) for point in [a0, b0, c0, d0, red_ball_center]]
                 #----------------------------------------
                 X_Size = int((255.0 / W_View_size) * w4)
                 Y_Size = int((255.0 / H_View_size) * h4)
                 X_255_point = int((255.0 / W_View_size) * X)
                 Y_255_point = int((255.0 / H_View_size) * Y)
+                print("빨간공의 중심 좌표: ",red_ball_center)
         else:
             x = 0
             y = 0
@@ -500,6 +510,7 @@ if __name__ == '__main__':
             if Area > min_area[now_color]:
                 x4, y4, w4, h4 = cv2.boundingRect(c1)
                 cv2.rectangle(frame, (x4, y4), (x4 + w4, y4 + h4), (0, 255, 0), 2)
+                
                 #----------------------------------------
                 X_Size = int((255.0 / W_View_size) * w4)
                 Y_Size = int((255.0 / H_View_size) * h4)
