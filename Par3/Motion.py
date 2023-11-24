@@ -105,14 +105,16 @@ class Motion:
         if (dir == "FORWARD") or (dir == "JFORWARD"):
             while dist > 0:            
                 if dist >= 8:
+                    print("8 for")
                     print(dir, dist)
                     self.TX_data(dir_list["FORWARD"])
-                    time.sleep(3)
+                    time.sleep(6)
                     dist -= 8
                 elif 4 <= dist < 8:
+                    print("j for")
                     print(dir, dist)
                     self.TX_data(dir_list["JFORWARD"])
-                    time.sleep(3)
+                    time.sleep(6)
                     dist -= 4
                 # elif 2 <= dist < 4:  
                 #     print(dir, dist)
@@ -126,14 +128,16 @@ class Motion:
         elif (dir == "BACKWARD") or (dir == "JBACKWARD"):
             while dist < 0:            
                 if dist <= -8:
+                    print("8 backr")
                     print("BACKWARD", dir, " by a degrees.", dist)
                     self.TX_data(dir_list["BACKWARD"])
-                    time.sleep(3)
+                    time.sleep(6)
                     dist += 8
                 elif -8 < dist <= -4:
+                    print("jback ")
                     print("Rotating", dir, " by a degrees.", dist)
                     self.TX_data(dir_list["JBACKWARD"])
-                    time.sleep(3)
+                    time.sleep(6)
                     dist += 4
                 # elif -5 < dist <= -2:
                 #     print("Rotating", dir, " by a degrees.", dist)
@@ -151,7 +155,7 @@ class Motion:
             print("Rotating", dir, " by a degrees.", dist)
             self.TX_data(dir_list["2JBACKWARD"])
             time.sleep(3)
-            dist += 1
+            dist += 2
         else:
             print("else????? walk")
             #self.TX_data(dir_list[dir])

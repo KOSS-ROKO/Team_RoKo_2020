@@ -328,15 +328,15 @@ class ImageProcessor:
         cell_width = 640 // 11
 
         # 빨간 공이 중앙 세로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_width * 6 <= x_center <= cell_width * 7):
+        if (cell_width * 5 <= x_center <= cell_width * 6):
             print("stop")
             return "stop"
         # 1~5번째 줄에서 검출되면 "go right" 출력
-        elif x_center < cell_width * 6:
+        elif x_center < cell_width * 5:
             print("right")
             return "right"
         # 7~11번째 줄에서 검출되면 "go left" 출력
-        elif x_center > cell_width * 7:
+        elif x_center > cell_width * 6:
             print("left")
             return "left"
     # else:
@@ -359,13 +359,13 @@ class ImageProcessor:
         cell_height = 480 // 13
 
         # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 6 <= y_center <= cell_height * 7):
+        if (cell_height * 5 <= y_center <= cell_height * 6):
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 6:
+        elif y_center < cell_height * 5:
             return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 7:
+        elif y_center > cell_height * 6:
             return "down"
     # else:
     #     print("go far")
