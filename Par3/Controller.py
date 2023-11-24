@@ -169,18 +169,16 @@ class Controller:
             w = 20
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
-                time.sleep(1)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
+                is_center = is_point_inside_rectangle(red_center, rectangle_coordinates)
                 if(red_center == None):  
                     motion.walk("2JBACKWARD")
                     time.sleep(1)
                     continue
                 dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
                 #print(red_center, dx,dy)
-                if is_point_inside_rectangle(red_center, rectangle_coordinates):
-                    is_center = True
-                    break   
-                else:
+                if not is_center:
+                    
                     if(abs(dy)>=30):
                         if (dy<0):
                                 motion.walk("2JFORWARD")
@@ -201,6 +199,8 @@ class Controller:
                                 print("4")
                     else:
                         break
+                else:
+                    break
             print("성공함요")
         ##########
         
@@ -399,16 +399,16 @@ class Controller:
             
             if point == 1:
                 time.sleep(1)
-                motion.putting("right", 3)
+                motion.putting("right", 2)
                 time.sleep(5)
                 
                 motion.turn("RIGHT", 60)
-                time.sleep(7)
+                time.sleep(6)
                 motion.turn("RIGHT", 45)
                 time.sleep(3)
             elif point == 2:
                 time.sleep(1)
-                motion.putting("left", 3)
+                motion.putting("left", 2)
                 time.sleep(5)
                 
                 motion.turn("LEFT", 60)
@@ -419,7 +419,7 @@ class Controller:
                 time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                motion.putting("left", 3)
+                motion.putting("left", 2)
                 time.sleep(5)
                 motion.turn("LEFT", 60)
                 time.sleep(5)
@@ -733,7 +733,7 @@ class Controller:
             print("=====================================")
             print("balL dist:" , ball_dist , " head ud angle:", Distance.Head_ud_angle)
             print("=====================================")
-            
+            time.sleep(4)
             while True:
                 print("ball dist :", ball_dist)
                 if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
