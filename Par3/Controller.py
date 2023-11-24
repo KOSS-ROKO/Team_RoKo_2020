@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTB
+    act  = Act.WALK_BALL
     robo = Robo()
 
 
@@ -282,7 +282,7 @@ class Controller:
         elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
 
-            motion.putting("left", 3)
+            motion.putting("left", 4)
             return True
             
             is_ball = robo._image_processor.detect_ball()
@@ -435,6 +435,9 @@ class Controller:
             print("^^^^222222")
             print("^^^^222222")
             print("^^^^222222")
+
+            motion.walk("FORWARD12")
+            time.sleep(20)
             
             motion.head("DEFAULT", 1)
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
@@ -489,7 +492,33 @@ class Controller:
             elif ball_dist == 26:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 26)            
+                motion.walk("BACKWARD", ball_dist - 26)    
+
+
+            #-----------------ball dist one more time     
+            # 
+            # ud_for_dist 하기전에 고개 세팅
+            motion.head("DEFAULT", 2) # 고개 디폴트
+            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            motion.head("DEFAULT", 1) # 고개 디폴트
+            time.sleep(1)
+            
+            UD_for_dist("ball")
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            time.sleep(2)
+
+            # length = 거리 
+            ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
+            print("ball distance :", ball_dist)  
+
+
+            if ball_dist > 26:  # 18+8 (화면에 여유있게 들어오도록)
+                motion.walk("FORWARD", ball_dist - 26)
+                    
+            elif ball_dist == 26:
+                print("correct!")
+            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
+                motion.walk("BACKWARD", ball_dist - 26)    
             
             
             self.act = Act.PUTTING_POS

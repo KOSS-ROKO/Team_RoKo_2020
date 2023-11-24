@@ -62,8 +62,8 @@ Config_File_Name ='YUV.dat'
 #-----------------------------------------------
 
 
-x0, y0, w0, h0, a0, b0, c0, d0 = 0
-red_ball, is_red_ball, red_ball_center, red_Area = 0
+x0, y0, w0, h0, a0, b0, c0, d0 = 0,0,0,0,0,0,0,0
+red_ball, is_red_ball, red_ball_center, red_Area = 0,0,0,0
 
 def nothing(x):
     pass
@@ -482,9 +482,9 @@ if __name__ == '__main__':
             if Area > min_area[now_color]:
                 x4, y4, w4, h4 = cv2.boundingRect(c0)
                 a0, b0, c0, d0 = [x4+w4/2,y4],[x4+w4,y4+h4/2],[x4+w4/2,y4+h4],[x4,y4+h4/2]
-                is_red_ball, red_ball_center = True, [x4+w4/2,y4+h4/2]
+                is_red_ball, red_ball_center = True, (int(x4+w4/2),int(y4+h4/2))
                 cv2.rectangle(frame, (x4, y4), (x4 + w4, y4 + h4), (0, 255, 0), 2)
-                [cv2.circle(img, tuple(point), 5, (0, 0, 255), -1) for point in [a0, b0, c0, d0, red_ball_center]]
+                cv2.line(frame,red_ball_center,red_ball_center,(255, 0, 0), 4)
                 #----------------------------------------
                 X_Size = int((255.0 / W_View_size) * w4)
                 Y_Size = int((255.0 / H_View_size) * h4)
