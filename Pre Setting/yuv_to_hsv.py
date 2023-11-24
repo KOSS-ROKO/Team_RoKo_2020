@@ -6,38 +6,67 @@ def read_settings_from_file(file_path):
             settings.append(values)
     return settings
 
+def rgb_to_hsv(r, g, b):
+  r /= 255
+  g /= 255
+  b /= 255
+  maxc = max(r, g, b)
+  minc = min(r, g, b)
+  v = maxc
+  if minc == maxc:
+      return 0.0, 0.0, v
+  s = (maxc-minc) / maxc
+  rc = (maxc-r) / (maxc-minc)
+  gc = (maxc-g) / (maxc-minc)
+  bc = (maxc-b) / (maxc-minc)
+  if r == maxc:
+      h = 0.0+bc-gc
+  elif g == maxc:
+      h = 2.0+rc-bc
+  else:
+      h = 4.0+gc-rc
+  h = (h/6.0) % 1.0
+  return h * 360, s * 100, v * 100
+
 def yuv_to_hsv(y, u, v):
     # YUV to RGB 변환 공식
-    r = y + 1.402 * (v - 128)
-    g = y - 0.344136 * (u - 128) - 0.714136 * (v - 128)
-    b = y + 1.772 * (u - 128)
+    # r = y + 1.402 * (v - 128)
+    # g = y - 0.344136 * (u - 128) - 0.714136 * (v - 128)
+    # b = y + 1.772 * (u - 128)
 
-    # RGB to HSV 변환 공식
-    r /= 255.0
-    g /= 255.0
-    b /= 255.0
+    b = 1.164 * (y-16) + 2.018 * (u-128)
+    g = 1.164 * (y - 16) - 0.813 * (v - 128) - 0.391 * (u - 128)
+    r = 1.164 * (y - 16) + 1.596 * (v - 128)
 
-    cmax = max(r, g, b)
-    cmin = min(r, g, b)
-    delta = cmax - cmin
+    hsv = rgb_to_hsv(r, g, b)
 
-    # 계산된 Hue
-    if delta == 0:
-        hue = 0
-    elif cmax == r:
-        hue = 60 * (((g - b) / delta) % 6)
-    elif cmax == g:
-        hue = 60 * (((b - r) / delta) + 2)
-    elif cmax == b:
-        hue = 60 * (((r - g) / delta) + 4)
+    return int(hsv[0]), int(hsv[1]), int(hsv[2])
+    # # RGB to HSV 변환 공식
+    # r /= 255.0
+    # g /= 255.0
+    # b /= 255.0
 
-    # 계산된 Saturation
-    saturation = 0 if cmax == 0 else delta / cmax
+    # cmax = max(r, g, b)
+    # cmin = min(r, g, b)
+    # delta = cmax - cmin
 
-    # 계산된 Value
-    value = cmax
+    # # 계산된 Hue
+    # if delta == 0:
+    #     hue = 0
+    # elif cmax == r:
+    #     hue = 60 * (((g - b) / delta) % 6)
+    # elif cmax == g:
+    #     hue = 60 * (((b - r) / delta) + 2)
+    # elif cmax == b:
+    #     hue = 60 * (((r - g) / delta) + 4)
 
-    return int(hue), int(saturation * 100), int(value * 100)
+    # # 계산된 Saturation
+    # saturation = 0 if cmax == 0 else delta / cmax
+
+    # # 계산된 Value
+    # value = cmax
+
+    # return int(hue), int(saturation * 100), int(value * 100)
 
 settings = read_settings_from_file('YUV.dat')
 
