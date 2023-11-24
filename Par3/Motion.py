@@ -47,7 +47,7 @@ class Motion:
     #         self.lock.release()
     #         time.sleep(0.02)
 
-    def TX_data(self, ser, one_byte):  # one_byte= 0~255
+    def TX_data(self, one_byte):  # one_byte= 0~255
         #ser.write(chr(int(one_byte)))          #python2.7
         self.serial_port.write(serial.to_bytes([one_byte]))  #python3
 
@@ -101,7 +101,7 @@ class Motion:
     #             elif RX != 200:
     #                 self.distance = RX
 
-    def RX_Receiving(self, ser):
+    def Receiving(self, ser):
         global receiving_exit
         receiving_exit = 1
         while True:

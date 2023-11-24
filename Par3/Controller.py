@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTB
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -195,6 +195,12 @@ class Controller:
         
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
+
+            motion.turn("LEFT", 60)
+            motion.turn("RIGHT", 20)
+            motion.walk("FORWARD10")
+            motion.turn("LEFT", 10)
+            return True
 
             is_ball = robo._image_processor.detect_ball()
 
