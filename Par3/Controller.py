@@ -282,6 +282,8 @@ class Controller:
         elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
 
+            motion.putting("left", 3)
+            return True
             
             is_ball = robo._image_processor.detect_ball()
             
