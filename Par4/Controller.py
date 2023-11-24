@@ -155,7 +155,55 @@ class Controller:
             rx, ry = reference
             dx = cx - rx
             dy = cy - ry
-            return dx, dy    
+            return dx, dy   
+        
+        def ball_pos(): ## 건웅 오빠
+            
+            motion.head("DEFAULT",63)
+
+            time.sleep(1)
+            red_center = robo._image_processor.detect_ball('call_midpoint')
+            print("++++++++++++++++++")
+            print(robo._image_processor.detect_ball(),red_center)
+            print("++++++++++++++++++")
+            is_center = False
+            move_center = red_center
+            x,y = reference_point = [394, 291]
+            w = 20
+            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
+            while not is_center:
+                red_center = robo._image_processor.detect_ball('call_midpoint')
+                if(red_center == None):  
+                    motion.walk("2JBACKWARD")
+                    time.sleep(1)
+                    continue
+                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
+                #print(red_center, dx,dy)
+                if is_point_inside_rectangle(red_center, rectangle_coordinates):
+                    is_center = True
+                    break   
+                else:
+                    if(abs(dy)>=30):
+                        if (dy<0):
+                                motion.walk("2JFORWARD")
+                                time.sleep(1)
+                                print("1")
+                        else:
+                                motion.walk("2JBACKWARD")
+                                time.sleep(1)
+                                print("2")
+                    elif(abs(dx)>=30):
+                        if (dx<0):
+                                motion.walk_side("LEFT10")
+                                time.sleep(1)
+                                print("3")
+                        else:
+                                motion.walk_side("RIGHT10")
+                                time.sleep(1)
+                                print("4")
+                    else:
+                        break
+            print("성공함요") 
         ##########  
         
         
@@ -221,54 +269,10 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
                 
                 
-                
-            ## 건웅 오빠
             time.sleep(1)
-            motion.head("DEFAULT",63)
-
-            time.sleep(1)
-            red_center = robo._image_processor.detect_ball('call_midpoint')
-            print("++++++++++++++++++")
-            print(robo._image_processor.detect_ball(),red_center)
-            print("++++++++++++++++++")
-            is_center = False
-            move_center = red_center
-            x,y = reference_point = [394, 291]
-            w = 20
-            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
-            while not is_center:
-                time.sleep(0.1)
-                red_center = robo._image_processor.detect_ball('call_midpoint')
-                if(red_center == None):  
-                    motion.walk("2JBACKWARD")
-                    time.sleep(1)
-                    continue
-                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
-                #print(red_center, dx,dy)
-                if is_point_inside_rectangle(red_center, rectangle_coordinates):
-                    is_center = True
-                    break
-                else:
-                    if(abs(dy)>=30):
-                        if (dy<0):
-                            motion.walk("2JFORWARD")
-                            time.sleep(1)
-                        else:
-                            motion.walk("2JBACKWARD")
-                            time.sleep(1)
-                    elif(abs(dx)>=30):
-                        if (dx<0):
-                            motion.walk_side("LEFT10")
-                            time.sleep(1)
-                        else:
-                            motion.walk_side("RIGHT10")
-                            time.sleep(1)
-                    else:
-                        break
-            print("성공함요")
+            ball_pos() ## 건웅 오빠
         
-                         
-                                
+              
 
             # PUTTING
             time.sleep(3)
@@ -292,8 +296,7 @@ class Controller:
         
         if act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
-            motion.walk("FORWARD12")
-            return True
+
 
             print("^^첫번째 티샷  222^^")
             is_ball = robo._image_processor.detect_ball()
@@ -671,60 +674,11 @@ class Controller:
 
             time.sleep(3)
 
-
-
-
-            ## 건웅 오빠
-            time.sleep(1)
-            motion.head("DEFAULT",63)
-
-            time.sleep(1)
-            red_center = robo._image_processor.detect_ball('call_midpoint')
-            print("++++++++++++++++++")
-            print(robo._image_processor.detect_ball(),red_center)
-            print("++++++++++++++++++")
-            is_center = False
-            move_center = red_center
-            x,y = reference_point = [394, 291]
-            w = 20
-            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
-            while not is_center:
-                time.sleep(0.1)
-                red_center = robo._image_processor.detect_ball('call_midpoint')
-                if(red_center == None):  
-                    motion.walk("2JBACKWARD")
-                    time.sleep(1)
-                    continue
-                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
-                #print(red_center, dx,dy)
-                if is_point_inside_rectangle(red_center, rectangle_coordinates):
-                    is_center = True
-                    break
-                else:
-                    if(abs(dy)>=30):
-                        if (dy<0):
-                            motion.walk("2JFORWARD")
-                            time.sleep(1)
-                        else:
-                            motion.walk("2JBACKWARD")
-                            time.sleep(1)
-                    elif(abs(dx)>=30):
-                        if (dx<0):
-                            motion.walk_side("LEFT10")
-                            time.sleep(1)
-                        else:
-                            motion.walk_side("RIGHT10")
-                            time.sleep(1)
-                    else:
-                        break
-            print("성공함요")
-            
+            ball_pos() ## 건웅 오빠
             
 
 
-
-
-             ### 진짜 두번째 티샷
+            ### 진짜 두번째 TEESHOT
             motion.putting(Distance.field, 1, 2)
             time.sleep(5)
                 
@@ -1055,55 +1009,11 @@ class Controller:
             
             
             
-            ## 건웅 오빠
-            time.sleep(1)
-            motion.head("DEFAULT",63)
-
-            time.sleep(1)
-            red_center = robo._image_processor.detect_ball('call_midpoint')
-            print("++++++++++++++++++")
-            print(robo._image_processor.detect_ball(),red_center)
-            print("++++++++++++++++++")
-            is_center = False
-            move_center = red_center
-            x,y = reference_point = [394, 291]
-            w = 20
-            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
-            while not is_center:
-                time.sleep(0.1)
-                red_center = robo._image_processor.detect_ball('call_midpoint')
-                if(red_center == None):  
-                    motion.walk("2JBACKWARD")
-                    time.sleep(1)
-                    continue
-                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
-                #print(red_center, dx,dy)
-                if is_point_inside_rectangle(red_center, rectangle_coordinates):
-                    is_center = True
-                    break
-                else:
-                    if(abs(dy)>=30):
-                        if (dy<0):
-                            motion.walk("2JFORWARD")
-                            time.sleep(1)
-                        else:
-                            motion.walk("2JBACKWARD")
-                            time.sleep(1)
-                    elif(abs(dx)>=30):
-                        if (dx<0):
-                            motion.walk_side("LEFT10")
-                            time.sleep(1)
-                        else:
-                            motion.walk_side("RIGHT10")
-                            time.sleep(1)
-                    else:
-                        break
-            print("성공함요")
+            ball_pos() ## 건웅 오빠
                         
                     
-                
-                
-            ### 진짜 퍼팅
+
+            ### 진짜 PUTTING
             motion.putting(Distance.field, 1, 2)
             time.sleep(5)
                 
