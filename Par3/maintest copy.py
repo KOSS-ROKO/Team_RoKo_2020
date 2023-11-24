@@ -13,6 +13,9 @@ from Head import Head
 from Motion import Motion
 from Robo import Robo
 import Distance
+import gi
+gi.require_version("Gst", "1.0")
+from gi.repository import Gst
 
 X_255_point = 0
 Y_255_point = 0
@@ -316,9 +319,24 @@ if __name__ == '__main__':
     args = vars(ap.parse_args())
 
     img = create_blank(320, 100, rgb_color=(0, 0, 255))
+    
+    
+    #-------------------------------------------------------------------------
+    Gst.init(None)
+
+    # GStreamer 파이프라인 정의
+    pipeline_str = "v4l2src ! videoconvert ! video/x-raw,format=BGR ! appsink drop=1"
+    pipeline = Gst.parse_launch(pipeline_str)
+
+    # 파이프라인 시작
+    pipeline.set_state(Gst.State.PLAYING)
+
+    # appsink 엘리먼트 가져오기
+    appsink = pipeline.get_by_name("appsink0")
     #---------------------------
     if not args.get("video", False):
         camera = cv2.VideoCapture(0)
+        camera.open(appsink)
     else:
         camera = cv2.VideoCapture(args["video"])
     #---------------------------
@@ -833,7 +851,6 @@ if __name__ == '__main__':
         elif View_select == 1: # Debug
             cv2.imshow('mini CTS5 - Video', frame )
             cv2.imshow('mini CTS5 - Mask', mask)
-        ##############################################
 
         key = 0xFF & cv2.waitKey(1)
         
@@ -853,4 +870,5 @@ if __name__ == '__main__':
     time.sleep(0.5)
     
     camera.release()
+    pipeline.set_state(Gst.State.NULL)
     cv2.destroyAllWindows()
