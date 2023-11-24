@@ -1,3 +1,6 @@
+import numpy as np
+import cv2
+
 def read_settings_from_file(file_path):
     settings = []
     with open(file_path, 'r') as file:
@@ -28,45 +31,22 @@ def rgb_to_hsv(r, g, b):
   h = (h/6.0) % 1.0
   return h * 360, s * 100, v * 100
 
-def yuv_to_hsv(y, u, v):
-    # YUV to RGB 변환 공식
-    # r = y + 1.402 * (v - 128)
-    # g = y - 0.344136 * (u - 128) - 0.714136 * (v - 128)
-    # b = y + 1.772 * (u - 128)
+def yuv_to_hsv(yuv_list):
+    y, u, v = yuv_list
 
-    b = 1.164 * (y-16) + 2.018 * (u-128)
-    g = 1.164 * (y - 16) - 0.813 * (v - 128) - 0.391 * (u - 128)
-    r = 1.164 * (y - 16) + 1.596 * (v - 128)
+    b = y + 1.402 * (v - 128)
+    g = y - 0.344136 * (u - 128) - 0.714136 * (v - 128)
+    r = y + 1.772 * (u - 128)
 
-    hsv = rgb_to_hsv(r, g, b)
+    # BGR 값을 0에서 255 사이로 클립하고 정수형으로 변환
+    bgr = np.clip(np.array([b, g, r]), 0, 255).astype(np.uint8)
 
-    return int(hsv[0]), int(hsv[1]), int(hsv[2])
-    # # RGB to HSV 변환 공식
-    # r /= 255.0
-    # g /= 255.0
-    # b /= 255.0
+    # BGR를 HSV로 변환
+    hsv = cv2.cvtColor(np.array([[bgr]]), cv2.COLOR_BGR2HSV)[0][0]
+    hsv = hsv/ 2
+    hsv = hsv.astype(int)
 
-    # cmax = max(r, g, b)
-    # cmin = min(r, g, b)
-    # delta = cmax - cmin
-
-    # # 계산된 Hue
-    # if delta == 0:
-    #     hue = 0
-    # elif cmax == r:
-    #     hue = 60 * (((g - b) / delta) % 6)
-    # elif cmax == g:
-    #     hue = 60 * (((b - r) / delta) + 2)
-    # elif cmax == b:
-    #     hue = 60 * (((r - g) / delta) + 4)
-
-    # # 계산된 Saturation
-    # saturation = 0 if cmax == 0 else delta / cmax
-
-    # # 계산된 Value
-    # value = cmax
-
-    # return int(hue), int(saturation * 100), int(value * 100)
+    return hsv
 
 settings = read_settings_from_file('YUV.dat')
 
@@ -77,14 +57,16 @@ hsv_min_list = []
 for setting in settings:
     color_num, y_max, y_min, u_max, u_min, v_max, v_min, min_area = setting
 
+    yuv_max = [y_max, u_max, v_max]
+    yuv_min = [y_min, u_min, v_min]
+
     # HSV 값을 RGB로 변환합니다.
-    hsv_max = yuv_to_hsv(y_max, u_max, v_max)
-    hsv_min = yuv_to_hsv(y_min, u_min, v_min)
+    hsv_max = yuv_to_hsv(yuv_max)
+    hsv_min = yuv_to_hsv(yuv_min)
     # 결과를 리스트에 추가합니다.
 
     hsv_max_list.append(hsv_max)
     hsv_min_list.append(hsv_min)
     
-print("hsv_max: ", hsv_max_list)
-print("hsv_max: ", hsv_min_list)
-    
+print("hsv_max:", [arr.tolist() for arr in hsv_max_list])
+print("hsv_min:", [arr.tolist() for arr in hsv_min_list])
