@@ -56,7 +56,7 @@ while True:
             bottom_point = (x + w // 2, y + h)  # 사각형의 가장 아래 중심 좌표로 설정
 
     if contours is not None:
-        cv2.circle(frame, bottom_point, 1, (0, 255, 0), 2)
+        cv2.circle(frame, bottom_point, 3, (0, 255, 0), 2)
         print(bottom_point)
              
 

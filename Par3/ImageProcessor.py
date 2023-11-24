@@ -129,7 +129,6 @@ class ImageProcessor:
         frame = origin.copy()
 
         
-        
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
         lower_yellow = np.array([0, 71, 122])
@@ -151,43 +150,7 @@ class ImageProcessor:
         binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
         binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
 
-        contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        
-        
-        ##### distance 할 때만 필요.
-        if contours:
-            largest_contour = max(contours, key=cv2.contourArea)
-            x, y, w, h = cv2.boundingRect(largest_contour)
-            
-        
-
-        max_area = 0  # 가장 큰 노란색 물체의 면적
-        max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
-
-        for contour in contours: 
-            area = cv2.contourArea(contour)
-
-            if area > max_area:
-                max_area = area
-                max_area_contour = contour
-
-        if max_area_contour is not None:
-            M = cv2.moments(max_area_contour)
-            if M["m00"] != 0:
-                center_x = int(M["m10"] / M["m00"])
-                center_y = int(M["m01"] / M["m00"])
-
-                # 노란색 물체의 크기에 따라 초록색 원 그리기
-                radius = int(max_area ** 0.5 / 2)
-                cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-                # 중심 좌표 표시
-                cv2.circle(frame, (center_x, center_y), 2, (0, 0, 255), -1)
-
-                # 중심 좌표가 초록색 원 안에 있는지 확인
-                if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
-                    # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
-                    cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-                    
+        contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)       
                     
 
         
@@ -198,32 +161,30 @@ class ImageProcessor:
             else:
                 return False
             
-        elif (role=="call_video"): ## 홀컵의 w 크기 return
+        elif (role=="call_video"):
             return binary_frame 
         
-        elif (role=="call_midpoint"): ## 홀컵의 중앙 좌표 return
+        elif (role=="call_midpoint"): ## 홀컵의 가장 아래 좌표 return
+            
+            bottom_point = (0,0)
+            max_area = 0  # 가장 큰 노란색 물체의 면적
+            max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
 
-            if max_area_contour is not None:
-                M = cv2.moments(max_area_contour)
-                if M["m00"] != 0:
-                    center_x = int(M["m10"] / M["m00"])
-                    center_y = int(M["m01"] / M["m00"])
+            for contour in contours: 
+                area = cv2.contourArea(contour)
 
-                    # 노란색 물체의 크기에 따라 초록색 원 그리기
-                    # radius = int(max_area ** 0.5 / 2)
-                    # cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-                    # 중심 좌표 표시
-                    # cv2.circle(frame, (center_x, center_y), 2, (0, 0, 255), -1)
-
-                    # 중심 좌표가 초록색 원 안에 있는지 확인
-                    if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
-                        # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
-                        cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-
-                    return (center_x, center_y)
-                
-                else:
-                    return None
+                if area > max_area:
+                    max_area = area
+                    max_area_contour = contour
+                    # 최대 영역의 물체 중 가장 아래의 좌표 찾기
+                    x, y, w, h = cv2.boundingRect(max_area_contour)
+                    bottom_point = (x + w // 2, y + h)           
+            
+            if contours is not None:
+                cv2.circle(frame, bottom_point, 3, (0, 255, 0), 2)
+                return bottom_point
+            else:
+                return None
 
 
         
