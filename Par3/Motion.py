@@ -40,17 +40,17 @@ class Motion:
         return decorated
 
     def TX_data(self, one_byte):
-        self.lock = True
-        self.serial_port.write(serial.to_bytes([one_byte]))
-        time.sleep(0.1)
-        '''
+        # self.lock = True
+        # self.serial_port.write(serial.to_bytes([one_byte]))
+        # time.sleep(0.1)
+
         try:
             self.lock.acquire()
             self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         finally:
             self.lock.release()
             time.sleep(0.02)
-        '''
+
 
     def RX_data(self):
         print('rxdata')
@@ -63,24 +63,24 @@ class Motion:
             return 0
 
     def Receiving(self, ser):
-        self.receiving_exit = 1
-        while True:
-            time.sleep(self.threading_Time)
-            # 수신받은 데이터의 수가 0보다 크면 데이터를 읽고 출력
-            while ser.inWaiting() > 0:
-                # Rx, 수신
-                result = ser.read(1) # 시리얼 포트에서 한 바이트(문자)를 읽어와 result 변수에 저장
-                RX = ord(result)
-                if RX == 38:
-                    self.lock = False
-                # print("RX=" + str(RX))
-                else:
-                    self.distance = RX
-                # -----  remocon 16 Code  Exit ------
+        # self.receiving_exit = 1
+        # while True:
+        #     time.sleep(self.threading_Time)
+        #     # 수신받은 데이터의 수가 0보다 크면 데이터를 읽고 출력
+        #     while ser.inWaiting() > 0:
+        #         # Rx, 수신
+        #         result = ser.read(1) # 시리얼 포트에서 한 바이트(문자)를 읽어와 result 변수에 저장
+        #         RX = ord(result)
+        #         if RX == 38:
+        #             self.lock = False
+        #         # print("RX=" + str(RX))
+        #         else:
+        #             self.distance = RX
+        #         # -----  remocon 16 Code  Exit ------
                 
-            if self.receiving_exit == 0:
-                break
-        '''
+        #     if self.receiving_exit == 0:
+        #         break
+
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
@@ -103,7 +103,7 @@ class Motion:
                         continue
                 elif RX != 200:
                     self.distance = RX
-        '''
+
 
     ############################################################
     # 기본자세 (99)
@@ -122,7 +122,7 @@ class Motion:
                     '2JFORWARD': 105, "2JBACKWARD": 106}
 
 
-        print("motion.py dist - 18or26: ", dist)
+        print("Motion.py walk funct")
         
         if (dir == "FORWARD") or (dir == "2JFORWARD"):
             while dist > 0:            
