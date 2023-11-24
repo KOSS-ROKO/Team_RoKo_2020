@@ -143,10 +143,6 @@ class Controller:
         def ball_pos(): ## 건웅 오빠
             time.sleep(0.5)
             motion.head("DEFAULT",63)
-            time.sleep(1)
-            motion.head("DEFAULT",63)
-            time.sleep(1)
-            motion.head("DEFAULT",63)
 
             time.sleep(1)
             print("++++++++++++++++++")
