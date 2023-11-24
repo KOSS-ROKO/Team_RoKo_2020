@@ -381,6 +381,7 @@ class Controller:
             ## 건웅 오빠
             time.sleep(1)
             ball_pos()
+            time.sleep(1)
             
             if point == 1:
                 time.sleep(1)
@@ -436,8 +437,10 @@ class Controller:
             print("^^^^222222")
 
 
-            
+            time.sleep(1)
             motion.head("DEFAULT", 1)
+            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            time.sleep(1)
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(2)
         
@@ -492,7 +495,8 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 26)    
 
-
+            time.sleep(2)
+            
             #-----------------ball dist one more time     
             # 
 
