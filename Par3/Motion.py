@@ -39,48 +39,80 @@ class Motion:
 
         return decorated
 
-    def TX_data(self, one_byte):
+    # def TX_data(self, one_byte):
+    #     try:
+    #         self.lock.acquire()
+    #         self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+    #     finally:
+    #         self.lock.release()
+    #         time.sleep(0.02)
+
+    def TX_data(self, ser, one_byte):  # one_byte= 0~255
+        #ser.write(chr(int(one_byte)))          #python2.7
+        self.serial_port.write(serial.to_bytes([one_byte]))  #python3
+
+
+    # def RX_data(self):
+    #     print('rxdata')
+    #     time.sleep(0.02)
+    #     if self.serial_port.inWaiting() > 0:
+    #         result = self.serial_port.read(1)
+    #         RX = ord(result)
+    #         return RX
+    #     else:
+    #         return 0
+
+    def RX_data(self, serial):
+        global Temp_count
         try:
-            self.lock.acquire()
-            self.serial_port.write(serial.to_bytes([one_byte]))  # python3
-        finally:
-            self.lock.release()
-            time.sleep(0.02)
-
-
-    def RX_data(self):
-        print('rxdata')
-        time.sleep(0.02)
-        if self.serial_port.inWaiting() > 0:
-            result = self.serial_port.read(1)
-            RX = ord(result)
-            return RX
-        else:
+            if serial.inWaiting() > 0:
+                result = serial.read(1)
+                RX = ord(result)
+                return RX
+            else:
+                return 0
+        except:
+            Temp_count = Temp_count  + 1
+            print("Serial Not Open " + str(Temp_count))
             return 0
+            pass
 
-    def Receiving(self, ser):
-        self.receiving_exit = 1
+    # def Receiving(self, ser):
+    #     self.receiving_exit = 1
+    #     while True:
+    #         if self.receiving_exit == 0:
+    #             break
+    #         time.sleep(self.threading_Time)
+    #         time.sleep(0.08)
+
+    #         while ser.inWaiting() > 0:
+    #             time.sleep(0.5)
+    #             result = ser.read(1)
+    #             RX = ord(result)
+    #             # -----  remocon 16 Code  Exit ------
+    #             if RX == 16:
+    #                 self.receiving_exit = 0
+    #                 break
+    #             elif RX == 38:
+    #                 try:
+    #                     self.lock.release()
+    #                 except:
+    #                     continue
+    #             elif RX != 200:
+    #                 self.distance = RX
+
+    def RX_Receiving(self, ser):
+        global receiving_exit
+        receiving_exit = 1
         while True:
-            if self.receiving_exit == 0:
+            if receiving_exit == 0:
                 break
-            time.sleep(self.threading_Time)
-            time.sleep(0.08)
+            time.sleep(5/1000)
 
             while ser.inWaiting() > 0:
-                time.sleep(0.5)
                 result = ser.read(1)
                 RX = ord(result)
-                # -----  remocon 16 Code  Exit ------
-                if RX == 16:
-                    self.receiving_exit = 0
-                    break
-                elif RX == 38:
-                    try:
-                        self.lock.release()
-                    except:
-                        continue
-                elif RX != 200:
-                    self.distance = RX
+                print ("RX=" + str(RX))
 
 
     ############################################################
