@@ -7,14 +7,10 @@ DIM A_old    AS BYTE
 DIM B       AS BYTE
 DIM 보행속도    AS BYTE
 DIM 좌우속도    AS BYTE
-DIM 보행순서    AS BYTE
 DIM 모터ONOFF    AS BYTE
 DIM 자이로ONOFF AS BYTE
-
 DIM 넘어진확인 AS BYTE
-DIM 보행횟수 AS BYTE
 DIM 보행COUNT AS BYTE
-
 DIM 적외선거리값  AS BYTE
 
 DIM S11  AS BYTE
@@ -51,11 +47,9 @@ DIR G6D,0,1,1,0,1,1      '모터18~23번
 DIR G6B,1,1,1,1,1,1      '모터6~11번
 DIR G6C,0,0,0,1,1,0      '모터12~17번
 '************************************************
-OUT 52,0   '머리 LED 켜기
-
+'OUT 52,0   '머리 LED 켜기
+OUT 52,1
 '***** 초기선언 '************************************************
-보행순서 = 0
-보행횟수 = 1
 모터ONOFF = 0
 
 DIM 머리좌우    AS INTEGER
@@ -65,7 +59,7 @@ CONST 상하영점 = 100
 머리좌우 = 좌우영점
 머리상하 = 상하영점
 '****초기위치 피드백*****************************
-TEMPO 230
+'TEMPO 230
 'MUSIC "cdefgh"
 'PRINT "SOUND 47!"
 
@@ -84,9 +78,6 @@ GOSUB 기본자세
 GOSUB 자이로INIT
 GOSUB 자이로MID
 GOSUB 자이로ON
-
-'GOSUB 앉은자세
-'GOSUB 기본자세
 
 'PRINT "VOLUME 200 !"
 'PRINT "SOUND 12 !" '안녕하세요
@@ -219,15 +210,6 @@ Arm_motor_mode3:
     MOVE G6D,98,  76, 145,  93, 101, 100
     MOVE G6B,100,  35,  90,
     MOVE G6C,100,  35,  90, 190
-    WAIT
-    mode = 0
-    RETURN
-    '******************************************
-기본자세:
-    MOVE G6A,100,  76, 145,  93, 100, 100
-    MOVE G6D,100,  76, 145,  93, 100, 100
-    MOVE G6B,100,  30,  80,
-    MOVE G6C,100,  30,  80, 190
     WAIT
     mode = 0
     RETURN
@@ -745,7 +727,7 @@ KEY16_1:
     '--------------------------------  ----------------
 KEY15: ' A
     ETX  4800,15
-    GOTO 고개하향63
+    GOTO 전진2종종걸음
     GOTO RX_EXIT
 
 KEY20: ' B
@@ -769,12 +751,12 @@ KEY18: ' E
 
 KEY32: ' F
     ETX  4800,32
-    GOTO 좌퍼팅3
+    GOTO 전진기본10걸음
     GOTO RX_EXIT
 
 KEY23: ' G
     ETX  4800,23
-    GOTO 공치기자세좌
+    GOTO 고개하향63
     GOTO RX_EXIT
     '--------------------------------
 KEY22: ' *
@@ -1025,11 +1007,9 @@ KEY99:
     ' 로봇 제대로 안걷는 이유가 통신 과정 중의 문제일 수 있으니까 횟수 결정 변수 바꾸어서 시험해보기
 KEY100:
     ETX 4800,100
-    보행횟수= 1
     GOTO 전진종종걸음
 KEY101:
     ETX 4800,101
-    보행횟수= 1
     GOTO 후진종종걸음
 KEY102:
     ETX 4800,102
@@ -1335,6 +1315,7 @@ KEY181:
     'MOVE G6B,  62,  93,  99,  ,  ,
     'MOVE G6C, 109,  31,  75,  ,  ,
     GOSUB Arm_motor_mode3
+    SPEED 7
     MOVE G6B, 62,  95, 100, 100, 100, 102
     MOVE G6C,100,  14,  99, 184,  98, 100
 
@@ -1344,6 +1325,7 @@ KEY181:
 '------------------------------------
 걸음자세OFF:
     GOSUB Arm_motor_mode3
+    SPEED 6
     MOVE G6B,100,  30,  80,
     MOVE G6C,100,  30,  80, 190
 
@@ -1658,36 +1640,22 @@ KEY181:
     '-----------------------------------------------------------------------
     '				# 종종걸음 함수				
     '-----------------------------------------------------------------------
-    '#########  ------------ 전진종종걸음------------- #############
-    '******************************************
 전진2종종걸음:
     GOSUB All_motor_mode3
-    보행COUNT = 0
-    SPEED 7
-    HIGHSPEED SETON
     GOSUB 걸음자세ON
 
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        MOVE G6A,95,  76, 147,  93, 101
-        MOVE G6D,101,  76, 147,  93, 98
-        WAIT
-
-        GOTO 전진2종종걸음_1
-    ELSE
-        보행순서 = 0
-        MOVE G6D,93,  76, 147,  93, 101
-        MOVE G6A,104,  76, 147,  93, 98
-        WAIT
-
-        GOTO 전진2종종걸음_4
-    ENDIF
-
-전진2종종걸음_1:
+    SPEED 7
+    HIGHSPEED SETON
+    'if 보행순서 = 0:
+    MOVE G6A,95,  76, 147,  93, 101
+    MOVE G6D,101,  76, 147,  93, 98
+    WAIT
+    '전진2종종걸음_1
     MOVE G6A,95,  90, 125, 100, 104
     MOVE G6D,103,  76, 146,  93,  102
     WAIT
-전진2종종걸음_2:
+
+    '전진2종종걸음_2:
     MOVE G6A,107,   73, 140, 103,  100
     MOVE G6D, 90,  83, 146,  85, 102
     WAIT
@@ -1698,80 +1666,37 @@ KEY181:
         GOTO RX_EXIT
     ENDIF
 
-    ' 보행COUNT = 보행COUNT + 1
-    'IF 보행COUNT > 보행횟수 THEN  GOTO 전진2종종걸음_2_stop
-
-전진2종종걸음_2_stop:
+    '전진2종종걸음_2_stop:
     MOVE G6D,93,  90, 125, 95, 104
     MOVE G6A,107,  76, 145,  91,  102
     WAIT
     HIGHSPEED SETOFF
     SPEED 15
     GOSUB 안정화자세
-    SPEED 5
-    GOSUB 기본다리자세
 
-    GOTO RX_EXIT
-
-전진2종종걸음_4:
-    MOVE G6D,95,  88, 125, 103, 104
-    MOVE G6A,107,  76, 146,  93,  102
-    WAIT
-전진2종종걸음_5:
-    MOVE G6D,102,    74, 140, 103,  100
-    MOVE G6A, 97,  83, 146,  85, 102
-    WAIT
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-
-    ' 보행COUNT = 보행COUNT + 1
-    ' IF 보행COUNT > 보행횟수 THEN  GOTO 전진2종종걸음_5_stop
-
-전진2종종걸음_5_stop:
-    MOVE G6A,95,  90, 125, 95, 104
-    MOVE G6D,104,  76, 145,  91,  102
-    WAIT
-    HIGHSPEED SETOFF
-    SPEED 15
-    GOSUB 안정화자세
+    GOSUB 걸음자세OFF
     SPEED 5
     GOSUB 다리기본자세
+    'GOSUB 기본자세
 
     GOTO RX_EXIT
-    '-------------------------------------------------
+    '-----------------------------------
 후진2종종걸음:
     GOSUB All_motor_mode3
-    넘어진확인 = 0
-    보행COUNT = 0
-    SPEED 7
-    HIGHSPEED SETON
     GOSUB 걸음자세ON
 
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        MOVE G6A,95,  76, 145,  93, 101
-        MOVE G6D,101,  76, 145,  93, 98
-        WAIT
+    SPEED 7
+    HIGHSPEED SETON
 
-        GOTO 후진2종종걸음_1
-    ELSE
-        보행순서 = 0
-        MOVE G6D,95,  76, 145,  93, 101
-        MOVE G6A,101,  76, 145,  93, 98
-        WAIT
+    MOVE G6A,95,  76, 145,  93, 101
+    MOVE G6D,101,  76, 145,  93, 98
+    WAIT
 
-        GOTO 후진2종종걸음_4
-    ENDIF
-
-후진2종종걸음_1:
+    '후진2종종걸음_1:
     MOVE G6D,104,  76, 147,  93,  102
     MOVE G6A,95,  95, 120, 95, 104
     WAIT
-후진2종종걸음_2:
+    '후진2종종걸음_2:
     MOVE G6A, 103,  79, 147,  89, 100
     MOVE G6D,95,   65, 147, 103,  102
     WAIT
@@ -1781,83 +1706,38 @@ KEY181:
         넘어진확인 = 0
         GOTO RX_EXIT
     ENDIF
-    ' 보행COUNT = 보행COUNT + 1
-    ' IF 보행COUNT > 보행횟수 THEN  GOTO 후진2종종걸음_3_stop
 
-후진2종종걸음_2_stop:
+    '후진2종종걸음_2_stop:
     MOVE G6D,95,  85, 130, 100, 104
     MOVE G6A,104,  77, 146,  93,  102
     WAIT
 
-    'SPEED 15
     GOSUB 안정화자세
     HIGHSPEED SETOFF
+
+    GOSUB 걸음자세OFF
     SPEED 5
     GOSUB 다리기본자세
+    'GOSUB 기본자세
     GOTO RX_EXIT
-
-후진2종종걸음_4:
-    MOVE G6A,104,  76, 147,  93,  102
-    MOVE G6D,95,  95, 120, 95, 104
-    WAIT
-후진2종종걸음_5:
-    MOVE G6D, 103,  79, 147,  89, 100
-    MOVE G6A,95,   65, 147, 103,  102
-    WAIT
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-
-    ' 보행COUNT = 보행COUNT + 1
-    'IF 보행COUNT > 보행횟수 THEN  GOTO 후진2종종걸음_6_stop
-
-후진2종종걸음_5_stop:
-    MOVE G6A,95,  85, 130, 100, 104
-    MOVE G6D,104,  77, 146,  93,  102
-    WAIT
-
-    'SPEED 15
-    GOSUB 안정화자세
-    HIGHSPEED SETOFF
-    SPEED 5
-    GOSUB 다리기본자세
-
-    'DELAY 400
-    GOTO RX_EXIT
-    '=======================================================
+    '---------------------------------------------------------
 전진종종걸음:
-    보행COUNT = 0
     GOSUB All_motor_mode3
-    'GOSUB All_motor_Reset
-    SPEED 7
-    HIGHSPEED SETON
     GOSUB 걸음자세ON
 
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        MOVE G6A,95,  76, 147,  93, 101
-        MOVE G6D,101,  76, 147,  93, 98
-        WAIT
+    SPEED 7
+    HIGHSPEED SETON
 
-        GOTO 전진종종걸음_1
-    ELSE
-        보행순서 = 0
-        MOVE G6D,95,  76, 147,  93, 101
-        MOVE G6A,101,  76, 147,  93, 98
-        WAIT
+    MOVE G6A,95,  76, 147,  93, 101
+    MOVE G6D,101,  76, 147,  93, 98
+    WAIT
 
-        GOTO 전진종종걸음_4
-    ENDIF
-
-전진종종걸음_1:
+    '전진종종걸음_1:
     MOVE G6A,95,  90, 125, 100, 104
     MOVE G6D,104,  77, 147,  93,  102
     WAIT
 
-전진종종걸음_2:
+    '전진종종걸음_2:
     MOVE G6A,103,   73, 140, 103,  100
     MOVE G6D, 95,  85, 147,  85, 102
     WAIT
@@ -1869,30 +1749,11 @@ KEY181:
         GOTO RX_EXIT
     ENDIF
 
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 전진종종걸음_2_stop
-
-    ERX 4800,A,전진종종걸음_4
-    IF A <> A_old THEN
-전진종종걸음_2_stop:
-        MOVE G6D,95,  90, 125, 95, 104
-        MOVE G6A,104,  76, 145,  91,  102
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 15
-        GOSUB 안정화자세
-        SPEED 5
-        GOSUB 다리기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진종종걸음_4:
+    '전진종종걸음_4:
     MOVE G6D,95,  95, 120, 100, 104
     MOVE G6A,104,  77, 147,  93,  102
     WAIT
-
-전진종종걸음_5:
+    '전진종종걸음_5:
     MOVE G6D,103,    73, 140, 103,  100
     MOVE G6A, 95,  85, 147,  85, 102
     WAIT
@@ -1900,60 +1761,40 @@ KEY181:
     GOSUB 앞뒤기울기측정
     IF 넘어진확인 = 1 THEN
         넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 전진종종걸음_5_stop
-
-    ERX 4800,A,전진종종걸음_1
-    IF A <> A_old THEN
-
-전진종종걸음_5_stop:
-        MOVE G6A,95,  90, 125, 95, 104
-        MOVE G6D,104,  76, 145,  91,  102
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 15
-        GOSUB 안정화자세
-        SPEED 5
-        GOSUB 다리기본자세
 
         GOTO RX_EXIT
     ENDIF
-    GOTO 전진종종걸음_1
+    '전진종종걸음_5_stop:
+    MOVE G6A,95,  90, 125, 95, 104
+    MOVE G6D,104,  76, 145,  91,  102
+    WAIT
+    HIGHSPEED SETOFF
+    SPEED 15
+    GOSUB 안정화자세
+    GOSUB 걸음자세OFF
+    SPEED 5
+    GOSUB 다리기본자세
+    'GOSUB 기본자세
 
-    '#########  ------------ 후진종종걸음------------- #############
+    GOTO RX_EXIT
+    '-----------------------------------------------------
 후진종종걸음:
     GOSUB All_motor_mode3
-    넘어진확인 = 0
-    보행COUNT = 0
-    SPEED 7
-    HIGHSPEED SETON
     GOSUB 걸음자세ON
 
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        MOVE G6A,95,  76, 145,  93, 101
-        MOVE G6D,101,  76, 145,  93, 98
-        WAIT
+    SPEED 7
+    HIGHSPEED SETON
 
-        GOTO 후진종종걸음_1
-    ELSE
-        보행순서 = 0
-        MOVE G6D,95,  76, 145,  93, 101
-        MOVE G6A,101,  76, 145,  93, 98
-        WAIT
+    MOVE G6A,95,  76, 145,  93, 101
+    MOVE G6D,101,  76, 145,  93, 98
+    WAIT
 
-        GOTO 후진종종걸음_4
-    ENDIF
-
-후진종종걸음_1:
+    '후진종종걸음_1:
     MOVE G6D,104,  76, 147,  93,  102
     MOVE G6A,95,  95, 120, 95, 104
     WAIT
 
-후진종종걸음_2:
+    '후진종종걸음_2:
     MOVE G6A, 103,  79, 147,  89, 100
     MOVE G6D,95,   65, 147, 103,  102
     WAIT
@@ -1963,33 +1804,13 @@ KEY181:
         넘어진확인 = 0
         GOTO RX_EXIT
     ENDIF
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 후진종종걸음_2_stop
 
-    ERX 4800,A, 후진종종걸음_4
-    IF A <> A_old THEN
-
-후진종종걸음_2_stop:
-        MOVE G6D,95,  85, 130, 100, 104
-        MOVE G6A,104,  77, 146,  93,  102
-        WAIT
-
-        'SPEED 15
-        GOSUB 안정화자세
-        HIGHSPEED SETOFF
-        SPEED 5
-        GOSUB 다리기본자세
-
-        'DELAY 400
-        GOTO RX_EXIT
-    ENDIF
-
-후진종종걸음_4:
+    '후진종종걸음_4:
     MOVE G6A,104,  76, 147,  93,  102
     MOVE G6D,95,  95, 120, 95, 104
     WAIT
 
-후진종종걸음_5:
+    '후진종종걸음_5:
     MOVE G6D, 103,  79, 147,  89, 100
     MOVE G6A,95,   65, 147, 103,  102
     WAIT
@@ -1999,28 +1820,21 @@ KEY181:
         GOTO RX_EXIT
     ENDIF
 
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 후진종종걸음_5_stop
+    '후진종종걸음_5_stop:
+    MOVE G6A,95,  85, 130, 100, 104
+    MOVE G6D,104,  77, 146,  93,  102
+    WAIT
 
-    ERX 4800,A, 후진종종걸음_1
-    IF A <> A_old THEN
+    'SPEED 15
+    GOSUB 안정화자세
+    HIGHSPEED SETOFF
+    GOSUB 걸음자세OFF
+    SPEED 5
+    GOSUB 다리기본자세
+    'GOSUB 기본자세
 
-후진종종걸음_5_stop:
-        MOVE G6A,95,  85, 130, 100, 104
-        MOVE G6D,104,  77, 146,  93,  102
-        WAIT
-
-        'SPEED 15
-        GOSUB 안정화자세
-        HIGHSPEED SETOFF
-        SPEED 5
-        GOSUB 다리기본자세
-
-        'DELAY 400
-        GOTO RX_EXIT
-    ENDIF
-
-    GOTO 후진종종걸음_1
+    'DELAY 400
+    GOTO RX_EXIT
     '-----------------------------------------------------------------------
     '				# 옆걸음 함수				
     '-----------------------------------------------------------------------##
@@ -2216,7 +2030,8 @@ KEY181:
     MOVE G6A,  88,  71, 152,  91, 106,100
     WAIT	
     SPEED 4
-    GOSUB 다리기본자세
+    'GOSUB 다리기본자세
+    GOSUB 기본자세
 
     GOTO RX_EXIT
     '---------------------------------------------------
@@ -2286,7 +2101,8 @@ KEY181:
     WAIT
 
     SPEED 3
-    GOSUB 다리기본자세
+    'GOSUB 다리기본자세
+    GOSUB 기본자세
     GOTO RX_EXIT
     '-----------------------------------------------------------------------------------------
 전진기본10걸음:
@@ -2342,7 +2158,8 @@ KEY181:
         WAIT	
 
         SPEED 2
-        GOSUB 다리기본자세
+        'GOSUB 다리기본자세
+        GOSUB 기본자세
 
         GOTO RX_EXIT
     ENDIF
@@ -2460,7 +2277,8 @@ KEY181:
         WAIT	
 
         SPEED 2
-        GOSUB 다리기본자세
+        'GOSUB 다리기본자세
+        GOSUB 기본자세
 
         GOTO RX_EXIT
     ENDIF
@@ -2573,7 +2391,8 @@ KEY181:
         WAIT
 
         SPEED 2
-        GOSUB 다리기본자세
+        'GOSUB 다리기본자세
+        GOSUB 기본자세
 
         GOTO RX_EXIT
     ENDIF
@@ -2685,7 +2504,8 @@ KEY181:
         WAIT	
 
         SPEED 2
-        GOSUB 다리기본자세
+        'GOSUB 다리기본자세
+        GOSUB 기본자세
 
         GOTO RX_EXIT
     ENDIF
@@ -2766,7 +2586,7 @@ KEY181:
     GOSUB 기본자세
     GOSUB All_motor_Reset
 
-    FOR i = 1 TO 7
+    FOR i = 1 TO 6
         GOSUB 오른쪽옆걸음10
     NEXT i
 
@@ -2778,7 +2598,7 @@ KEY181:
     GOSUB 왼쪽턴20  
 
 	'3단계 걸음
-    FOR i = 1 TO 6
+    FOR i = 1 TO 5
 		GOSUB 오른쪽옆걸음10
     NEXT i
 
@@ -2801,7 +2621,7 @@ KEY181:
     GOSUB 오른쪽턴20   
 
     '3단계 걸음
-    FOR i = 1 TO 3
+    FOR i = 1 TO 5
         GOSUB 왼쪽옆걸음10
     NEXT i
 
@@ -2876,8 +2696,11 @@ KEY181:
     MOVE G6A,97,  76, 145,  93, 100, 100
     MOVE G6D,97,  76, 145,  93, 100, 100
     MOVE G6B,100,  35,  90,
-    MOVE G6C,150,  100,  10, 10
+    'MOVE G6C,150,  100,  10, 10
+    MOVE G6C,150,  70,  10, 10 '수정한 부분
+    
     WAIT
+    'DELAY 2000
     MOVE G6C,135,  40,  40, 10
     WAIT
     MOVE G6C,135,  10,  80, 10
@@ -2953,7 +2776,7 @@ KEY181:
     '----------------------------------------
 우퍼팅3:
     GOSUB 우어드레스
-    DELAY 3000
+    DELAY 1000
 
     '치기 전 도움닫기 동작 (꼭 필요한가? 테스트하기)
     MOVE G6B,100,  35,  90,
