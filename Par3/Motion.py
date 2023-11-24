@@ -219,7 +219,7 @@ class Motion:
 
     #퍼팅 위치에 서기 
     def pose(self, dir, TB=False):
-        if TB:
+        if not TB:
             if dir=="RIGHT":
                 self.TX_data(111)
                 time.sleep(7)

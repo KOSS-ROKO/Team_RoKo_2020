@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.WALK_BALL
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -148,8 +148,8 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [380, 322]
-            w = 20
+            x,y = reference_point = [380, 316]
+            w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
                 motion.head("DEFAULT",63)
@@ -282,8 +282,6 @@ class Controller:
         elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
 
-            motion.putting("left", 4)
-            return True
             
             is_ball = robo._image_processor.detect_ball()
             
@@ -337,7 +335,7 @@ class Controller:
                 time.sleep(1)
                 motion.walk_side("RIGHT70")
                 time.sleep(1)
-                motion.pose("LEFT")
+                motion.pose("LEFT", True)
                 time.sleep(1)
                 motion.turn("LEFT", 15)
                 print("3번 점에서 확인")
@@ -405,7 +403,7 @@ class Controller:
                 time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                motion.putting("left", 4)
+                motion.putting("left", 3)
                 time.sleep(5)
                 motion.turn("LEFT", 60)
                 time.sleep(5)
@@ -436,8 +434,7 @@ class Controller:
             print("^^^^222222")
             print("^^^^222222")
 
-            motion.walk("FORWARD12")
-            time.sleep(20)
+
             
             motion.head("DEFAULT", 1)
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
@@ -497,6 +494,32 @@ class Controller:
 
             #-----------------ball dist one more time     
             # 
+
+            is_ball = robo._image_processor.detect_ball()
+
+            ### False면, big UD LR 해라
+            if is_ball == False:                
+                while True:
+                    # big UD head
+                    is_big_UD = big_UD("ball")
+                    print("controller === big ud ")
+
+                    #if go_to == "big_lr" :
+                    if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
+                        motion.head("UP", 9) # after Teeshot 고개 60
+                        motion.head("UP", 6)
+                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                    
+                    is_small_LR = ball_small_LR("ball")
+                    
+                    if is_small_LR == "Except" :
+                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                    else:
+                        break
+            else:
+                ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
+
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
@@ -523,7 +546,7 @@ class Controller:
             
             self.act = Act.PUTTING_POS
             
-            return True
+            #return True
             
         #=======================================================#
         #                     3. Putting Pos                    #         
@@ -768,7 +791,7 @@ class Controller:
                 
                 
             ### 진짜 퍼팅
-            motion.putting(Distance.field, 1, 2)
+            motion.putting(Distance.field, 2, 2)
             time.sleep(5)
                 
                 
