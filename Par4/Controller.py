@@ -382,53 +382,8 @@ class Controller:
 
 
 
-            ## 건웅 오빠
-            time.sleep(1)
-            motion.head("DEFAULT",63)
+            ball_pos() ## 건웅 오빠
 
-            time.sleep(1)
-            red_center = robo._image_processor.detect_ball('call_midpoint')
-            print("++++++++++++++++++")
-            print(robo._image_processor.detect_ball(),red_center)
-            print("++++++++++++++++++")
-            is_center = False
-            move_center = red_center
-            x,y = reference_point = [394, 291]
-            w = 20
-            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
-            while not is_center:
-                time.sleep(0.1)
-                red_center = robo._image_processor.detect_ball('call_midpoint')
-                if(red_center == None):  
-                    motion.walk("2JBACKWARD")
-                    time.sleep(1)
-                    continue
-                dx, dy = calculate_distance_from_reference(red_center, reference_point) # 15에 1cm
-                #print(red_center, dx,dy)
-                if is_point_inside_rectangle(red_center, rectangle_coordinates):
-                    is_center = True
-                    break
-                else:
-                    if(abs(dy)>=30):
-                        if (dy<0):
-                            motion.walk("2JFORWARD")
-                            time.sleep(1)
-                        else:
-                            motion.walk("2JBACKWARD")
-                            time.sleep(1)
-                    elif(abs(dx)>=30):
-                        if (dx<0):
-                            motion.walk_side("LEFT10")
-                            time.sleep(1)
-                        else:
-                            motion.walk_side("RIGHT10")
-                            time.sleep(1)
-                    else:
-                        break
-            print("성공함요")
-        
-    
-            
 
             
             if point == 1:
