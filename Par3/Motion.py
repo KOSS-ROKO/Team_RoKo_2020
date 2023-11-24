@@ -157,8 +157,8 @@ class Motion:
             time.sleep(3)
             dist += 2
         else:
-            print("else????? walk")
-            #self.TX_data(dir_list[dir])
+            print("else walk")
+            self.TX_data(dir_list[dir])
             time.sleep(3)
             
             

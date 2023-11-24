@@ -148,7 +148,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [374, 316]
+            x,y = reference_point = [380, 322]
             w = 20
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
