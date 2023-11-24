@@ -74,8 +74,8 @@ class ImageProcessor:
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
 
-        imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
         
         # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
@@ -85,6 +85,10 @@ class ImageProcessor:
 
         # imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
+
+        # minju dongbang
+        imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
@@ -131,11 +135,15 @@ class ImageProcessor:
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        lower_yellow = np.array([0, 71, 122])
-        upper_yellow = np.array([36, 250, 250])
+        # lower_yellow = np.array([0, 71, 122])
+        # upper_yellow = np.array([36, 250, 250])
         
         # lower_yellow = np.array([10, 30, 20])
         # upper_yellow = np.array([40, 255, 255])
+
+        # minju dongbang
+        lower_yellow = np.array([10, 60, 150])
+        upper_yellow = np.array([36, 200, 255])
 
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)

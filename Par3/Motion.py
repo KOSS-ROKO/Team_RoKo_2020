@@ -40,12 +40,15 @@ class Motion:
         return decorated
 
     def TX_data(self, one_byte):
-        try:
-            self.lock.acquire()
-            self.serial_port.write(serial.to_bytes([one_byte]))  # python3
-        finally:
-            self.lock.release()
-            time.sleep(0.02)
+        self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        time.sleep(0.02)
+
+        # try:
+        #     self.lock.acquire()
+        #     self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        # finally:
+        #     self.lock.release()
+        #     time.sleep(0.02)
 
 
     def RX_data(self):
@@ -177,7 +180,7 @@ class Motion:
             'DEFAULT': { 1: 121, 2: 122, 63: 143 }
         }
         self.TX_data(dir_list[dir][angle])
-        time.sleep(0.1)
+        time.sleep(0.2)
 
     # 돌기 (141~160)
     def turn(self, dir, angle=0, loop=1, sleep=1, arm=False):

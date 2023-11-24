@@ -18,8 +18,13 @@ while True:
     # lower_yellow = np.array([0, 71, 122])
     # upper_yellow = np.array([36, 250, 250])
     
-    lower_yellow = np.array([15, 100, 100])
-    upper_yellow = np.array([30, 255, 255])
+    # lower_yellow = np.array([15, 100, 100])
+    # upper_yellow = np.array([30, 255, 255])
+
+    # minju dongbang
+    lower_yellow = np.array([10, 60, 150])
+    upper_yellow = np.array([36, 200, 255])
+
 
     yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
     yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)

@@ -103,6 +103,7 @@ class Controller:
 
         def UD_for_dist(object="ball"): # small ud head 변형
             small_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            time.sleep(0.5)
             # 거리를 위한 고개 각도 내리기 
             while True:
                 print("---------start ud for dist")
@@ -140,7 +141,11 @@ class Controller:
             
         ###########
         def ball_pos(): ## 건웅 오빠
-            
+            time.sleep(0.5)
+            motion.head("DEFAULT",63)
+            time.sleep(1)
+            motion.head("DEFAULT",63)
+            time.sleep(1)
             motion.head("DEFAULT",63)
 
             time.sleep(1)
@@ -352,7 +357,7 @@ class Controller:
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            
+            time.sleep(1)
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(1)

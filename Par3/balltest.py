@@ -19,8 +19,15 @@ while True:
     # imgThreshLow = cv2.inRange(imgHSV, (0, 200, 55), (50, 255, 255))
     # imgThreshHigh = cv2.inRange(imgHSV, (160, 155, 50), (179, 255, 255))
 
-    imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
+    # imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
+    # imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
+
+    # minju dongbang
+    imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
+
+    # red_lower = np.array([165, 100, 170])
+    # red_upper = np.array([180, 230, 255])
 
 
     
