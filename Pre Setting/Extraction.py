@@ -55,7 +55,7 @@ mx,my = 0,0
 
 threading_Time = 5/1000.
 
-Config_File_Name ='Cts5_v1.dat'
+Config_File_Name ='YUV.dat'
     
 #-----------------------------------------------
 

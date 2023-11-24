@@ -39,7 +39,7 @@ def yuv_to_hsv(y, u, v):
 
     return int(hue), int(saturation * 100), int(value * 100)
 
-settings = read_settings_from_file('Cts5_v1.dat')
+settings = read_settings_from_file('YUV.dat')
 
 hsv_max_list = []
 hsv_min_list = []
