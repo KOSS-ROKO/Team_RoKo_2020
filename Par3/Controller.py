@@ -420,7 +420,7 @@ class Controller:
                 motion.turn("LEFT", 60)
                 time.sleep(5)
                 motion.turn("LEFT", 60)
-                time.sleep(6)
+                time.sleep(4)
                 motion.turn("LEFT", 10)
                 time.sleep(5)
                  
@@ -428,7 +428,7 @@ class Controller:
             time.sleep(1)
             print("start forward 12")
             motion.walk("FORWARD12")
-            time.sleep(25)
+            time.sleep(20)
             
             # return True
                 
@@ -829,4 +829,4 @@ class Controller:
                 self.act = Act.WALK_BALL
             
             
-            return True
+            #return True
