@@ -152,8 +152,8 @@ class Controller:
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
-                motion.head("DEFAULT",63)
-                time.sleep(2)
+                #motion.head("DEFAULT",63)
+                #time.sleep(2)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
                 print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
@@ -328,15 +328,15 @@ class Controller:
                 point = 1
             elif Distance.head_lr_angle >= 120:
                 motion.walk_side("RIGHT70") # loop문 추가
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.walk_side("RIGHT70")
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.walk_side("RIGHT70")
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.walk_side("RIGHT70")
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.pose("LEFT", True)
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.turn("LEFT", 15)
                 print("3번 점에서 확인")
                 point = 3
@@ -355,7 +355,7 @@ class Controller:
             
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            time.sleep(2)
+            time.sleep(1)
             
 
             # length = 거리 
@@ -406,14 +406,14 @@ class Controller:
                 motion.putting("left", 3)
                 time.sleep(5)
                 motion.turn("LEFT", 60)
-                time.sleep(5)
+                time.sleep(2)
                 motion.turn("LEFT", 60)
-                time.sleep(4)
+                time.sleep(2)
                 motion.turn("LEFT", 10)
-                time.sleep(5)
+                time.sleep(2)
                  
             self.act = Act.WALK_BALL
-            time.sleep(1)
+            #time.sleep(1)
             print("start forward 12")
             motion.walk("FORWARD12")
             time.sleep(20)
@@ -771,7 +771,7 @@ class Controller:
             print("=====================================")
             print("balL dist:" , ball_dist , " head ud angle:", Distance.Head_ud_angle)
             print("=====================================")
-            time.sleep(4)
+            
             while True:
                 print("ball dist :", ball_dist)
                 if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
@@ -783,9 +783,8 @@ class Controller:
                     motion.walk("2JFORWARD")
                     ball_dist -= 2
 
-            time.sleep(3)
-            
-           
+
+            time.sleep(0.5)           
             ball_pos() ## 건웅 오빠
             
                 
@@ -798,9 +797,9 @@ class Controller:
             self.act = Act.HOLEIN
 
             motion.turn("LEFT", 45)
-            time.sleep(5)
+            time.sleep(2)
             motion.turn("LEFT", 45)
-            time.sleep(3)
+            time.sleep(2)
 
             #return True
 

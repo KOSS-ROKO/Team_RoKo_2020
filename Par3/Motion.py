@@ -114,7 +114,7 @@ class Motion:
                     print("j for")
                     print(dir, dist)
                     self.TX_data(dir_list["JFORWARD"])
-                    time.sleep(6)
+                    time.sleep(4)
                     dist -= 4
                 # elif 2 <= dist < 4:  
                 #     print(dir, dist)
@@ -137,7 +137,7 @@ class Motion:
                     print("jback ")
                     print("Rotating", dir, " by a degrees.", dist)
                     self.TX_data(dir_list["JBACKWARD"])
-                    time.sleep(6)
+                    time.sleep(4)
                     dist += 4
                 # elif -5 < dist <= -2:
                 #     print("Rotating", dir, " by a degrees.", dist)
@@ -149,12 +149,12 @@ class Motion:
                     break
         elif dir == "2JFORWARD":
             self.TX_data(dir_list["2JFORWARD"])
-            time.sleep(3)
+            time.sleep(2)
             dist -= 1
         elif dir == "2JBACKWARD":
             print("Rotating", dir, " by a degrees.", dist)
             self.TX_data(dir_list["2JBACKWARD"])
-            time.sleep(3)
+            time.sleep(2)
             dist += 2
         else:
             print("else walk")
@@ -177,7 +177,7 @@ class Motion:
             'DEFAULT': { 1: 121, 2: 122, 63: 143 }
         }
         self.TX_data(dir_list[dir][angle])
-        time.sleep(0.2)
+        time.sleep(0.1)
 
     # 돌기 (141~160)
     def turn(self, dir, angle=0, loop=1, sleep=1, arm=False):
