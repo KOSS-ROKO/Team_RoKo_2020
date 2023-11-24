@@ -110,7 +110,7 @@ class Motion:
                     self.TX_data(dir_list["FORWARD"])
                     time.sleep(6)
                     dist -= 8
-                elif 4 <= dist < 8:
+                elif 3 <= dist < 8:
                     print("j for")
                     print(dir, dist)
                     self.TX_data(dir_list["JFORWARD"])
@@ -133,7 +133,7 @@ class Motion:
                     self.TX_data(dir_list["BACKWARD"])
                     time.sleep(6)
                     dist += 8
-                elif -8 < dist <= -4:
+                elif -8 < dist <= -3:
                     print("jback ")
                     print("Rotating", dir, " by a degrees.", dist)
                     self.TX_data(dir_list["JBACKWARD"])

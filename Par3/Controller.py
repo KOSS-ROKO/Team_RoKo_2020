@@ -188,7 +188,7 @@ class Controller:
                                 motion.walk("2JBACKWARD")
                                 time.sleep(1)
                                 print("2")
-                    elif(abs(dx)>=30):
+                    if(abs(dx)>=30):
                         if (dx<0):
                                 motion.walk_side("LEFT10")
                                 time.sleep(1)
@@ -199,8 +199,6 @@ class Controller:
                                 print("4")
                     else:
                         break
-                else:
-                    break
             print("성공함요")
         ##########
         
