@@ -35,6 +35,8 @@ while True:
     binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
     binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
 
+    cv2.imshow("yellow", binary_frame)
+
     contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
         
@@ -44,7 +46,7 @@ while True:
         x, y, w, h = cv2.boundingRect(largest_contour)
         
     
-
+    bottom_point = (0,0)
     max_area = 0  # 가장 큰 노란색 물체의 면적
     max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
 
@@ -66,17 +68,17 @@ while True:
 
             # 노란색 물체의 크기에 따라 초록색 원 그리기
             radius = int(max_area ** 0.5 / 2)
-            cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
+            cv2.circle(frame, bottom_point, radius, (0, 255, 0), 2)
             # 중심 좌표 표시
-            cv2.circle(frame, (center_x, center_y), 2, (0, 0, 255), -1)
+            cv2.circle(frame, bottom_point, 2, (0, 0, 255), -1)
 
             # 중심 좌표가 초록색 원 안에 있는지 확인
             if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
                 # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
-                cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
+                cv2.circle(frame, bottom_point, radius, (0, 255, 0), 2)
              
     #elif (role=="call_midpoint"): ## 홀컵의 중앙 좌표 return
-                print(center_x, center_y)
+                print(bottom_point)
         
         else:
             #return None
