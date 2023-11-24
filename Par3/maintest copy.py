@@ -11,11 +11,7 @@ import csv
 import math
 from Head import Head
 from Motion import Motion
-from Robo import Robo
 import Distance
-import gi
-gi.require_version("Gst", "1.0")
-from gi.repository import Gst
 
 X_255_point = 0
 Y_255_point = 0
@@ -63,10 +59,20 @@ Config_File_Name ='Cts5_v1.dat'
 
 #----------------------------------------------------------
 x0, y0, w0, h0, a0, b0, c0, d0 = 0,0,0,0,0,0,0,0
-red_ball, is_red_ball, red_ball_center, red_Area = 0,0,0,0
 x1, y1, w1, h1, a1, b1, c1, d1 = 0,0,0,0,0,0,0,0
-yellow_object, is_yellow_object, yellow_object_center, yellow_Area = 0,0,0,0
-yellow_object_bottom = 0
+global red_ball
+global is_red_ball
+global red_ball_center
+global red_Area
+global yellow_object
+global is_yellow_object
+global yellow_object_center
+global yellow_Area
+global yellow_object_bottom
+
+first_big_ud_angle = 0  # first_big_ud_angle 살향 여부 확인
+big_ud_angle = 0
+is_big_UD = 0
 
 ACT = 0
 
@@ -74,9 +80,9 @@ n = 0   # 가로 세로 줄 수
 
 #----------------------------------------------------------
 
-#-----------------------------------------------
 def nothing(x):
     pass
+
 #-----------------------------------------------
 def create_blank(width, height, rgb_color=(0, 0, 0)):
 
@@ -110,30 +116,37 @@ def Trackbar_change(now_color):
     hsv_Upper = (h_max[now_color], s_max[now_color], v_max[now_color])
 #-----------------------------------------------
 def Hmax_change(a):
+    
     h_max[now_color] = cv2.getTrackbarPos('Hmax', Top_name)
     Trackbar_change(now_color)
 #-----------------------------------------------
 def Hmin_change(a):
+    
     h_min[now_color] = cv2.getTrackbarPos('Hmin', Top_name)
     Trackbar_change(now_color)
 #-----------------------------------------------
 def Smax_change(a):
+    
     s_max[now_color] = cv2.getTrackbarPos('Smax', Top_name)
     Trackbar_change(now_color)
 #-----------------------------------------------
-def Smin_change(a):   
+def Smin_change(a):
+    
     s_min[now_color] = cv2.getTrackbarPos('Smin', Top_name)
     Trackbar_change(now_color)
 #-----------------------------------------------
-def Vmax_change(a):  
+def Vmax_change(a):
+    
     v_max[now_color] = cv2.getTrackbarPos('Vmax', Top_name)
     Trackbar_change(now_color)
 #-----------------------------------------------
-def Vmin_change(a):  
+def Vmin_change(a):
+    
     v_min[now_color] = cv2.getTrackbarPos('Vmin', Top_name)
     Trackbar_change(now_color)
 #-----------------------------------------------
-def min_area_change(a): 
+def min_area_change(a):
+   
     min_area[now_color] = cv2.getTrackbarPos('Min_Area', Top_name)
     if min_area[now_color] == 0:
         min_area[now_color] = 1
@@ -274,9 +287,6 @@ def hsv_setting_read():
         csvfile.close()
         print("hsv_setting_read OK")
         return 1
-    #except:
-    #    print("hsv_setting_read Error~")
-    #    return 0    
 # **************************************************
 
 if __name__ == '__main__':
@@ -320,23 +330,31 @@ if __name__ == '__main__':
 
     img = create_blank(320, 100, rgb_color=(0, 0, 255))
     
+    cv2.namedWindow(Top_name)
+    cv2.moveWindow(Top_name,0,0)
     
-    #-------------------------------------------------------------------------
-    Gst.init(None)
+    cv2.createTrackbar('Hmax', Top_name, h_max[now_color], 255, Hmax_change)
+    cv2.createTrackbar('Hmin', Top_name, h_min[now_color], 255, Hmin_change)
+    cv2.createTrackbar('Smax', Top_name, s_max[now_color], 255, Smax_change)
+    cv2.createTrackbar('Smin', Top_name, s_min[now_color], 255, Smin_change)
+    cv2.createTrackbar('Vmax', Top_name, v_max[now_color], 255, Vmax_change)
+    cv2.createTrackbar('Vmin', Top_name, v_min[now_color], 255, Vmin_change)
+    cv2.createTrackbar('Min_Area', Top_name, min_area[now_color], 255, min_area_change)
+    cv2.createTrackbar('Color_num', Top_name,color_num[now_color], 4, Color_num_change)
 
-    # GStreamer 파이프라인 정의
-    pipeline_str = "v4l2src ! videoconvert ! video/x-raw,format=BGR ! appsink drop=1"
-    pipeline = Gst.parse_launch(pipeline_str)
+    Trackbar_change(now_color)
 
-    # 파이프라인 시작
-    pipeline.set_state(Gst.State.PLAYING)
-
-    # appsink 엘리먼트 가져오기
-    appsink = pipeline.get_by_name("appsink0")
+    draw_str3(img, (15, 25), 'MINIROBOT Corp.')
+    draw_str2(img, (15, 45), 'space: Fast <=> Video and Mask.')
+    draw_str2(img, (15, 65), 's, S: Setting File Save')
+    draw_str2(img, (15, 85), 'Esc: Program Exit')
+    
+    
+    cv2.imshow(Top_name, img)
+    
     #---------------------------
     if not args.get("video", False):
         camera = cv2.VideoCapture(0)
-        camera.open(appsink)
     else:
         camera = cv2.VideoCapture(args["video"])
     #---------------------------
@@ -346,9 +364,17 @@ if __name__ == '__main__':
     time.sleep(0.5)
     #---------------------------
     (grabbed, frame) = camera.read()
+    draw_str2(frame, (5, 15), 'X_Center x Y_Center =  Area' )
+    draw_str2(frame, (5, H_View_size - 5), 'View: %.1d x %.1d.  Space: Fast <=> Video and Mask.'
+                      % (W_View_size, H_View_size))
+    draw_str_height(frame, (5, int(H_View_size/2)), 'Fast operation...', 3.0 )
     mask = frame.copy()
-    cv2.imshow('mini CTS5 - Video', frame)
+    cv2.imshow('mini CTS5 - Video', frame )
     cv2.imshow('mini CTS5 - Mask', mask)
+    cv2.moveWindow('mini CTS5 - Mask',322 + W_View_size,36)
+    cv2.moveWindow('mini CTS5 - Video',322,36)
+    cv2.setMouseCallback('mini CTS5 - Video', mouse_move)
+
     #---------------------------
     if serial_use != 0:  # python3
     #if serial_use <> 0:  # python2.7
@@ -376,11 +402,9 @@ if __name__ == '__main__':
     #########################################################################
     ############################ 영상 처리 알고리즘 #############################
     #########################################################################
-    #### 변경 할 수 있는 값
-    n = 11          # lr, 할때 화면 분활
+ 
     head = Head()
     motion = Motion()
-    robo = Robo()
     
     ACT = "TEESHOT"
 
@@ -475,109 +499,56 @@ if __name__ == '__main__':
         elif y_center > cell_height * 7:
             return "down"
         # else:
-        #     return "go far"
+        #     return "go far"              
         
-    def big_UD(object="ball"):
-        big_ud_angle = 100
-        # big UD head
-        while True:
-            is_object_in_frame, Distance.Head_ud_angle = head.big_UD_head(object, big_ud_angle)
-            if is_object_in_frame == True:
-                return "Success"
-            elif is_object_in_frame == False:
-                big_ud_angle = Distance.Head_ud_angle
-            
-                if Distance.Head_ud_angle == 64: # Distance.Head_UD_Middle_Value_Measures - 100 + 10 + 45:  # big ud 한 사이클이 끝남. / 9는 바뀔 수 있는 값
-                    #Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
-                    return "Except"
-                else: 
-                    continue
-                    
-                    
-    def big_LR(object="ball"):
-        Distance.head_lr_angle = 100
-        max_right_flag = 0
-        print("THis is ", object)
-        # big LR head
-        while True:
-            is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.head_lr_angle, max_right_flag)
-            if is_object_in_frame == True:
-                break
-            elif is_object_in_frame == False:
-                Distance.head_lr_angle = small_lr_temp
-                print("head_lr_angle : ", Distance.head_lr_angle)
-                continue
-            #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
-                #head.big_UD_head()
-                # 예외처리 : big up down 코드
-        #고개 정면 코드 추가하기
-
+    def big_UD_head(self, detect_object, big_ud_angle):
+        check = False
+        max_down_flag = 0
+        print("big ud start !!")
+        if detect_object == 'ball':
+            check = is_red_ball
+        elif detect_object == 'holecup':
+            check = is_yellow_object
+        if check == True:
+            print("ball is detected")
+            return True, big_ud_angle # small head 부르기
+        
+        else:   # 물체가 화면에 안 보이는 경우 detect : False
+                # 고개 각도 크게 돌리기, Find ball과 다름
+            if max_down_flag == 0:
+                motion.head("DOWN", 30) ################# 3도보단 큰 각으로
+                big_ud_angle -= 30 # 10은 임의 값
+                if big_ud_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                    max_down_flag = 1
+                    big_ud_angle = 64
+                    time.sleep(1)
+                    motion.head("UP", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 UP 45도 모션 추가할듯?
+                    motion.head("UP", 9)
+                    motion.head("UP", 6)
+                    motion.head("UP", 9) ###
+                    time.sleep(1)
+            elif max_down_flag == 1:
+                motion.head("UP", 30) ################# 3도보단 큰 각으로
+                big_ud_angle += 30 # 30은 임의 값
+            return False, big_ud_angle
+    
     def ball_small_LR(object="ball"):   # ball은 small lr끝난뒤 몸 돌리고 고개 default함
-        Distance.head_lr_angle = 100
-        while True:
-            print("---------start small lr head")
-            is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
-            if is_vertical_middle == True:
-                return "Success" #break
-
-            elif is_vertical_middle == False:
-                Distance.head_lr_angle = small_lr_temp
-                continue
-            else : # is_vertical_middle == Except_
-                return "Except"
-            
-    def small_LR(object="ball2"):    # ball은 small lr끝난뒤 몸, 고개 그대로, 끝.
-        #Distance.head_lr_angle = 100
-        while True:
-            print("---------start small lr head")
-            is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
-            if is_vertical_middle == True:
-                return "Success" #break
-
-            elif is_vertical_middle == False:
-                Distance.head_lr_angle = small_lr_temp
-                continue
-            else : # is_vertical_middle == Except_
-                return "Except"
-                        
-
-    def UD_for_dist(object="ball"): # small ud head 변형
-        small_ud_angle = Distance.Head_UD_Middle_Value_Measures
-        # 거리를 위한 고개 각도 내리기 
-        while True:
-            print("---------start ud for dist")
-            is_horizontal_middle, small_ud_temp = head.head_for_dist(object, small_ud_angle)
-            if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                Distance.Head_ud_angle = small_ud_temp
-                print("head UD angle : ", Distance.Head_ud_angle)
-                break
-            elif is_horizontal_middle == False:
-                small_ud_angle = small_ud_temp
-                Distance.Head_ud_angle = small_ud_temp
-                continue
-
-    def holecup_UD_for_dist(): # small ud head 변형
-        small_ud_angle = 10
-        
-        # 거리를 위한 고개 각도 올리기 
-        while True:
-            print("---------start HOlECUP ud for dist")
-            is_horizontal_middle, small_ud_temp = head.head_for_dist("holecup", small_ud_angle)
-            if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                #act = Act.PUTTING_POS 
-                #variable.Head_ud_angle = 
-                Distance.Head_ud_angle = small_ud_temp
-                print("holecup ud angle : ",Distance.Head_ud_angle)
-                break
-            elif is_horizontal_middle == False:
-                if small_ud_angle > small_ud_temp : # 홀컵중점 바껴서 갇히는 현상 해결
-                    Distance.Head_ud_angle = small_ud_temp  #(상관없) 더 최근 고개값 = 더 먼 거리값
-                    break
-                small_ud_angle = small_ud_temp
-                Distance.Head_ud_angle = small_ud_temp
-
-                continue
-        
+            Distance.head_lr_angle = 100
+            while True:
+                print("---------start small lr head")
+                is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
+                if is_vertical_middle == True:
+                    return "Success" #break
+    
+                elif is_vertical_middle == False:
+                    Distance.head_lr_angle = small_lr_temp
+                    continue
+                else : # is_vertical_middle == Except_
+                    return "Except"
+    
+    
+    
+    
     ###########
     def ball_pos(): ## 건웅 오빠
         
@@ -588,25 +559,24 @@ if __name__ == '__main__':
         print("ball pos")
         print("++++++++++++++++++")
         is_center = False
-        x,y = reference_point = [380, 322]
+        rx,ry = reference_point = [380, 322]
         w = 20
-        rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
+        rectangle_coordinates = [rx-w, ry-w, rx+w, ry-w, rx+w, ry+w, rx-w, ry+w]
         while not is_center:
             motion.head("DEFAULT",63)
             time.sleep(2)
-            red_center = robo._image_processor.detect_ball('call_midpoint')
             x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
-            print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
-            if(x1 <= red_center[0] <= x2 and y1 <= red_center[1] <= y4):    
+            print("현재 빨간공 중심: ", red_ball_center ,"목표 지점: ",reference_point)
+            if(x1 <= red_ball_center[0] <= x2 and y1 <= red_ball_center[1] <= y4):    
                 print("성공함요")
                 break                              
-            if(red_center == None): 
+            if(red_ball_center == None): 
                 print("지금 화면안에 빨간 공 안보임")
                 motion.walk("2JBACKWARD")
                 time.sleep(2)
                 continue
-            dx = red_center[0] - reference_point[0]
-            dy = red_center[1] - reference_point[1]
+            dx = red_ball_center[0] - reference_point[0]
+            dy = red_ball_center[1] - reference_point[1]
             
             print("중앙에서 떨어진 거리: ", dx, dy, abs(dx),abs(dy))
             print("dx//30: ",dx//30 ,"dy//30",dy//30)
@@ -775,70 +745,48 @@ if __name__ == '__main__':
         
         if ACT == "TEESHOT":
             print("ACT: ", ACT, "Teeshot A") # Debug
-
-            is_ball = robo._image_processor.detect_ball()
-
+            is_ball = is_red_ball
             ### False면, big UD LR 해라
-            if is_ball == False:                
-                while True:
-                    # big UD head
-                    is_big_UD = big_UD("ball")
-
-                    #if go_to == "big_lr" :
-                    if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
-                    
-                    is_small_LR = ball_small_LR("ball")
-                    
-                    if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        # big 알고리즘으로 넘어감
-                        # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
-                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
-                    else:
-                        break
-            else:
-                ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
-
-            # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
-            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
-            
-            UD_for_dist("ball")
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            time.sleep(2)
-            
-
-            # length = 거리 
-            ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
-            print(Distance.Length_ServoAngle_dict)
-            print("==========================================")
-            print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
-            print("==========================================")
-
-
-
-            if ball_dist > 18:
-                motion.walk("FORWARD", ball_dist - 18)
-                    
-            elif ball_dist == 18:
-                print("correct!")
-            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)
+            if not is_ball:
+                if first_big_ud_angle == 0:   # 최초  big_ud_angle 실행 판단 
+                    big_ud_angle = 100
+                    first_big_ud_angle = 1
+                if first_big_ud_angle and not is_big_UD and big_ud_angle: #while
+                    is_object_in_frame, Distance.Head_ud_angle = big_UD_head(object, big_ud_angle) 
+                    if is_object_in_frame == True:
+                        first_big_ud_angle = 0
+                        big_ud_angle = 100
+                        is_big_UD = "Success"
+                    elif is_object_in_frame == False:
+                        big_ud_angle = Distance.Head_ud_angle
+                        if Distance.Head_ud_angle == 64: 
+                            first_big_ud_angle = 0
+                            big_ud_angle = 100
+                            is_big_UD =  "Except"
+                        else: 
+                            continue                        
+                #if go_to == "big_lr" :
                 
-            
-            ball_pos() # 건웅 오빠
-            
-
-            # PUTTING
-            time.sleep(3)
-            motion.putting("left", 3, 2)
-            print("putting")
-            time.sleep(5)
-        else:
-            print("프로그램 끝")
-            break
+                if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
+                    print("is_big_UD: ", is_big_UD)
+                    """
+                    big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                
+                is_small_LR = ball_small_LR("ball")
+                
+                if is_small_LR == "Except" :
+                    motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                    # big 알고리즘으로 넘어감
+                    # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
+                    big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                else:
+                    break   
+            else:
+                ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐  
+                     
+            """
+            print("제발 여기까지만 오자 시팔")
+                      
         #########################################################################
         #########################################################################
         #########################################################################
@@ -870,5 +818,4 @@ if __name__ == '__main__':
     time.sleep(0.5)
     
     camera.release()
-    pipeline.set_state(Gst.State.NULL)
     cv2.destroyAllWindows()
