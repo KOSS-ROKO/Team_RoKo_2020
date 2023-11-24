@@ -56,6 +56,6 @@ for setting in settings:
     hsv_max_list.append(hsv_max)
     hsv_min_list.append(hsv_min)
     
-print(hsv_max_list)
-print(hsv_min_list)
+print("hsv_max: ", hsv_max_list)
+print("hsv_max: ", hsv_min_list)
     
