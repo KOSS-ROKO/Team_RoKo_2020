@@ -122,7 +122,7 @@ class Motion:
                 #     time.sleep(3)
                 #     dist -= 1
                 #     continue
-                elif 4 > dist:  
+                elif 3 > dist:  
                     print("FORWARD too small to WALK further.", dist)
                     break
         elif (dir == "BACKWARD") or (dir == "JBACKWARD"):
@@ -144,7 +144,7 @@ class Motion:
                 #     self.TX_data(dir_list["2JBACKWARD"])
                 #     time.sleep(3)
                 #     dist += 1
-                elif dist > -4:  
+                elif dist > -3:  
                     print("Angle too small to rotate further.", dist)
                     break
         elif dir == "2JFORWARD":

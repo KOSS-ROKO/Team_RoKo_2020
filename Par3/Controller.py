@@ -397,7 +397,7 @@ class Controller:
             
             if point == 1:
                 time.sleep(1)
-                motion.putting("right", 2)
+                motion.putting("right", 3)
                 time.sleep(5)
                 
                 motion.turn("RIGHT", 60)
@@ -406,7 +406,7 @@ class Controller:
                 time.sleep(3)
             elif point == 2:
                 time.sleep(1)
-                motion.putting("left", 2)
+                motion.putting("left", 3)
                 time.sleep(5)
                 
                 motion.turn("LEFT", 60)
@@ -417,7 +417,7 @@ class Controller:
                 time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                motion.putting("left", 2)
+                motion.putting("left", 3)
                 time.sleep(5)
                 motion.turn("LEFT", 60)
                 time.sleep(5)
