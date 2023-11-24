@@ -165,7 +165,7 @@ class Controller:
             print("++++++++++++++++++")
             is_center = False
             move_center = red_center
-            x,y = reference_point = [394, 291]
+            x,y = reference_point = [377, 307]
             w = 20
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
