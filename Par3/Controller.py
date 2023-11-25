@@ -283,6 +283,7 @@ class Controller:
         elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
 
+
             time.sleep(3)
             is_ball = False
             is_ball = robo._image_processor.detect_ball()
