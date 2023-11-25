@@ -295,6 +295,207 @@ def hsv_setting_read():
     #except:
     #    print("hsv_setting_read Error~")
     #    return 0    
+#########################################################################
+############################ 영상 처리 알고리즘 #############################
+#########################################################################
+
+head = Head()
+motion = Motion()
+
+ACT = "TEESHOT"
+
+
+
+
+def detect_ball(role="call_TF"):
+    print("detect ball start")
+    if(role=="call_TF"):  
+        return is_red_ball
+    elif(role=="call_video"):
+        return a0, b0, c0, d0       #12,3,6,9   
+    elif(role=="call_midpoint"):
+        if is_red_ball: return red_ball_center
+        else:           return None
+
+def detect_holecup(role="call_TF"): 
+    if (role=="call_TF"):  
+        return is_yellow_object
+    elif (role=="call_video"): ## 홀컵의 w 크기 return
+        return a1, b1, c1, d1
+    elif (role=="call_midpoint"): ## 홀컵의 중앙 좌표 return
+        return yellow_object_center
+    elif (role == "bottom_point"):
+        return c1
+
+def par4_direction(self):
+    return yellow_object_center
+
+def middle_lr_ball(self):
+    print("middle_lr_ball")
+    if not detect_ball():
+        return None
+    x_center, y_center = red_ball_center
+    cell_width = W_View_size // 11
+    if (cell_width * 5 <= x_center <= cell_width * 6):
+        print("stop")
+        return "stop"
+    elif x_center < cell_width * 5:
+        print("right")
+        return "right"
+    elif x_center > cell_width * 6:
+        print("left")
+        return "left"
+
+def middle_ud_ball(self):
+    print("middle_ud_ball")
+    if not detect_ball():
+        return None
+    x_center, y_center = red_ball_center
+    cell_height = H_View_size // 13
+    # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
+    if (cell_height * 5 <= y_center <= cell_height * 6):
+        return "stop"
+    # 1~5번째 줄에서 검출되면 "go up" 출력
+    elif y_center < cell_height * 5:
+        return "up"
+    # 7~11번째 줄에서 검출되면 "go down" 출력
+    elif y_center > cell_height * 6:
+        return "down"    
+
+def middle_lr_holecup(self):
+    print("middle_lr_holecup")
+    if not detect_holecup():
+        return None
+    x_center, y_center = yellow_object_center
+    cell_width = W_View_size // n
+    if (cell_width * (n//2) <= x_center <= cell_width * (n//2+1)):
+        print("stop")
+        return "stop"
+    elif x_center < cell_width * (n//2):
+        print("right")
+        return "right"
+    elif x_center > cell_width * (n//2+1):
+        print("left")
+        return "left"  
+    
+def middle_ud_holecup(self):
+    print("middle_ud_holecup")
+    if not detect_holecup():
+        return None
+    x_center, y_center = yellow_object_center
+    cell_height = W_View_size // n
+    
+    # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
+    if (cell_height * 6 <= y_center <= cell_height * 7):
+        return "stop"
+    # 1~5번째 줄에서 검출되면 "go up" 출력
+    elif y_center < cell_height * 6:
+        return "up"
+    # 7~11번째 줄에서 검출되면 "go down" 출력
+    elif y_center > cell_height * 7:
+        return "down"
+    # else:
+    #     return "go far"              
+    
+def big_UD_head(self, detect_object, big_ud_angle):
+    check = False
+    max_down_flag = 0
+    print("big ud start !!")
+    if detect_object == 'ball':
+        check = is_red_ball
+    elif detect_object == 'holecup':
+        check = is_yellow_object
+    if check == True:
+        print("ball is detected")
+        return True, big_ud_angle # small head 부르기
+    
+    else:   # 물체가 화면에 안 보이는 경우 detect : False
+            # 고개 각도 크게 돌리기, Find ball과 다름
+        if max_down_flag == 0:
+            motion.head("DOWN", 30) ################# 3도보단 큰 각으로
+            big_ud_angle -= 30 # 10은 임의 값
+            if big_ud_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                max_down_flag = 1
+                big_ud_angle = 64
+                time.sleep(1)
+                motion.head("UP", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 UP 45도 모션 추가할듯?
+                motion.head("UP", 9)
+                motion.head("UP", 6)
+                motion.head("UP", 9) ###
+                time.sleep(1)
+        elif max_down_flag == 1:
+            motion.head("UP", 30) ################# 3도보단 큰 각으로
+            big_ud_angle += 30 # 30은 임의 값
+        return False, big_ud_angle
+
+def ball_small_LR(object="ball"):   # ball은 small lr끝난뒤 몸 돌리고 고개 default함
+        Distance.head_lr_angle = 100
+        while True:
+            print("---------start small lr head")
+            is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
+            if is_vertical_middle == True:
+                return "Success" #break
+
+            elif is_vertical_middle == False:
+                Distance.head_lr_angle = small_lr_temp
+                continue
+            else : # is_vertical_middle == Except_
+                return "Except"
+
+
+
+
+###########
+def ball_pos(): ## 건웅 오빠
+    
+    motion.head("DEFAULT",63)
+
+    time.sleep(1)
+    print("++++++++++++++++++")
+    print("ball pos")
+    print("++++++++++++++++++")
+    is_center = False
+    rx,ry = reference_point = [380, 322]
+    w = 20
+    rectangle_coordinates = [rx-w, ry-w, rx+w, ry-w, rx+w, ry+w, rx-w, ry+w]
+    while not is_center:
+        motion.head("DEFAULT",63)
+        time.sleep(2)
+        x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
+        print("현재 빨간공 중심: ", red_ball_center ,"목표 지점: ",reference_point)
+        if(x1 <= red_ball_center[0] <= x2 and y1 <= red_ball_center[1] <= y4):    
+            print("성공함요")
+            break                              
+        if(red_ball_center == None): 
+            print("지금 화면안에 빨간 공 안보임")
+            motion.walk("2JBACKWARD")
+            time.sleep(2)
+            continue
+        dx = red_ball_center[0] - reference_point[0]
+        dy = red_ball_center[1] - reference_point[1]
+        
+        print("중앙에서 떨어진 거리: ", dx, dy, abs(dx),abs(dy))
+        print("dx//30: ",dx//30 ,"dy//30",dy//30)
+        if(abs(dy)>=30):
+            if (dy<0):
+                motion.walk("2JFORWARD")
+                print("1")
+            else:
+                motion.walk("2JBACKWARD")
+                print("2")
+        elif(abs(dx)>=30):
+            if (dx<0):
+                motion.walk_side("LEFT10")
+                print("3")
+            else:
+                motion.walk_side("RIGHT10")
+                print("4")
+        else:
+            is_center = True
+
+#########################################################################
+#########################################################################
+#########################################################################
 # **************************************************
 # **************************************************
 # **************************************************
@@ -379,207 +580,7 @@ if __name__ == '__main__':
     camera.set(5, 30)
     time.sleep(0.5)
     #---------------------------
-    #########################################################################
-    ############################ 영상 처리 알고리즘 #############################
-    #########################################################################
- 
-    head = Head()
-    motion = Motion()
     
-    ACT = "TEESHOT"
-
-
-
-
-    def detect_ball(role="call_TF"):
-        print("detect ball start")
-        if(role=="call_TF"):  
-            return is_red_ball
-        elif(role=="call_video"):
-            return a0, b0, c0, d0       #12,3,6,9   
-        elif(role=="call_midpoint"):
-            if is_red_ball: return red_ball_center
-            else:           return None
-
-    def detect_holecup(role="call_TF"): 
-        if (role=="call_TF"):  
-            return is_yellow_object
-        elif (role=="call_video"): ## 홀컵의 w 크기 return
-            return a1, b1, c1, d1
-        elif (role=="call_midpoint"): ## 홀컵의 중앙 좌표 return
-            return yellow_object_center
-        elif (role == "bottom_point"):
-            return c1
-    
-    def par4_direction(self):
-        return yellow_object_center
-    
-    def middle_lr_ball(self):
-        print("middle_lr_ball")
-        if not detect_ball():
-            return None
-        x_center, y_center = red_ball_center
-        cell_width = W_View_size // 11
-        if (cell_width * 5 <= x_center <= cell_width * 6):
-            print("stop")
-            return "stop"
-        elif x_center < cell_width * 5:
-            print("right")
-            return "right"
-        elif x_center > cell_width * 6:
-            print("left")
-            return "left"
-    
-    def middle_ud_ball(self):
-        print("middle_ud_ball")
-        if not detect_ball():
-            return None
-        x_center, y_center = red_ball_center
-        cell_height = H_View_size // 13
-        # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 5 <= y_center <= cell_height * 6):
-            return "stop"
-        # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 5:
-            return "up"
-        # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 6:
-            return "down"    
-    
-    def middle_lr_holecup(self):
-        print("middle_lr_holecup")
-        if not detect_holecup():
-            return None
-        x_center, y_center = yellow_object_center
-        cell_width = W_View_size // n
-        if (cell_width * (n//2) <= x_center <= cell_width * (n//2+1)):
-            print("stop")
-            return "stop"
-        elif x_center < cell_width * (n//2):
-            print("right")
-            return "right"
-        elif x_center > cell_width * (n//2+1):
-            print("left")
-            return "left"  
-        
-    def middle_ud_holecup(self):
-        print("middle_ud_holecup")
-        if not detect_holecup():
-            return None
-        x_center, y_center = yellow_object_center
-        cell_height = W_View_size // n
-        
-        # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 6 <= y_center <= cell_height * 7):
-            return "stop"
-        # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 6:
-            return "up"
-        # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 7:
-            return "down"
-        # else:
-        #     return "go far"              
-        
-    def big_UD_head(self, detect_object, big_ud_angle):
-        check = False
-        max_down_flag = 0
-        print("big ud start !!")
-        if detect_object == 'ball':
-            check = is_red_ball
-        elif detect_object == 'holecup':
-            check = is_yellow_object
-        if check == True:
-            print("ball is detected")
-            return True, big_ud_angle # small head 부르기
-        
-        else:   # 물체가 화면에 안 보이는 경우 detect : False
-                # 고개 각도 크게 돌리기, Find ball과 다름
-            if max_down_flag == 0:
-                motion.head("DOWN", 30) ################# 3도보단 큰 각으로
-                big_ud_angle -= 30 # 10은 임의 값
-                if big_ud_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                    max_down_flag = 1
-                    big_ud_angle = 64
-                    time.sleep(1)
-                    motion.head("UP", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 UP 45도 모션 추가할듯?
-                    motion.head("UP", 9)
-                    motion.head("UP", 6)
-                    motion.head("UP", 9) ###
-                    time.sleep(1)
-            elif max_down_flag == 1:
-                motion.head("UP", 30) ################# 3도보단 큰 각으로
-                big_ud_angle += 30 # 30은 임의 값
-            return False, big_ud_angle
-    
-    def ball_small_LR(object="ball"):   # ball은 small lr끝난뒤 몸 돌리고 고개 default함
-            Distance.head_lr_angle = 100
-            while True:
-                print("---------start small lr head")
-                is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
-                if is_vertical_middle == True:
-                    return "Success" #break
-    
-                elif is_vertical_middle == False:
-                    Distance.head_lr_angle = small_lr_temp
-                    continue
-                else : # is_vertical_middle == Except_
-                    return "Except"
-    
-    
-    
-    
-    ###########
-    def ball_pos(): ## 건웅 오빠
-        
-        motion.head("DEFAULT",63)
-
-        time.sleep(1)
-        print("++++++++++++++++++")
-        print("ball pos")
-        print("++++++++++++++++++")
-        is_center = False
-        rx,ry = reference_point = [380, 322]
-        w = 20
-        rectangle_coordinates = [rx-w, ry-w, rx+w, ry-w, rx+w, ry+w, rx-w, ry+w]
-        while not is_center:
-            motion.head("DEFAULT",63)
-            time.sleep(2)
-            x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
-            print("현재 빨간공 중심: ", red_ball_center ,"목표 지점: ",reference_point)
-            if(x1 <= red_ball_center[0] <= x2 and y1 <= red_ball_center[1] <= y4):    
-                print("성공함요")
-                break                              
-            if(red_ball_center == None): 
-                print("지금 화면안에 빨간 공 안보임")
-                motion.walk("2JBACKWARD")
-                time.sleep(2)
-                continue
-            dx = red_ball_center[0] - reference_point[0]
-            dy = red_ball_center[1] - reference_point[1]
-            
-            print("중앙에서 떨어진 거리: ", dx, dy, abs(dx),abs(dy))
-            print("dx//30: ",dx//30 ,"dy//30",dy//30)
-            if(abs(dy)>=30):
-                if (dy<0):
-                    motion.walk("2JFORWARD")
-                    print("1")
-                else:
-                    motion.walk("2JBACKWARD")
-                    print("2")
-            elif(abs(dx)>=30):
-                if (dx<0):
-                    motion.walk_side("LEFT10")
-                    print("3")
-                else:
-                    motion.walk_side("RIGHT10")
-                    print("4")
-            else:
-                is_center = True
-    
-    #########################################################################
-    #########################################################################
-    #########################################################################
    
     
     #---------------------------
