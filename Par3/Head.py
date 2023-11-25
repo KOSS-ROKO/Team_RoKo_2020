@@ -218,7 +218,7 @@ class Head:
                     robo._motion.head("UP", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 UP 45도 모션 추가할듯?
                     robo._motion.head("UP", 9)
                     robo._motion.head("UP", 6)
-                    robo._motion.head("UP", 9) ###
+                    #robo._motion.head("UP", 9) ###
                     time.sleep(1)
             elif max_down_flag == 1:
                 robo._motion.head("UP", 30) ################# 3도보단 큰 각으로
