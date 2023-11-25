@@ -388,7 +388,7 @@ class Controller:
                 motion.putting("right", 3)
                 time.sleep(5)
                 
-                motion.turn("RIGHT", 60)
+                motion.turn("RIGHT", 45)
                 time.sleep(6)
                 motion.turn("RIGHT", 45)
                 time.sleep(3)
@@ -397,22 +397,22 @@ class Controller:
                 motion.putting("left", 4)
                 time.sleep(5)
                 
-                motion.turn("LEFT", 60)
+                motion.turn("LEFT", 45)
                 time.sleep(6)
-                motion.turn("LEFT", 60)
+                motion.turn("LEFT", 45)
                 time.sleep(2)
-                motion.turn("LEFT", 10)
-                time.sleep(3)
+                # motion.turn("LEFT", 10)
+                # time.sleep(3)
             elif point == 3:
                 time.sleep(1)
                 motion.putting("left", 3)
                 time.sleep(5)
-                motion.turn("LEFT", 60)
+                motion.turn("LEFT", 45)
                 time.sleep(2)
-                motion.turn("LEFT", 60)
+                motion.turn("LEFT", 45)
                 time.sleep(2)
-                motion.turn("LEFT", 10)
-                time.sleep(2)
+                # motion.turn("LEFT", 10)
+                # time.sleep(2)
                  
             self.act = Act.WALK_BALL
             #time.sleep(1)
@@ -814,7 +814,7 @@ class Controller:
 
             motion.turn("LEFT", 45)
             time.sleep(2)
-            motion.turn("LEFT", 45)
+            motion.turn("LEFT", 20)
             time.sleep(2)
 
             #return True
