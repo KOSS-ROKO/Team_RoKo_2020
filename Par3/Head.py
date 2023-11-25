@@ -317,13 +317,13 @@ class Head:
         elif check == "right":   ### 찌그째그 걸음으로 오른쪽으로 원그리며 이동
             robo._motion.walk_side("RIGHT10")
             time.sleep(0.5)
-            robo._motion.turn("LEFT", 10)    # 값 조절 필요
+            robo._motion.turn("LEFT", 15)    # 값 조절 필요
             time.sleep(1)
             return False               
         elif check == "left":    ## 똑같이 왼쪽으로 이동
             robo._motion.walk_side("LEFT10")
             time.sleep(0.5)
-            robo._motion.turn("RIGHT", 10)    # 값 조절 필요
+            robo._motion.turn("RIGHT", 15)    # 값 조절 필요
             time.sleep(1)
             return False
         else: # check == "none"
