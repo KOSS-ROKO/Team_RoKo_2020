@@ -12,6 +12,7 @@ from threading import Thread, Lock
 # -----------------------------------------------
 class Motion:
     def __init__(self, sleep_time=0):
+        print("motion init")
         self.serial_use = 1
         self.serial_port = None
         self.Read_RX = 0
@@ -50,8 +51,13 @@ class Motion:
 
     def TX_data(self, one_byte):  # one_byte= 0~255
         print("TX_data")
-        #ser.write(chr(int(one_byte)))          #python2.7
-        self.serial_port.write(serial.to_bytes([one_byte]))  #python3
+        try:
+            self.lock.acquire()
+            #ser.write(chr(int(one_byte)))          #python2.7
+            self.serial_port.write(serial.to_bytes([one_byte]))  #python3
+        finally:
+            self.lock.release()
+            time.sleep(0.02)
 
 
     # def RX_data(self):
@@ -121,8 +127,13 @@ class Motion:
                 if RX == 38:
                     print("값 38을 수신하여 루프 종료")
                     self.receiving_exit = 0
+                    self.lock.release()
+                    break
+                elif RX == 16:
+                    self.receiving_exit = 0
                     break
                 else:
+                    self.distance = RX
                     print("값 38을 받지 못하여 루프 반복")
 
 
