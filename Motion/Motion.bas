@@ -756,7 +756,6 @@ KEY18: ' E
 
 KEY32: ' F
     ETX  4800,32
-    GOTO 전진기본10걸음
     GOTO RX_EXIT
 
 KEY23: ' G
@@ -2266,13 +2265,15 @@ KEY181:
     FOR i = 1 TO 6
         GOSUB 오른쪽옆걸음10
     NEXT i
+    DELAY 1000
 
 	'2단계 턴
     FOR j = 1 TO 2    
         GOSUB 왼쪽턴45
+        DELAY 1000
     NEXT j
      
-    'GOSUB 왼쪽턴20  
+    GOSUB 왼쪽턴20  
 
 	'3단계 걸음
     FOR i = 1 TO 7
@@ -2289,13 +2290,15 @@ KEY181:
     FOR i = 1 TO 6 '7->6
         GOSUB 왼쪽옆걸음10
     NEXT i
+    DELAY 1000
 
     '2단계 턴 
     FOR j = 1 TO 2
 		GOSUB 오른쪽턴45
+		DELAY 1000
     NEXT j
 
-    'GOSUB 오른쪽턴20   
+    GOSUB 오른쪽턴20   
 
     '3단계 걸음
     FOR i = 1 TO 7
@@ -2312,13 +2315,15 @@ KEY181:
     FOR i = 1 TO 7       
         GOSUB 오른쪽옆걸음10
     NEXT i
+    DELAY 1000
 	
 	'2단계 턴
     FOR j = 1 TO 2    
         GOSUB 왼쪽턴45
+        DELAY 1000
     NEXT j
      
-    'GOSUB 왼쪽턴20   
+    GOSUB 왼쪽턴20   
 
 	'3단계 걸음
     FOR i = 1 TO 4    
@@ -2335,13 +2340,15 @@ KEY181:
     FOR i = 1 TO 7 
         GOSUB 왼쪽옆걸음10
     NEXT i
+    DELAY 1000
 	
 	'2단계 턴 
     FOR j = 1 TO 2    
         GOSUB 오른쪽턴45
+        DELAY 1000
     NEXT j
     
-    'GOSUB 오른쪽턴20      
+    GOSUB 오른쪽턴20      
     
 	'3단계 걸음
     FOR i = 1 TO 4   
