@@ -106,17 +106,23 @@ class Motion:
 
     def Receiving(self, ser):
         print("Receiving")
-        global receiving_exit
-        receiving_exit = 1
+        self.receiving_exit = 1
         while True:
-            if receiving_exit == 0:
+            if self.receiving_exit == 0:
                 break
             time.sleep(5/1000)
 
             while ser.inWaiting() > 0:
+                time.sleep(0.5)
                 result = ser.read(1)
                 RX = ord(result)
                 print ("RX=" + str(RX))
+
+                if RX == 38:
+                    print("값 38을 수신하여 루프 종료")
+                    receiving_exit = 0
+                    break
+
 
 
     ############################################################
