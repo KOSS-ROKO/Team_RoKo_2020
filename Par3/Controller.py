@@ -701,17 +701,15 @@ class Controller:
             print("=====================================")
             print("balL dist:" , ball_dist , " head ud angle:", Distance.Head_ud_angle)
             print("=====================================")
-            
-            while True:
-                print("ball dist :", ball_dist)
-                if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
-                    break
-                elif ball_dist < 16:
-                    motion.walk("2JBACKWARD")
-                    ball_dist += 2
-                elif ball_dist > 20:
-                    motion.walk("2JFORWARD")
-                    ball_dist -= 2
+
+                 
+                    
+            if ball_dist > 18:  # 18+8 (화면에 여유있게 들어오도록)
+                motion.walk("FORWARD", ball_dist - 18)
+            elif ball_dist == 18:
+                print("correct!")
+            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
+                motion.walk("BACKWARD", ball_dist - 18)    
 
 
             time.sleep(0.5)           
