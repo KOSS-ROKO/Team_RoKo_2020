@@ -650,7 +650,7 @@ KEY9:
     GOTO RX_EXIT
 KEY10: '0
     ETX  4800,10
-    GOTO 우살살
+    GOSUB 걸음자세ON
     GOTO RX_EXIT
     '-------------------------
 KEY11: ' ▲
@@ -1025,7 +1025,8 @@ KEY103:
     '---------------------------------
 KEY104:
     ETX 4800,104
-    GOTO 전진기본10걸음
+    n = 10
+    GOTO 전진기본n걸음
     '-------------------------------------------
 KEY105:
     ETX 4800,105
@@ -1033,15 +1034,19 @@ KEY105:
 KEY106:
     ETX 4800,106
     GOTO 후진2종종걸음
+'------------------------
 KEY107:
     ETX 4800,107
-    GOTO 전진기본12걸음
+    n = 12
+    GOTO 전진기본n걸음
 KEY108:
     ETX 4800,108
-    GOTO 전진기본14걸음
+    n = 14
+    GOTO 전진기본n걸음
 KEY109:
     ETX 4800,109
-    GOTO 전진기본15걸음
+    n = 15
+    GOTO 전진기본n걸음
     '##############--------------공치기자세
 KEY110:
     ETX 4800,110
@@ -1326,8 +1331,9 @@ KEY181:
     'MOVE G6C, 109,  31,  75,  ,  ,
     GOSUB Arm_motor_mode3
     SPEED 7
-    MOVE G6B, 62,  95, 100, 100,
+    MOVE G6B, 105,  88, 103, 100, 
     MOVE G6C,100,  14,  99, 184, 	
+
     WAIT
     mode = 0
     RETURN
@@ -2233,466 +2239,7 @@ KEY181:
     WAIT
 
     GOTO 전진기본n걸음_1
-    '-----------------------
- 
-전진기본10걸음:
-    check = 0
-    보행COUNT = 0
-    넘어진확인 = 0
-    GOSUB Leg_motor_mode3
-    GOSUB 걸음자세ON
-
-    SPEED 4
-    MOVE G6A, 88,  74, 144,  95, 110
-    MOVE G6D,108,  76, 146,  93,  96
-    WAIT
-
-    SPEED 10
-    MOVE G6A, 90, 90, 120, 105, 110,100
-    MOVE G6D,110,  76, 147,  93,  96,100
-    WAIT
-
-    check = 1
-    GOTO 전진기본10걸음_1
-
-전진기본10걸음_1:
-    SPEED 13
-    MOVE G6A, 86,  56, 145, 115, 110
-    MOVE G6D,108,  76, 147,  93,  96
-    WAIT
-
-    SPEED 4
-    GOSUB Leg_motor_mode3
-    MOVE G6A,110,  76, 147, 93,  96
-    MOVE G6D,86, 100, 145,  69, 110
-    WAIT
-
-    SPEED 13
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-    IF check = 1 THEN
-        GOTO 전진기본10걸음_2
-    ELSE
-        MOVE G6A,112,  76, 146,  93, 96,100
-        MOVE G6D,90, 100, 100, 115, 110,100
-        WAIT
-        HIGHSPEED SETOFF
-
-        SPEED 8
-        MOVE G6A, 106,  76, 146,  93,  96,100		
-        MOVE G6D,  88,  71, 152,  91, 106,100
-        WAIT	
-
-        SPEED 2
-        'GOSUB 다리기본자세
-        GOSUB 기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진기본10걸음_2:
-    MOVE G6A,110,  76, 147,  93, 96,100
-    MOVE G6D,90, 90, 120, 105, 110,100
-    'MOVE G6B,110
-    'MOVE G6C,90
-    WAIT
-
-전진기본10걸음_3:
-    SPEED 13
-    MOVE G6D, 86,  56, 145, 115, 110
-    MOVE G6A,108,  76, 147,  93,  96
-    WAIT
-
-    SPEED 4
-    MOVE G6D,110,  76, 147, 93,  96
-    MOVE G6A,86, 100, 145,  69, 110
-    WAIT
-
-    SPEED 13
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    '@@----------------------- 걸음 수 변경 부분 ------------------------@@
-    IF 보행COUNT = 10 THEN  GOTO 전진기본10걸음_stop
-
-    IF check = 1 THEN
-        GOTO 전진기본10걸음_4
-    ELSE
-전진기본10걸음_stop:
-        MOVE G6A, 90, 100, 100, 115, 110,100
-        MOVE G6D,112,  76, 146,  93,  96,100
-        'MOVE G6B,90
-        'MOVE G6C,110
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 8
-
-        MOVE G6D, 106,  76, 146,  93,  96,100		
-        MOVE G6A,  88,  71, 152,  91, 106,100
-        'MOVE G6C, 100
-        'MOVE G6B, 100
-        WAIT	
-        SPEED 2
-        GOSUB 기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진기본10걸음_4:
-    MOVE G6A,90, 90, 120, 105, 110,100
-    MOVE G6D,110,  76, 146,  93,  96,100
-    WAIT
-
-    GOTO 전진기본10걸음_1
-
-'-----------------------------------------
-전진기본12걸음:
-    check = 0
-    보행COUNT = 0
-    넘어진확인 = 0
-    GOSUB Leg_motor_mode3
-    GOSUB 걸음자세ON
-
-    SPEED 4
-    MOVE G6A, 88, 74, 144, 95, 110
-    MOVE G6D, 108, 76, 146, 93, 96
-    WAIT
-
-    SPEED 10
-    MOVE G6A, 90, 90, 120, 105, 110, 100
-    MOVE G6D, 110, 76, 147, 93, 96, 100
-    WAIT
-
-    check = 1
-    GOTO 전진기본12걸음_1
-
-전진기본12걸음_1:
-    SPEED 13
-    MOVE G6A, 86, 56, 145, 115, 110
-    MOVE G6D, 108, 76, 147, 93, 96
-    WAIT
-
-    SPEED 4
-    GOSUB Leg_motor_mode3
-    MOVE G6A, 110, 76, 147, 93, 96
-    MOVE G6D, 86, 100, 145, 69, 110
-    WAIT
-
-    SPEED 13
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-    IF check = 1 THEN
-        GOTO 전진기본12걸음_2
-    ELSE
-        MOVE G6A, 112, 76, 146, 93, 96, 100
-        MOVE G6D, 90, 100, 100, 115, 110, 100
-        WAIT
-        HIGHSPEED SETOFF
-
-        SPEED 8
-        MOVE G6A, 106, 76, 146, 93, 96, 100		
-        MOVE G6D, 88, 71, 152, 91, 106, 100
-        WAIT	
-
-        SPEED 2
-        'GOSUB 다리기본자세
-        GOSUB 기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진기본12걸음_2:
-    MOVE G6A, 110, 76, 147, 93, 96, 100
-    MOVE G6D, 90, 90, 120, 105, 110, 100
-    WAIT
-
-전진기본12걸음_3:
-    SPEED 13
-    MOVE G6D, 86, 56, 145, 115, 110
-    MOVE G6A, 108, 76, 147, 93, 96
-    WAIT
-
-    SPEED 4
-    MOVE G6D, 110, 76, 147, 93, 96
-    MOVE G6A, 86, 100, 145, 69, 110
-    WAIT
-
-    SPEED 13
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    '@@----------------------- 걸음 수 변경 부분 ------------------------@@
-    IF 보행COUNT = 12 THEN  GOTO 전진기본12걸음_stop
-
-    IF check = 1 THEN
-        GOTO 전진기본12걸음_4
-    ELSE
-전진기본12걸음_stop:
-        MOVE G6A, 90, 100, 100, 115, 110, 100
-        MOVE G6D, 112, 76, 146, 93, 96, 100
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 8
-
-        MOVE G6D, 106, 76, 146, 93, 96, 100		
-        MOVE G6A, 88, 71, 152, 91, 106, 100
-        WAIT	
-        SPEED 2
-        GOSUB 기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진기본12걸음_4:
-    MOVE G6A,90, 90, 120, 105, 110, 100
-    MOVE G6D,110, 76, 146, 93, 96, 100
-    WAIT
-
-    GOTO 전진기본12걸음_1
-    '----------------------------------------------------
-전진기본14걸음:
-    check = 0
-    보행COUNT = 0
-    넘어진확인 = 0
-    GOSUB Leg_motor_mode3
-    GOSUB 걸음자세ON
-
-    SPEED 4
-    MOVE G6A, 88, 74, 144, 95, 110
-    MOVE G6D, 108, 76, 146, 93, 96
-    WAIT
-
-    SPEED 10
-    MOVE G6A, 90, 90, 120, 105, 110, 100
-    MOVE G6D, 110, 76, 147, 93, 96, 100
-    WAIT
-
-    check = 1
-    GOTO 전진기본14걸음_1
-
-전진기본14걸음_1:
-    SPEED 13
-    MOVE G6A, 86, 56, 145, 115, 110
-    MOVE G6D, 108, 76, 147, 93, 96
-    WAIT
-
-    SPEED 4
-    GOSUB Leg_motor_mode3
-    MOVE G6A, 110, 76, 147, 93, 96
-    MOVE G6D, 86, 100, 145, 69, 110
-    WAIT
-
-    SPEED 13
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-    IF check = 1 THEN
-        GOTO 전진기본14걸음_2
-    ELSE
-        MOVE G6A, 112, 76, 146, 93, 96, 100
-        MOVE G6D, 90, 100, 100, 115, 110, 100
-        'MOVE G6B, 110
-        'MOVE G6C, 90
-        WAIT
-        HIGHSPEED SETOFF
-
-        SPEED 8
-        MOVE G6A, 106, 76, 146, 93, 96, 100
-        MOVE G6D, 88, 71, 152, 91, 106, 100
-        WAIT
-
-        SPEED 2
-        'GOSUB 다리기본자세
-        GOSUB 기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진기본14걸음_2:
-    MOVE G6A, 110, 76, 147, 93, 96, 100
-    MOVE G6D, 90, 90, 120, 105, 110, 100
-    WAIT
-
-전진기본14걸음_3:
-    SPEED 13
-    MOVE G6D, 86, 56, 145, 115, 110
-    MOVE G6A, 108, 76, 147, 93, 96
-    WAIT
-
-    SPEED 4
-    MOVE G6D, 110, 76, 147, 93, 96
-    MOVE G6A, 86, 100, 145, 69, 110
-    WAIT
-
-    SPEED 13
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    '@@----------------------- 걸음 수 변경 부분 ------------------------@@
-    IF 보행COUNT = 14 THEN  GOTO 전진기본14걸음_stop
-
-    IF check = 1 THEN
-        GOTO 전진기본14걸음_4
-    ELSE
-전진기본14걸음_stop:
-        MOVE G6A, 90, 100, 100, 115, 110, 100
-        MOVE G6D, 112, 76, 146, 93, 96, 100
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 8
-
-        MOVE G6D, 106, 76, 146, 93, 96, 100
-        MOVE G6A, 88, 71, 152, 91, 106, 100
-        WAIT
-        SPEED 2
-        GOSUB 기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진기본14걸음_4:
-    '왼발들기10
-    MOVE G6A, 90, 90, 120, 105, 110, 100
-    MOVE G6D, 110, 76, 146, 93, 96, 100
-    WAIT
-
-    GOTO 전진기본14걸음_1
-    '--------------------------------------------------
-전진기본15걸음:
-    check = 0
-    보행COUNT = 0
-    넘어진확인 = 0
-    GOSUB Leg_motor_mode3
-    GOSUB 걸음자세ON
-
-    SPEED 4
-    MOVE G6A, 88, 74, 144, 95, 110
-    MOVE G6D, 108, 76, 146, 93, 96
-    WAIT
-
-    SPEED 10
-    MOVE G6A, 90, 90, 120, 105, 110, 100
-    MOVE G6D, 110, 76, 147, 93, 96, 100
-    WAIT
-
-    check = 1
-    GOTO 전진기본15걸음_1
-
-전진기본15걸음_1:
-    SPEED 13
-    MOVE G6A, 86, 56, 145, 115, 110
-    MOVE G6D, 108, 76, 147, 93, 96
-    WAIT
-
-    SPEED 4
-    GOSUB Leg_motor_mode3
-    MOVE G6A, 110, 76, 147, 93, 96
-    MOVE G6D, 86, 100, 145, 69, 110
-    WAIT
-
-    SPEED 13
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-    IF check = 1 THEN
-        GOTO 전진기본15걸음_2
-    ELSE
-        MOVE G6A, 112, 76, 146, 93, 96, 100
-        MOVE G6D, 90, 100, 100, 115, 110, 100
-        WAIT
-        HIGHSPEED SETOFF
-
-        SPEED 8
-        MOVE G6A, 106, 76, 146, 93, 96, 100		
-        MOVE G6D, 88, 71, 152, 91, 106, 100
-        WAIT	
-
-        SPEED 2
-        'GOSUB 다리기본자세
-        GOSUB 기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진기본15걸음_2:
-    MOVE G6A, 110, 76, 147, 93, 96, 100
-    MOVE G6D, 90, 90, 120, 105, 110, 100
-    WAIT
-
-전진기본15걸음_3:
-    SPEED 13
-    MOVE G6D, 86, 56, 145, 115, 110
-    MOVE G6A, 108, 76, 147, 93, 96
-    WAIT
-
-    SPEED 4
-    MOVE G6D, 110, 76, 147, 93, 96
-    MOVE G6A, 86, 100, 145, 69, 110
-    WAIT
-
-    SPEED 13
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    '@@----------------------- 걸음 수 변경 부분 ------------------------@@
-    IF 보행COUNT = 15 THEN  GOTO 전진기본15걸음_stop
-
-    IF check = 1 THEN
-        GOTO 전진기본15걸음_4
-    ELSE
-전진기본15걸음_stop:
-        MOVE G6A, 90, 100, 100, 115, 110, 100
-        MOVE G6D, 112, 76, 146, 93, 96, 100
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 8
-
-        MOVE G6D, 106, 76, 146, 93, 96, 100		
-        MOVE G6A, 88, 71, 152, 91, 106, 100
-        WAIT	
-        SPEED 2
-        GOSUB 기본자세
-
-        GOTO RX_EXIT
-    ENDIF
-
-전진기본15걸음_4:
-    MOVE G6A,90, 90, 120, 105, 110, 100
-    MOVE G6D,110, 76, 146, 93, 96, 100
-    WAIT
-
-    GOTO 전진기본15걸음_1
-    '------------------------------------------------------------
+    '-----------------------------------------------------------------------------------
     '                #  Right Arms
     '------------------------------------------------------------
 오른팔내리기:
@@ -2725,7 +2272,7 @@ KEY181:
         GOSUB 왼쪽턴45
     NEXT j
      
-    GOSUB 왼쪽턴20  
+    'GOSUB 왼쪽턴20  
 
 	'3단계 걸음
     FOR i = 1 TO 7
@@ -2748,7 +2295,7 @@ KEY181:
 		GOSUB 오른쪽턴45
     NEXT j
 
-    GOSUB 오른쪽턴20   
+    'GOSUB 오른쪽턴20   
 
     '3단계 걸음
     FOR i = 1 TO 7
@@ -2771,7 +2318,7 @@ KEY181:
         GOSUB 왼쪽턴45
     NEXT j
      
-    GOSUB 왼쪽턴20   
+    'GOSUB 왼쪽턴20   
 
 	'3단계 걸음
     FOR i = 1 TO 4    
@@ -2794,7 +2341,7 @@ KEY181:
         GOSUB 오른쪽턴45
     NEXT j
     
-    GOSUB 오른쪽턴20      
+    'GOSUB 오른쪽턴20      
     
 	'3단계 걸음
     FOR i = 1 TO 4   
