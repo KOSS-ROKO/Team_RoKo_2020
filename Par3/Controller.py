@@ -2,7 +2,6 @@
 import time
 from Robo import Robo
 from Head import Head
-from Motion import Motion
 import Distance
 
 
@@ -31,7 +30,6 @@ class Controller:
         robo = self.robo
         
         head = Head()
-        motion = Motion()
         
         
         #=======================================================#
@@ -141,7 +139,7 @@ class Controller:
         ###########
         def ball_pos(): ## 건웅 오빠
             
-            motion.head("DEFAULT",63)
+            robo._robo._motion.head("DEFAULT",63)
 
             time.sleep(1)
             print("++++++++++++++++++")
@@ -152,7 +150,7 @@ class Controller:
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
-                #motion.head("DEFAULT",63)
+                #robo._motion.head("DEFAULT",63)
                 #time.sleep(2)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
@@ -162,7 +160,7 @@ class Controller:
                     break                              
                 if(red_center == None): 
                     print("지금 화면안에 빨간 공 안보임")
-                    motion.walk("2JBACKWARD")
+                    robo._motion.walk("2JBACKWARD")
                     time.sleep(2)
                     continue
                 dx = red_center[0] - reference_point[0]
@@ -172,17 +170,17 @@ class Controller:
                 print("dx//30: ",dx//30 ,"dy//30",dy//30)
                 if(abs(dy)>=30):
                     if (dy<0):
-                        motion.walk("2JFORWARD")
+                        robo._motion.walk("2JFORWARD")
                         print("1")
                     else:
-                        motion.walk("2JBACKWARD")
+                        robo._motion.walk("2JBACKWARD")
                         print("2")
                 elif(abs(dx)>=30):
                     if (dx<0):
-                        motion.walk_side("LEFT10")
+                        robo._motion.walk_side("LEFT10")
                         print("3")
                     else:
-                        motion.walk_side("RIGHT10")
+                        robo._motion.walk_side("RIGHT10")
                         print("4")
                 else:
                     is_center = True
@@ -196,10 +194,10 @@ class Controller:
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
 
-            motion.turn("LEFT", 60)
-            motion.turn("RIGHT", 20)
-            motion.walk("FORWARD10")
-            motion.turn("LEFT", 10)
+            robo._motion.turn("LEFT", 60)
+            robo._motion.turn("RIGHT", 20)
+            robo._motion.walk("FORWARD10")
+            robo._motion.turn("LEFT", 10)
             return True
 
             is_ball = robo._image_processor.detect_ball()
@@ -217,7 +215,7 @@ class Controller:
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         # big 알고리즘으로 넘어감
                         # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -228,12 +226,12 @@ class Controller:
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
+            robo._motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
+            robo._motion.head("DEFAULT", 1) # 고개 디폴트
             
             UD_for_dist("ball")
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
             
 
@@ -247,12 +245,12 @@ class Controller:
 
 
             if ball_dist > 18:
-                motion.walk("FORWARD", ball_dist - 18)
+                robo._motion.walk("FORWARD", ball_dist - 18)
                     
             elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)
+                robo._motion.walk("BACKWARD", ball_dist - 18)
                 
             
             ball_pos() # 건웅 오빠
@@ -260,21 +258,21 @@ class Controller:
 
             # PUTTING
             time.sleep(3)
-            motion.putting("left", 3, 2)
+            robo._motion.putting("left", 3, 2)
             print("putting")
             time.sleep(5)
 
 
             # turn body left, 몸을 왼쪽으로 90도 돌림.
-            motion.turn("LEFT", 60)
+            robo._motion.turn("LEFT", 60)
             #time.sleep(7)
-            motion.turn("LEFT", 60)
+            robo._motion.turn("LEFT", 60)
             time.sleep(2)
             print("turn LEFT")
 
             self.act = Act.WALK_BALL
             
-            motion.walk("FORWARD12")
+            robo._motion.walk("FORWARD12")
             time.sleep(20)
             
             # return True
@@ -296,8 +294,8 @@ class Controller:
                 while True:
                     # big UD head
                     is_big_UD = big_UD("ball")
-                    motion.head("DOWN", 9)
-                    motion.head("DOWN", 6)
+                    robo._motion.head("DOWN", 9)
+                    robo._motion.head("DOWN", 6)
                     Distance.Head_ud_angle -= 15
 
                     #if go_to == "big_lr" :
@@ -307,7 +305,7 @@ class Controller:
                     is_small_LR = small_LR("ball2")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         # big 알고리즘으로 넘어감
                         # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                         big_LR("ball2") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -319,48 +317,48 @@ class Controller:
                 
             point = 0
             if Distance.head_lr_angle <= 80:
-                motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
+                robo._motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
                 time.sleep(1)
-                motion.walk_side("LEFT70")
+                robo._motion.walk_side("LEFT70")
                 time.sleep(1)
-                motion.walk_side("LEFT70")
+                robo._motion.walk_side("LEFT70")
                 time.sleep(1)
-                motion.walk_side("LEFT70")
+                robo._motion.walk_side("LEFT70")
                 time.sleep(1)
-                motion.pose("RIGHT", True)
+                robo._motion.pose("RIGHT", True)
                 time.sleep(1)
-                motion.turn("RIGHT", 15)
+                robo._motion.turn("RIGHT", 15)
                 print("1번 점에서 확인")
                 point = 1
             elif Distance.head_lr_angle >= 120:
-                motion.walk_side("RIGHT70") # loop문 추가
+                robo._motion.walk_side("RIGHT70") # loop문 추가
                 time.sleep(0.2)
-                motion.walk_side("RIGHT70")
+                robo._motion.walk_side("RIGHT70")
                 time.sleep(0.2)
-                motion.walk_side("RIGHT70")
+                robo._motion.walk_side("RIGHT70")
                 time.sleep(0.2)
-                motion.walk_side("RIGHT70")
+                robo._motion.walk_side("RIGHT70")
                 time.sleep(0.2)
-                motion.pose("LEFT", True)
+                robo._motion.pose("LEFT", True)
                 time.sleep(0.2)
-                motion.turn("LEFT", 15)
+                robo._motion.turn("LEFT", 15)
                 print("3번 점에서 확인")
                 point = 3
             else:
                 print("2번 점에서 확인")
-                motion.pose("LEFT", True)
+                robo._motion.pose("LEFT", True)
                 time.sleep(1)
                 point = 2
             
             #-----------------------------------------------------------------------------------------------------
 
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
+            robo._motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
+            robo._motion.head("DEFAULT", 1) # 고개 디폴트
             
             UD_for_dist("ball")
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(1)
             
 
@@ -374,12 +372,12 @@ class Controller:
 
 
             if ball_dist > 18:
-                motion.walk("FORWARD", ball_dist - 18)
+                robo._motion.walk("FORWARD", ball_dist - 18)
                 time.sleep(1)
             elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)
+                robo._motion.walk("BACKWARD", ball_dist - 18)
                 time.sleep(1)
                 
                 
@@ -389,39 +387,39 @@ class Controller:
             
             if point == 1:
                 time.sleep(1)
-                motion.putting("right", 3)
+                robo._motion.putting("right", 3)
                 time.sleep(5)
                 
-                motion.turn("RIGHT", 60)
+                robo._motion.turn("RIGHT", 60)
                 time.sleep(6)
-                motion.turn("RIGHT", 45)
+                robo._motion.turn("RIGHT", 45)
                 time.sleep(3)
             elif point == 2:
                 time.sleep(1)
-                motion.putting("left", 4)
+                robo._motion.putting("left", 4)
                 time.sleep(5)
                 
-                motion.turn("LEFT", 60)
+                robo._motion.turn("LEFT", 60)
                 time.sleep(6)
-                motion.turn("LEFT", 60)
+                robo._motion.turn("LEFT", 60)
                 time.sleep(2)
-                motion.turn("LEFT", 10)
+                robo._motion.turn("LEFT", 10)
                 time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                motion.putting("left", 3)
+                robo._motion.putting("left", 3)
                 time.sleep(5)
-                motion.turn("LEFT", 60)
+                robo._motion.turn("LEFT", 60)
                 time.sleep(2)
-                motion.turn("LEFT", 60)
+                robo._motion.turn("LEFT", 60)
                 time.sleep(2)
-                motion.turn("LEFT", 10)
+                robo._motion.turn("LEFT", 10)
                 time.sleep(2)
                  
             self.act = Act.WALK_BALL
             #time.sleep(1)
             print("start forward 12")
-            motion.walk("FORWARD12")
+            robo._motion.walk("FORWARD12")
             time.sleep(20)
             
             # return True
@@ -442,8 +440,8 @@ class Controller:
 
 
             
-            motion.head("DEFAULT", 1)
-            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
+            robo._motion.head("DEFAULT", 1)
+            robo._motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(2)
         
             
@@ -458,14 +456,14 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        motion.head("UP", 9) # after Teeshot 고개 60
-                        motion.head("UP", 6)
+                        robo._motion.head("UP", 9) # after Teeshot 고개 60
+                        robo._motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                     else:
                         break
@@ -473,14 +471,14 @@ class Controller:
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
             
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
+            robo._motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
+            robo._motion.head("DEFAULT", 1) # 고개 디폴트
             time.sleep(1)
             
             print("ball detected")
             UD_for_dist("ball")
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
 
             # length = 거리 
@@ -490,12 +488,12 @@ class Controller:
         
             # 무지성 10번 걸은 후, 남은 거리 측정 후 걷기
             if ball_dist > 26:  # 18+8 (화면에 여유있게 들어오도록)
-                motion.walk("FORWARD", ball_dist - 26)
+                robo._motion.walk("FORWARD", ball_dist - 26)
                     
             elif ball_dist == 26:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 26)    
+                robo._motion.walk("BACKWARD", ball_dist - 26)    
 
 
             #-----------------ball dist one more time     
@@ -512,14 +510,14 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        motion.head("UP", 9) # after Teeshot 고개 60
-                        motion.head("UP", 6)
+                        robo._motion.head("UP", 9) # after Teeshot 고개 60
+                        robo._motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                     else:
                         break
@@ -527,13 +525,13 @@ class Controller:
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
+            robo._motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
+            robo._motion.head("DEFAULT", 1) # 고개 디폴트
             time.sleep(1)
             
             UD_for_dist("ball")
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
 
             # length = 거리 
@@ -542,12 +540,12 @@ class Controller:
 
 
             if ball_dist > 26:  # 18+8 (화면에 여유있게 들어오도록)
-                motion.walk("FORWARD", ball_dist - 26)
+                robo._motion.walk("FORWARD", ball_dist - 26)
                     
             elif ball_dist == 26:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 26)    
+                robo._motion.walk("BACKWARD", ball_dist - 26)    
             
             
             self.act = Act.PUTTING_POS
@@ -566,14 +564,14 @@ class Controller:
             print("^^^^333333")
             print("^^^^333333")
 
-            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
+            robo._motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(1)
             Distance.Head_UD_Angle = 55
             
             
             is_holecup_in_frame = robo._image_processor.detect_holecup()
             
-            motion.head("DEFAULT", 1) # 고개 상하 디폴트
+            robo._motion.head("DEFAULT", 1) # 고개 상하 디폴트
             
             if is_holecup_in_frame == False:    
                 print("holecup NONONONONONO")
@@ -588,7 +586,7 @@ class Controller:
                     print("small lr finished")
 
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         
                         big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                     else:
@@ -610,11 +608,11 @@ class Controller:
                     side_lr = "LEFT"
 
                 print("side walk -------", side_walk)
-                # motion.py에 walk_side for문이 없어서 임시로 여기다 넣음
+                # robo._motion.py에 walk_side for문이 없어서 임시로 여기다 넣음
                 for _ in range(side_walk):
-                    motion.walk_side(side_lr)
+                    robo._motion.walk_side(side_lr)
                 
-            motion.head("DEFAULT", 2) # LR 한 후 고개 디폴트
+            robo._motion.head("DEFAULT", 2) # LR 한 후 고개 디폴트
                     
             print("holecup YES")
             ###### 홀컵 찾음, 중앙 맞췄음. 일직선 맞추고, 이제 거리 재야됨
@@ -635,7 +633,7 @@ class Controller:
                         # 홀컵이 안보이는 경우이므로, 홀컵을 찾는 과정
                         # 문제점 : 홀컵 UD는 몸을 움직이지 않음. 근데 몸 움직여야함ㅠ
 
-                        motion.head("DEFAULT", 1)
+                        robo._motion.head("DEFAULT", 1)
                         is_big_UD = big_UD("holecup")
                         
                         if is_big_UD == "Except":
@@ -643,7 +641,7 @@ class Controller:
                         is_small_LR = small_LR("holecup")
                         
                         if is_small_LR == "Except" :
-                            motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                            robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                             # big 알고리즘으로 넘어감
 
                             big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -665,7 +663,7 @@ class Controller:
                     print("straight except")
                     
                     while True:
-                        motion.head("DEFAULT", 1)
+                        robo._motion.head("DEFAULT", 1)
                         Distance.Head_ud_angle = 100
                         # 매번 고개 디폴트했다가 54도로 갔다가 하는 거
                         is_big_UD = big_UD("ball")
@@ -676,7 +674,7 @@ class Controller:
                         
 
                         if is_small_LR == "Except" :
-                            motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                            robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                             # big 알고리즘으로 넘어감
                             # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                             big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -696,21 +694,21 @@ class Controller:
             #몸 퍼팅 위치에 서기
             if Distance.field == "left" :
                 print("field left!!")
-                motion.pose("LEFT")
+                robo._motion.pose("LEFT")
             elif Distance.field == "right" :
                 print("field right!!")
-                motion.pose("RIGHT")
+                robo._motion.pose("RIGHT")
 
             
             ''' 홀컵 찾기, 홀컵 거리 재기 안 할 거라 일단 주석처리했음
             
             # 거리 알고리즘    
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
+            robo._motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
+            robo._motion.head("DEFAULT", 1) # 고개 디폴트
             
-            motion.head("DOWN", 45)
+            robo._motion.head("DOWN", 45)
             time.sleep(2)
             
             # ud_for_dist 하기전에 holecup 찾기
@@ -721,17 +719,17 @@ class Controller:
 
                 if is_small_LR == "Except" :
                     print("holecup small lr except")
-                    motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                    robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                     
                     big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                 else:
                     break
             
             
-            motion.head("DOWN", 45)
+            robo._motion.head("DOWN", 45)
             Distance.Head_UD_Angle = 10
             holecup_UD_for_dist() # 홀컵 거리 재기
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
                             
             # 홀컵 거리 재기
@@ -763,12 +761,12 @@ class Controller:
 
 
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
+            robo._motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
+            robo._motion.head("DEFAULT", 1) # 고개 디폴트
 
             UD_for_dist("ball") # 공 거리 재기
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            robo._motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
 
             # length = 거리 
@@ -783,10 +781,10 @@ class Controller:
                 if 16 <= ball_dist <= 20: # 거리 값 조정 필요!
                     break
                 elif ball_dist < 16:
-                    motion.walk("2JBACKWARD")
+                    robo._motion.walk("2JBACKWARD")
                     ball_dist += 2
                 elif ball_dist > 20:
-                    motion.walk("2JFORWARD")
+                    robo._motion.walk("2JFORWARD")
                     ball_dist -= 2
 
 
@@ -796,15 +794,15 @@ class Controller:
                 
                 
             ### 진짜 퍼팅
-            motion.putting(Distance.field, 2, 2)
+            robo._motion.putting(Distance.field, 2, 2)
             time.sleep(5)
                 
                 
             self.act = Act.HOLEIN
 
-            motion.turn("LEFT", 45)
+            robo._motion.turn("LEFT", 45)
             time.sleep(2)
-            motion.turn("LEFT", 45)
+            robo._motion.turn("LEFT", 45)
             time.sleep(2)
 
             #return True
@@ -832,7 +830,7 @@ class Controller:
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         print("big ud except 555")
                         # big LR 시행하기전에 UD 45도로
-                        motion.head("DOWN", 45)
+                        robo._motion.head("DOWN", 45)
                         
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
@@ -840,7 +838,7 @@ class Controller:
                     
                     if is_small_LR == "Except" :
                         print("small lr except 555")
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
+                        robo._motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
                         # big 알고리즘으로 넘어감
                         # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
                         big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
@@ -858,16 +856,16 @@ class Controller:
                 if check_holein == True:
                     print("ceremony hehehehehe")
                     # 세레모니
-                    motion.ceremony()
+                    robo._motion.ceremony()
                     return True
                 else:
                     print("holein fail")
                     # 몰라. 3번을 더 간단히?
                     self.act = Act.WALK_BALL
                     
-                    motion.head("DEFAULT", 1)
+                    robo._motion.head("DEFAULT", 1)
                     time.sleep(1)
-                    motion.head("DOWN", 45)
+                    robo._motion.head("DOWN", 45)
                     time.sleep(1)
 
             else:   
