@@ -100,53 +100,44 @@ class Motion:
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
         # 2Jforward = 2센치 종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104, "FORWARD12": 107, "FORWARD14": 108, "FORWARD15": 109,
-                    '2JFORWARD': 105, "2JBACKWARD": 106}
+                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119}
 
 
         print("Motion.py walk funct")
         
-        if (dir == "FORWARD") or (dir == "JFORWARD"):
-            while dist > 0:            
-                if dist >= 8:
-                    print("8 for")
-                    print(dir, dist)
+        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2"):
+            while dist > 0:    
+                if dist >= 24:
+                    self.TX_data(dir_list["FORWARD3"])
+                    time.sleep(7)
+                    dist -= 24
+                elif dist >= 16:
+                    self.TX_data(dir_list["FORWARD2"])
+                    time.sleep(6)
+                    dist -= 16
+                elif dist >= 8:
                     self.TX_data(dir_list["FORWARD"])
                     time.sleep(6)
                     dist -= 8
                 elif 3 <= dist < 8:
-                    print("j for")
-                    print(dir, dist)
                     self.TX_data(dir_list["JFORWARD"])
                     time.sleep(4)
                     dist -= 4
-                # elif 2 <= dist < 4:  
-                #     print(dir, dist)
-                #     self.TX_data(dir_list["2JFORWARD"])
-                #     time.sleep(3)
-                #     dist -= 1
-                #     continue
                 elif 3 > dist:  
                     print("FORWARD too small to WALK further.", dist)
                     break
         elif (dir == "BACKWARD") or (dir == "JBACKWARD"):
             while dist < 0:            
                 if dist <= -8:
-                    print("8 backr")
                     print("BACKWARD", dir, " by a degrees.", dist)
                     self.TX_data(dir_list["BACKWARD"])
                     time.sleep(6)
                     dist += 8
                 elif -8 < dist <= -3:
-                    print("jback ")
                     print("Rotating", dir, " by a degrees.", dist)
                     self.TX_data(dir_list["JBACKWARD"])
                     time.sleep(4)
                     dist += 4
-                # elif -5 < dist <= -2:
-                #     print("Rotating", dir, " by a degrees.", dist)
-                #     self.TX_data(dir_list["2JBACKWARD"])
-                #     time.sleep(3)
-                #     dist += 1
                 elif dist > -3:  
                     print("Angle too small to rotate further.", dist)
                     break
