@@ -51,13 +51,9 @@ class Motion:
 
     def TX_data(self, one_byte):  # one_byte= 0~255
         print("TX_data")
-        try:
-            self.lock.acquire()
             #ser.write(chr(int(one_byte)))          #python2.7
-            self.serial_port.write(serial.to_bytes([one_byte]))  #python3
-        finally:
-            self.lock.release()
-            time.sleep(0.02)
+        self.serial_port.write(serial.to_bytes([one_byte]))  #python3
+        time.sleep(0.02)
 
 
     # def RX_data(self):
@@ -114,6 +110,7 @@ class Motion:
         print("Receiving")
         self.receiving_exit = 1
         while True:
+            print("Receiving while loop start")
             if self.receiving_exit == 0:
                 break
             time.sleep(5/1000)
@@ -123,18 +120,15 @@ class Motion:
                 result = ser.read(1)
                 RX = ord(result)
                 print ("RX=" + str(RX))
-
                 if RX == 38:
-                    print("값 38을 수신하여 루프 종료")
                     self.receiving_exit = 0
-                    self.lock.release()
                     break
                 elif RX == 16:
                     self.receiving_exit = 0
                     break
                 else:
                     self.distance = RX
-                    print("값 38을 받지 못하여 루프 반복")
+
 
 
 
