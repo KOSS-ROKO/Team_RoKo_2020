@@ -120,8 +120,10 @@ class Motion:
 
                 if RX == 38:
                     print("값 38을 수신하여 루프 종료")
-                    receiving_exit = 0
+                    self.receiving_exit = 0
                     break
+                else:
+                    print("값 38을 받지 못하여 루프 반복")
 
 
 
