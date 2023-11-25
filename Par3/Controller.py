@@ -283,7 +283,8 @@ class Controller:
         elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
 
-            
+            time.sleep(3)
+            is_ball = False
             is_ball = robo._image_processor.detect_ball()
             
             ### False면, big UD LR 해라
@@ -313,7 +314,7 @@ class Controller:
                 small_LR("ball2") # small lr 함으로써 중앙 맞춰짐
                 
             point = 0
-            if Distance.head_lr_angle <= 80:
+            if Distance.head_lr_angle <= 85:
                 motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
                 time.sleep(1)
                 motion.walk_side("LEFT70")
@@ -327,7 +328,7 @@ class Controller:
                 motion.turn("RIGHT", 10)
                 print("1번 점에서 확인")
                 point = 1
-            elif Distance.head_lr_angle >= 120:
+            elif Distance.head_lr_angle >= 115:
                 motion.walk_side("RIGHT70") # loop문 추가
                 time.sleep(0.2)
                 motion.walk_side("RIGHT70")
