@@ -806,7 +806,7 @@ class Controller:
                 
                 
             ### 진짜 퍼팅
-            motion.putting(Distance.field, 2, 2)
+            motion.putting(Distance.field, 3, 2)
             time.sleep(5)
                 
                 

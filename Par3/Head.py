@@ -25,13 +25,18 @@ class Head:
                 if big_lr_angle > 100:
                     print("turn right")
                     robo._motion.turn("RIGHT", abs(big_lr_angle - 100))
+                    time.sleep(2)
                     robo._motion.turn("RIGHT", 10)
+                    time.sleep(1)
 
                 elif big_lr_angle < 100:
                     robo._motion.turn("LEFT", abs(big_lr_angle - 100))
+                    time.sleep(2)
                     robo._motion.turn("LEFT", 10)
+                    time.sleep(1)
             
                 robo._motion.head("DEFAULT", 2)
+                time.sleep(1)
                 return True, big_lr_angle, max_right_flag
         
             else:   # 물체가 화면에 안 보이는 경우 detect : False
@@ -44,7 +49,8 @@ class Head:
                     if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                         max_right_flag = 1
                         big_lr_angle = 100
-                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
+                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
+                        time.sleep(1)
 
                 elif max_right_flag == 1:
                     robo._motion.head("LEFT", 30) ################# 3도보단 큰 각으로
