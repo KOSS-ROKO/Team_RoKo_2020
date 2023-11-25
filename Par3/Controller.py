@@ -149,7 +149,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [380, 316]
+            x,y = reference_point = [407, 297]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -446,18 +446,22 @@ class Controller:
         
             
             is_ball = robo._image_processor.detect_ball()
+            
 
             ### False면, big UD LR 해라
-            if is_ball == False:                
+            if is_ball == False:  
+                motion.head("DEFAULT", 1)   
+                time.sleep(0.7)           
                 while True:
                     # big UD head
                     is_big_UD = big_UD("ball")
+                    time.sleep(0.5)
                     print("controller === big ud ")
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        motion.head("UP", 9) # after Teeshot 고개 60
-                        motion.head("UP", 6)
+                        # motion.head("UP", 9) # after Teeshot 고개 60
+                        # motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = ball_small_LR("ball")
@@ -497,13 +501,18 @@ class Controller:
 
             time.sleep(2)
             
-            #-----------------ball dist one more time     
+            #---------------------ball dist one more time     
             # 
+            
+            motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
+            time.sleep(2)
 
             is_ball = robo._image_processor.detect_ball()
 
             ### False면, big UD LR 해라
-            if is_ball == False:                
+            if is_ball == False:  
+                motion.head("DEFAULT", 1)
+                time.sleep(1)                  
                 while True:
                     # big UD head
                     is_big_UD = big_UD("ball")
@@ -511,8 +520,8 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        motion.head("UP", 9) # after Teeshot 고개 60
-                        motion.head("UP", 6)
+                        # motion.head("UP", 9) # after Teeshot 고개 60
+                        # motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = ball_small_LR("ball")
@@ -818,12 +827,16 @@ class Controller:
 
             motion.head("DEFAULT", 1)
             time.sleep(1)
+            motion.head("DOWN", 45)
+            time.sleep(1)
             
             ###### Find ball for HOLEIN ######
             is_ball = robo._image_processor.detect_ball()
 
             ### False면, big UD LR 해라
-            if is_ball == False:          
+            if is_ball == False: 
+                motion.head("DEFAULT", 1)
+                time.sleep(1)         
                 while True:
                     print("FAIL ball detect 555")   
                     # big UD head
@@ -834,9 +847,13 @@ class Controller:
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         print("big ud except 555")
                         # big LR 시행하기전에 UD 45도로
-                        motion.head("DOWN", 45)
+                        #motion.head("DOWN", 45)
                         
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                        
+                    elif is_big_UD == "Success" : # big ud에서 너무 아래쪽에 공이 검출될까봐 조금만 더 내려줌
+                        motion.head("DOWN", 3)
+                    
                     
                     is_small_LR = ball_small_LR("ball")
                     
