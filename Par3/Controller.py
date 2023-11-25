@@ -337,8 +337,8 @@ class Controller:
                 motion.walk_side("RIGHT70")
                 time.sleep(0.2)
                 motion.pose("LEFT", True)
-                time.sleep(0.2)
-                motion.turn("LEFT", 10)
+                time.sleep(2)
+                #motion.turn("LEFT", 10)
                 print("3번 점에서 확인")
                 point = 3
             else:

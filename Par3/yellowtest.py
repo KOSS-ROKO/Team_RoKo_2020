@@ -1,4 +1,4 @@
-# 빨간색 hsv로만 공 인식했더라면 low, high를 나누고 팽창 침식 필터링 추가
+                                                                                            # 빨간색 hsv로만 공 인식했더라면 low, high를 나누고 팽창 침식 필터링 추가
 
 import cv2
 import numpy as np

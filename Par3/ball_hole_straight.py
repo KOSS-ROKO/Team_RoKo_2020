@@ -10,21 +10,17 @@ cap.set(3, 640)
 cap.set(4, 480)
 cap.set(5, 5)
 
-ip = ImageProcessor()
 
 
-def detect_ball(self, role="call_TF"):
+def detect_ball(role="call_TF"):
         
-        
-    origin = self.get_img()
-    frame = origin.copy()
 
             
     imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
 
     imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (160, 20, 100), (179, 255, 255))
     
     # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
     # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
@@ -46,7 +42,7 @@ def detect_ball(self, role="call_TF"):
     imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
 
     
-    
+    cv2.imshow("red", imgThresh)
 
     if(role=="call_TF"):  
         if cv2.countNonZero(imgThresh) > 30: # 값 바꾸세요
@@ -72,18 +68,17 @@ def detect_ball(self, role="call_TF"):
             return None
             
             
-def detect_holecup(self, role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
+def detect_holecup(role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
         
     print("detect holecup start")
 
-    origin = self.get_img()
-    frame = origin.copy()
+
 
     
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    lower_yellow = np.array([0, 71, 122])
-    upper_yellow = np.array([36, 250, 250])
+    # lower_yellow = np.array([0, 71, 122])
+    # upper_yellow = np.array([36, 250, 250])
     
     # lower_yellow = np.array([10, 30, 20])
     # upper_yellow = np.array([40, 255, 255])
@@ -91,6 +86,9 @@ def detect_holecup(self, role="call_TF"): # detect_holecup_area인데 detect_hol
     # minju dongbang
     # lower_yellow = np.array([10, 60, 150])
     # upper_yellow = np.array([36, 200, 255])
+
+    lower_yellow = np.array([0, 40, 122])
+    upper_yellow = np.array([40, 250, 255])
 
     yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
     yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
@@ -104,6 +102,8 @@ def detect_holecup(self, role="call_TF"): # detect_holecup_area인데 detect_hol
     kernel = np.ones((5, 5), np.uint8)
     binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
     binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
+
+    cv2.imshow("yellow", yellow_objects)
 
     contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)       
                 
@@ -144,7 +144,7 @@ def detect_holecup(self, role="call_TF"): # detect_holecup_area인데 detect_hol
 
 
 
-def ball_hole_straight(self):
+def ball_hole_straight():
     #여기서 cv로 일직선 판단 
     # return left right middle
     # 리턴값은 head.py의 straight로 넘어감
@@ -180,7 +180,7 @@ while True:
     # 프레임 읽기
     ret, frame = cap.read()
     
-    
+    print("hi")
     ball_hole_straight()
     
     
