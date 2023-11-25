@@ -164,7 +164,7 @@ class ImageProcessor:
         
         if (role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
             if cv2.countNonZero(binary_frame) > 50: # 값 바꾸세요
-                #print("holecup true")
+                print("holecup TTTTTTTTTTrue")
                 return True 
             else:
                 return False

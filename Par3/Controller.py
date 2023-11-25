@@ -451,7 +451,7 @@ class Controller:
             ### False면, big UD LR 해라
             if is_ball == False:  
                 motion.head("DEFAULT", 1)   
-                time.sleep(0.7)           
+                time.sleep(1)           
                 while True:
                     # big UD head
                     is_big_UD = big_UD("ball")
@@ -626,40 +626,7 @@ class Controller:
                     
             print("holecup YES")
             ###### 홀컵 찾음, 중앙 맞췄음. 일직선 맞추고, 이제 거리 재야됨
-
-            
-            '''
-            while True:
-                # 공 홀컵 일직선 맞추기 => 홀컵만으로 판별
-                print("!!call straight ")
-                check_straight = head.straight()
-                if check_straight == True: # 거리 알고리즘으로 넘어감
-                    print("straight true!!")
-                    break
-                elif check_straight == "Except":
-                    print("straight except")
-                    while True:
-                        # straight의 Except 처리
-                        # 홀컵이 안보이는 경우이므로, 홀컵을 찾는 과정
-                        # 문제점 : 홀컵 UD는 몸을 움직이지 않음. 근데 몸 움직여야함ㅠ
-
-                        motion.head("DEFAULT", 1)
-                        is_big_UD = big_UD("holecup")
-                        
-                        if is_big_UD == "Except":
-                            big_LR("holecup")
-                        is_small_LR = small_LR("holecup")
-                        
-                        if is_small_LR == "Except" :
-                            motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                            # big 알고리즘으로 넘어감
-
-                            big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
-                        else:
-                            break
-                else:
-                    continue   
-            '''   
+  
 
             
             while True:
@@ -679,6 +646,7 @@ class Controller:
                         is_big_UD = big_UD("ball")
                         
                         if is_big_UD == "Except":
+                            robo._motion.head("UP", 9)
                             big_LR("ball")
                         is_small_LR = ball_small_LR("ball")
                         
