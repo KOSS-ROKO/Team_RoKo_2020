@@ -9,6 +9,7 @@ print('code: Robo.py - ## Debug')
 class Robo:
     
     _image_processor = ImageProcessor(video="")  # Image Processor
+    _motion = Motion()
 
     def __init__(self, vpath=''):
         # self._image_processor = ImageProccessor(video=vpath) # Image Processor
