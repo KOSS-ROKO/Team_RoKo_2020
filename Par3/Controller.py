@@ -772,8 +772,10 @@ class Controller:
 
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
+            time.sleep(1)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
+            time.sleep(1)
 
             UD_for_dist("ball") # 공 거리 재기
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
