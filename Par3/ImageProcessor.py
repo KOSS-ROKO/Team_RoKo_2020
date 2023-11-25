@@ -388,7 +388,7 @@ class ImageProcessor:
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
         if red_center and yellow_center:
-            if abs(red_center[0] - yellow_center[0]) < 10:
+            if abs(red_center[0] - yellow_center[0]) < 16:
                 result = "middle"
 
             elif red_center[0] < yellow_center[0]:

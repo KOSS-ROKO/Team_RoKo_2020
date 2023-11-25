@@ -33,6 +33,7 @@ def detect_red_color(image):
 
     red_contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+    cv2.imshow("d",imgThresh)
     if red_contours:
         red_max_contour = max(red_contours, key=cv2.contourArea)
 

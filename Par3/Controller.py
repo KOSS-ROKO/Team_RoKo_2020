@@ -149,7 +149,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [407, 297]
+            x,y = reference_point = [399, 350]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -324,7 +324,7 @@ class Controller:
                 time.sleep(1)
                 motion.pose("RIGHT", True)
                 time.sleep(1)
-                motion.turn("RIGHT", 15)
+                motion.turn("RIGHT", 10)
                 print("1번 점에서 확인")
                 point = 1
             elif Distance.head_lr_angle >= 120:
@@ -338,7 +338,7 @@ class Controller:
                 time.sleep(0.2)
                 motion.pose("LEFT", True)
                 time.sleep(2)
-                #motion.turn("LEFT", 10)
+                motion.turn("LEFT", 10)
                 print("3번 점에서 확인")
                 point = 3
             else:
@@ -389,9 +389,9 @@ class Controller:
                 time.sleep(5)
                 
                 motion.turn("RIGHT", 45)
-                time.sleep(6)
+                time.sleep(2)
                 motion.turn("RIGHT", 45)
-                time.sleep(3)
+                time.sleep(2)
             elif point == 2:
                 time.sleep(1)
                 motion.putting("left", 4)
@@ -720,7 +720,7 @@ class Controller:
                 
                 
             ### 진짜 퍼팅
-            motion.putting("LEFT", 3, 2)
+            motion.putting("left", 3, 2)
             time.sleep(5)
                 
                 

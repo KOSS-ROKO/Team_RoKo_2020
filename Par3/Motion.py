@@ -216,23 +216,23 @@ class Motion:
         if not TB:
             if dir=="RIGHT":
                 self.TX_data(111)
-                time.sleep(7)
+                time.sleep(9.5)
             elif dir=="LEFT":
                 self.TX_data(110)
-                time.sleep(7)   
+                time.sleep(9.5)   
             else:  
                 self.TX_data(110)
-                time.sleep(7) 
+                time.sleep(9.5) 
         else: # TB= True
             if dir=="RIGHT":
                 self.TX_data(148)
-                time.sleep(7)
+                time.sleep(9.5)
             elif dir=="LEFT":
                 self.TX_data(147)
-                time.sleep(7)  
+                time.sleep(9.5)  
             else:  
                 self.TX_data(147)
-                time.sleep(7)
+                time.sleep(9.5)
         
     
     def putting(self, dir, power, sleep=1): 
