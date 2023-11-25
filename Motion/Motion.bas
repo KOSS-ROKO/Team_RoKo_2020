@@ -1,6 +1,7 @@
 DIM check AS BYTE
 DIM I       AS BYTE
 DIM J       AS BYTE
+DIM N       AS BYTE
 DIM MODE    AS BYTE
 DIM A          AS BYTE
 DIM A_old    AS BYTE
@@ -1002,7 +1003,7 @@ KEY99:
     ETX 4800,99
     GOSUB 기본자세
     GOTO RX_EXIT
-    '*************북마크 모션키
+    '************* 북마크 모션키
     '######### ------------------- KEY100-110 걸음 키
     ' 로봇 제대로 안걷는 이유가 통신 과정 중의 문제일 수 있으니까 횟수 결정 변수 바꾸어서 시험해보기
 KEY100:
@@ -1072,9 +1073,13 @@ KEY117:
     GOTO RX_EXIT
 KEY118:
     ETX 4800,118
+    n = 2
+    GOTO 전진기본n걸음
     GOTO RX_EXIT
 KEY119:
     ETX 4800,119
+    n = 3
+    GOTO 전진기본n걸음
     GOTO RX_EXIT
     '######### ------------------- KEY121-150 고개 키
 KEY120:
@@ -2105,6 +2110,125 @@ KEY181:
     GOSUB 기본자세
     GOTO RX_EXIT
     '-----------------------------------------------------------------------------------------
+전진기본n걸음:
+    check = 0
+    보행COUNT = 0
+    넘어진확인 = 0
+    GOSUB Leg_motor_mode3
+    GOSUB 걸음자세ON
+
+    SPEED 4
+    MOVE G6A, 88, 74, 144, 95, 110
+    MOVE G6D, 108, 76, 146, 93, 96
+    WAIT
+
+    SPEED 10
+    MOVE G6A, 90, 90, 120, 105, 110, 100
+    MOVE G6D, 110, 76, 147, 93, 96, 100
+    WAIT
+
+    check = 1
+    GOTO 전진기본n걸음_1
+
+전진기본n걸음_1:
+    SPEED 13
+    MOVE G6A, 86, 56, 145, 115, 110
+    MOVE G6D, 108, 76, 147, 93, 96
+    WAIT
+
+    SPEED 4
+    GOSUB Leg_motor_mode3
+    MOVE G6A, 110, 76, 147, 93, 96
+    MOVE G6D, 86, 100, 145, 69, 110
+    WAIT
+
+    SPEED 13
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO MAIN
+    ENDIF
+
+    IF check = 1 THEN
+        GOTO 전진기본n걸음_2
+    ELSE
+        MOVE G6A, 112, 76, 146, 93, 96, 100
+        MOVE G6D, 90, 100, 100, 115, 110, 100
+        WAIT
+        HIGHSPEED SETOFF
+
+        SPEED 8
+        MOVE G6A, 106, 76, 146, 93, 96, 100
+        MOVE G6D, 88, 71, 152, 91, 106, 100
+        WAIT
+
+        SPEED 2
+        'GOSUB 다리기본자세
+        GOSUB 기본자세
+
+        GOTO RX_EXIT
+    ENDIF
+
+전진기본n걸음_2:
+    MOVE G6A, 110, 76, 147, 93, 96, 100
+    MOVE G6D, 90, 90, 120, 105, 110, 100
+    'MOVE G6B, 110
+    'MOVE G6C, 90
+    WAIT
+
+전진기본n걸음_3:
+    SPEED 13
+    MOVE G6D, 86, 56, 145, 115, 110
+    MOVE G6A, 108, 76, 147, 93, 96
+    WAIT
+
+    SPEED 4
+    MOVE G6D, 110, 76, 147, 93, 96
+    MOVE G6A, 86, 100, 145, 69, 110
+    WAIT
+
+    SPEED 13
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO MAIN
+    ENDIF
+
+    보행COUNT = 보행COUNT + 1
+    '@@----------------------- 걸음 수 변경 부분 ------------------------@@
+    IF 보행COUNT = n THEN GOTO 전진기본n걸음_stop
+
+    IF check = 1 THEN
+        GOTO 전진기본n걸음_4
+    ELSE
+전진기본n걸음_stop:
+        'n = 0
+        MOVE G6A, 90, 100, 100, 115, 110, 100
+        MOVE G6D, 112, 76, 146, 93, 96, 100
+        'MOVE G6B, 90
+        'MOVE G6C, 110
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 8
+
+        MOVE G6D, 106, 76, 146, 93, 96, 100
+        MOVE G6A, 88, 71, 152, 91, 106, 100
+        'MOVE G6C, 100
+        'MOVE G6B, 100
+        WAIT
+        SPEED 2
+        GOSUB 기본자세
+
+        GOTO RX_EXIT
+    ENDIF
+
+전진기본n걸음_4:
+    MOVE G6A, 90, 90, 120, 105, 110, 100
+    MOVE G6D, 110, 76, 146, 93, 96, 100
+    WAIT
+
+    GOTO 전진기본n걸음_1
+    '-----------------------
 전진기본10걸음:
     check = 0
     보행COUNT = 0
