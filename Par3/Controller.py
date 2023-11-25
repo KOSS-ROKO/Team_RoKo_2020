@@ -659,61 +659,9 @@ class Controller:
                             break
                 else:
                     continue
-                     
-                    
                 
-            ##### straight 알고리즘하다가 중앙이 흐트려졌을 거라 판단하여 -> 중앙 맞추기 시작
-            
-            ### field 블랙 판별 => 좌우 퍼팅 결정   
-            Distance.field = robo._image_processor.field() #return left, right
-            Distance.field = "left" ##temp
-            #몸 퍼팅 위치에 서기
-            if Distance.field == "left" :
-                print("field left!!")
-                motion.pose("LEFT")
-            elif Distance.field == "right" :
-                print("field right!!")
-                motion.pose("RIGHT")
-
-            
-            ''' 홀컵 찾기, 홀컵 거리 재기 안 할 거라 일단 주석처리했음
-            
-            # 거리 알고리즘    
-            # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
-            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
-            
-            motion.head("DOWN", 45)
-            time.sleep(2)
-            
-            # ud_for_dist 하기전에 holecup 찾기
-            # holecup찾기 (고개 O, 몸 X)
-            while True:
-                big_LR("holecup")
-                is_small_LR = small_LR("holecup")
-
-                if is_small_LR == "Except" :
-                    print("holecup small lr except")
-                    motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                    
-                    big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
-                else:
-                    break
-            
-            
-            motion.head("DOWN", 45)
-            Distance.Head_UD_Angle = 10
-            holecup_UD_for_dist() # 홀컵 거리 재기
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            time.sleep(2)
-                            
-            # 홀컵 거리 재기
-            Distance.holecup_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
-            
-            print("holecup dist : ", Distance.holecup_dist)
-            # 이 length를 퍼팅 파워로 바꿔주는 코드 필요 -> 직접해보면서 조절
-            '''
+                     
+            motion.pose("LEFT")
 
             self.act = Act.PUTTING
 
@@ -772,7 +720,7 @@ class Controller:
                 
                 
             ### 진짜 퍼팅
-            motion.putting(Distance.field, 3, 2)
+            motion.putting("LEFT", 3, 2)
             time.sleep(5)
                 
                 
