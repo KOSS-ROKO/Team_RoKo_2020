@@ -919,7 +919,7 @@ class Controller:
                 self.act = Act.WALK_BALL
             
             
-            #return True
+            return True
         
         
         #-----------------------------------#
