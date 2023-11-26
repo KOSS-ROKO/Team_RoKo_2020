@@ -19,10 +19,11 @@ print('code: ImageProcessor.py - ## Debug')
 class ImageProcessor:
     def __init__(self, video= ""):
         print("init_imgprocessor")
+
+        self.upper_red1 = np.array([10, 255, 255])
         self.lower_red1 = np.array([0, 100, 100]) 
-        self.upper_red1 = np.array([10, 255, 255])  
-        self.lower_red2 = np.array([160, 20, 100])
-        self.upper_red2 = np.array([179, 255, 255])
+        self.upper_red2 = np.array([180, 187, 232]) 
+        self.lower_red2 = np.array([72, 93, 157])
 
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 20, 100), (179, 255, 255))
@@ -42,8 +43,8 @@ class ImageProcessor:
         # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
 
-        self.lower_yellow = np.array([0, 40, 122])
-        self.upper_yellow = np.array([40, 250, 255])
+        self.upper_yellow = np.array([212, 112, 195])
+        self.lower_yellow = np.array([157, 71, 40])
 
         #outside dongbang
         # lower_yellow = np.array([0, 40, 122])
@@ -117,17 +118,26 @@ class ImageProcessor:
                 
         imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
         
-        # inside dongbang
-        imgThreshLow = cv2.inRange(imgHSV, tuple(self.lower_red1), tuple(self.upper_red1))
-        imgThreshHigh = cv2.inRange(imgHSV, tuple(self.lower_red2), tuple(self.upper_red2))
-        
-        imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
+        lower_red = self.lower_red2
+        upper_red = self.upper_red2
 
-        imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
-        imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
+        red_mask = cv2.inRange(imgHSV,lower_red, upper_red)
+        # red_objects = cv2.bitwise_and(frame, frame, mask=red_mask)
+        imgThresh = cv2.erode(red_mask, np.ones((5, 5), np.uint8))
         imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
-
+        imgThresh = cv2.GaussianBlur(imgThresh, (5, 5), 0)
+        # gray_frame = cv2.cvtColor(imgThresh, cv2.COLOR_BGR2GRAY)
         
+        # inside dongbang
+        # imgThreshLow = cv2.inRange(imgHSV, tuple(self.lower_red1), tuple(self.upper_red1))
+        # imgThreshHigh = cv2.inRange(imgHSV, tuple(self.lower_red2), tuple(self.upper_red2))
+        
+        # imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
+
+        # imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
+        # imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
+        # imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
+
         
 
         if(role=="call_TF"):  

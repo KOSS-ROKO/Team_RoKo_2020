@@ -377,7 +377,7 @@ if __name__ == '__main__':
     #---------------------------
     camera.set(3, W_View_size)
     camera.set(4, H_View_size)
-    camera.set(5, 60)
+    camera.set(5, 30)
     time.sleep(0.5)
     #---------------------------
     
