@@ -628,6 +628,8 @@ if __name__ == '__main__':
         mask = cv2.dilate(mask, None, iterations=1)
         mask = cv2.GaussianBlur(mask, (3, 3), 2)  # softly
         
+        
+        
         mask0 = cv2.erode(mask0, None, iterations=1)
         mask0 = cv2.dilate(mask0, None, iterations=1)
         mask0 = cv2.GaussianBlur(mask0, (3, 3), 2)  # softly
