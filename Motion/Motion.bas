@@ -692,7 +692,6 @@ KEY16: ' POWER
     SPEED 4
     GOSUB 앉은자세
     'GOSUB 종료음
-
     GOSUB MOTOR_GET
     GOSUB MOTOR_OFF
 
@@ -1023,7 +1022,7 @@ KEY103:
     GOTO 후진기본한걸음
     '---------------------------------
 KEY104:
-    ETX 4800,104
+    'ETX 4800,104
     n = 10
     GOTO 전진기본n걸음
     '-------------------------------------------
@@ -1101,6 +1100,8 @@ KEY122:
     GOTO 고개좌우중앙
 KEY123:
     ETX 4800,123
+    n = 6
+    GOTO 전진기본n걸음
 KEY124:
     ETX 4800,124
     GOTO 고개하향3
@@ -1144,7 +1145,7 @@ KEY138:
     ETX 4800,138
     GOTO 고개우향3
 KEY139:
-    ETX 4800,139
+    'ETX 4800,139
     GOTO 고개우향6
 KEY140:
     ETX 4800,140
@@ -1380,108 +1381,108 @@ KEY181:
     '---------------------------------------------------------------------------------------------------
     '# ----------------- 중앙 맞추기 ------------------- #
 고개중앙:
-    SPEED 3
+    SPEED 6
     머리상하 = 상하영점
     머리좌우 = 좌우영점
     SERVO 11,머리좌우
     SERVO 16,머리상하
     GOTO RX_EXIT
 고개상하중앙:
-    SPEED 3
+    SPEED 6
     머리상하 = 상하영점
     SERVO 16,머리상하
     GOTO RX_EXIT
 고개좌우중앙:
-    SPEED 3
+    SPEED 6
     머리좌우 = 좌우영점
     SERVO 11,머리좌우
     GOTO RX_EXIT
     '-------------------- -----하향
 고개하향3:
-    SPEED 3
+    SPEED 6
     머리상하 = 머리상하 - 3
     SERVO 16, 머리상하
     GOTO RX_EXIT
 고개하향6:
-    SPEED 3
+    SPEED 6
     머리상하 = 머리상하 - 6
     SERVO 16, 머리상하
     GOTO RX_EXIT
 고개하향9:
-    SPEED 3
+    SPEED 6
     머리상하 = 머리상하 - 9
     SERVO 16, 머리상하
     GOTO RX_EXIT
 하화각이동:
-    SPEED 3
+    SPEED 6
     머리상하 = 머리상하 - 30
     SERVO 16, 머리상하
     GOTO RX_EXIT
 고개하향45:
-    SPEED 3
+    SPEED 6
     머리상하= 머리상하 -45
     SERVO 16, 머리상하
     GOTO RX_EXIT
 고개하향63:
-    SPEED 3
+    SPEED 6
     머리상하= 상하영점 - 63
     SERVO 16, 머리상하
     GOTO RX_EXIT
     '------------------------ -------상향
 고개상향3:
-    SPEED 3
+    SPEED 6
     머리상하= 머리상하 + 3
     SERVO 16, 머리상하
     GOTO RX_EXIT
 고개상향6:
-    SPEED 3
+    SPEED 6
     머리상하= 머리상하 + 6
     SERVO 16, 머리상하
     GOTO RX_EXIT
 고개상향9:
-    SPEED 3
+    SPEED 6
     머리상하= 머리상하 + 9
     SERVO 16, 머리상하
     GOTO RX_EXIT
 상화각이동:
-    SPEED 3
+    SPEED 6
     머리상하 = 머리상하 + 30
     SERVO 16, 머리상하
     GOTO RX_EXIT
 고개상향45:
-    SPEED 3
+    SPEED 6
     머리상하= 머리상하 +45
     SERVO 16, 머리상하
     GOTO RX_EXIT
     '------------------------------좌향
 고개좌향3:
-    SPEED 3
+    SPEED 6
     머리좌우= 머리좌우 - 3
     SERVO 11, 머리좌우
     GOTO RX_EXIT
 고개좌향6:
-    SPEED 3
+    SPEED 6
     머리좌우= 머리좌우 - 6
     SERVO 11, 머리좌우
     GOTO RX_EXIT
 좌화각이동:
-    SPEED 3
+    SPEED 6
     머리좌우= 머리좌우 - 30
     SERVO 11, 머리좌우
     GOTO RX_EXIT
     '--------------------------우향
 고개우향3:
-    SPEED 3
+    SPEED 6
     머리좌우= 머리좌우 + 3
     SERVO 11, 머리좌우
     GOTO RX_EXIT
 고개우향6:
-    SPEED 3
+    SPEED 6
     머리좌우= 머리좌우 + 6
     SERVO 11, 머리좌우
     GOTO RX_EXIT
 우화각이동:
-    SPEED 3
+    SPEED 6
     머리좌우= 머리좌우 + 30
     SERVO 11, 머리좌우
     GOTO RX_EXIT
@@ -1689,7 +1690,7 @@ KEY181:
     GOSUB 안정화자세
 
     GOSUB 걸음자세OFF
-    SPEED 5
+    SPEED 6
     GOSUB 다리기본자세
     'GOSUB 기본자세
 
@@ -1730,7 +1731,7 @@ KEY181:
     HIGHSPEED SETOFF
 
     GOSUB 걸음자세OFF
-    SPEED 5
+    SPEED 6
     GOSUB 다리기본자세
     'GOSUB 기본자세
     GOTO RX_EXIT
@@ -1786,7 +1787,7 @@ KEY181:
     SPEED 15
     GOSUB 안정화자세
     GOSUB 걸음자세OFF
-    SPEED 5
+    SPEED 6
     GOSUB 다리기본자세
     'GOSUB 기본자세
 
@@ -1843,7 +1844,7 @@ KEY181:
     GOSUB 안정화자세
     HIGHSPEED SETOFF
     GOSUB 걸음자세OFF
-    SPEED 5
+    SPEED 6
     GOSUB 다리기본자세
     'GOSUB 기본자세
 
@@ -1894,7 +1895,7 @@ KEY181:
     MOVE G6D,95,  76, 146,  93, 98, 100
     WAIT
 
-    SPEED 3
+    SPEED 4
     GOSUB 기본자세
     RETURN
     '------------------------------------
@@ -2043,7 +2044,7 @@ KEY181:
     MOVE G6D, 106,  76, 146,  93,  96,100		
     MOVE G6A,  88,  71, 152,  91, 106,100
     WAIT	
-    SPEED 4
+    SPEED 6
     'GOSUB 다리기본자세
     GOSUB 기본자세
 
@@ -2114,7 +2115,7 @@ KEY181:
     MOVE G6A,  85,  72, 148,  91, 106
     WAIT
 
-    SPEED 3
+    SPEED 6
     'GOSUB 다리기본자세
     GOSUB 기본자세
     GOTO RX_EXIT
@@ -2226,7 +2227,7 @@ KEY181:
         'MOVE G6C, 100
         'MOVE G6B, 100
         WAIT
-        SPEED 2
+        SPEED 6
         GOSUB 기본자세
 
         GOTO RX_EXIT
