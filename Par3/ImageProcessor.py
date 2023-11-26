@@ -128,6 +128,8 @@ class ImageProcessor:
                 a, b, c, d = (x+w/2,y),(x+w,y+h/2),(x+w/2,y+h),(x,y+h/2)
                 #up right down left 
                 is_red_object, red_object_center = True, (x+w/2,y+h)
+            else:
+                is_red_object, red_object_center = False, None
         else:
             is_red_object, red_object_center = False, None
                  
@@ -181,6 +183,8 @@ class ImageProcessor:
                 a, b, c, d = (x+w/2,y),(x+w,y+h/2),(x+w/2,y+h),(x,y+h/2)
                 #up right down left 
                 is_yellow_object, yellow_object_center = True, (x+w/2,y+h)
+            else:
+                is_yellow_object, yellow_object_center = False, None     
         else:
             is_yellow_object, yellow_object_center = False, None   
                 
