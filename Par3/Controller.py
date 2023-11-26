@@ -149,7 +149,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [380, 325]
+            x,y = reference_point = [394, 308]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -198,7 +198,7 @@ class Controller:
             print("ACT: ", act, "Teeshot A") # Debug
 
             time.sleep(3)
-            
+
             is_ball = robo._image_processor.detect_ball()
 
             ### False면, big UD LR 해라
@@ -251,7 +251,7 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
                 
-            
+            time.sleep(1)
             ball_pos() # 건웅 오빠
             
 
