@@ -19,6 +19,50 @@ print('code: ImageProcessor.py - ## Debug')
 class ImageProcessor:
     def __init__(self, video= ""):
         print("init_imgprocessor")
+        self.lower_red1 = np.array([0, 100, 100]) 
+        self.upper_red1 = np.array([10, 255, 255])  
+        self.lower_red2 = np.array([160, 20, 100])
+        self.upper_red2 = np.array([179, 255, 255])
+
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 20, 100), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+        
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
+
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
+
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
+
+        # minju dongbang
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
+
+        self.lower_yellow = np.array([0, 40, 122])
+        self.upper_yellow = np.array([40, 250, 255])
+
+        #outside dongbang
+        # lower_yellow = np.array([0, 40, 122])
+        # upper_yellow = np.array([40, 250, 255])
+
+        #inside dongbang
+        # lower_yellow = np.array([0, 71, 122])
+        # upper_yellow = np.array([36, 250, 250])
+        
+        # lower_yellow = np.array([10, 30, 20])
+        # upper_yellow = np.array([40, 255, 255])
+
+        # minju dongbang
+        # lower_yellow = np.array([10, 60, 150])
+        # upper_yellow = np.array([36, 200, 255])
+
+        self.lower_green = np.array([30, 70, 40])  # 초록색 최소값 (Hue: 30)
+        self.upper_green = np.array([85, 255, 255])  # 초록색 최대값 (Hue: 85)
+
 
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
@@ -71,27 +115,11 @@ class ImageProcessor:
         frame = origin.copy()
 
                 
-        imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
         
         # inside dongbang
-        imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 20, 100), (179, 255, 255))
-        # outside dongbang
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
-        
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
-
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
-
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
-
-        # minju dongbang
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
+        imgThreshLow = cv2.inRange(imgHSV, tuple(self.lower_red1), tuple(self.upper_red1))
+        imgThreshHigh = cv2.inRange(imgHSV, tuple(self.lower_red2), tuple(self.upper_red2))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
@@ -136,22 +164,11 @@ class ImageProcessor:
         frame = origin.copy()
 
         
-        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
 
         #outside dongbang
-        lower_yellow = np.array([0, 40, 122])
-        upper_yellow = np.array([40, 250, 255])
-
-        #inside dongbang
-        # lower_yellow = np.array([0, 71, 122])
-        # upper_yellow = np.array([36, 250, 250])
-        
-        # lower_yellow = np.array([10, 30, 20])
-        # upper_yellow = np.array([40, 255, 255])
-
-        # minju dongbang
-        # lower_yellow = np.array([10, 60, 150])
-        # upper_yellow = np.array([36, 200, 255])
+        lower_yellow = self.lower_yellow
+        upper_yellow = self.upper_yellow
 
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
@@ -262,13 +279,13 @@ class ImageProcessor:
         cell_height = 480 // 13
 
         # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 5 <= y_center <= cell_height * 6):
+        if (cell_height * 6 <= y_center <= cell_height * 7):
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 5:
+        elif y_center < cell_height * 6:
             return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 6:
+        elif y_center > cell_height * 7:
             return "down"
     # else:
     #     print("go far")
@@ -442,17 +459,18 @@ class ImageProcessor:
         frame = origin.copy()
     
         # HSV 색상 공간으로 변환합니다.
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
 
         # 색상 범위를 정의합니다.
-        lower_red1 = np.array([0, 70, 40])  # 빨간색 최소값 (Hue: 0)
-        upper_red1 = np.array([50, 255, 255])  # 빨간색 최대값 (Hue: 50)
-        lower_red2 = np.array([150, 60, 40])  # 빨간색 최소값 (Hue: 160)
-        upper_red2 = np.array([179, 255, 255])  # 빨간색 최대값 (Hue: 179)
-        lower_yellow = np.array([20, 70, 40])  # 노란색 최소값 (Hue: 20)
-        upper_yellow = np.array([30, 255, 255])  # 노란색 최대값 (Hue: 30)
-        lower_green = np.array([30, 70, 40])  # 초록색 최소값 (Hue: 30)
-        upper_green = np.array([85, 255, 255])  # 초록색 최대값 (Hue: 85)
+        lower_red1 = self.lower_red1  # 빨간색 최소값 (Hue: 0)
+        upper_red1 = self.upper_red1  # 빨간색 최대값 (Hue: 50)
+        lower_red2 = self.lower_red2  # 빨간색 최소값 (Hue: 160)
+        upper_red2 = self.upper_red2  # 빨간색 최대값 (Hue: 179)
+        lower_yellow = self.lower_yellow  # 노란색 최소값 (Hue: 20)
+        upper_yellow = self.upper_yellow  # 노란색 최대값 (Hue: 30)
+        lower_green = self.lower_green  # 초록색 최소값 (Hue: 30)
+        upper_green = self.upper_green  # 초록색 최대값 (Hue: 85)
+        #범위가 이상해요
         lower_pink = np.array([300, 50, 50])  # 핑크색 최소값 (예: 색조: 300, 채도: 50, 명도: 50)
         upper_pink = np.array([330, 255, 255])  # 핑크색 최대값 (예: 색조: 330, 채도: 255, 명도: 255)
 
