@@ -155,8 +155,9 @@ class ImageProcessor:
         if contours:
             largest_contour = max(contours, key=cv2.contourArea)
             x, y, w, h = cv2.boundingRect(largest_contour)
-            
+            ####33/3333333##    
         
+
 
         max_area = 0  # 가장 큰 노란색 물체의 면적
         max_area_contour = None  # 가장 큰 노란색 물체의 컨투어

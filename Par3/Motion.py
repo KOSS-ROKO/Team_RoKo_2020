@@ -239,8 +239,8 @@ class Motion:
         print("Motion putting")
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
-            "left": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
-            "right": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
+            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
+            "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
         }
         self.TX_data(dir_list[dir][power])
         time.sleep(sleep)

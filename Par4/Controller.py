@@ -259,7 +259,7 @@ class Controller:
 
             # PUTTING
             time.sleep(3)
-            motion.putting("left", 3, 2)
+            motion.putting("LEFT", 3, 2)
             print("putting")
             time.sleep(5)
 
@@ -388,7 +388,7 @@ class Controller:
             
             if point == 1:
                 time.sleep(1)
-                motion.putting("right", 3)
+                motion.putting("RIGHT", 3)
                 time.sleep(5)
                 
                 motion.turn("RIGHT", 45)
@@ -397,7 +397,7 @@ class Controller:
                 time.sleep(2)
             elif point == 2:
                 time.sleep(1)
-                motion.putting("left", 4)
+                motion.putting("LEFT", 4)
                 time.sleep(5)
                 
                 motion.turn("LEFT", 45)
@@ -408,7 +408,7 @@ class Controller:
                 # time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                motion.putting("left", 3)
+                motion.putting("LEFT", 3)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
@@ -828,7 +828,7 @@ class Controller:
                 
                 
             ### 진짜 퍼팅
-            motion.putting("left", 3, 2)
+            motion.putting("LEFT", 3, 2)
             time.sleep(5)
                 
                 
