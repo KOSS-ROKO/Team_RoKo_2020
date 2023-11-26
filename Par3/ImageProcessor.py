@@ -114,7 +114,6 @@ class ImageProcessor:
         origin = self.get_img()
         frame = origin.copy()
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
-        
         red_mask = cv2.inRange(hsv_frame, self.lower_red2, self.upper_red2)
         mask = cv2.erode(red_mask, None, iterations=1)
         mask = cv2.dilate(mask, None, iterations=1)
@@ -166,7 +165,7 @@ class ImageProcessor:
         origin = self.get_img()
         frame = origin.copy()
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
-        
+        is_yellow_object = False
         yellow_mask = cv2.inRange(hsv_frame, self.lower_yellow, self.upper_yellow)
         mask = cv2.erode(yellow_mask, None, iterations=1)
         mask = cv2.dilate(mask, None, iterations=1)
