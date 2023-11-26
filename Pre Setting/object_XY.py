@@ -23,7 +23,7 @@ def detect_red_color(image):
     lower_red_low = np.array([0, 100, 155])
     upper_red_low = np.array([50, 255, 255])
 
-    lower_red_high = np.array([160, 100, 50])
+    lower_red_high = np.array([160, 0, 50])
     upper_red_high = np.array([179, 255, 255])
 
     imgThreshLow = cv2.inRange(imgHSV, lower_red_low, upper_red_low)

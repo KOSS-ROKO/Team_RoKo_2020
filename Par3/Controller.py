@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.PUTTING_POS
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -149,7 +149,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [399, 350]
+            x,y = reference_point = [380, 325]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -197,6 +197,8 @@ class Controller:
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
 
+            time.sleep(3)
+            
             is_ball = robo._image_processor.detect_ball()
 
             ### False면, big UD LR 해라
@@ -224,9 +226,10 @@ class Controller:
 
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
+            time.sleep(1)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            
+            time.sleep(1)
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
@@ -243,7 +246,6 @@ class Controller:
 
             if ball_dist > 18:
                 motion.walk("FORWARD", ball_dist - 18)
-                    
             elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
@@ -261,8 +263,8 @@ class Controller:
 
 
             # turn body left, 몸을 왼쪽으로 90도 돌림.
-            motion.turn("LEFT", 60)
-            #time.sleep(7)
+            motion.turn("LEFT", 45)
+            time.sleep(2)
             motion.turn("LEFT", 60)
             time.sleep(2)
             print("turn LEFT")
@@ -317,15 +319,15 @@ class Controller:
             point = 0
             if Distance.head_lr_angle <= 85:
                 motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.walk_side("LEFT70")
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.walk_side("LEFT70")
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.walk_side("LEFT70")
-                time.sleep(1)
+                time.sleep(0.2)
                 motion.pose("RIGHT", True)
-                time.sleep(1)
+                time.sleep(2)
                 motion.turn("RIGHT", 10)
                 print("1번 점에서 확인")
                 point = 1
