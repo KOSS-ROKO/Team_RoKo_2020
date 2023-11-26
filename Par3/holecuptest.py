@@ -16,8 +16,10 @@ while True:
 
 
     # 노란색 홀컵 검출
-    yellow_lower = np.array([10, 30, 20])
-    yellow_upper = np.array([40, 255, 255])
+    # yellow_lower = np.array([10, 30, 20])
+    # yellow_upper = np.array([40, 255, 255])
+    yellow_lower = np.array([0, 40, 122])
+    yellow_upper = np.array([40, 250, 255])
     
     
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)

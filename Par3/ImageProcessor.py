@@ -108,8 +108,125 @@ class ImageProcessor:
     ################ DETECTION ##############
     #########################################
     #########################################
+
+    def detect_ball(self, role="call_TF"):
+        
+        
+        origin = self.get_img()
+        frame = origin.copy()
+                
+        imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+        
+        # inside dongbang
+        imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 40, 50), (179, 255, 255))
+        # outside dongbang
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+        
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
+        # minju dongbang
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
+        
+        imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
+        imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
+        imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
+        imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
+        
+        
+        if(role=="call_TF"):  
+            if cv2.countNonZero(imgThresh) > 30: # 값 바꾸세요
+                return True 
+            else:
+                return False
+            
+        elif(role=="call_video"):
+            return imgThresh
+        
+        elif(role=="call_midpoint"):
+            red_contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            
+            if red_contours:
+                red_max_contour = max(red_contours, key=cv2.contourArea)
+                M = cv2.moments(red_max_contour)
+                if M["m00"] != 0:
+                    red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"])) 
+                    #print(red_center)     
+                    return red_center
+            else:
+                return None
     
     
+    
+    def detect_holecup(self, role="call_TF"): # detect_holecup_area인데 detect_holecup으로 잠시 이름 바꿨음
+        
+        print("detect holecup start")
+        origin = self.get_img()
+        frame = origin.copy()
+        
+        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        #outside dongbang
+        lower_yellow = np.array([0, 40, 122])
+        upper_yellow = np.array([40, 250, 255])
+        #inside dongbang
+        # lower_yellow = np.array([0, 71, 122])
+        # upper_yellow = np.array([36, 250, 250])
+        
+        # lower_yellow = np.array([10, 30, 20])
+        # upper_yellow = np.array([40, 255, 255])
+        # minju dongbang
+        # lower_yellow = np.array([10, 60, 150])
+        # upper_yellow = np.array([36, 200, 255])
+        yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
+        yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
+        
+        blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
+        gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
+        _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        kernel = np.ones((5, 5), np.uint8)
+        binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
+        binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
+        contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)       
+                    
+        
+        if (role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
+            if cv2.countNonZero(binary_frame) > 50: # 값 바꾸세요
+                print("holecup TTTTTTTTTTrue")
+                return True 
+            else:
+                return False
+            
+        elif (role=="call_video"):
+            return binary_frame 
+        
+        elif (role=="call_midpoint"): ## 홀컵의 가장 아래 좌표 return
+            
+            bottom_point = (0,0)
+            max_area = 0  # 가장 큰 노란색 물체의 면적
+            max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
+            for contour in contours: 
+                area = cv2.contourArea(contour)
+                if area > max_area:
+                    max_area = area
+                    max_area_contour = contour
+                    # 최대 영역의 물체 중 가장 아래의 좌표 찾기
+                    x, y, w, h = cv2.boundingRect(max_area_contour)
+                    bottom_point = (x + w // 2, y + h)           
+            
+            if contours is not None:
+                cv2.circle(frame, bottom_point, 3, (0, 255, 0), 2)
+                return bottom_point
+            else:
+                return None
+    
+    '''
     def detect_ball(self, role="call_TF"):
         origin = self.get_img()
         frame = origin.copy()
@@ -205,7 +322,7 @@ class ImageProcessor:
         elif (role == "call_4point"):
             return a[1],b[0],c[1],d[0]
         
-        
+        '''
         
     #########################################
     #########################################
@@ -261,13 +378,13 @@ class ImageProcessor:
         cell_height = 480 // 13
 
         # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 6 <= y_center <= cell_height * 7):
+        if (cell_height * 5 <= y_center <= cell_height * 6):
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 6:
+        elif y_center < cell_height * 5:
             return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 7:
+        elif y_center > cell_height * 6:
             return "down"
     # else:
     #     print("go far")
@@ -387,7 +504,7 @@ class ImageProcessor:
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
         if red_center and yellow_center:
-            if abs(red_center[0] - yellow_center[0]) < 16:
+            if abs(red_center[0] - yellow_center[0]) <= 20:
                 result = "middle"
 
             elif red_center[0] < yellow_center[0]:
@@ -509,7 +626,7 @@ class ImageProcessor:
     #########################################
     #########################################
         
-        
+    '''
     def detect_hole_in(self):
         try:
             hup,hright, hdown,hleft = self.detect_holecup("call_4point")
@@ -520,5 +637,115 @@ class ImageProcessor:
                 return True
             else:
                 return False 
+        except Exception as e:
+            return "Error"
+
+    '''
+
+    def detect_hole_in(self):
+        
+        origin = self.get_img()
+        frame = origin.copy()
+        
+        try:
+            
+            binary_frame = self.detect_holecup("call_video")
+            
+            contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) # 노란색 홀컵 윤곽선
+            
+            
+            ##### 가장 왼쪽과 오른쪽, 위쪽 아래쪽 점 찾기
+            
+            left_point_yellow, right_point_yellow = None, None
+            up_point_yellow, down_point_yellow = None, None
+            
+            if contours:
+                for contour in contours:
+                    for point in contour:
+                        x = point[0][0]
+                        y = point[0][1]
+                        # 가장 왼쪽점 업데이트
+                        if left_point_yellow is None or x < left_point_yellow[0]:
+                            left_point_yellow = [x, y]
+                        # 가장 오른쪽점 업데이트
+                        if right_point_yellow is None or x > right_point_yellow[0]:
+                            right_point_yellow = [x, y]
+                        # 가장 아래점 업데이트
+                        if down_point_yellow is None or y > down_point_yellow[1]:
+                            down_point_yellow = [x, y]
+                        diameter = 0
+                        # 가장 위쪽점 업데이트
+                        if down_point_yellow is not None:
+                            diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 20
+                        # 제일 위쪽 점 계산
+                        up_point_yellow = [down_point_yellow[0], down_point_yellow[1] - diameter]
+            result = frame.copy()
+            if left_point_yellow is not None:
+                cv2.circle(result, tuple(left_point_yellow), 5, (0, 0, 255), -1)
+            if right_point_yellow is not None:
+                cv2.circle(result, tuple(right_point_yellow), 5, (0, 0, 255), -1)
+            if up_point_yellow is not None:
+                cv2.circle(result, tuple(up_point_yellow), 5, (0, 0, 255), -1)
+            if down_point_yellow is not None:
+                cv2.circle(result, tuple(down_point_yellow), 5, (0, 0, 255), -1)
+                
+                
+                
+            #############여기서부터 빨간공
+            
+            
+            # 빨간공 인식
+            imgThresh = self.detect_ball("call_video")
+            cv2.imshow('Red Ball Binary Image', imgThresh) # 이진화된 이미지 표시
+                
+            contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) # 빨간색 골프 공 윤곽선
+            
+            
+            ##### 가장 왼쪽과 오른쪽, 위쪽과 아래쪽 점 찾기
+            left_point_red, right_point_red = None, None
+            up_point_red, down_point_red = None, None
+            
+            if contours:
+                for contour in contours:
+                    for point in contour:
+                        x_red = point[0][0]
+                        y_red = point[0][1]
+                        # 가장 왼쪽점 업데이트
+                        if left_point_red is None or x_red < left_point_red[0]:
+                            left_point_red = [x_red, y_red]
+                        # 가장 오른쪽점 업데이트
+                        if right_point_red is None or x_red > right_point_red[0]:
+                            right_point_red = [x_red, y_red]
+                        # 가장 위쪽점 업데이트
+                        if up_point_red is None or y_red < up_point_red[1]:
+                            up_point_red = [x_red, y_red]
+                        # 가장 아래쪽점 업데이트
+                        if down_point_red is None or y_red > down_point_red[1]:
+                            down_point_red = [x_red, y_red]
+            if left_point_red is not None:
+                cv2.circle(result, tuple(left_point_red), 5, (0, 255, 0), -1)
+            if right_point_red is not None:
+                cv2.circle(result, tuple(right_point_red), 5, (0, 255, 0), -1)
+                
+            if up_point_red is not None:
+                cv2.circle(result, tuple(up_point_red), 5, (0, 255, 0), -1)
+            if down_point_red is not None:
+                cv2.circle(result, tuple(down_point_red), 5, (0, 255, 0), -1)  
+            ##### 홀인 여부 판단
+            if left_point_yellow is not None and left_point_yellow is not None:
+                A, A_prime = left_point_yellow[0], right_point_yellow[0]
+                B, B_prime = left_point_red[0], right_point_red[0]
+                C, C_prime = up_point_yellow[1], down_point_yellow[1]
+                D, D_prime = up_point_red[1], down_point_red[1]
+                
+                #if A < B < A_prime and A < B_prime < A_prime and C < D < C_prime and C < D_prime < C_prime:
+                if A < B < B_prime < A_prime and C < D < D_prime < C_prime:
+                    hole_result = True 
+                else:
+                    hole_result = False
+            else:
+                hole_result = False 
+            return hole_result     
+        
         except Exception as e:
             return "Error"

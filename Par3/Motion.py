@@ -100,20 +100,24 @@ class Motion:
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
         # 2Jforward = 2센치 종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104, "FORWARD12": 107, "FORWARD14": 108, "FORWARD15": 109,
-                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119}
+                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD6": 123} 
 
 
         print("Motion.py walk funct")
         
-        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2"):
+        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD6"):
             while dist > 0:    
                 if dist >= 24:
                     self.TX_data(dir_list["FORWARD3"])
-                    time.sleep(13)
+                    time.sleep(11)
                     dist -= 24
+                elif dist >= 48:
+                    self.TX_data(dir_list["FORWARD6"])
+                    time.sleep(18)
+                    dist -= 48
                 elif dist >= 16:
                     self.TX_data(dir_list["FORWARD2"])
-                    time.sleep(13)
+                    time.sleep(11)
                     dist -= 16
                 elif dist >= 8:
                     self.TX_data(dir_list["FORWARD"])

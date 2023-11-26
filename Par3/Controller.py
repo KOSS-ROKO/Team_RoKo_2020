@@ -148,7 +148,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [394, 308]
+            x,y = reference_point = [383, 309]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -345,7 +345,7 @@ class Controller:
             else:
                 print("2번 점에서 확인")
                 motion.pose("LEFT", True)
-                time.sleep(1)
+                time.sleep(2)
                 point = 2
             
             #-----------------------------------------------------------------------------------------------------
@@ -399,7 +399,7 @@ class Controller:
                 time.sleep(5)
                 
                 motion.turn("LEFT", 45)
-                time.sleep(6)
+                time.sleep(2)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
                 # motion.turn("LEFT", 10)
@@ -418,8 +418,12 @@ class Controller:
             self.act = Act.WALK_BALL
             #time.sleep(1)
             print("start forward 12")
-            motion.walk("FORWARD12")
-            time.sleep(20)
+            motion.walk("FORWARD6")
+            time.sleep(18)
+            motion.turn("LEFT", 20)
+            time.sleep(2)
+            motion.walk("FORWARD6")
+            time.sleep(18)
             
             # return True
                 
@@ -475,9 +479,10 @@ class Controller:
             
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
+            time.sleep(1)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(1)
+            time.sleep(4)
             
             print("ball detected")
             UD_for_dist("ball")
@@ -537,7 +542,7 @@ class Controller:
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(1)
+            time.sleep(3)
             
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
