@@ -117,7 +117,7 @@ class Motion:
                     dist -= 16
                 elif dist >= 8:
                     self.TX_data(dir_list["FORWARD"])
-                    time.sleep(6)
+                    time.sleep(4)
                     dist -= 8
                 elif 3 <= dist < 8:
                     self.TX_data(dir_list["JFORWARD"])
