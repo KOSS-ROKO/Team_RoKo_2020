@@ -131,7 +131,7 @@ class ImageProcessor:
                 is_red_object, red_object_center = True, (x+w/2,y+h)
         else:
             is_red_object, red_object_center = False, None
-        center = None          
+                 
         # is_red_object = False
         # c = max(contours, key=cv2.contourArea)
         # Area = cv2.contourArea(c) / self.min_area[1]
@@ -172,19 +172,19 @@ class ImageProcessor:
         mask = cv2.dilate(mask, None, iterations=1)
         mask = cv2.GaussianBlur(mask, (3,3), 2)
         
-        contours = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]      
-        
-        center = None          
-        is_yellow_object = False
-        c = max(contours, key=cv2.contourArea)
-        Area = cv2.contourArea(c) / self.min_area[1]
-        
-        if Area > self.min_area[1]:
+        contours = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]   
+
+        if contours:
+            c = max(contours, key=cv2.contourArea)
+            Area = cv2.contourArea(c) / self.min_area[1]
+            if Area > self.min_area[1]:
                 x, y, w, h = cv2.boundingRect(c)
                 a, b, c, d = (x+w/2,y),(x+w,y+h/2),(x+w/2,y+h),(x,y+h/2)
+                #up right down left 
                 is_yellow_object, yellow_object_center = True, (x+w/2,y+h)
         else:
-            is_yellow_object = False
+            is_yellow_object, yellow_object_center = False, None   
+                
                 
         
         if (role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
