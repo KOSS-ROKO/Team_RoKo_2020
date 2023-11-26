@@ -20,6 +20,51 @@ class ImageProcessor:
     def __init__(self, video= ""):
         print("init_imgprocessor")
 
+        self.upper_red1 = np.array([10, 255, 255])
+        self.lower_red1 = np.array([0, 100, 100]) 
+        self.upper_red2 = np.array([180, 187, 232]) 
+        self.lower_red2 = np.array([72, 93, 157])
+
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 20, 100), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+        
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
+
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
+
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
+
+        # minju dongbang
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
+
+        self.upper_yellow = np.array([212, 112, 195])
+        self.lower_yellow = np.array([157, 71, 40])
+
+        #outside dongbang
+        # lower_yellow = np.array([0, 40, 122])
+        # upper_yellow = np.array([40, 250, 255])
+
+        #inside dongbang
+        # lower_yellow = np.array([0, 71, 122])
+        # upper_yellow = np.array([36, 250, 250])
+        
+        # lower_yellow = np.array([10, 30, 20])
+        # upper_yellow = np.array([40, 255, 255])
+
+        # minju dongbang
+        # lower_yellow = np.array([10, 60, 150])
+        # upper_yellow = np.array([36, 200, 255])
+
+        self.lower_green = np.array([30, 70, 40])  # 초록색 최소값 (Hue: 30)
+        self.upper_green = np.array([85, 255, 255])  # 초록색 최대값 (Hue: 85)
+
+
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
@@ -71,25 +116,28 @@ class ImageProcessor:
         frame = origin.copy()
 
                 
-        imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
         
+        lower_red = self.lower_red2
+        upper_red = self.upper_red2
 
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
-        
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
-
-        imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
-        
-        imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
-
-        imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
-        imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
+        red_mask = cv2.inRange(imgHSV,lower_red, upper_red)
+        # red_objects = cv2.bitwise_and(frame, frame, mask=red_mask)
+        imgThresh = cv2.erode(red_mask, np.ones((5, 5), np.uint8))
         imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
-
+        imgThresh = cv2.GaussianBlur(imgThresh, (5, 5), 0)
+        # gray_frame = cv2.cvtColor(imgThresh, cv2.COLOR_BGR2GRAY)
         
+        # inside dongbang
+        # imgThreshLow = cv2.inRange(imgHSV, tuple(self.lower_red1), tuple(self.upper_red1))
+        # imgThreshHigh = cv2.inRange(imgHSV, tuple(self.lower_red2), tuple(self.upper_red2))
+        
+        # imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
+
+        # imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
+        # imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
+        # imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
+
         
 
         if(role=="call_TF"):  
@@ -126,14 +174,11 @@ class ImageProcessor:
         frame = origin.copy()
 
         
-        
-        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
 
-        # lower_yellow = np.array([0, 71, 122])
-        # upper_yellow = np.array([36, 250, 250])
-        
-        lower_yellow = np.array([10, 30, 20])
-        upper_yellow = np.array([40, 255, 255])
+        #outside dongbang
+        lower_yellow = self.lower_yellow
+        upper_yellow = self.upper_yellow
 
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
@@ -148,82 +193,45 @@ class ImageProcessor:
         binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
         binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
 
-        contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        
-        
-        ##### distance 할 때만 필요.
-        if contours:
-            largest_contour = max(contours, key=cv2.contourArea)
-            x, y, w, h = cv2.boundingRect(largest_contour)
-            ####33/3333333##    
-        
-
-
-        max_area = 0  # 가장 큰 노란색 물체의 면적
-        max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
-
-        for contour in contours: 
-            area = cv2.contourArea(contour)
-
-            if area > max_area:
-                max_area = area
-                max_area_contour = contour
-
-        if max_area_contour is not None:
-            M = cv2.moments(max_area_contour)
-            if M["m00"] != 0:
-                center_x = int(M["m10"] / M["m00"])
-                center_y = int(M["m01"] / M["m00"])
-
-                # 노란색 물체의 크기에 따라 초록색 원 그리기
-                radius = int(max_area ** 0.5 / 2)
-                cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-                # 중심 좌표 표시
-                cv2.circle(frame, (center_x, center_y), 2, (0, 0, 255), -1)
-
-                # 중심 좌표가 초록색 원 안에 있는지 확인
-                if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
-                    # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
-                    cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-                    
+        contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)       
                     
 
         
         if (role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
             if cv2.countNonZero(binary_frame) > 50: # 값 바꾸세요
-                #print("holecup true")
+                print("holecup TTTTTTTTTTrue")
                 return True 
             else:
                 return False
             
-        elif (role=="call_video"): ## 홀컵의 w 크기 return
+        elif (role=="call_video"):
             return binary_frame 
         
-        elif (role=="call_midpoint"): ## 홀컵의 중앙 좌표 return
+        elif (role=="call_midpoint"): ## 홀컵의 가장 아래 좌표 return
+            
+            bottom_point = (0,0)
+            max_area = 0  # 가장 큰 노란색 물체의 면적
+            max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
 
-            if max_area_contour is not None:
-                M = cv2.moments(max_area_contour)
-                if M["m00"] != 0:
-                    center_x = int(M["m10"] / M["m00"])
-                    center_y = int(M["m01"] / M["m00"])
+            for contour in contours: 
+                area = cv2.contourArea(contour)
 
-                    # 노란색 물체의 크기에 따라 초록색 원 그리기
-                    # radius = int(max_area ** 0.5 / 2)
-                    # cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-                    # 중심 좌표 표시
-                    # cv2.circle(frame, (center_x, center_y), 2, (0, 0, 255), -1)
-
-                    # 중심 좌표가 초록색 원 안에 있는지 확인
-                    if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
-                        # 노란색 물체의 중심이 초록색 원 안에 있을 때, 초록색 원을 그림
-                        cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-
-                    return (center_x, center_y)
-                
-                else:
-                    return None
+                if area > max_area:
+                    max_area = area
+                    max_area_contour = contour
+                    # 최대 영역의 물체 중 가장 아래의 좌표 찾기
+                    x, y, w, h = cv2.boundingRect(max_area_contour)
+                    bottom_point = (x + w // 2, y + h)           
+            
+            if contours is not None:
+                cv2.circle(frame, bottom_point, 3, (0, 255, 0), 2)
+                return bottom_point
+            else:
+                return None
+        
 
 
+        
         
         
         
@@ -250,15 +258,15 @@ class ImageProcessor:
         cell_width = 640 // 11
 
         # 빨간 공이 중앙 세로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_width * 6 <= x_center <= cell_width * 7):
+        if (cell_width * 5 <= x_center <= cell_width * 6):
             print("stop")
             return "stop"
         # 1~5번째 줄에서 검출되면 "go right" 출력
-        elif x_center < cell_width * 6:
+        elif x_center < cell_width * 5:
             print("right")
             return "right"
         # 7~11번째 줄에서 검출되면 "go left" 출력
-        elif x_center > cell_width * 7:
+        elif x_center > cell_width * 6:
             print("left")
             return "left"
     # else:
@@ -407,7 +415,7 @@ class ImageProcessor:
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
         if red_center and yellow_center:
-            if abs(red_center[0] - yellow_center[0]) < 10:
+            if abs(red_center[0] - yellow_center[0]) < 16:
                 result = "middle"
 
             elif red_center[0] < yellow_center[0]:
@@ -461,17 +469,18 @@ class ImageProcessor:
         frame = origin.copy()
     
         # HSV 색상 공간으로 변환합니다.
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
 
         # 색상 범위를 정의합니다.
-        lower_red1 = np.array([0, 70, 40])  # 빨간색 최소값 (Hue: 0)
-        upper_red1 = np.array([50, 255, 255])  # 빨간색 최대값 (Hue: 50)
-        lower_red2 = np.array([150, 60, 40])  # 빨간색 최소값 (Hue: 160)
-        upper_red2 = np.array([179, 255, 255])  # 빨간색 최대값 (Hue: 179)
-        lower_yellow = np.array([20, 70, 40])  # 노란색 최소값 (Hue: 20)
-        upper_yellow = np.array([30, 255, 255])  # 노란색 최대값 (Hue: 30)
-        lower_green = np.array([30, 70, 40])  # 초록색 최소값 (Hue: 30)
-        upper_green = np.array([85, 255, 255])  # 초록색 최대값 (Hue: 85)
+        lower_red1 = self.lower_red1  # 빨간색 최소값 (Hue: 0)
+        upper_red1 = self.upper_red1  # 빨간색 최대값 (Hue: 50)
+        lower_red2 = self.lower_red2  # 빨간색 최소값 (Hue: 160)
+        upper_red2 = self.upper_red2  # 빨간색 최대값 (Hue: 179)
+        lower_yellow = self.lower_yellow  # 노란색 최소값 (Hue: 20)
+        upper_yellow = self.upper_yellow  # 노란색 최대값 (Hue: 30)
+        lower_green = self.lower_green  # 초록색 최소값 (Hue: 30)
+        upper_green = self.upper_green  # 초록색 최대값 (Hue: 85)
+        #범위가 이상해요
         lower_pink = np.array([300, 50, 50])  # 핑크색 최소값 (예: 색조: 300, 채도: 50, 명도: 50)
         upper_pink = np.array([330, 255, 255])  # 핑크색 최대값 (예: 색조: 330, 채도: 255, 명도: 255)
 
