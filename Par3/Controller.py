@@ -141,10 +141,9 @@ class Controller:
             
         ###########
         def ball_pos(): ## 건웅 오빠
-            time.sleep(0.5)
-            motion.head("DEFAULT",63)
-
             time.sleep(1)
+            motion.head("DEFAULT", 63)
+            time.sleep(3)
             print("++++++++++++++++++")
             print("ball pos")
             print("++++++++++++++++++")
@@ -153,8 +152,6 @@ class Controller:
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
-                #motion.head("DEFAULT",63)
-                #time.sleep(2)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
                 print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
@@ -251,7 +248,7 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
                 
-            time.sleep(1)
+
             ball_pos() # 건웅 오빠
             
 
@@ -383,7 +380,7 @@ class Controller:
                 
                 
             ## 건웅 오빠
-            time.sleep(1)
+
             ball_pos()
             time.sleep(1)
             
@@ -715,8 +712,7 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)    
 
-
-            time.sleep(0.5)           
+         
             ball_pos() ## 건웅 오빠
             
                 
