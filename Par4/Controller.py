@@ -22,7 +22,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTB
+    act  = Act.WALK_BALL
     robo = Robo()
 
 
@@ -613,7 +613,7 @@ class Controller:
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(1)
+            time.sleep(3)
             
             print("ball detected")
             UD_for_dist("ball")
