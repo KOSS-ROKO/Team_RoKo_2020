@@ -100,24 +100,28 @@ class Motion:
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
         # 2Jforward = 2센치 종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104, "FORWARD12": 107, "FORWARD14": 108, "FORWARD15": 109,
-                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119}
+                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD6": 123} 
 
 
         print("Motion.py walk funct")
         
-        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2"):
+        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD6"):
             while dist > 0:    
                 if dist >= 24:
                     self.TX_data(dir_list["FORWARD3"])
-                    time.sleep(13)
+                    time.sleep(11)
                     dist -= 24
+                elif dist >= 48:
+                    self.TX_data(dir_list["FORWARD6"])
+                    time.sleep(18)
+                    dist -= 48
                 elif dist >= 16:
                     self.TX_data(dir_list["FORWARD2"])
-                    time.sleep(13)
+                    time.sleep(11)
                     dist -= 16
                 elif dist >= 8:
                     self.TX_data(dir_list["FORWARD"])
-                    time.sleep(6)
+                    time.sleep(4)
                     dist -= 8
                 elif 3 <= dist < 8:
                     self.TX_data(dir_list["JFORWARD"])
@@ -167,8 +171,8 @@ class Motion:
             'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141 },
             'UP' : { 3: 129, 6: 130, 9: 131, 30: 132, 45: 142 },
             'LEFT': { 3: 134, 6: 135, 30: 136 },
-            'RIGHT': { 3: 138, 6: 139, 30: 140 },
-            'DEFAULT': { 1: 121, 2: 122, 63: 143, 0:120 }
+            'RIGHT': { 3: 138, 6: 139, 30: 140, 90:144 },
+            'DEFAULT': { 0:120, 1: 121, 2: 122, 63: 143 }
         }
         self.TX_data(dir_list[dir][angle])
         time.sleep(0.2)
@@ -240,7 +244,8 @@ class Motion:
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
             "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
-            "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
+            "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174},
+            "PAR4": { 1:161, 2:162 }
         }
         self.TX_data(dir_list[dir][power])
         time.sleep(sleep)
