@@ -679,7 +679,7 @@ class ImageProcessor:
                         diameter = 0
                         # 가장 위쪽점 업데이트
                         if down_point_yellow is not None:
-                            diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 20
+                            diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 5
                         # 제일 위쪽 점 계산
                         up_point_yellow = [down_point_yellow[0], down_point_yellow[1] - diameter]
             result = frame.copy()

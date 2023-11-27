@@ -18,8 +18,8 @@ while True:
     # 노란색 홀컵 검출
     # yellow_lower = np.array([10, 30, 20])
     # yellow_upper = np.array([40, 255, 255])
-    yellow_lower = np.array([0, 40, 122])
-    yellow_upper = np.array([40, 250, 255])
+    yellow_lower = np.array([10, 60, 150])
+    yellow_upper = np.array([36, 200, 255])
     
     
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -67,7 +67,7 @@ while True:
                 diameter = 0
                 # 가장 위쪽점 업데이트
                 if down_point_yellow is not None:
-                    diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 20
+                    diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 5
 
                 # 제일 위쪽 점 계산
                 up_point_yellow = [down_point_yellow[0], down_point_yellow[1] - diameter]

@@ -318,28 +318,33 @@ class Head:
         robo = self.robo
         check = robo._image_processor.ball_hole_straight()
 
-        if check == "middle":                            
+        if check == "middle": 
+            print("Striaht stop")                           
             return True
         elif check == "right":   ### 찌그째그 걸음으로 오른쪽으로 원그리며 이동
             robo._motion.walk_side("RIGHT10")
-            time.sleep(0.5)
+            time.sleep(2)
             
             turn_check = robo._image_processor.ball_hole_straight()
             if turn_check == "middle":
+                print("after straight")
                 pass
             else:   
+                print("straight turn")
                 robo._motion.turn("LEFT", 15)
                 time.sleep(1)
 
             return False               
         elif check == "left":    ## 똑같이 왼쪽으로 이동
             robo._motion.walk_side("LEFT10")
-            time.sleep(0.5)
+            time.sleep(2)
             
             turn_check = robo._image_processor.ball_hole_straight()
             if turn_check == "middle":
+                print("after straight")
                 pass
-            else:   
+            else:  
+                print("straight turn") 
                 robo._motion.turn("RIGHT", 15)
                 time.sleep(1)
                         

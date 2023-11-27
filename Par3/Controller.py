@@ -577,6 +577,7 @@ class Controller:
             print("^^^^333333")
             print("^^^^333333")
 
+            time.sleep(1)
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(1)
             Distance.Head_UD_Angle = 55
@@ -584,9 +585,10 @@ class Controller:
             
             is_holecup_in_frame = robo._image_processor.detect_holecup()
             
-            motion.head("DEFAULT", 1) # 고개 상하 디폴트
             
-            if is_holecup_in_frame == False:    
+            
+            if is_holecup_in_frame == False:  
+                motion.head("DEFAULT", 1) # 고개 상하 디폴트  
                 print("holecup NONONONONONO")
                 # big UD head
                 while True:
@@ -605,7 +607,7 @@ class Controller:
                     else:
                         break
 
-               
+            '''
                 #====== holecup 고개 방향만큼 꽃게 걸음 ======#
                 side_walk = int(abs(100-Distance.head_lr_angle)//10) # 식은 시행착오거치면서 변경예정
 
@@ -629,6 +631,7 @@ class Controller:
                     
             print("holecup YES")
             ###### 홀컵 찾음, 중앙 맞췄음. 일직선 맞추고, 이제 거리 재야됨
+            '''
   
 
             
@@ -667,6 +670,7 @@ class Controller:
                 
                      
             motion.pose("LEFT")
+            time.sleep(3)
 
             self.act = Act.PUTTING
 
