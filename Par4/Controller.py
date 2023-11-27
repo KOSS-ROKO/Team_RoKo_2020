@@ -295,7 +295,7 @@ class Controller:
             
 
             # PUTTING
-            time.sleep(4)
+            time.sleep(5)
             motion.putting("PAR4", 1, 2)
             print("putting")
             time.sleep(5)
