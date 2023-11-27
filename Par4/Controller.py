@@ -405,7 +405,7 @@ class Controller:
                 # time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                motion.putting("LEFT", 3)
+                #motion.putting("LEFT", 3)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
@@ -432,7 +432,7 @@ class Controller:
 
             print("^^두번째 티샷^^")
 
-            motion.turn("LEFT", 45)
+            motion.turn("RIGHT", 45)
             time.sleep(2)
             
             

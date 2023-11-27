@@ -119,6 +119,7 @@ class ImageProcessor:
         mask = cv2.dilate(mask, None, iterations=1)
         mask = cv2.GaussianBlur(mask, (3,3), 2)
         is_red_object = False
+        red_object_center = None
         contours = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]      
         if contours:
             c = max(contours, key=cv2.contourArea)
@@ -128,6 +129,8 @@ class ImageProcessor:
                 a, b, c, d = (x+w/2,y),(x+w,y+h/2),(x+w/2,y+h),(x,y+h/2)
                 #up right down left 
                 is_red_object, red_object_center = True, (x+w/2,y+h)
+            else:
+                is_red_object, red_object_center = False, None
         else:
             is_red_object, red_object_center = False, None
                  
@@ -166,6 +169,7 @@ class ImageProcessor:
         frame = origin.copy()
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
         is_yellow_object = False
+        yellow_object_center = None
         yellow_mask = cv2.inRange(hsv_frame, self.lower_yellow, self.upper_yellow)
         mask = cv2.erode(yellow_mask, None, iterations=1)
         mask = cv2.dilate(mask, None, iterations=1)
@@ -181,6 +185,8 @@ class ImageProcessor:
                 a, b, c, d = (x+w/2,y),(x+w,y+h/2),(x+w/2,y+h),(x,y+h/2)
                 #up right down left 
                 is_yellow_object, yellow_object_center = True, (x+w/2,y+h)
+            else:
+                is_yellow_object, yellow_object_center = False, None 
         else:
             is_yellow_object, yellow_object_center = False, None   
                 
