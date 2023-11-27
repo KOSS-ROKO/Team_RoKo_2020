@@ -295,7 +295,7 @@ class Controller:
             
 
             # PUTTING
-            time.sleep(3)
+            time.sleep(4)
             motion.putting("PAR4", 1, 2)
             print("putting")
             time.sleep(5)
@@ -424,7 +424,7 @@ class Controller:
 
             
             if point == 1:
-                time.sleep(1)
+                time.sleep(2)
                 motion.putting("RIGHT", 3)
                 time.sleep(5)
                 
@@ -433,7 +433,7 @@ class Controller:
                 motion.turn("RIGHT", 45)
                 time.sleep(2)
             elif point == 2:
-                time.sleep(1)
+                time.sleep(2)
                 motion.putting("PAR4", 1)
                 time.sleep(5)
                 
@@ -444,7 +444,7 @@ class Controller:
                 # motion.turn("LEFT", 10)
                 # time.sleep(3)
             elif point == 3:
-                time.sleep(1)
+                time.sleep(2)
                 motion.putting("PAR4", 1)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
@@ -538,7 +538,7 @@ class Controller:
             # ball_pos() ## 건웅 오빠
             
             motion.head("DEFAULT", 1)
-            time.sleep(1)
+            time.sleep(2)
 
             ### 진짜 두번째 TEESHOT
             motion.putting("PAR4", 2)
@@ -546,9 +546,9 @@ class Controller:
                 
             self.act = Act.WALK_BALL
 
-            motion.turn("LEFT", 45)
+            motion.turn("RIGHT", 45)
             time.sleep(2)
-            motion.turn("LEFT", 45)
+            motion.turn("RIGHT", 45)
             time.sleep(2)
 
 
