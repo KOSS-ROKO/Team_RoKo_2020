@@ -376,7 +376,7 @@ class Controller:
                 time.sleep(1)
                 motion.walk_side("RIGHT70")
                 time.sleep(1)
-                motion.pose("LEFT")
+                motion.pose("LEFT", True)
                 time.sleep(1)
                 motion.turn("LEFT", 15)
                 print("3번 점에서 확인")
