@@ -551,6 +551,9 @@ class Controller:
             motion.turn("RIGHT", 45)
             time.sleep(2)
 
+            motion.walk("FORWARD14")
+            time.sleep(25)
+
 
             # return True
         
