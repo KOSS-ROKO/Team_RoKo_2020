@@ -387,7 +387,6 @@ class Controller:
                 time.sleep(1)
                 motion.putting("RIGHT", 3)
                 time.sleep(5)
-                
                 motion.turn("RIGHT", 45)
                 time.sleep(2)
                 motion.turn("RIGHT", 45)
@@ -405,7 +404,7 @@ class Controller:
                 # time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                #motion.putting("LEFT", 3)
+                motion.putting("LEFT", 3)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
@@ -547,7 +546,7 @@ class Controller:
         
             
             is_ball = robo._image_processor.detect_ball()
-            
+            time.sleep(1)
 
             ### False면, big UD LR 해라
             if is_ball == False:  
