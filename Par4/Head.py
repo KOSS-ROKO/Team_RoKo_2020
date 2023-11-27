@@ -52,7 +52,7 @@ class Head:
                     big_lr_angle -= 30 # 10은 임의 값
                     if big_lr_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                         max_right_flag = 0
-                        big_lr_angle = 100
+                        # big_lr_angle = 100
                         robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
                 return check, big_lr_angle, max_right_flag
         
