@@ -1249,15 +1249,19 @@ KEY165:
     GOTO RX_EXIT
 KEY166:
     ETX 4800,166
+   	GOTO 좌홀컵턴5
     GOTO RX_EXIT
 KEY167:
     ETX 4800,167
+    GOTO 좌홀컵턴10
     GOTO RX_EXIT
 KEY168:
     ETX 4800,168
+    GOTO 우홀컵턴5
     GOTO RX_EXIT
 KEY169:
     ETX 4800,169
+    GOTO 우홀컵턴5
     GOTO RX_EXIT
     '####### --------------------- KEY170-189 좌우퍼팅
     '퍼팅강도들은 임의로 지정했으므로 추후 수정할 것
@@ -1488,11 +1492,6 @@ KEY181:
 우화각이동:
     SPEED 6
     머리좌우= 머리좌우 + 30
-    SERVO 11, 머리좌우
-    GOTO RX_EXIT
-고개우향최대각:
-	SPEED 6
-	머리좌우 = 좌우영점 + 90
     SERVO 11, 머리좌우
     GOTO RX_EXIT
     '-----------------------------------------------------------------------
@@ -2620,3 +2619,81 @@ KEY181:
     WAIT
     GOSUB 기본자세
     GOTO RX_EXIT
+
+
+'오른쪽10도 왼쪽10도 몸 , 왼쪽턴5도 오른쪽턴5도 기본자세 정면은 안보고 
+' 상향최대각은 팔도 같이 움직이세요.
+'----------------------------
+고개우향최대각:
+	SPEED 6
+	머리좌우 = 좌우영점 + 90
+    SERVO 11, 머리좌우
+    GOSUB 오른팔내리기
+    GOTO RX_EXIT
+'---------------------------------------
+좌홀컵턴5:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    SPEED 5
+    MOVE G6A,100,  81, 145,  88, 106, 100
+    MOVE G6D,94,  71, 145, 98, 100, 100
+    WAIT
+    SPEED 12
+    MOVE G6A,97,  81, 145,  88, 104, 100
+    MOVE G6D,91,  71, 145, 98, 96, 100
+    WAIT
+    SPEED 6
+    MOVE G6A,101,  76, 146,  93, 98, 100
+    MOVE G6D,101,  76, 146,  93, 98, 100
+    WAIT
+    GOSUB 다리기본자세
+    RETURN
+
+우홀컵턴5:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    SPEED 5
+    MOVE G6A,97,  71, 145,  98, 103, 100
+    MOVE G6D,97,  81, 145,  88, 103, 100
+    WAIT
+    SPEED 12
+    MOVE G6A,94,  71, 145,  98, 101, 100
+    MOVE G6D,94,  81, 145,  88, 101, 100
+    WAIT
+    SPEED 6
+    MOVE G6A,101,  76, 146,  93, 98, 100
+    MOVE G6D,101,  76, 146,  93, 98, 100
+    WAIT
+    GOSUB 다리기본자세
+    RETURN
+좌홀컵턴10:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    SPEED 5
+    MOVE G6A,100,  86, 145,  83, 106, 100
+    MOVE G6D,94,  66, 145, 103, 100, 100
+    WAIT
+    SPEED 12
+    MOVE G6A,97,  86, 145,  83, 104, 100
+    MOVE G6D,91,  66, 145, 103, 96, 100
+    WAIT
+    SPEED 6
+    MOVE G6A,101,  76, 146,  93, 98, 100
+    MOVE G6D,101,  76, 146,  93, 98, 100
+    WAIT
+    GOSUB 다리기본자세
+    RETURN
+우홀컵턴10:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    SPEED 15
+    MOVE G6A,95,  36, 145,  133, 105, 100
+    MOVE G6D,95,  116, 145,  53, 105, 100
+    WAIT
+    SPEED 15
+    MOVE G6A,90,  36, 145,  133, 105, 100
+    MOVE G6D,90,  116, 145,  53, 105, 100
+    WAIT
+    SPEED 10
+    GOSUB 다리기본자세
+    RETURN
