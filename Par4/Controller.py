@@ -420,7 +420,7 @@ class Controller:
 
             time.sleep(1)
             ball_pos() ## 건웅 오빠
-            time.sleep(1)
+            time.sleep(5)
 
             
             if point == 1:
@@ -538,7 +538,7 @@ class Controller:
             # ball_pos() ## 건웅 오빠
             
             motion.head("DEFAULT", 1)
-            time.sleep(2)
+            time.sleep(5)
 
             ### 진짜 두번째 TEESHOT
             motion.putting("PAR4", 2)
