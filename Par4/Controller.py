@@ -591,10 +591,9 @@ class Controller:
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         is_big_LR = big_LR("ball")  # big은 알아서 고개 디폴트 함 
                         if is_big_LR == "Except": #big LR 했는데도 공 안보이는 경우
-                            motion.head("UP",9) #고개 들어올리고 다시 LR
-                            time.sleep(1)
-                            motion.head("UP", 6)
-                            time.sleep(1)
+                            time.sleep(2)
+                            motion.head("DEFAULT", 0)
+                            time.sleep(2)
                             big_LR("ball")
                             
                     is_small_LR = ball_small_LR("ball")
