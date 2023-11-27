@@ -244,7 +244,8 @@ class Motion:
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
             "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
-            "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174}
+            "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174},
+            "PAR4": { 1:161, 2:162 }
         }
         self.TX_data(dir_list[dir][power])
         time.sleep(sleep)
@@ -259,7 +260,11 @@ class Motion:
         self.TX_data(dir_list[dir])
         time.sleep(2)
 
+    def holecup_turn(self, dir, angle):
+        dir_list = {'LEFT':{5:166, 10:167}, 'RIGHT':{5:168, 10:169}}
             
+        self.TX_data(dir_list[dir][angle])
+        time.sleep(1)
 
     ############################################################
 
