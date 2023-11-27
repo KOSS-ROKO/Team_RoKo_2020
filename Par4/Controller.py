@@ -29,7 +29,7 @@ class Controller:
     @classmethod  
     def start(self):
 
-        act = self.act
+        act = self.act 
         robo = self.robo
         
         head = Head()
@@ -71,7 +71,7 @@ class Controller:
                     print("head_lr_angle : ", Distance.head_lr_angle)
                 if Distance.head_lr_angle == -90:
                     return "Except"
-                     #왼쪽 max까지 갔는데 공 못찾으면 
+                    #왼쪽 max까지 갔는데 공 못찾으면 
                     #head.big_UD_head()
                     # 예외처리 : big up down 코드
             #고개 정면 코드 추가하기
@@ -145,17 +145,20 @@ class Controller:
             
         ###########
         def ball_pos(): ## 건웅 오빠
+            time.sleep(0.5)
+            motion.head("DEFAULT",63)
+
             time.sleep(1)
-            motion.head("DEFAULT", 63)
-            time.sleep(3)
             print("++++++++++++++++++")
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [394, 308]
+            x,y = reference_point = [399, 350]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
+                #motion.head("DEFAULT",63)
+                #time.sleep(2)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
                 print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
@@ -190,7 +193,42 @@ class Controller:
                     is_center = True
         ##########
         
-        
+        def Set_holecup_right():
+            time.sleep(0.5)
+            motion.head("DEFAULT", 120) # 고개 디폴트
+            holecup_check = 0
+            for i in range(3):
+                if robo._image_processor.detect_holecup():
+                    holecup_check += 1
+                    break
+                time.sleep(0.5)
+                motion.head("Right",30)
+                time.sleep(0.5)
+            motion.head("Right",144)    # 머리 오른쪽 90도
+            if holecup_check:
+                while True:
+                    time.sleep(0.5)
+                    robo._motion.turn("LEFT", 10)
+                    time.sleep(1.5)
+                    if robo._image_processor.detect_holecup():
+                        break
+            else:
+                while True:
+                    time.sleep(0.5)
+                    robo._motion.turn("Right", 10)
+                    time.sleep(1.5)
+                    if robo._image_processor.detect_holecup():
+                        break
+            is_right = False
+            while not is_right:
+                holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
+                if holecup_midpoint[0] <= 640/13 * 11:
+                    time.sleep(0.5)
+                    robo._motion.turn("Right", 5)
+                    time.sleep(1.5)
+                else:
+                    is_right = True
+                    break
         
         #=======================================================#
         #                      1. Teeshot A                     #         
@@ -379,7 +417,7 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
                 time.sleep(1)
 
-
+            time.sleep(1)
             ball_pos() ## 건웅 오빠
             time.sleep(1)
 
@@ -388,7 +426,8 @@ class Controller:
                 time.sleep(1)
                 motion.putting("RIGHT", 3)
                 time.sleep(5)
-                motion.turn("RIGHT", 45)
+                
+                motion.turn("RIGHT", 45) 
                 time.sleep(2)
                 motion.turn("RIGHT", 45)
                 time.sleep(2)
@@ -431,14 +470,9 @@ class Controller:
             print("ACT: ", act) # Debug
 
             print("^^두번째 티샷^^")
-
-            motion.turn("RIGHT", 45)
-            time.sleep(2)
-            
             
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(2)
-            
 
             # 공 찾고 중앙 맞추기
             is_ball = robo._image_processor.detect_ball()
@@ -455,8 +489,12 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
-                    
+                        is_big_LR = big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                        if is_big_LR == "Except":
+                            motion.head("UP",15)
+                            time.sleep(1)
+                            big_LR("ball")
+                            
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
@@ -484,43 +522,36 @@ class Controller:
             ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             print("ball distance :", ball_dist)
             
-        
             # 남은 거리 만큼 걷기
-            if ball_dist > 18:  # 18+8 (화면에 여유있게 들어오도록)
-                motion.walk("FORWARD", ball_dist - 18) 
+            if ball_dist > 18:
+                motion.walk("FORWARD", ball_dist - 18)
+                time.sleep(1)
             elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)   
+                motion.walk("BACKWARD", ball_dist - 18)
+                time.sleep(1)
 
-            # 건웅 오빠가 짤 노란색 화면 오른쪽 끝에 맞추는 함수 넣기 #
+            time.sleep(1)
+            ball_pos() ## 건웅 오빠
+            time.sleep(1)
             
+            Set_holecup_right()
             
-            #================================#
-            #      두번째 티샷의 Act.3          #
-            #================================# 
-            # straight 안 하고 하드코딩.
-
-            #================================#
-            #           두번째 티샷            #
-            #================================#
-
             ball_pos() ## 건웅 오빠
             
             motion.head("DEFAULT", 1)
             time.sleep(1)
 
-
             ### 진짜 두번째 TEESHOT
-            motion.putting("RIGHT", 3)
+            motion.putting("Right", 3)
             time.sleep(5)
-                
                 
             self.act = Act.WALK_BALL
 
-            motion.turn("RIGHT", 45)
+            motion.turn("LEFT", 45)
             time.sleep(2)
-            motion.turn("RIGHT", 20)
+            motion.turn("LEFT", 45)
             time.sleep(2)
 
 
@@ -547,7 +578,7 @@ class Controller:
         
             
             is_ball = robo._image_processor.detect_ball()
-            time.sleep(1)
+            
 
             ### False면, big UD LR 해라
             if is_ball == False:  
@@ -561,17 +592,8 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        is_big_LR = big_LR("ball")  # big은 알아서 고개 디폴트 함
-                        if is_big_LR == "Except":
-                            motion.head("DEFAULT", 1)
-                            time.sleep(1)
-                            motion.head("DEFAULT", 2)
-                            time.sleep(1)
-                            motion.head("DOWN", 30)
-                            time.sleep(1)
-                            Distance.Head_ud_angle = 70
-                            big_LR("ball")
-
+                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                    
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
@@ -821,7 +843,8 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)    
 
-          
+
+            time.sleep(0.5)           
             ball_pos() ## 건웅 오빠
             
                 
