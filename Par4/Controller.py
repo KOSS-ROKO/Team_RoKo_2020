@@ -193,42 +193,43 @@ class Controller:
                     is_center = True
         ##########
         
-        def Set_holecup_right():
-            time.sleep(0.5)
-            motion.head("DEFAULT", 120) # 고개 디폴트
-            holecup_check = 0
-            for i in range(3):
-                if robo._image_processor.detect_holecup():
-                    holecup_check += 1
-                    break
-                time.sleep(0.5)
-                motion.head("Right",30)
-                time.sleep(0.5)
-            motion.head("Right",144)    # 머리 오른쪽 90도
-            if holecup_check:
-                while True:
-                    time.sleep(0.5)
-                    robo._motion.turn("LEFT", 10)
-                    time.sleep(1.5)
-                    if robo._image_processor.detect_holecup():
-                        break
-            else:
-                while True:
-                    time.sleep(0.5)
-                    robo._motion.turn("Right", 10)
-                    time.sleep(1.5)
-                    if robo._image_processor.detect_holecup():
-                        break
-            is_right = False
-            while not is_right:
-                holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
-                if holecup_midpoint[0] <= 640/13 * 11:
-                    time.sleep(0.5)
-                    robo._motion.turn("Right", 5)
-                    time.sleep(1.5)
-                else:
-                    is_right = True
-                    break
+        # def Set_holecup_right():
+        #     time.sleep(0.5)
+        #     motion.head("DEFAULT", 0) # 고개 디폴트
+        #     time.sleep(1)
+        #     holecup_check = 0
+        #     for i in range(3):
+        #         if robo._image_processor.detect_holecup():
+        #             holecup_check += 1
+        #             break
+        #         time.sleep(0.5)
+        #         motion.head("Right",30)
+        #         time.sleep(0.5)
+        #     motion.head("Right",144)    # 머리 오른쪽 90도
+        #     if holecup_check:
+        #         while True:
+        #             time.sleep(0.5)
+        #             robo._motion.turn("LEFT", 10)
+        #             time.sleep(1.5)
+        #             if robo._image_processor.detect_holecup():
+        #                 break
+        #     else:
+        #         while True:
+        #             time.sleep(0.5)
+        #             robo._motion.turn("Right", 10)
+        #             time.sleep(1.5)
+        #             if robo._image_processor.detect_holecup():
+        #                 break
+        #     is_right = False
+        #     while not is_right:
+        #         holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
+        #         if holecup_midpoint[0] <= 640/13 * 11:
+        #             time.sleep(0.5)
+        #             robo._motion.turn("Right", 5)
+        #             time.sleep(1.5)
+        #         else:
+        #             is_right = True
+        #             break
         
         #=======================================================#
         #                      1. Teeshot A                     #         
@@ -532,9 +533,9 @@ class Controller:
             ball_pos() ## 건웅 오빠
             time.sleep(1)
             
-            Set_holecup_right()
+            # Set_holecup_right()
             
-            ball_pos() ## 건웅 오빠
+            # ball_pos() ## 건웅 오빠
             
             motion.head("DEFAULT", 1)
             time.sleep(1)
