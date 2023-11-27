@@ -432,9 +432,7 @@ class Controller:
 
             print("^^두번째 티샷^^")
 
-            motion.turn("RIGHT", 45)
-            time.sleep(2)
-            motion.turn("RIGHT", 45)
+            motion.turn("LEFT", 45)
             time.sleep(2)
             
             
@@ -495,12 +493,8 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)   
 
-            #================================#
-            #        퍼팅 포즈처럼 돌기          #
-            #================================#
-
-            # 좌퍼팅 준비자세처럼 서야 Straight가능
-            motion.pose("LEFT", True) # 18cm 용 포즈
+            # 건웅 오빠가 짤 노란색 화면 오른쪽 끝에 맞추는 함수 넣기 #
+            
             
             #================================#
             #      두번째 티샷의 Act.3          #
@@ -518,15 +512,15 @@ class Controller:
 
 
             ### 진짜 두번째 TEESHOT
-            motion.putting("LEFT", 3)
+            motion.putting("RIGHT", 3)
             time.sleep(5)
                 
                 
             self.act = Act.WALK_BALL
 
-            motion.turn("LEFT", 45)
+            motion.turn("RIGHT", 45)
             time.sleep(2)
-            motion.turn("LEFT", 45)
+            motion.turn("RIGHT", 20)
             time.sleep(2)
 
 
