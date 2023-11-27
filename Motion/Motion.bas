@@ -1232,9 +1232,11 @@ KEY160:
     '--------------------------------
 KEY161:
     ETX 4800,161
+    GOTO 파4첫퍼팅
     GOTO RX_EXIT
 KEY162:
     ETX 4800,162
+    GOTO 파4두퍼팅
     GOTO RX_EXIT
 KEY163:
     ETX 4800,163
