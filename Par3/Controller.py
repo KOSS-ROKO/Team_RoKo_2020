@@ -148,7 +148,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [383, 309]
+            x,y = reference_point = [397, 314]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -226,20 +226,18 @@ class Controller:
             time.sleep(1)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(1)
+            time.sleep(2)
+
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             time.sleep(2)
-            
-
+    
             # length = 거리 
             ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
             print(Distance.Length_ServoAngle_dict)
             print("==========================================")
             print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
             print("==========================================")
-
-
 
             if ball_dist > 18:
                 motion.walk("FORWARD", ball_dist - 18)
@@ -354,34 +352,31 @@ class Controller:
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(1)
-            UD_for_dist("ball")
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            time.sleep(1)
-            
+            time.sleep(2)
 
-            # length = 거리 
-            ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
-            print(Distance.Length_ServoAngle_dict)
-            print("==========================================")
-            print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
-            print("==========================================")
+            # UD_for_dist("ball")
+            # motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            # time.sleep(1)
 
+            # # length = 거리 
+            # ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
+            # print(Distance.Length_ServoAngle_dict)
+            # print("==========================================")
+            # print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
+            # print("==========================================")
 
-
-            if ball_dist > 18:
-                motion.walk("FORWARD", ball_dist - 18)
-                time.sleep(1)
-            elif ball_dist == 18:
-                print("correct!")
-            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)
-                time.sleep(1)
+            # if ball_dist > 18:
+            #     motion.walk("FORWARD", ball_dist - 18)
+            #     time.sleep(1)
+            # elif ball_dist == 18:
+            #     print("correct!")
+            # else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
+            #     motion.walk("BACKWARD", ball_dist - 18)
+            #     time.sleep(1)
                 
                 
-            ## 건웅 오빠
 
-            ball_pos()
+            ball_pos() ## 건웅 오빠
             time.sleep(1)
             
             if point == 1:
@@ -397,7 +392,6 @@ class Controller:
                 time.sleep(1)
                 motion.putting("LEFT", 4)
                 time.sleep(5)
-                
                 motion.turn("LEFT", 45)
                 time.sleep(2)
                 motion.turn("LEFT", 45)
@@ -416,14 +410,19 @@ class Controller:
                 # time.sleep(2)
                  
             self.act = Act.WALK_BALL
-            #time.sleep(1)
-            print("start forward 12")
-            motion.walk("FORWARD6")
-            time.sleep(18)
-            motion.turn("LEFT", 20)
+            time.sleep(3)
+            motion.turn("LEFT", 30)
             time.sleep(2)
-            motion.walk("FORWARD6")
-            time.sleep(18)
+            print("start forward 12")
+            motion.walk("FORWARD12")
+            time.sleep(20)
+
+            # motion.walk("FORWARD6")
+            # time.sleep(10)
+            # motion.turn("LEFT", 20)
+            # time.sleep(2)
+            # motion.walk("FORWARD6")
+            # time.sleep(10)
             
             # return True
                 
@@ -788,7 +787,10 @@ class Controller:
                 print("ball detect 555 => small lr할 거야")
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
-            
+            time.sleep(0.5)
+            motion.head("DEFAULT", 2)
+            time.sleep(1)
+
             oneframe = robo._image_processor.ball_hole_oneframe()
             if oneframe == True:
                 print("is oneframe? yesss")
