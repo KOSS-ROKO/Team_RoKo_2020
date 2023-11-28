@@ -450,8 +450,8 @@ class Controller:
                 time.sleep(2)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
-                # motion.turn("LEFT", 10)
-                # time.sleep(2)
+                motion.turn("LEFT", 20)
+                time.sleep(2)
                  
             time.sleep(2)
             print("start forward 12")
@@ -506,7 +506,7 @@ class Controller:
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(1)
+            time.sleep(4)
             
             print("ball detected")
             UD_for_dist("ball")
@@ -518,13 +518,13 @@ class Controller:
             print("ball distance :", ball_dist)
             
             # 남은 거리 만큼 걷기
-            if ball_dist > 18:
-                motion.walk("FORWARD", ball_dist - 18)
+            if ball_dist > 26:
+                motion.walk("FORWARD", ball_dist - 26)
                 time.sleep(1)
-            elif ball_dist == 18:
+            elif ball_dist == 26:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)
+                motion.walk("BACKWARD", ball_dist - 26)
                 time.sleep(1)
 
             time.sleep(1)
@@ -609,9 +609,10 @@ class Controller:
             
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
+            time.sleep(1)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(3)
+            time.sleep(4)
             
             print("ball detected")
             UD_for_dist("ball")
@@ -671,7 +672,7 @@ class Controller:
             motion.head("DEFAULT", 2) # 고개 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(1)
+            time.sleep(3)
             
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
