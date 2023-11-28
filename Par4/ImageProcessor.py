@@ -22,11 +22,15 @@ class ImageProcessor:
 
         # self.upper_red1 = np.array([10, 255, 255])
         # self.lower_red1 = np.array([0, 100, 100]) 
-        self.upper_red2 = np.array([180, 187, 232]) 
-        self.lower_red2 = np.array([72, 93, 157])
-        self.upper_yellow = np.array([212, 112, 195])
-        self.lower_yellow = np.array([157, 71, 40])
+        # self.upper_red2 = np.array([180, 187, 232]) 
+        # self.lower_red2 = np.array([72, 93, 157])
+        # self.upper_yellow = np.array([212, 112, 195])
+        #self.lower_yellow = np.array([157, 71, 40])
         self.min_area = [5,10]
+        self.upper_yellow = np.array([255, 105, 255])
+        self.lower_yellow = np.array([76, 55, 122])
+        self.upper_red2 = np.array([232, 195, 248]) 
+        self.lower_red2 = np.array([155, 103, 157])
 
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 20, 100), (179, 255, 255))
