@@ -19,10 +19,10 @@ class Act:
 class Controller:
 
     def __init__(self):
-        #act = Act.TEESHOT
+        # act = Act.TEESHOTB
         pass
     
-    act  = Act.WALK_BALL
+    act  = Act.PUTTING_POS
     robo = Robo()
 
 
@@ -295,7 +295,7 @@ class Controller:
             
 
             # PUTTING
-            time.sleep(5)
+            time.sleep(3)
             motion.putting("PAR4", 1, 2)
             print("putting")
             time.sleep(5)
@@ -400,27 +400,26 @@ class Controller:
             time.sleep(1)
             
 
-            # length = 거리 
-            ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
-            print(Distance.Length_ServoAngle_dict)
-            print("==========================================")
-            print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
-            print("==========================================")
+            # # length = 거리 
+            # ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
+            # print(Distance.Length_ServoAngle_dict)
+            # print("==========================================")
+            # print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
+            # print("==========================================")
 
 
 
-            if ball_dist > 18:
-                motion.walk("FORWARD", ball_dist - 18)
-                time.sleep(1)
-            elif ball_dist == 18:
-                print("correct!")
-            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)
-                time.sleep(1)
+            # if ball_dist > 18:
+            #     motion.walk("FORWARD", ball_dist - 18)
+            #     time.sleep(1)
+            # elif ball_dist == 18:
+            #     print("correct!")
+            # else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
+            #     motion.walk("BACKWARD", ball_dist - 18)
+            #     time.sleep(1)
 
-            time.sleep(1)
             ball_pos() ## 건웅 오빠
-            time.sleep(5)
+            time.sleep(1)
 
             
             if point == 1:
@@ -454,8 +453,7 @@ class Controller:
                 # motion.turn("LEFT", 10)
                 # time.sleep(2)
                  
-            self.act = Act.WALK_BALL
-            #time.sleep(1)
+            time.sleep(2)
             print("start forward 12")
             motion.walk("FORWARD14")
             time.sleep(25)
@@ -538,7 +536,7 @@ class Controller:
             # ball_pos() ## 건웅 오빠
             
             motion.head("DEFAULT", 1)
-            time.sleep(5)
+            time.sleep(3)
 
             ### 진짜 두번째 TEESHOT
             motion.putting("RIGHT", 3)
@@ -709,6 +707,7 @@ class Controller:
             print("^^^^333333")
             print("^^^^333333")
 
+            time.sleep(1)
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(1)
             Distance.Head_UD_Angle = 55
@@ -716,9 +715,10 @@ class Controller:
             
             is_holecup_in_frame = robo._image_processor.detect_holecup()
             
-            motion.head("DEFAULT", 1) # 고개 상하 디폴트
             
-            if is_holecup_in_frame == False:    
+            
+            if is_holecup_in_frame == False:  
+                motion.head("DEFAULT", 1) # 고개 상하 디폴트  
                 print("holecup NONONONONONO")
                 # big UD head
                 while True:
@@ -737,7 +737,7 @@ class Controller:
                     else:
                         break
 
-               
+            '''
                 #====== holecup 고개 방향만큼 꽃게 걸음 ======#
                 side_walk = int(abs(100-Distance.head_lr_angle)//10) # 식은 시행착오거치면서 변경예정
 
@@ -761,6 +761,7 @@ class Controller:
                     
             print("holecup YES")
             ###### 홀컵 찾음, 중앙 맞췄음. 일직선 맞추고, 이제 거리 재야됨
+            '''
   
 
             
@@ -799,12 +800,14 @@ class Controller:
                 
                      
             motion.pose("LEFT")
+            time.sleep(3)
 
             self.act = Act.PUTTING
 
             # 공 거리는 Act 4(PUTTING)에서 재기
 
             #return True
+
 
         
         
