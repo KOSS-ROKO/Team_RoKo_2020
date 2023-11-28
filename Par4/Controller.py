@@ -65,13 +65,12 @@ class Controller:
             while True:
                 is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.head_lr_angle, max_right_flag)
                 if is_object_in_frame == True:
-                    return True
+                    break
                 elif is_object_in_frame == False:
                     Distance.head_lr_angle = small_lr_temp
                     print("head_lr_angle : ", Distance.head_lr_angle)
-                if Distance.head_lr_angle == 10:
-                    return "Except"
-                    #왼쪽 max까지 갔는데 공 못찾으면 
+                    continue
+                #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
                     #head.big_UD_head()
                     # 예외처리 : big up down 코드
             #고개 정면 코드 추가하기
@@ -590,13 +589,8 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        is_big_LR = big_LR("ball")  # big은 알아서 고개 디폴트 함 
-                        if is_big_LR == "Except": #big LR 했는데도 공 안보이는 경우
-                            time.sleep(2)
-                            motion.head("DEFAULT", 0)
-                            time.sleep(2)
-                            big_LR("ball")
-                            
+                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                    
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
