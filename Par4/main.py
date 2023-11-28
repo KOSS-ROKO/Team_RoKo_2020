@@ -6,7 +6,7 @@ import time
 
 def main():
     while not Controller.start():
-        continue 
+        continue
 
  
 if __name__ == "__main__":
