@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -430,24 +430,6 @@ class Controller:
             time.sleep(1)
             
 
-            # # length = 거리 
-            # ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
-            # print(Distance.Length_ServoAngle_dict)
-            # print("==========================================")
-            # print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
-            # print("==========================================")
-
-
-
-            # if ball_dist > 18:
-            #     motion.walk("FORWARD", ball_dist - 18)
-            #     time.sleep(1)
-            # elif ball_dist == 18:
-            #     print("correct!")
-            # else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-            #     motion.walk("BACKWARD", ball_dist - 18)
-            #     time.sleep(1)
-
             ball_pos()
             time.sleep(1)
 
@@ -567,10 +549,12 @@ class Controller:
             
             Set_holecup_right()
             
+            time.sleep(1)
             ball_pos()
+            time.sleep(1)
 
             ### 진짜 두번째 TEESHOT
-            motion.putting("PAR4", 2)
+            motion.putting("RIGHT", 3)
             time.sleep(5)
                 
             self.act = Act.WALK_BALL
