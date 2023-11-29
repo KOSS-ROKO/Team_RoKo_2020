@@ -547,9 +547,9 @@ class Controller:
         
             
             is_ball = robo._image_processor.detect_ball()
-        
+            
 
-             ### False면, big UD LR 해라
+            ### False면, big UD LR 해라
             if is_ball == False:  
                 motion.head("DEFAULT", 1)   
                 time.sleep(1)           
@@ -561,7 +561,7 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        motion.head("UP",6)
+                        motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = ball_small_LR("ball")
@@ -704,6 +704,7 @@ class Controller:
                         big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                     else:
                         break
+            motion.head("DEFAULT", 2) # after small lr, occur error, so add default 2
 
             '''
                 #====== holecup 고개 방향만큼 꽃게 걸음 ======#
@@ -776,7 +777,6 @@ class Controller:
 
             #return True
 
-
         
         
         
@@ -819,14 +819,13 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)    
 
-
-            time.sleep(0.5)           
+         
             ball_pos()
             
                 
                 
             ### 진짜 퍼팅
-            motion.putting("LEFT", 3, 2)
+            motion.putting("LEFT", 4, 2)
             time.sleep(5)
                 
                 
@@ -891,7 +890,10 @@ class Controller:
                 print("ball detect 555 => small lr할 거야")
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
-            
+            time.sleep(0.5)
+            motion.head("DEFAULT", 2)
+            time.sleep(1)
+
             oneframe = robo._image_processor.ball_hole_oneframe()
             if oneframe == True:
                 print("is oneframe? yesss")
@@ -916,3 +918,5 @@ class Controller:
                 # 원프레임이 아니라서 다시 WALK BALL로
                 self.act = Act.WALK_BALL
             
+            
+            #return True
