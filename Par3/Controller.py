@@ -168,20 +168,20 @@ class Controller:
                 
                 print("중앙에서 떨어진 거리: ", dx, dy, abs(dx),abs(dy))
                 print("dx//30: ",dx//30 ,"dy//30",dy//30)
-                if(abs(dy)>=30):
-                    if (dy<0):
-                        motion.walk("2JFORWARD")
-                        print("1")
-                    else:
-                        motion.walk("2JBACKWARD")
-                        print("2")
-                elif(abs(dx)>=30):
+                if(abs(dx)>=30):
                     if (dx<0):
                         motion.walk_side("LEFT10")
                         print("3")
                     else:
                         motion.walk_side("RIGHT10")
                         print("4")
+                elif(abs(dy)>=30):
+                    if (dy<0):
+                        motion.walk("2JFORWARD")
+                        print("1")
+                    else:
+                        motion.walk("2JBACKWARD")
+                        print("2")
                 else:
                     is_center = True
         ##########

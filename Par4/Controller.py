@@ -144,20 +144,17 @@ class Controller:
             
         ###########
         def ball_pos():
-            time.sleep(0.5)
-            motion.head("DEFAULT",63)
-
             time.sleep(1)
+            motion.head("DEFAULT", 63)
+            time.sleep(3)
             print("++++++++++++++++++")
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [399, 350]
+            x,y = reference_point = [381, 232]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
-                #motion.head("DEFAULT",63)
-                #time.sleep(2)
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
                 print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
@@ -174,20 +171,20 @@ class Controller:
                 
                 print("중앙에서 떨어진 거리: ", dx, dy, abs(dx),abs(dy))
                 print("dx//30: ",dx//30 ,"dy//30",dy//30)
-                if(abs(dy)>=30):
-                    if (dy<0):
-                        motion.walk("2JFORWARD")
-                        print("1")
-                    else:
-                        motion.walk("2JBACKWARD")
-                        print("2")
-                elif(abs(dx)>=30):
+                if(abs(dx)>=30):
                     if (dx<0):
                         motion.walk_side("LEFT10")
                         print("3")
                     else:
                         motion.walk_side("RIGHT10")
                         print("4")
+                elif(abs(dy)>=30):
+                    if (dy<0):
+                        motion.walk("2JFORWARD")
+                        print("1")
+                    else:
+                        motion.walk("2JBACKWARD")
+                        print("2")
                 else:
                     is_center = True
         ##########
