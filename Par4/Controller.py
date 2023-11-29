@@ -383,7 +383,7 @@ class Controller:
 
             point = 0
             # 점 3개 중에 결정
-            if Distance.head_lr_angle <= 80:
+            if Distance.head_lr_angle <= 85:
                 motion.walk_side("LEFT70") # loop문 추가 / 수정 필수
                 time.sleep(1)
                 motion.walk_side("LEFT70")
@@ -397,7 +397,7 @@ class Controller:
                 motion.turn("RIGHT", 15)
                 print("1번 점에서 확인")
                 point = 1
-            elif Distance.head_lr_angle >= 120:
+            elif Distance.head_lr_angle >= 150:
                 motion.walk_side("RIGHT70") # loop문 추가
                 time.sleep(1)
                 motion.walk_side("RIGHT70")
@@ -408,13 +408,13 @@ class Controller:
                 time.sleep(1)
                 motion.pose("LEFT", True)
                 time.sleep(1)
-                motion.turn("LEFT", 15)
+                motion.turn("LEFT", 10)
                 print("3번 점에서 확인")
                 point = 3
             else:
                 print("2번 점에서 확인")
                 motion.pose("LEFT", True)
-                time.sleep(1)
+                time.sleep(2)
                 point = 2
             
             #-----------------------------------------------------------------------------------------------------
@@ -425,9 +425,9 @@ class Controller:
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
             time.sleep(1)
-            UD_for_dist("ball")
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            time.sleep(1)
+            # UD_for_dist("ball")
+            # motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            # time.sleep(1)
             
 
             ball_pos()
@@ -492,7 +492,7 @@ class Controller:
             # 공 찾고 중앙 맞추기
             is_ball = robo._image_processor.detect_ball()
             
-           ### False면, big UD LR 해라
+           #### False면, big UD LR 해라
             if is_ball == False:  
                 motion.head("DEFAULT", 1)   
                 time.sleep(1)           
@@ -504,6 +504,7 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
+                        motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = ball_small_LR("ball")
@@ -541,7 +542,7 @@ class Controller:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 26)
-                time.sleep(1)
+                time.sleep(2)
 
             time.sleep(1)
             ball_pos()
@@ -556,8 +557,6 @@ class Controller:
             ### 진짜 두번째 TEESHOT
             motion.putting("RIGHT", 3)
             time.sleep(5)
-                
-            self.act = Act.WALK_BALL
 
             motion.turn("RIGHT", 45)
             time.sleep(2)
@@ -571,7 +570,7 @@ class Controller:
             motion.walk("FORWARD10")
             time.sleep(20)
 
-
+            self.act = Act.WALK_BALL
             # return True
         
         #=======================================================#
