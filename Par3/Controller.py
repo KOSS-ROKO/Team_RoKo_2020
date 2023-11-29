@@ -148,7 +148,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [397, 314]
+            x,y = reference_point = [381, 232]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -400,7 +400,7 @@ class Controller:
                 # time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                motion.putting("LEFT", 3)
+                motion.putting("LEFT", 4)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
