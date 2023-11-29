@@ -271,4 +271,7 @@ class Motion:
 
 if __name__ == '__main__':
     motion = Motion()
-    motion.set_head("LEFTRIGHT_CENTER")
+    motion.head("DEFAULT",1)
+    time.sleep(1)
+    motion.head("DEFAULT",2)
+    time.sleep(1)

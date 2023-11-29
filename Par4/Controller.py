@@ -51,7 +51,6 @@ class Controller:
                 
                     if Distance.Head_ud_angle == 64: # Distance.Head_UD_Middle_Value_Measures - 100 + 10 + 45:  # big ud 한 사이클이 끝남. / 9는 바뀔 수 있는 값
                         #Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures # 고개값을 다시 정면100으로 
-                        #go_to = "big_lr"  # LR로 갈지 구분
                         return "Except"
                     else: 
                         continue
@@ -113,7 +112,7 @@ class Controller:
                 is_horizontal_middle, small_ud_temp = head.head_for_dist(object, small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     Distance.Head_ud_angle = small_ud_temp
-                    print(Distance.Head_ud_angle)
+                    print("head UD angle : ", Distance.Head_ud_angle)
                     break
                 elif is_horizontal_middle == False:
                     small_ud_angle = small_ud_temp
@@ -187,46 +186,6 @@ class Controller:
                         print("2")
                 else:
                     is_center = True
-        ##########
-        
-        # def Set_holecup_right():
-        #     time.sleep(0.5)
-        #     motion.head("DEFAULT", 0) # 고개 디폴트
-        #     time.sleep(1)
-        #     holecup_check = 0
-        #     for i in range(3):
-        #         if robo._image_processor.detect_holecup():
-        #             holecup_check += 1
-        #             break
-        #         time.sleep(0.5)
-        #         motion.head("Right",30)
-        #         time.sleep(0.5)
-        #     motion.head("Right",144)    # 머리 오른쪽 90도
-        #     if holecup_check:
-        #         while True:
-        #             time.sleep(0.5)
-        #             robo._motion.turn("LEFT", 10)
-        #             time.sleep(1.5)
-        #             if robo._image_processor.detect_holecup():
-        #                 break
-        #     else:
-        #         while True:
-        #             time.sleep(0.5)
-        #             robo._motion.turn("Right", 10)
-        #             time.sleep(1.5)
-        #             if robo._image_processor.detect_holecup():
-        #                 break
-        #     is_right = False
-        #     while not is_right:
-        #         holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
-        #         if holecup_midpoint[0] <= 640/13 * 11:
-        #             time.sleep(0.5)
-        #             robo._motion.turn("Right", 5)
-        #             time.sleep(1.5)
-        #         else:
-        #             is_right = True
-        #             break
-        
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
@@ -278,18 +237,25 @@ class Controller:
             print("==========================================")
 
 
+            point = 0
 
-            if ball_dist > 18:
+            if ball_dist > 20:
                 motion.walk("FORWARD", ball_dist - 18)
+                point = 1
                     
-            elif ball_dist == 18:
+            elif ball_dist <= 20:
                 print("correct!")
-            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)
-                
+                point = 0
+
             
             ball_pos()
-            
+
+            #if ball is in the first point, turn right
+            if point==0:
+                time.sleep(1)
+                motion.turn("RIGHT", 10)
+                time.sleep(1)
+
 
             # PUTTING
             time.sleep(3)
@@ -451,7 +417,7 @@ class Controller:
                 time.sleep(2)
                  
             time.sleep(2)
-            print("start forward 12")
+            print("start forward 14")
             motion.walk("FORWARD14")
             time.sleep(25)
 
@@ -544,13 +510,13 @@ class Controller:
             motion.turn("RIGHT", 45)
             time.sleep(2)
             motion.turn("RIGHT", 45)
-            time.sleep(2)
+            time.sleep(3)
 
             motion.walk("FORWARD6")
-            time.sleep(12)
+            time.sleep(13)
             motion.turn("LEFT",20)
             time.sleep(2)
-            motion.walk("FROWARD10")
+            motion.walk("FORWARD10")
             time.sleep(19)
 
 
