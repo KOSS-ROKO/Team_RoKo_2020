@@ -251,7 +251,7 @@ class Controller:
             
 
             # PUTTING
-            time.sleep(3)
+            time.sleep(1)
             motion.putting("LEFT", 3, 2)
             print("putting")
             time.sleep(5)
