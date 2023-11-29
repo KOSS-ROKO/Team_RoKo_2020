@@ -130,8 +130,8 @@ class ImageProcessor:
         # self.lower_red1 = np.array([0, 180, 60]) 
         # self.upper_red2 = np.array([180, 230, 230]) 
         # self.lower_red2 = np.array([150, 70, 60])
-        imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (180, 230, 235))
+        imgThreshLow = cv2.inRange(imgHSV, (0, 70, 60), (15, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (180, 255, 255))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)

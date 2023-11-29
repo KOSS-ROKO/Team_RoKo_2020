@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.PUTTING
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -245,15 +245,27 @@ class Controller:
                     time.sleep(1)
                     break
                 elif holecup_midpoint[0] >= max:
-                    print("RIGHT 회전하고 쉬기")
-                    time.sleep(0.5)
-                    robo._motion.holecup_turn('RIGHT', 5)
-                    time.sleep(1.5)
+                    if holecup_midpoint[0] > max + 150:
+                        print("RIGHT 회전하고 쉬기")
+                        time.sleep(0.5)
+                        robo._motion.holecup_turn('RIGHT', 20)
+                        time.sleep(1.5)
+                    else:
+                        print("RIGHT 회전하고 쉬기")
+                        time.sleep(0.5)
+                        robo._motion.holecup_turn('RIGHT', 5)
+                        time.sleep(1.5)
                 elif min>=holecup_midpoint[0]:
-                    print("왼쪽 회전하고 쉬기")
-                    time.sleep(0.5)
-                    robo._motion.holecup_turn('LEFT', 5)
-                    time.sleep(1.5)
+                    if min-150>=holecup_midpoint[0]:
+                        print("왼쪽 회전하고 쉬기")
+                        time.sleep(0.5)
+                        robo._motion.holecup_turn('LEFT', 20)
+                        time.sleep(1.5)
+                    else:
+                        print("왼쪽 회전하고 쉬기")
+                        time.sleep(0.5)
+                        robo._motion.holecup_turn('LEFT', 5)
+                        time.sleep(1.5)
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
@@ -536,13 +548,13 @@ class Controller:
             print("ball distance :", ball_dist)
             
             # 남은 거리 만큼 걷기
-            if ball_dist > 26:
-                motion.walk("FORWARD", ball_dist - 26)
+            if ball_dist > 18:
+                motion.walk("FORWARD", ball_dist - 18)
                 time.sleep(1)
-            elif ball_dist == 26:
+            elif ball_dist == 18:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 26)
+                motion.walk("BACKWARD", ball_dist - 18)
                 time.sleep(2)
 
             time.sleep(1)
@@ -556,7 +568,7 @@ class Controller:
             time.sleep(1)
 
             ### 진짜 두번째 TEESHOT
-            motion.putting("RIGHT", 3)
+            motion.putting("PAR4", 2)
             time.sleep(5)
 
             motion.turn("RIGHT", 45)
