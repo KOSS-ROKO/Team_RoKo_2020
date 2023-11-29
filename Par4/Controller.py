@@ -417,8 +417,8 @@ class Controller:
                 time.sleep(2)
                  
             time.sleep(2)
-            print("start forward 14")
-            motion.walk("FORWARD14")
+            print("start forward 15")
+            motion.walk("FORWARD15")
             time.sleep(25)
 
             self.act = Act.SECSHOT
@@ -433,6 +433,10 @@ class Controller:
 
             print("^^두번째 티샷^^")
             
+            time.sleep(1)
+            motion.head("DEFAULT", 1)
+            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            time.sleep(1)
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(2)
 
@@ -510,14 +514,14 @@ class Controller:
             motion.turn("RIGHT", 45)
             time.sleep(2)
             motion.turn("RIGHT", 45)
-            time.sleep(3)
+            time.sleep(5)
 
             motion.walk("FORWARD6")
-            time.sleep(13)
+            time.sleep(15)
             motion.turn("LEFT",20)
             time.sleep(2)
             motion.walk("FORWARD10")
-            time.sleep(19)
+            time.sleep(20)
 
 
             # return True
