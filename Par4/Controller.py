@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.TEESHOTB
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
