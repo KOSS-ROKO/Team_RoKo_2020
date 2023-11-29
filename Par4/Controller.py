@@ -186,6 +186,73 @@ class Controller:
                         print("2")
                 else:
                     is_center = True
+        
+        def Set_holecup_right():
+            time.sleep(0.5)
+            motion.head("DEFAULT", 0) # 고개 디폴트
+            time.sleep(1)
+            is_left = False
+            motion.Rarm("DOWN")
+            time.sleep(2)
+            for i in range(0,2):
+                print("왼쪽에 있는지 확인")
+                time.sleep(0.1)
+                if robo._image_processor.detect_holecup():
+                    print("왼편에 있음")
+                    is_left = True
+                    break
+                time.sleep(0.1)
+                motion.head("RIGHT",30)
+                time.sleep(1.5)
+            print("is_left: ", is_left)
+            motion.head("RIGHT",90)    # 머리 오른쪽 90도
+            time.sleep(1.5)
+            print("팔 내리고 머리 90으로 돌림")
+            if is_left:
+                while True:
+                    is_holecup =  robo._image_processor.detect_holecup()
+                    print("홀컵 있는지 확인", is_holecup)
+                    if is_holecup:
+                        print("찾음")
+                        break
+                    time.sleep(0.1)
+                    robo._motion.holecup_turn('LEFT', 10)
+                    print("완쪽으로 몸 돌리기")
+                    time.sleep(1.5)
+            else:
+                while True:
+                    time.sleep(0.1)
+                    robo._motion.holecup_turn('RIGHT', 10)
+                    print("오른쪽으로 몸 돌리기")
+                    time.sleep(1.5)
+                    is_holecup =  robo._image_processor.detect_holecup()
+                    print("홀컵 있는지 확인", is_holecup)
+                    if is_holecup:
+                        print("찾음")
+                        break
+             
+            while True:
+                time.sleep(0.1)
+                holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
+                print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", 310, 335)
+                
+                if 310<=holecup_midpoint[0] <= 335:
+                    print("범위안에 들어옴 종료 성공")
+                    robo._motion.Rarm('RESET')
+                    time.sleep(1.5)
+                    motion.head("DEFAULT", 0) # 고개 디폴트
+                    time.sleep(1)
+                    break
+                elif holecup_midpoint[0] >= 335:
+                    print("RIGHT 회전하고 쉬기")
+                    time.sleep(0.5)
+                    robo._motion.holecup_turn('RIGHT', 10)
+                    time.sleep(1.5)
+                elif 310>=holecup_midpoint[0]:
+                    print("왼쪽 회전하고 쉬기")
+                    time.sleep(0.5)
+                    robo._motion.holecup_turn('LEFT', 10)
+                    time.sleep(1.5)
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
@@ -498,12 +565,9 @@ class Controller:
             ball_pos()
             time.sleep(1)
             
-            # Set_holecup_right()
+            Set_holecup_right()
             
-            # ball_pos()
-            
-            motion.head("DEFAULT", 1)
-            time.sleep(3)
+            ball_pos()
 
             ### 진짜 두번째 TEESHOT
             motion.putting("RIGHT", 3)
