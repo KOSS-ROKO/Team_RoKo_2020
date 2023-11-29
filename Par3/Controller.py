@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTB
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -251,7 +251,7 @@ class Controller:
             
 
             # PUTTING
-            time.sleep(1)
+            time.sleep(3)
             motion.putting("LEFT", 3, 2)
             print("putting")
             time.sleep(5)
@@ -464,6 +464,7 @@ class Controller:
 
                     #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
+                        motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = ball_small_LR("ball")
@@ -606,6 +607,7 @@ class Controller:
                         big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
                     else:
                         break
+            motion.head("DEFAULT", 2) # after small lr, occur error, so add default 2
 
             '''
                 #====== holecup 고개 방향만큼 꽃게 걸음 ======#
