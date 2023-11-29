@@ -19,17 +19,23 @@ print('code: ImageProcessor.py - ## Debug')
 class ImageProcessor:
     def __init__(self, video= ""):
         print("init_imgprocessor")
+        #koss dongbang
+        # self.upper_red1 = np.array([10, 255, 255])
+        # self.lower_red1 = np.array([0, 180, 60]) 
+        # self.upper_red2 = np.array([180, 255, 255]) 
+        # self.lower_red2 = np.array([150, 70, 60])
+        # self.upper_yellow = np.array([60, 150, 230])
+        # self.lower_yellow = np.array([27, 50, 100])
+        # self.min_area = [5,10]
 
+        #minjoo dongbang
         self.upper_red1 = np.array([10, 255, 255])
         self.lower_red1 = np.array([0, 180, 60]) 
-        self.upper_red2 = np.array([180, 255, 255]) 
+        self.upper_red2 = np.array([180, 200, 200]) 
         self.lower_red2 = np.array([150, 70, 60])
-        self.upper_yellow = np.array([60, 150, 230])
-        self.lower_yellow = np.array([27, 50, 100])
+        self.upper_yellow = np.array([30, 180, 255])
+        self.lower_yellow = np.array([15, 100, 140])
         self.min_area = [5,10]
-
-
-
 
         #outside dongbang
         # lower_yellow = np.array([0, 40, 122])
@@ -120,12 +126,12 @@ class ImageProcessor:
         # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
         # minju dongbang22
 
-        self.upper_red1 = np.array([10, 255, 255])
-        self.lower_red1 = np.array([0, 180, 60]) 
-        self.upper_red2 = np.array([180, 255, 255]) 
-        self.lower_red2 = np.array([150, 70, 60])
+        # self.upper_red1 = np.array([10, 255, 255])
+        # self.lower_red1 = np.array([0, 180, 60]) 
+        # self.upper_red2 = np.array([180, 230, 230]) 
+        # self.lower_red2 = np.array([150, 70, 60])
         imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (180, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (180, 230, 235))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)

@@ -25,8 +25,11 @@ while True:
     # lower_yellow = np.array([10, 60, 150])
     # upper_yellow = np.array([36, 200, 255])
 
-    lower_yellow = np.array([0, 40, 122])
-    upper_yellow = np.array([40, 250, 255])
+    # lower_yellow = np.array([0, 40, 122])
+    # upper_yellow = np.array([40, 250, 255])
+
+    upper_yellow = np.array([30, 180, 255])
+    lower_yellow = np.array([15, 100, 140])
 
 
     yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)

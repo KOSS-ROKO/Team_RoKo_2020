@@ -26,8 +26,12 @@ while True:
     # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
     # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
 
-    imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 100), (179, 255, 255))
+    # before
+    # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+    # imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 100), (179, 255, 255))
+
+    imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (180, 230, 235))
 
     # red_lower = np.array([165, 100, 170])
     # red_upper = np.array([180, 230, 255])

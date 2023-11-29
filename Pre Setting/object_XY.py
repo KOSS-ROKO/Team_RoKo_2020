@@ -13,7 +13,7 @@ FPS = 5
 cap = cv2.VideoCapture(0)
 cap.set(3, W_View_size)
 cap.set(4, H_View_size)
-cap.set(5, FPS)
+cap.set(5, 30)
 
 clicked_point = None
 
@@ -67,7 +67,7 @@ while True:
     red_center = detect_red_color(frame)
 
     if red_center:
-        print("빨간색 공의 중심 좌표:", red_center)
+        #print("빨간색 공의 중심 좌표:", red_center)
 
         cv2.circle(frame, red_center, 2, (255, 0, 0), -1)
 

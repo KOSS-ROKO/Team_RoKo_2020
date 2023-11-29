@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.TEESHOTB
+    act  = Act.PUTTING
     robo = Robo()
 
 
@@ -150,7 +150,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [381, 232]
+            x,y = reference_point = [386, 305]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -216,13 +216,13 @@ class Controller:
                         print("찾음")
                         break
                     time.sleep(0.1)
-                    robo._motion.holecup_turn('LEFT', 10)
+                    robo._motion.holecup_turn('LEFT', 20)
                     print("완쪽으로 몸 돌리기")
                     time.sleep(1.5)
             else:
                 while True:
                     time.sleep(0.1)
-                    robo._motion.holecup_turn('RIGHT', 10)
+                    robo._motion.holecup_turn('RIGHT', 20)
                     print("오른쪽으로 몸 돌리기")
                     time.sleep(1.5)
                     is_holecup =  robo._image_processor.detect_holecup()
@@ -233,25 +233,26 @@ class Controller:
              
             while True:
                 time.sleep(0.1)
+                min = 334
+                max = 377
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
-                print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", 310, 335)
-                
-                if 310<=holecup_midpoint[0] <= 335:
+                print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
+                if min<=holecup_midpoint[0] <= max:
                     print("범위안에 들어옴 종료 성공")
                     robo._motion.Rarm('RESET')
                     time.sleep(1.5)
                     motion.head("DEFAULT", 0) # 고개 디폴트
                     time.sleep(1)
                     break
-                elif holecup_midpoint[0] >= 335:
+                elif holecup_midpoint[0] >= max:
                     print("RIGHT 회전하고 쉬기")
                     time.sleep(0.5)
-                    robo._motion.holecup_turn('RIGHT', 10)
+                    robo._motion.holecup_turn('RIGHT', 5)
                     time.sleep(1.5)
-                elif 310>=holecup_midpoint[0]:
+                elif min>=holecup_midpoint[0]:
                     print("왼쪽 회전하고 쉬기")
                     time.sleep(0.5)
-                    robo._motion.holecup_turn('LEFT', 10)
+                    robo._motion.holecup_turn('LEFT', 5)
                     time.sleep(1.5)
         #=======================================================#
         #                      1. Teeshot A                     #         
