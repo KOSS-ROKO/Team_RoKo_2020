@@ -140,7 +140,7 @@ class Controller:
                     continue
             
         ###########
-        def ball_pos(): ## 건웅 오빠
+        def ball_pos():
             time.sleep(1)
             motion.head("DEFAULT", 63)
             time.sleep(3)
@@ -247,7 +247,7 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
                 
 
-            ball_pos() # 건웅 오빠
+            ball_pos()
             
 
             # PUTTING
@@ -376,7 +376,7 @@ class Controller:
                 
                 
 
-            ball_pos() ## 건웅 오빠
+            ball_pos()
             time.sleep(1)
             
             if point == 1:
@@ -721,12 +721,12 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)    
 
          
-            ball_pos() ## 건웅 오빠
+            ball_pos()
             
                 
                 
             ### 진짜 퍼팅
-            motion.putting("LEFT", 3, 2)
+            motion.putting("LEFT", 4, 2)
             time.sleep(5)
                 
                 

@@ -143,7 +143,7 @@ class Controller:
                     continue
             
         ###########
-        def ball_pos(): ## 건웅 오빠
+        def ball_pos():
             time.sleep(0.5)
             motion.head("DEFAULT",63)
 
@@ -290,7 +290,7 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
                 
             
-            ball_pos() # 건웅 오빠
+            ball_pos()
             
 
             # PUTTING
@@ -417,7 +417,7 @@ class Controller:
             #     motion.walk("BACKWARD", ball_dist - 18)
             #     time.sleep(1)
 
-            ball_pos() ## 건웅 오빠
+            ball_pos()
             time.sleep(1)
 
             
@@ -527,12 +527,12 @@ class Controller:
                 time.sleep(1)
 
             time.sleep(1)
-            ball_pos() ## 건웅 오빠
+            ball_pos()
             time.sleep(1)
             
             # Set_holecup_right()
             
-            # ball_pos() ## 건웅 오빠
+            # ball_pos()
             
             motion.head("DEFAULT", 1)
             time.sleep(3)
@@ -848,7 +848,7 @@ class Controller:
 
 
             time.sleep(0.5)           
-            ball_pos() ## 건웅 오빠
+            ball_pos()
             
                 
                 
