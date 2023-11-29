@@ -564,12 +564,8 @@ class Controller:
             motion.turn("RIGHT", 45)
             time.sleep(5)
 
-            motion.walk("FORWARD6")
-            time.sleep(15)
-            motion.turn("LEFT",20)
-            time.sleep(2)
-            motion.walk("FORWARD10")
-            time.sleep(20)
+            motion.walk("FORWARD15")
+            time.sleep(25)
 
             self.act = Act.WALK_BALL
             # return True
