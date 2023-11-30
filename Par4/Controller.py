@@ -976,7 +976,7 @@ class Controller:
             ball_pos()
             
                 
-            Set_holecup_left()
+            #Set_holecup_left()
             ### 진짜 퍼팅
             motion.putting("LEFT", 4, 2)
             time.sleep(5)
