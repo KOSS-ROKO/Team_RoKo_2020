@@ -330,13 +330,12 @@ class Controller:
 
             point = 0
 
-            if ball_dist > 20:
+            if ball_dist > 18:
                 motion.walk("FORWARD", ball_dist - 18)
-                point = 1
-                    
-            elif ball_dist <= 20:
+            elif ball_dist == 18:
                 print("correct!")
-                point = 0
+            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
+                motion.walk("BACKWARD", ball_dist - 18)
 
             
             ball_pos()
@@ -361,6 +360,21 @@ class Controller:
             motion.turn("LEFT", 60)
             time.sleep(2)
             print("turn LEFT")
+
+            ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
+            if ball_dist < 26:      # 점 1
+                motion.walk_side("RIGHT70")
+                time.sleep(1)
+                # 추후에 이연이 모션 40cm짜리로 바꿀예정
+            elif ball_dist < 46:    # 점 2
+                motion.walk_side("RIGHT70")
+                time.sleep(1)
+                # 추후에 이연이 모션 20cm짜리로 바꿀예정
+            else :                  # 점 3
+                pass
+
+
+
 
             self.act = Act.SECSHOT
 
