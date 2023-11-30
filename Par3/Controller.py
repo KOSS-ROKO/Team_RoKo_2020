@@ -260,14 +260,15 @@ class Controller:
             # turn body left, 몸을 왼쪽으로 90도 돌림.
             motion.turn("LEFT", 45)
             time.sleep(2)
-            motion.turn("LEFT", 60)
+            motion.turn("LEFT", 45)
             time.sleep(2)
-            print("turn LEFT")
+            motion.turn("LEFT", 10)
+            time.sleep(2)
 
             self.act = Act.WALK_BALL
             
             motion.walk("FORWARD13")
-            time.sleep(25)
+            time.sleep(22)
             
             # return True
             
@@ -415,14 +416,8 @@ class Controller:
             time.sleep(2)
             print("start forward 12")
             motion.walk("FORWARD13")
-            time.sleep(25)
+            time.sleep(22)
 
-            # motion.walk("FORWARD6")
-            # time.sleep(10)
-            # motion.turn("LEFT", 20)
-            # time.sleep(2)
-            # motion.walk("FORWARD6")
-            # time.sleep(10)
             
             # return True
                 
