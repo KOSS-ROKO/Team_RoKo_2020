@@ -68,7 +68,7 @@ while True:
 
     if red_center:
         #print("빨간색 공의 중심 좌표:", red_center)
-
+        print(red_center)
         cv2.circle(frame, red_center, 2, (255, 0, 0), -1)
 
         cv2.imshow(window_name, frame)

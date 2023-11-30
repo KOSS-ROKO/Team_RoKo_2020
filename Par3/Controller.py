@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -148,7 +148,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [381, 232]
+            x,y = reference_point = [378, 288]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -390,7 +390,7 @@ class Controller:
                 time.sleep(2)
             elif point == 2:
                 time.sleep(1)
-                motion.putting("LEFT", 4)
+                motion.putting("LEFT", 3)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
@@ -400,7 +400,7 @@ class Controller:
                 # time.sleep(3)
             elif point == 3:
                 time.sleep(1)
-                motion.putting("LEFT", 4)
+                motion.putting("LEFT", 3)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
@@ -411,7 +411,7 @@ class Controller:
                  
             self.act = Act.WALK_BALL
             time.sleep(3)
-            motion.turn("LEFT", 30)
+            motion.turn("LEFT", 10)
             time.sleep(2)
             print("start forward 12")
             motion.walk("FORWARD13")
@@ -694,7 +694,7 @@ class Controller:
             print("^^^^444444")
             print("^^^^444444")
 
-
+            '''
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
             time.sleep(1)
@@ -721,10 +721,9 @@ class Controller:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)    
-
+            '''
          
-            ball_pos()
-            
+            ball_pos()  
                 
                 
             ### 진짜 퍼팅

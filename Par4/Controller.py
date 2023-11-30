@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.TEESHOTB
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -248,7 +248,7 @@ class Controller:
                     if holecup_midpoint[0] > max + 150:
                         print("RIGHT 회전하고 쉬기")
                         time.sleep(0.5)
-                        robo._motion.holecup_turn('RIGHT', 20)
+                        robo._motion.holecup_turn('RIGHT', 10)
                         time.sleep(1.5)
                     else:
                         print("RIGHT 회전하고 쉬기")
@@ -259,7 +259,7 @@ class Controller:
                     if min-150>=holecup_midpoint[0]:
                         print("왼쪽 회전하고 쉬기")
                         time.sleep(0.5)
-                        robo._motion.holecup_turn('LEFT', 20)
+                        robo._motion.holecup_turn('LEFT', 10)
                         time.sleep(1.5)
                     else:
                         print("왼쪽 회전하고 쉬기")
