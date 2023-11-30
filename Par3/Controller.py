@@ -328,7 +328,7 @@ class Controller:
                 time.sleep(0.2)
                 motion.pose("RIGHT", True)
                 time.sleep(2)
-                motion.turn("RIGHT", 10)
+                motion.turn("RIGHT", 20)
                 print("1번 점에서 확인")
                 point = 1
             elif Distance.head_lr_angle >= 115:
