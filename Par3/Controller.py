@@ -74,7 +74,9 @@ class Controller:
 
         def ball_small_LR(object="ball"):   # ball은 small lr끝난뒤 몸 돌리고 고개 default함
             Distance.head_lr_angle = 100
+            cnt = 0
             while True:
+                cnt += 1
                 print("---------start small lr head")
                 is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
                 if is_vertical_middle == True:
@@ -83,6 +85,8 @@ class Controller:
                 elif is_vertical_middle == False:
                     Distance.head_lr_angle = small_lr_temp
                     continue
+                elif cnt > 50:
+                    return "Except"
                 else : # is_vertical_middle == Except_
                     return "Except"
                 
