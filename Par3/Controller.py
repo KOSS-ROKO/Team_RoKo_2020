@@ -158,15 +158,16 @@ class Controller:
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
-                print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
-                if(x1 <= red_center[0] <= x2 and y1 <= red_center[1] <= y4):    
-                    print("성공함요")
-                    break                              
+                print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)                          
                 if(red_center == None): 
                     print("지금 화면안에 빨간 공 안보임")
                     motion.walk("2JBACKWARD")
                     time.sleep(2)
                     continue
+                else:
+                    if(x1 <= red_center[0] <= x2 and y1 <= red_center[1] <= y4):    
+                        print("성공함요")
+                        break
                 dx = red_center[0] - reference_point[0]
                 dy = red_center[1] - reference_point[1]
                 
