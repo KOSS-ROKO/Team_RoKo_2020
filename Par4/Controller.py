@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.PUTTING
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -116,6 +116,9 @@ class Controller:
                 is_horizontal_middle, small_ud_temp = head.head_for_dist(object, small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     Distance.Head_ud_angle = small_ud_temp
+                    if Distance.Head_ud_angle >= 90:
+                        time.sleep(3)
+                        continue
                     print("head UD angle : ", Distance.Head_ud_angle)
                     break
                 elif is_horizontal_middle == False:
@@ -161,14 +164,15 @@ class Controller:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
                 print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
-                if(x1 <= red_center[0] <= x2 and y1 <= red_center[1] <= y4):    
-                    print("성공함요")
-                    break                              
                 if(red_center == None): 
                     print("지금 화면안에 빨간 공 안보임")
                     motion.walk("2JBACKWARD")
                     time.sleep(2)
                     continue
+                else:
+                    if(x1 <= red_center[0] <= x2 and y1 <= red_center[1] <= y4):    
+                        print("성공함요")
+                        break
                 dx = red_center[0] - reference_point[0]
                 dy = red_center[1] - reference_point[1]
                 
@@ -404,7 +408,19 @@ class Controller:
                 pass
 
 
-
+            ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
+            if ball_dist < 26:      # 점 1
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                # 추후에 이연이 모션 40cm짜리로 바꿀예정
+            elif ball_dist < 46:    # 점 2
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                # 추후에 이연이 모션 20cm짜리로 바꿀예정
+            else :                  # 점 3
+                pass
 
             self.act = Act.SECSHOT
 
@@ -513,7 +529,7 @@ class Controller:
                 time.sleep(2)
             elif point == 2:
                 time.sleep(2)
-                motion.putting("LEFT", 3)
+                motion.putting("PAR4", 1)
                 time.sleep(5)
                 
                 motion.turn("LEFT", 45)
@@ -524,7 +540,7 @@ class Controller:
                 # time.sleep(3)
             elif point == 3:
                 time.sleep(2)
-                motion.putting("LEFT", 3)
+                motion.putting("PAR4", 1)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
@@ -532,6 +548,21 @@ class Controller:
                 time.sleep(2)
                 motion.turn("LEFT", 20)
                 time.sleep(2)
+
+
+            ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
+            if point == 1:      # 점 1
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                # 추후에 이연이 모션 40cm짜리로 바꿀예정
+            elif point == 2:    # 점 2
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                # 추후에 이연이 모션 20cm짜리로 바꿀예정
+            else :                  # 점 3
+                pass
                  
             time.sleep(2)
             print("start forward 15")
