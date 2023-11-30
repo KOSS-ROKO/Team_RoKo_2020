@@ -973,10 +973,10 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)    
             '''
          
+            ball_pos()    
+            Set_holecup_left()
             ball_pos()
             
-                
-            #Set_holecup_left()
             ### 진짜 퍼팅
             motion.putting("LEFT", 4, 2)
             time.sleep(5)
