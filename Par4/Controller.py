@@ -76,7 +76,9 @@ class Controller:
 
         def ball_small_LR(object="ball"):   # ball은 small lr끝난뒤 몸 돌리고 고개 default함
             Distance.head_lr_angle = 100
+            cnt = 0
             while True:
+                cnt += 1
                 print("---------start small lr head")
                 is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
                 if is_vertical_middle == True:
@@ -85,6 +87,8 @@ class Controller:
                 elif is_vertical_middle == False:
                     Distance.head_lr_angle = small_lr_temp
                     continue
+                elif cnt > 50:
+                    return "Except"
                 else : # is_vertical_middle == Except_
                     return "Except"
                 
@@ -624,8 +628,12 @@ class Controller:
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        time.sleep(1)
+                        motion.head("DEFAULT", 2)
+                        time.sleep(1)
+                        motion.head("DEFAULT", 1)
+                        time.sleep(1)
+                        continue
                     else:
                         break
             else:
@@ -685,8 +693,12 @@ class Controller:
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        time.sleep(1)
+                        motion.head("DEFAULT", 2)
+                        time.sleep(1)
+                        motion.head("DEFAULT", 1)
+                        time.sleep(1)
+                        continue
                     else:
                         break
             else:
@@ -756,9 +768,12 @@ class Controller:
                     print("small lr finished")
 
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        
-                        big_LR("holecup") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        time.sleep(1)
+                        motion.head("DEFAULT", 2)
+                        time.sleep(1)
+                        motion.head("DEFAULT", 1)
+                        time.sleep(1)
+                        continue
                     else:
                         break
             motion.head("DEFAULT", 2) # after small lr, occur error, so add default 2
@@ -811,15 +826,15 @@ class Controller:
                             robo._motion.head("UP", 9)
                             big_LR("ball")
                         is_small_LR = ball_small_LR("ball")
-                        
 
                         if is_small_LR == "Except" :
-                            motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                            # big 알고리즘으로 넘어감
-                            # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
-                            big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                            time.sleep(1)
+                            motion.head("DEFAULT", 2)
+                            time.sleep(1)
+                            motion.head("DEFAULT", 1)
+                            time.sleep(1)
+                            continue
                         else:
-
                             break
                 else:
                     continue
@@ -848,7 +863,7 @@ class Controller:
             print("^^^^444444")
             print("^^^^444444")
 
-
+            '''
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
             time.sleep(1)
@@ -875,7 +890,7 @@ class Controller:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)    
-
+            '''
          
             ball_pos()
             
@@ -936,11 +951,12 @@ class Controller:
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        print("small lr except 555")
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        # big 알고리즘으로 넘어감
-                        # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
-                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        time.sleep(1)
+                        motion.head("DEFAULT", 2)
+                        time.sleep(1)
+                        motion.head("DEFAULT", 1)
+                        time.sleep(1)
+                        continue
                     else:
                         break
             else:
@@ -953,7 +969,7 @@ class Controller:
 
             oneframe = robo._image_processor.ball_hole_oneframe()
             if oneframe == True:
-                print("is oneframe? yesss")
+                print("is oneframe? YESsss")
                 check_holein = robo._image_processor.detect_hole_in()
                 if check_holein == True:
                     print("ceremony hehehehehe")
@@ -961,8 +977,7 @@ class Controller:
                     motion.ceremony()
                     return True
                 else:
-                    print("holein fail")
-                    # 몰라. 3번을 더 간단히?
+                    print("------홀인 실패------")
                     self.act = Act.WALK_BALL
                     
                     motion.head("DEFAULT", 1)
@@ -971,7 +986,7 @@ class Controller:
                     time.sleep(1)
 
             else:   
-                print('go putting pos')
+                print('원프레임이 아니라서 WALK BALL로')
                 # 원프레임이 아니라서 다시 WALK BALL로
                 self.act = Act.WALK_BALL
             

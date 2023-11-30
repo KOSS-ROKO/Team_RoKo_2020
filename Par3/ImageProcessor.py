@@ -501,10 +501,10 @@ class ImageProcessor:
 
         red_center = self.detect_ball("call_midpoint")
         if not red_center:
-            print("red no")
+            print("-----red no no no-----")
         yellow_center = self.detect_holecup("call_midpoint")
         if not yellow_center:
-            print("yellow no")
+            print("-----yellow no no no-----")
 
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
