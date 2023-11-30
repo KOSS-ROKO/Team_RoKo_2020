@@ -498,7 +498,7 @@ class Controller:
                 time.sleep(2)
             elif point == 2:
                 time.sleep(2)
-                motion.putting("LEFT", 3)
+                motion.putting("PAR4", 1)
                 time.sleep(5)
                 
                 motion.turn("LEFT", 45)
@@ -509,7 +509,7 @@ class Controller:
                 # time.sleep(3)
             elif point == 3:
                 time.sleep(2)
-                motion.putting("LEFT", 3)
+                motion.putting("PAR4", 1)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
                 time.sleep(2)
