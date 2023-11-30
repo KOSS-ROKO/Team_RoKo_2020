@@ -154,7 +154,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [386, 305]
+            x,y = reference_point = [384, 292]
             w = 30
             rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
             while not is_center:
@@ -201,7 +201,9 @@ class Controller:
             for i in range(0,2):
                 print("왼쪽에 있는지 확인")
                 time.sleep(0.1)
-                if robo._image_processor.detect_holecup():
+                is_holecup = robo._image_processor.detect_holecup()
+                print("CHECK HOLCUP : ", is_holecup)
+                if is_holecup:
                     print("왼편에 있음")
                     is_left = True
                     break
@@ -222,23 +224,24 @@ class Controller:
                     time.sleep(0.1)
                     robo._motion.holecup_turn('LEFT', 20)
                     print("완쪽으로 몸 돌리기")
-                    time.sleep(1.5)
+                    time.sleep(2.5)
             else:
                 while True:
                     time.sleep(0.1)
                     robo._motion.holecup_turn('RIGHT', 20)
                     print("오른쪽으로 몸 돌리기")
-                    time.sleep(1.5)
+                    time.sleep(2.5)
                     is_holecup =  robo._image_processor.detect_holecup()
-                    print("홀컵 있는지 확인", is_holecup)
+                    print("홀컵있는지 확인", is_holecup)
                     if is_holecup:
                         print("찾음")
                         break
              
             while True:
-                time.sleep(0.1)
-                min = 334
-                max = 377
+                time.sleep(0.2)
+                mid = 337
+                min = mid - 20
+                max = mid + 20
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if min<=holecup_midpoint[0] <= max:
@@ -253,23 +256,23 @@ class Controller:
                         print("RIGHT 회전하고 쉬기")
                         time.sleep(0.5)
                         robo._motion.holecup_turn('RIGHT', 10)
-                        time.sleep(4)
+                        time.sleep(2.5)
                     else:
                         print("RIGHT 회전하고 쉬기")
                         time.sleep(0.5)
                         robo._motion.holecup_turn('RIGHT', 5)
-                        time.sleep(4)
+                        time.sleep(2.5)
                 elif min>=holecup_midpoint[0]:
                     if min-150>=holecup_midpoint[0]:
                         print("왼쪽 회전하고 쉬기")
                         time.sleep(0.5)
                         robo._motion.holecup_turn('LEFT', 10)
-                        time.sleep(4)
+                        time.sleep(2.5)
                     else:
                         print("왼쪽 회전하고 쉬기")
                         time.sleep(0.5)
                         robo._motion.holecup_turn('LEFT', 5)
-                        time.sleep(4)
+                        time.sleep(2.5)
                         
         #=======================================================#
         #                      1. Teeshot A                     #         
@@ -306,8 +309,10 @@ class Controller:
 
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
+            time.sleep(1)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
+            time.sleep(2)
             
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
