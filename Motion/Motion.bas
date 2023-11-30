@@ -615,27 +615,27 @@ MAIN_2:
     '리모컨
 KEY1:
     ETX  4800,1
-    GOTO 고개우향최대각
+    GOSUB 왼쪽옆걸음10 '2-3
     GOTO RX_EXIT
 KEY2:
     ETX  4800,2
-    GOTO 우퍼팅2
+    GOSUB 왼쪽옆걸음20 '2-3
     GOTO RX_EXIT
 KEY3:
     ETX  4800,3
-    GOTO 우퍼팅3
+    GOSUB 왼쪽옆걸음70 '5
     GOTO RX_EXIT
 KEY4:
     ETX  4800,4
-    GOTO 좌퍼팅1
+    GOSUB 오른쪽옆걸음10 '4 (3-4)
     GOTO RX_EXIT
 KEY5:
     ETX  4800,5
-    GOTO 좌퍼팅2
+    GOSUB 오른쪽옆걸음20 '2 (2-3)
     GOTO RX_EXIT
 KEY6:
     ETX  4800,6
-    GOTO 좌퍼팅3
+    GOSUB 오른쪽옆걸음70 '4 이게 더 정확한 
     GOTO RX_EXIT
 KEY7:
     ETX  4800,7
@@ -678,7 +678,7 @@ KEY13: '▶
     GOTO RX_EXIT
 KEY14: ' ◀
     ETX  4800,14
-    GOTO 전진기본한걸음
+    GOSUB 전진기본한걸음
     GOTO RX_EXIT
     '-------------------------    --------------------
 KEY16: ' POWER
@@ -732,30 +732,31 @@ KEY16_1:
     '--------------------------------  ----------------
 KEY15: ' A
     ETX  4800,15
-    GOTO 전진2종종걸음
+    GOSUB 왼쪽턴45
     GOTO RX_EXIT
 
 KEY20: ' B
     ETX  4800,20
-    GOSUB 왼쪽옆걸음10
+    GOSUB 오른쪽턴45
     GOTO RX_EXIT
 
 KEY17: ' C
     ETX  4800,17
-    GOSUB 오른쪽옆걸음10
+    GOSUB 왼쪽옆걸음10
     GOTO RX_EXIT
 
 KEY27: ' D
     ETX  4800,27
-    GOSUB 왼쪽턴45
+    GOSUB 오른쪽옆걸음10
     GOTO RX_EXIT
 KEY18: ' E
     ETX  4800,18
-    GOSUB 오른쪽턴10
+    GOSUB 오른쪽턴20
     GOTO RX_EXIT
 
 KEY32: ' F
     ETX  4800,32
+    GOTO 고개우향최대각
     GOTO RX_EXIT
 
 KEY23: ' G
@@ -1017,7 +1018,7 @@ KEY101:
     GOTO 후진종종걸음
 KEY102:
     ETX 4800,102
-    GOTO 전진기본한걸음
+    GOSUB 전진기본한걸음
 KEY103:
     ETX 4800,103
     GOTO 후진기본한걸음
@@ -1249,10 +1250,11 @@ KEY162:
     GOTO RX_EXIT
 KEY163: 
     ETX 4800,163
-
+	GOTO 오른쪽옆걸음20센치
     GOTO RX_EXIT
 KEY164:
     ETX 4800,164
+    GOTO 고개좌향최대각
     GOTO RX_EXIT
 KEY165:
     ETX 4800,165
@@ -1692,7 +1694,7 @@ KEY185:
     '-----------------------------------------------------------------------
 전진2종종걸음:
     GOSUB All_motor_mode3
-    GOSUB 걸음자세ON
+    'GOSUB 걸음자세ON
 
     SPEED 7
     HIGHSPEED SETON
@@ -1724,7 +1726,7 @@ KEY185:
     SPEED 15
     GOSUB 안정화자세
 
-    GOSUB 걸음자세OFF
+    'GOSUB 걸음자세OFF
     SPEED 6
     GOSUB 다리기본자세
     'GOSUB 기본자세
@@ -1733,7 +1735,7 @@ KEY185:
     '-----------------------------------
 후진2종종걸음:
     GOSUB All_motor_mode3
-    GOSUB 걸음자세ON
+    'GOSUB 걸음자세ON
 
     SPEED 7
     HIGHSPEED SETON
@@ -1765,7 +1767,7 @@ KEY185:
     GOSUB 안정화자세
     HIGHSPEED SETOFF
 
-    GOSUB 걸음자세OFF
+    'GOSUB 걸음자세OFF
     SPEED 6
     GOSUB 다리기본자세
     'GOSUB 기본자세
@@ -1933,6 +1935,8 @@ KEY185:
     RETURN
     '------------------------------------
 오른쪽옆걸음20:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
     SPEED 12
     MOVE G6D, 93,  90, 120, 105, 104, 100
     MOVE G6A,103,  76, 145,  93, 104, 100
@@ -1952,6 +1956,8 @@ KEY185:
     GOSUB 기본자세
     RETURN
 왼쪽옆걸음20:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
     SPEED 12
     MOVE G6A, 93,  90, 120, 105, 104, 100
     MOVE G6D,103,  76, 145,  93, 104, 100
@@ -1972,6 +1978,8 @@ KEY185:
     RETURN
     '-------------------------------------------------------
 오른쪽옆걸음70:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
     SPEED 10
     MOVE G6D, 90,  90, 120, 105, 110, 100
     MOVE G6A,100,  76, 146,  93, 107, 100
@@ -1993,6 +2001,8 @@ KEY185:
     GOSUB 기본자세
     RETURN
 왼쪽옆걸음70:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
     SPEED 10
     MOVE G6A, 90,  90, 120, 105, 110, 100	
     MOVE G6D,100,  76, 146,  93, 107, 100	
@@ -2080,8 +2090,10 @@ KEY185:
     SPEED 6
     'GOSUB 다리기본자세
     GOSUB 기본자세
+    
+    RETURN
 
-    GOTO RX_EXIT
+    'GOTO RX_EXIT
     '---------------------------------------------------
 후진기본한걸음:
     넘어진확인 = 0
@@ -2304,6 +2316,9 @@ KEY185:
         GOSUB 오른쪽옆걸음10
     NEXT i
     DELAY 1000
+    
+    '한걸음 추가
+    GOSUB 전진기본한걸음
 
     '2단계 턴
     FOR j = 1 TO 2
@@ -2329,6 +2344,9 @@ KEY185:
         GOSUB 왼쪽옆걸음10
     NEXT i
     DELAY 1000
+    
+    '한걸음 추가
+    GOSUB 전진기본한걸음
 
     '2단계 턴
     FOR j = 1 TO 2
@@ -2354,6 +2372,9 @@ KEY185:
         GOSUB 오른쪽옆걸음10
     NEXT i
     DELAY 1000
+    
+    '한걸음 추가
+    GOSUB 전진기본한걸음
 
     '2단계 턴
     FOR j = 1 TO 2
@@ -2379,6 +2400,9 @@ KEY185:
         GOSUB 왼쪽옆걸음10
     NEXT i
     DELAY 1000
+    
+    '한걸음 추가
+    GOSUB 전진기본한걸음
 
     '2단계 턴
     FOR j = 1 TO 2
@@ -2569,10 +2593,8 @@ KEY185:
     GOSUB 좌어드레스
 
     '퍼팅
-    SPEED 9
-    'MOVE G6C,135,  10,  60, 25
-    MOVE G6C,135,  10,  55,  25,
-
+    SPEED 8
+    MOVE G6C,135,  10,  60, 25
     WAIT
     DELAY 1000
 
@@ -2590,8 +2612,8 @@ KEY185:
     GOSUB 좌어드레스
 
     '퍼팅
-    SPEED 8
-    MOVE G6C,135,  10,  60, 25
+    SPEED 7
+    MOVE G6C,135,  10,  70, 25
     WAIT
     DELAY 1000
 
@@ -2606,10 +2628,11 @@ KEY185:
     GOTO RX_EXIT
     '------------------------------------------------------------------------------------------------------------
 파4첫퍼팅: '1단계
+'MOVE G6C,135,  20,  90, 10
     GOSUB 좌어드레스
 
     '퍼팅
-    SPEED 9
+    SPEED 8
     'MOVE G6C,135,  10,  60, 25
     MOVE G6C,135,  10,  55,  25,
 
@@ -2656,6 +2679,14 @@ KEY185:
 고개우향최대각:
     SPEED 3
     머리좌우 = 좌우영점 + 90
+    SERVO 11, 머리좌우
+    WAIT
+    
+    GOSUB 오른팔내리기
+    GOTO RX_EXIT
+고개좌향최대각:
+    SPEED 3
+    머리좌우 = 좌우영점 - 90
     SERVO 11, 머리좌우
     WAIT
     
@@ -2793,15 +2824,42 @@ KEY185:
     GOSUB 다리기본자세
     RETURN
     
-'오늘일자 바꾼 내역변경
+
+오른쪽옆걸음20센치:
+ 	FOR i=1 TO 5
+ 		GOSUB 오른쪽옆걸음70
+ 		'DELAY 100
+ 	NEXT i 
+ 	
+ 	GOTO RX_EXIT
+ 	
+'오늘일자 바꾼 내역 (11/29)
+' 공치기자세 턴을 45 45 20 -> 45 45 45 로 변경(아님)
 ' 홀컵턴 오류 fix
 ' 전진기본13걸음을 6-7끊은 버전으로 만들음
 ' 을 위해서 전진기본n걸음을 서브루틴으로 변경함!  KEY들도 GOTO RX_EXIT추가
 ' 고개우향최대각 문제 해결함 (오른팔 내리기 모션에 고개 제어 값이 있었음;;)
-' 좌우 홀컵턴,20,45 추가함 키 182-183 
+' 좌우 홀컵턴20 추가함 키 182-183 
 ' 옆걸음10 스피드 12->11
 
 
 '밥 먹고 돌아와서 걸음 시 팔 속도가 모션마다 다른지 확인 적절한 속도로 통일해서
 '모든 모션이 똑같도록 조정하고
 ' 13걸음에서 중간에 팔 디폴트 스킵할지 접었다 필지 결정
+
+
+'11/30 일자 변경 내역 ---------------
+' 좌퍼팅3 을 좌퍼팅4 세기로 바꿈 
+' 좌퍼팅 4 더 약하게 짰음 (티샷 이후의 샷으로 사용)
+
+'쫑쫑걸음  팔 모션 없애세요(ㄹㅇ발만움직임)
+' 파4첫퍼팅 약하게 바꾸세요 complete! 9->8
+
+' 전진기본한걸음 서브루틴화 하고 GOTO 문 모두 수정함 
+' 공치기자세 한걸음 추가하세요 . complete!
+' 옆걸음20 70 에 모터모드 적용함
+
+'오른쪽옆걸음20센치 만들음 163번
+
+'왼쪽90도 만들어주세요 complete 164번
+
