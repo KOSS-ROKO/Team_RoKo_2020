@@ -13,9 +13,9 @@ def mouse_callback(event, x, y, flags, param):
 cap = cv2.VideoCapture(0)
 
 # 해상도, 프레임 설정
-# cap.set(3, 640)
-# cap.set(4, 480)
-# cap.set(5, 5)
+cap.set(3, 640)
+cap.set(4, 480)
+cap.set(5, 5)
 
 # 윈도우 생성
 cv2.namedWindow('Camera')
@@ -43,11 +43,11 @@ while True:
     
     
     # ------------ 빨간색 공 인식 ---------------------------------------
-    imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 100), (179, 255, 255))
+    imgThreshLow = cv2.inRange(imgHSV, (0, 30, 200), (17, 130, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
     # ------------ 노란색 홀컵 인식 -------------------------------------
-    yellow_low = np.array([0, 71, 122])
-    yellow_high = np.array([36, 250, 250])
+    yellow_low = np.array([0, 100, 150])
+    yellow_high = np.array([36, 250, 255])
     # ------------------------------------------------------------------
 
     

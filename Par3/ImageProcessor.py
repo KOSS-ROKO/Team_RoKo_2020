@@ -137,8 +137,11 @@ class ImageProcessor:
         # minju dongbang22
         # imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (179, 255, 255))
-        imgThreshLow = cv2.inRange(imgHSV, self.lower_red1, self.upper_red1)
-        imgThreshHigh = cv2.inRange(imgHSV, self.lower_red2, self.upper_red2)
+        # imgThreshLow = cv2.inRange(imgHSV, self.lower_red1, self.upper_red1)
+        # imgThreshHigh = cv2.inRange(imgHSV, self.lower_red2, self.upper_red2)
+
+        imgThreshLow = cv2.inRange(imgHSV, (0, 30, 200), (17, 130, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
@@ -181,14 +184,17 @@ class ImageProcessor:
         # lower_yellow = np.array([0, 40, 122])
         # upper_yellow = np.array([40, 250, 255])
         #inside dongbang
-        lower_yellow = np.array([0, 71, 122])
-        upper_yellow = np.array([36, 250, 250])
+        # lower_yellow = np.array([0, 71, 122])
+        # upper_yellow = np.array([36, 250, 250])
         
-        # lower_yellow = np.array([10, 30, 20])
-        # upper_yellow = np.array([40, 255, 255])
-        # minju dongbang
-        lower_yellow = np.array([10, 60, 150])
-        upper_yellow = np.array([36, 200, 255])
+        # # lower_yellow = np.array([10, 30, 20])
+        # # upper_yellow = np.array([40, 255, 255])
+        # # minju dongbang
+        # lower_yellow = np.array([10, 60, 150])
+        # upper_yellow = np.array([36, 200, 255])
+
+        lower_yellow = np.array([0, 100, 150])
+        upper_yellow = np.array([36, 250, 255])
         yellow_mask = cv2.inRange(hsv_frame, self.lower_yellow, self.upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
         
