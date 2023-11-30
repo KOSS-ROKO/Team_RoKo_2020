@@ -43,10 +43,10 @@ while True:
     
     
     # ------------ 빨간색 공 인식 ---------------------------------------
-    imgThreshLow = cv2.inRange(imgHSV, (0, 30, 200), (17, 130, 255))
+    imgThreshLow = cv2.inRange(imgHSV, (0, 80, 210), (17, 120, 255))
     imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
     # ------------ 노란색 홀컵 인식 -------------------------------------
-    yellow_low = np.array([0, 100, 150])
+    yellow_low = np.array([10, 100, 170])
     yellow_high = np.array([36, 250, 255])
     # ------------------------------------------------------------------
 
@@ -68,7 +68,8 @@ while True:
     both_detected = cv2.bitwise_or(red_detected, yellow_detected)
 
     cv2.imshow('Camera', frame)
-    cv2.imshow('Both Detected', both_detected)
+    cv2.imshow('red', red_detected)
+    cv2.imshow('yellow', yellow_detected)
 
     # 'q' 키를 누르면 종료
     if cv2.waitKey(1) & 0xFF == ord('q'):

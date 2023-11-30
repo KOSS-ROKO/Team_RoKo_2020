@@ -133,9 +133,9 @@ class ImageProcessor:
         # imgThreshLow = cv2.inRange(imgHSV, self.lower_red1, self.upper_red1)
         # imgThreshHigh = cv2.inRange(imgHSV, self.lower_red2, self.upper_red2)
 
-        imgThreshLow = cv2.inRange(imgHSV, (0, 30, 200), (17, 130, 255))
+        imgThreshLow = cv2.inRange(imgHSV, (0, 80, 210), (17, 120, 255))
         imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
-        
+
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
         imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
@@ -185,8 +185,8 @@ class ImageProcessor:
         # minju dongbang
         # lower_yellow = self.lower_yellow
         # upper_yellow = self.upper_yellow
-        
-        lower_yellow = np.array([0, 100, 150])
+
+        lower_yellow = np.array([10, 100, 170])
         upper_yellow = np.array([36, 250, 255])
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)

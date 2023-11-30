@@ -18,8 +18,11 @@ while True:
     # 노란색 홀컵 검출
     # yellow_lower = np.array([10, 30, 20])
     # yellow_upper = np.array([40, 255, 255])
-    yellow_lower = np.array([10, 60, 150])
-    yellow_upper = np.array([36, 200, 255])
+    # yellow_lower = np.array([10, 60, 150])
+    # yellow_upper = np.array([36, 200, 255])
+
+    yellow_lower = np.array([0, 100, 150])
+    yellow_upper = np.array([36, 250, 255])
     
     
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -96,8 +99,10 @@ while True:
     # imgThreshLow = cv2.inRange(imgHSV, (0, 200, 155), (50, 255, 255))
     # imgThreshHigh = cv2.inRange(imgHSV, (160, 155, 50), (179, 255, 255))
 
-    imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (179, 255, 255))
+    # imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
+    # imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (179, 255, 255))
+    imgThreshLow = cv2.inRange(imgHSV, (0, 30, 200), (17, 130, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
     
     imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
