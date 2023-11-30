@@ -979,12 +979,6 @@ class Controller:
                 else:
                     print("------홀인 실패------")
                     self.act = Act.WALK_BALL
-                    
-                    motion.head("DEFAULT", 1)
-                    time.sleep(1)
-                    motion.head("DOWN", 45)
-                    time.sleep(1)
-
             else:   
                 print('원프레임이 아니라서 WALK BALL로')
                 # 원프레임이 아니라서 다시 WALK BALL로
