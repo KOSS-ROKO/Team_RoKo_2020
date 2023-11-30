@@ -20,10 +20,10 @@ class ImageProcessor:
     def __init__(self, video= ""):
         print("init_imgprocessor")
 
-        # self.upper_red1 = np.array([10, 255, 255])
-        # self.lower_red1 = np.array([0, 100, 100]) 
-        self.upper_red2 = np.array([180, 187, 232]) 
-        self.lower_red2 = np.array([72, 93, 157])
+        self.upper_red1 = (10, 255, 255)
+        self.lower_red1 = (0, 100, 100) 
+        self.upper_red2 = (180, 187, 232) 
+        self.lower_red2 = (72, 93, 157)
         self.upper_yellow = np.array([212, 112, 195])
         self.lower_yellow = np.array([157, 71, 40])
         self.min_area = [5,10]
@@ -119,8 +119,8 @@ class ImageProcessor:
 
         
         # inside dongbang
-        imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 40, 50), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 40, 50), (179, 255, 255))
         # outside dongbang
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
@@ -135,8 +135,10 @@ class ImageProcessor:
         # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
         # minju dongbang22
-        imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (179, 255, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (179, 255, 255))
+        imgThreshLow = cv2.inRange(imgHSV, self.lower_red1, self.upper_red1)
+        imgThreshHigh = cv2.inRange(imgHSV, self.lower_red2, self.upper_red2)
         
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
@@ -187,7 +189,7 @@ class ImageProcessor:
         # minju dongbang
         lower_yellow = np.array([10, 60, 150])
         upper_yellow = np.array([36, 200, 255])
-        yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
+        yellow_mask = cv2.inRange(hsv_frame, self.lower_yellow, self.upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
         
         blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
