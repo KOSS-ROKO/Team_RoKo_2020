@@ -377,7 +377,19 @@ class Controller:
                 pass
 
 
-
+            ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
+            if ball_dist < 26:      # 점 1
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                # 추후에 이연이 모션 40cm짜리로 바꿀예정
+            elif ball_dist < 46:    # 점 2
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                # 추후에 이연이 모션 20cm짜리로 바꿀예정
+            else :                  # 점 3
+                pass
 
             self.act = Act.SECSHOT
 
@@ -505,6 +517,21 @@ class Controller:
                 time.sleep(2)
                 motion.turn("LEFT", 20)
                 time.sleep(2)
+
+
+            ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
+            if point == 1:      # 점 1
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                # 추후에 이연이 모션 40cm짜리로 바꿀예정
+            elif point == 2:    # 점 2
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
+                # 추후에 이연이 모션 20cm짜리로 바꿀예정
+            else :                  # 점 3
+                pass
                  
             time.sleep(2)
             print("start forward 15")
