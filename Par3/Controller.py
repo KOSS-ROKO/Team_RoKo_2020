@@ -114,6 +114,9 @@ class Controller:
                 is_horizontal_middle, small_ud_temp = head.head_for_dist(object, small_ud_angle)
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     Distance.Head_ud_angle = small_ud_temp
+                    if Distance.Head_ud_angle >= 90:
+                        time.sleep(3)
+                        continue
                     print("head UD angle : ", Distance.Head_ud_angle)
                     break
                 elif is_horizontal_middle == False:
