@@ -210,10 +210,12 @@ class Motion:
 
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
-        dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116}
-        self.TX_data(dir_list[dir])
-        time.sleep(1)
+        dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116,
+        "RIGHT20cm": 163}
 
+        self.TX_data(dir_list[dir])
+        if dir != "RIGHT20cm":  time.sleep(1)
+        else: time.sleep(7)
 
 
     #퍼팅 위치에 서기 
