@@ -170,7 +170,7 @@ class Motion:
         dir_list = {
             'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141 },
             'UP' : { 3: 129, 6: 130, 9: 131, 30: 132, 45: 142 },
-            'LEFT': { 3: 134, 6: 135, 30: 136 },
+            'LEFT': { 3: 134, 6: 135, 30: 136, 90:163 },
             'RIGHT': { 3: 138, 6: 139, 30: 140, 90:144 },
             'DEFAULT': { 0:120, 1: 121, 2: 122, 63: 143 }
         }
@@ -209,9 +209,13 @@ class Motion:
 
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
-        dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116}
+        dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116,
+        "RIGHT20cm": 163}
+
         self.TX_data(dir_list[dir])
-        time.sleep(1)
+        if dir != "RIGHT20cm":  time.sleep(1)
+        else: time.sleep(7)
+
 
 
 
