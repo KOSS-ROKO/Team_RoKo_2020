@@ -249,23 +249,24 @@ class Controller:
                         print("RIGHT 회전하고 쉬기")
                         time.sleep(0.5)
                         robo._motion.holecup_turn('RIGHT', 10)
-                        time.sleep(1.5)
+                        time.sleep(4)
                     else:
                         print("RIGHT 회전하고 쉬기")
                         time.sleep(0.5)
                         robo._motion.holecup_turn('RIGHT', 5)
-                        time.sleep(1.5)
+                        time.sleep(4)
                 elif min>=holecup_midpoint[0]:
                     if min-150>=holecup_midpoint[0]:
                         print("왼쪽 회전하고 쉬기")
                         time.sleep(0.5)
                         robo._motion.holecup_turn('LEFT', 10)
-                        time.sleep(1.5)
+                        time.sleep(4)
                     else:
                         print("왼쪽 회전하고 쉬기")
                         time.sleep(0.5)
                         robo._motion.holecup_turn('LEFT', 5)
-                        time.sleep(1.5)
+                        time.sleep(4)
+                        
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
