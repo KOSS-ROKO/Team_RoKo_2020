@@ -226,13 +226,13 @@ class Controller:
                         print("찾음")
                         break
                     time.sleep(0.1)
-                    robo._motion.holecup_turn('LEFT', 20)
+                    robo._motion.holecup_turn('LEFT', 45)
                     print("완쪽으로 몸 돌리기")
                     time.sleep(2)
             else:
                 while True:
                     time.sleep(0.1)
-                    robo._motion.holecup_turn('RIGHT', 20)
+                    robo._motion.holecup_turn('RIGHT', 45)
                     print("오른쪽으로 몸 돌리기")
                     time.sleep(2)
                     is_holecup =  robo._image_processor.detect_holecup()
