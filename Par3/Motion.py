@@ -131,6 +131,10 @@ class Motion:
                     print("FORWARD too small to WALK further.", dist)
                     break
         elif (dir == "BACKWARD") or (dir == "JBACKWARD"):
+            if dist == 0 :  
+                print("BACKWARD")
+                self.TX_data(dir_list["BACKWARD"])
+                time.sleep(6)
             while dist < 0:            
                 if dist <= -8:
                     print("BACKWARD", dir, " by a degrees.", dist)
