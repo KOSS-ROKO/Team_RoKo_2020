@@ -47,13 +47,23 @@ while True:
         break
 
     # 트랙바 값 얻기
-    red_low_h = cv2.getTrackbarPos('Red_Low_H', 'Camera')
-    red_high_h = cv2.getTrackbarPos('Red_High_H', 'Camera')
-    red_low_s = cv2.getTrackbarPos('Red_Low_S', 'Camera')
-    red_high_s = cv2.getTrackbarPos('Red_High_S', 'Camera')
-    red_low_v = cv2.getTrackbarPos('Red_Low_V', 'Camera')
-    red_high_v = cv2.getTrackbarPos('Red_High_V', 'Camera')
+    # red 1
+    red1_low_h = cv2.getTrackbarPos('Red1_Low_H', 'Camera')
+    red1_high_h = cv2.getTrackbarPos('Red1_High_H', 'Camera')
+    red1_low_s = cv2.getTrackbarPos('Red1_Low_S', 'Camera')
+    red1_high_s = cv2.getTrackbarPos('Red1_High_S', 'Camera')
+    red1_low_v = cv2.getTrackbarPos('Red1_Low_V', 'Camera')
+    red1_high_v = cv2.getTrackbarPos('Red1_High_V', 'Camera')
 
+    #red 2
+    red2_low_h = cv2.getTrackbarPos('Red2_Low_H', 'Camera')
+    red2_high_h = cv2.getTrackbarPos('Red2_High_H', 'Camera')
+    red2_low_s = cv2.getTrackbarPos('Red2_Low_S', 'Camera')
+    red2_high_s = cv2.getTrackbarPos('Red2_High_S', 'Camera')
+    red2_low_v = cv2.getTrackbarPos('Red2_Low_V', 'Camera')
+    red2_high_v = cv2.getTrackbarPos('Red2_High_V', 'Camera')
+
+    #yellow
     yellow_low_h = cv2.getTrackbarPos('Yellow_Low_H', 'Camera')
     yellow_high_h = cv2.getTrackbarPos('Yellow_High_H', 'Camera')
     yellow_low_s = cv2.getTrackbarPos('Yellow_Low_S', 'Camera')
@@ -63,8 +73,12 @@ while True:
 
     # 빨간색 공 인식
     imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    imgThreshLow = cv2.inRange(imgHSV, np.array([red_low_h, red_low_s, red_low_v]),
-                               np.array([red_high_h, red_high_s, red_high_v]))
+    imgThresh_Low = cv2.inRange(imgHSV, np.array([red1_low_h, red1_low_s, red1_low_v]),
+                               np.array([red1_high_h, red1_high_s, red1_high_v]))
+    imgThresh_High = cv2.inRange(imgHSV, np.array([red2_low_h, red2_low_s, red2_low_v]),
+                               np.array([red2_high_h, red2_high_s, red2_high_v]))
+
+    imgThresh = cv2.add(imgThresh_Low, imgThresh_High)
 
     # 노란색 홀컵 인식
     yellow_low = np.array([yellow_low_h, yellow_low_s, yellow_low_v])
@@ -72,7 +86,7 @@ while True:
     yellow_mask = cv2.inRange(imgHSV, yellow_low, yellow_high)
 
     # 빨간색, 노란색 감지된 이미지
-    red_detected = cv2.bitwise_and(frame, frame, mask=imgThreshLow)
+    red_detected = cv2.bitwise_and(frame, frame, mask=imgThresh)
     yellow_detected = cv2.bitwise_and(frame, frame, mask=yellow_mask)
 
     # 빨간색, 노란색을 동시에 표시
