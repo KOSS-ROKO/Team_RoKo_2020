@@ -710,8 +710,8 @@ class Controller:
             time.sleep(2)
             motion.turn("RIGHT", 45)
             time.sleep(2)
-            motion.turn("RIGHT", 45)
-            time.sleep(5)
+            motion.turn("RIGHT", 20)
+            time.sleep(2)
 
             motion.walk("FORWARD15")
             time.sleep(25)
