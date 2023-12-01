@@ -157,17 +157,18 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [388, 307]
-            w = 30
-            rectangle_coordinates = [x-w, y-w, x+w, y-w, x+w, y+w, x-w, y+w]
+            x,y = reference_point = [371, 295]
+            v = 10
+            w = 20
+            rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
                 print("현재 빨간공 중심: ", red_center ,"목표 지점: ",reference_point)
                 if(red_center == None): 
                     print("지금 화면안에 빨간 공 안보임")
-                    motion.walk("2JBACKWARD")
-                    time.sleep(2)
+                    motion.walk("BACKWARD")
+                    time.sleep(3)
                     continue
                 else:
                     if(x1 <= red_center[0] <= x2 and y1 <= red_center[1] <= y4):    
@@ -180,10 +181,10 @@ class Controller:
                 print("dx//30: ",dx//30 ,"dy//30",dy//30)
                 if(abs(dy)>=30):
                     if (dy<0):
-                        motion.walk("2JFORWARD")
+                        motion.walk("JFORWARD")
                         print("1")
                     else:
-                        motion.walk("2JBACKWARD")
+                        motion.walk("JBACKWARD")
                         print("2")
                 elif(abs(dx)>=30):
                     if (dx<0):
@@ -202,9 +203,9 @@ class Controller:
             is_left = False
             motion.Rarm("DOWN")
             time.sleep(2)
-            for i in range(0,2):
+            for i in range(0,3):
                 print("왼쪽에 있는지 확인")
-                time.sleep(0.1)
+                time.sleep(0.5)
                 is_holecup = robo._image_processor.detect_holecup()
                 print("CHECK HOLCUP : ", is_holecup)
                 if is_holecup:
@@ -226,13 +227,13 @@ class Controller:
                         print("찾음")
                         break
                     time.sleep(0.1)
-                    robo._motion.holecup_turn('LEFT', 45)
+                    robo._motion.holecup_turn('LEFT', 20)
                     print("완쪽으로 몸 돌리기")
                     time.sleep(2)
             else:
                 while True:
                     time.sleep(0.1)
-                    robo._motion.holecup_turn('RIGHT', 45)
+                    robo._motion.holecup_turn('RIGHT', 20)
                     print("오른쪽으로 몸 돌리기")
                     time.sleep(2)
                     is_holecup =  robo._image_processor.detect_holecup()
@@ -243,7 +244,7 @@ class Controller:
              
             while True:
                 time.sleep(0.2)
-                mid = 330
+                mid = 300
                 min = mid - 15
                 max = mid + 15
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
@@ -284,15 +285,54 @@ class Controller:
             time.sleep(1)
             is_right = False
             print("is_left: ", is_right)
+            
+            for i in range(0,3):
+                print("right쪽에 있는지 확인")
+                time.sleep(0.5)
+                is_holecup = robo._image_processor.detect_holecup()
+                print("CHECK HOLCUP : ", is_holecup)
+                if is_holecup:
+                    print("right편에 있음")
+                    is_right = True
+                    break
+                time.sleep(0.1)
+                motion.head("LEFT",30)
+                time.sleep(3)
+            print("is_left: ", is_right)
             motion.head("LEFT",90)    # 머리 오른쪽 90도
             time.sleep(1.5)
             print("머리 90으로 돌림")
-            
+            if is_right:
+                while True:
+                    is_holecup =  robo._image_processor.detect_holecup()
+                    print("홀컵 있는지 확인", is_holecup)
+                    if is_holecup:
+                        print("찾음")
+                        break
+                    time.sleep(0.1)
+                    robo._motion.turn('RIGHT', 20)
+                    print("완쪽으로 몸 돌리기")
+                    time.sleep(2)
+            else:
+                while True:
+                    time.sleep(0.1)
+                    robo._motion.turn('LEFT', 20)
+                    print("오른쪽으로 몸 돌리기")
+                    time.sleep(2)
+                    is_holecup =  robo._image_processor.detect_holecup()
+                    print("홀컵있는지 확인", is_holecup)
+                    if is_holecup:
+                        print("찾음")
+                        break
+
+
+
             while True:
                 time.sleep(0.2)
-                mid = 425
-                min = mid - 10
-                max = mid + 10
+                mid = 420
+                min = mid - 20
+                max = mid + 20
+                is_left = False
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if min<=holecup_midpoint[0] <= max:
@@ -300,13 +340,13 @@ class Controller:
                     motion.head("DEFAULT", 0) # 고개 디폴트
                     time.sleep(1)
                     break
-                elif holecup_midpoint[0] >= max:
+                elif holecup_midpoint[0] <= max:
                     print("왼쪽 회전하고 쉬기")
-                    robo._motion.holecup_turn('LEFT', 5)
+                    robo._motion.holecup_turn('LEFT', 10)
                     time.sleep(2)
-                elif min>=holecup_midpoint[0]:
+                elif min<=holecup_midpoint[0]:
                     print("오른쪽 회전하고 쉬기")
-                    robo._motion.holecup_turn('RIGHT', 5)
+                    robo._motion.holecup_turn('RIGHT', 10)
                     time.sleep(2)
                         
         #=======================================================#
@@ -421,6 +461,9 @@ class Controller:
                 # 추후에 이연이 모션 20cm짜리로 바꿀예정
             else :                  # 점 3
                 pass
+
+            motion.turn("LEFT", 20)
+            time.sleep(2)
 
             self.act = Act.SECSHOT
 
@@ -657,6 +700,8 @@ class Controller:
             motion.putting("PAR4", 2)
             time.sleep(5)
 
+            motion.turn("RIGHT", 45)
+            time.sleep(2)
             motion.turn("RIGHT", 45)
             time.sleep(2)
             motion.turn("RIGHT", 45)

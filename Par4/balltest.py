@@ -23,7 +23,7 @@ while True:
     # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
 
     imgThreshLow = cv2.inRange(imgHSV, (0, 70, 60), (15, 255, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (180, 255, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
 
 
     

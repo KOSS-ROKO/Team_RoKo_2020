@@ -175,7 +175,7 @@ class ImageProcessor:
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         #outside dongbang
-        lower_yellow = np.array([0, 40, 122])
+        lower_yellow = np.array([10, 54, 130])
         upper_yellow = np.array([40, 250, 255])
         #inside dongbang
         # lower_yellow = np.array([0, 71, 122])
