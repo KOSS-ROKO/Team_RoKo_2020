@@ -403,20 +403,26 @@ class Controller:
 
             point = 0
 
-            if ball_dist > 18:
+            if ball_dist < 26:      # 점 1
+                point =1
+            elif ball_dist < 46:    # 점 2
+                point =2
                 motion.walk("FORWARD", ball_dist - 18)
-            elif ball_dist == 18:
-                print("correct!")
-            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 18)
+            else :   
+                point =3               # 점 3
+                motion.walk("FORWARD", ball_dist - 18)
 
-            
+
             ball_pos()
 
             #if ball is in the first point, turn right
-            if point==0:
+            if point==1:
                 time.sleep(1)
                 motion.turn("RIGHT", 10)
+                time.sleep(1)
+            elif point ==2:
+                time.sleep(1)
+                motion.turn("RIGHT", 5)
                 time.sleep(1)
 
 
@@ -429,45 +435,39 @@ class Controller:
 
             # turn body left, 몸을 왼쪽으로 90도 돌림.
             motion.turn("LEFT", 60)
-            #time.sleep(7)
+            time.sleep(2)
             motion.turn("LEFT", 60)
+            time.sleep(2)
+            motion.turn("LEFT", 10)
             time.sleep(2)
             print("turn LEFT")
 
-            ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
-            if ball_dist < 26:      # 점 1
-                motion.walk_side("RIGHT70")
-                time.sleep(1)
-                # 추후에 이연이 모션 40cm짜리로 바꿀예정
-            elif ball_dist < 46:    # 점 2
-                motion.walk_side("RIGHT70")
-                time.sleep(1)
-                # 추후에 이연이 모션 20cm짜리로 바꿀예정
-            else :                  # 점 3
-                pass
-
 
             ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
-            if ball_dist < 26:      # 점 1
+            if point==1:      # 점 1
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
                 motion.walk_side("RIGHT20cm")
                 time.sleep(1)
                 motion.walk_side("RIGHT20cm")
                 time.sleep(1)
                 # 추후에 이연이 모션 40cm짜리로 바꿀예정
-            elif ball_dist < 46:    # 점 2
+            elif point==2:    # 점 2
+                motion.walk_side("RIGHT20cm")
+                time.sleep(1)
                 motion.walk_side("RIGHT20cm")
                 time.sleep(1)
                 # 추후에 이연이 모션 20cm짜리로 바꿀예정
             else :                  # 점 3
                 pass
 
-            motion.turn("LEFT", 20)
+            #motion.turn("LEFT", 20)    #  영점 잘 맞아서 뻄
             time.sleep(2)
 
             self.act = Act.SECSHOT
 
             motion.walk("FORWARD15")
-            time.sleep(28)
+            time.sleep(27)
 
         #=======================================================#
         #                      2. Teeshot B                     #         
