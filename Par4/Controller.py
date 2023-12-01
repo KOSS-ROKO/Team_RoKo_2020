@@ -157,7 +157,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [371, 295]
+            x,y = reference_point = [387, 275]
             v = 10
             w = 20
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
@@ -355,7 +355,6 @@ class Controller:
         
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
-
             time.sleep(3)
             is_ball = robo._image_processor.detect_ball()
 

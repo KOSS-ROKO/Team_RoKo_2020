@@ -44,7 +44,7 @@ def detect_red_color(image):
 
 def on_mouse_click(event, x, y, flags, param):
     global clicked_point
-    if event == cv2.EVENT_LBUTTONDOWN:q
+    if event == cv2.EVENT_LBUTTONDOWN:
         clicked_point = (x, y)
         print(f'Clicked Point: {clicked_point}')
 
