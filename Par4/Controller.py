@@ -438,7 +438,7 @@ class Controller:
             time.sleep(2)
             motion.turn("LEFT", 60)
             time.sleep(2)
-            motion.turn("LEFT", 10)
+            motion.turn("LEFT", 5)
             time.sleep(2)
             print("turn LEFT")
 
@@ -449,13 +449,15 @@ class Controller:
                 time.sleep(1)
                 motion.walk_side("RIGHT20cm")
                 time.sleep(1)
-                motion.walk_side("RIGHT20cm")
+                motion.walk_side("RIGHT70")
                 time.sleep(1)
                 # 추후에 이연이 모션 40cm짜리로 바꿀예정
             elif point==2:    # 점 2
                 motion.walk_side("RIGHT20cm")
                 time.sleep(1)
-                motion.walk_side("RIGHT20cm")
+                motion.walk_side("RIGHT70")
+                time.sleep(1)
+                motion.walk_side("RIGHT70")
                 time.sleep(1)
                 # 추후에 이연이 모션 20cm짜리로 바꿀예정
             else :                  # 점 3
@@ -467,7 +469,7 @@ class Controller:
             self.act = Act.SECSHOT
 
             motion.walk("FORWARD15")
-            time.sleep(27)
+            time.sleep(24)
 
         #=======================================================#
         #                      2. Teeshot B                     #         
@@ -662,9 +664,10 @@ class Controller:
             ## 이제 남은 거리만큼 공까지 걷기
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 2) # 고개 디폴트
+            time.sleep(1)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             motion.head("DEFAULT", 1) # 고개 디폴트
-            time.sleep(4)
+            time.sleep(2)
             
             print("ball detected")
             UD_for_dist("ball")
@@ -698,6 +701,9 @@ class Controller:
             ### 진짜 두번째 TEESHOT
             motion.putting("PAR4", 2)
             time.sleep(5)
+
+            #퍼팅 후 한 걸음 걷고 시작(로봇을 최대한 왼쪽을 보내기 위해서)
+            motion.walk("FORWARD")
 
             motion.turn("RIGHT", 45)
             time.sleep(2)
