@@ -44,7 +44,7 @@ def detect_red_color(image):
 
 def on_mouse_click(event, x, y, flags, param):
     global clicked_point
-    if event == cv2.EVENT_LBUTTONDOWN:
+    if event == cv2.EVENT_LBUTTONDOWN:q
         clicked_point = (x, y)
         print(f'Clicked Point: {clicked_point}')
 
@@ -68,7 +68,7 @@ while True:
 
     if red_center:
         print("빨간색 공의 중심 좌표:", red_center)
-        print(red_center)
+        #print(red_center)
         cv2.circle(frame, red_center, 2, (255, 0, 0), -1)
 
         cv2.imshow(window_name, frame)

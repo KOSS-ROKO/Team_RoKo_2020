@@ -181,10 +181,10 @@ class Controller:
                 print("dx//30: ",dx//30 ,"dy//30",dy//30)
                 if(abs(dy)>=30):
                     if (dy<0):
-                        motion.walk("JFORWARD")
+                        motion.walk("2JFORWARD")
                         print("1")
                     else:
-                        motion.walk("JBACKWARD")
+                        motion.walk("2JBACKWARD")
                         print("2")
                 elif(abs(dx)>=30):
                     if (dx<0):
@@ -329,9 +329,9 @@ class Controller:
 
             while True:
                 time.sleep(0.2)
-                mid = 420
-                min = mid - 20
-                max = mid + 20
+                mid = 480
+                min = mid - 15
+                max = mid + 15
                 is_left = False
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
