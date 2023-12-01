@@ -43,11 +43,12 @@ while True:
     
     
     # ------------ 빨간색 공 인식 ---------------------------------------
-    imgThreshLow = cv2.inRange(imgHSV, (0, 80, 210), (17, 120, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
+    imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+        
     # ------------ 노란색 홀컵 인식 -------------------------------------
-    yellow_low = np.array([10, 100, 170])
-    yellow_high = np.array([36, 250, 255])
+    lower_yellow = np.array([10, 54, 130])
+    upper_yellow = np.array([40, 250, 255])
     # ------------------------------------------------------------------
 
     
@@ -58,7 +59,7 @@ while True:
     imgThresh = cv2.dilate(imgThresh, np.ones((5, 5), np.uint8))
 
     
-    yellow_mask = cv2.inRange(imgHSV, yellow_low, yellow_high)
+    yellow_mask = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
 
     # 빨간색, 노란색 감지된 이미지
     red_detected = cv2.bitwise_and(frame, frame, mask=imgThresh)

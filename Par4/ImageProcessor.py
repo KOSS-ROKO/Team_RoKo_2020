@@ -134,8 +134,8 @@ class ImageProcessor:
         # imgThreshHigh = cv2.inRange(imgHSV, self.lower_red2, self.upper_red2)
 
         # 445
-        imgThreshLow = cv2.inRange(imgHSV, (0, 80, 210), (17, 120, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 80, 210), (17, 120, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
 
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
