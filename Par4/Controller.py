@@ -461,7 +461,7 @@ class Controller:
                 time.sleep(1)
                 # 추후에 이연이 모션 20cm짜리로 바꿀예정
             else :                  # 점 3
-                pass
+                motion.walk_side("RIGHT70")
 
             #motion.turn("LEFT", 20)    #  영점 잘 맞아서 뻄
             time.sleep(2)
@@ -702,7 +702,8 @@ class Controller:
             motion.putting("PAR4", 2)
             time.sleep(5)
 
-            #퍼팅 후 한 걸음 걷고 시작(로봇을 최대한 왼쪽을 보내기 위해서)
+            #퍼팅 후 두 걸음 걷고 시작(로봇을 최대한 왼쪽으로 보내기 위해서)
+            motion.walk("FORWARD")
             motion.walk("FORWARD")
 
             motion.turn("RIGHT", 45)
