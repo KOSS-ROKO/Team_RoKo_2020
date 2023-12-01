@@ -82,6 +82,9 @@ class Motion:
                         self.lock.release()
                     except:
                         continue
+                elif RX == 199:
+                    time.sleep(20)
+                    
                 elif RX != 200:
                     self.distance = RX
 
