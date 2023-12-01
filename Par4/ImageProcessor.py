@@ -112,8 +112,8 @@ class ImageProcessor:
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 40, 50), (179, 255, 255))
         # outside dongbang
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+        imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
         
         # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
@@ -133,6 +133,7 @@ class ImageProcessor:
         # imgThreshLow = cv2.inRange(imgHSV, self.lower_red1, self.upper_red1)
         # imgThreshHigh = cv2.inRange(imgHSV, self.lower_red2, self.upper_red2)
 
+        # 445
         imgThreshLow = cv2.inRange(imgHSV, (0, 80, 210), (17, 120, 255))
         imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
 
@@ -174,8 +175,8 @@ class ImageProcessor:
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         #outside dongbang
-        # lower_yellow = np.array([0, 40, 122])
-        # upper_yellow = np.array([40, 250, 255])
+        lower_yellow = np.array([0, 40, 122])
+        upper_yellow = np.array([40, 250, 255])
         #inside dongbang
         # lower_yellow = np.array([0, 71, 122])
         # upper_yellow = np.array([36, 250, 250])
@@ -186,8 +187,10 @@ class ImageProcessor:
         # lower_yellow = self.lower_yellow
         # upper_yellow = self.upper_yellow
 
-        lower_yellow = np.array([10, 100, 170])
-        upper_yellow = np.array([36, 250, 255])
+        # 445
+        # lower_yellow = np.array([10, 100, 170])
+        # upper_yellow = np.array([36, 250, 255])
+        
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
         
