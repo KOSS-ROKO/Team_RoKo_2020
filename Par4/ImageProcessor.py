@@ -389,13 +389,13 @@ class ImageProcessor:
         cell_height = 480 // 13
 
         # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 5 <= y_center <= cell_height * 6):
+        if (cell_height * 6 <= y_center <= cell_height * 7):
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 5:
+        elif y_center < cell_height * 6:
             return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 6:
+        elif y_center > cell_height * 7:
             return "down"
     # else:
     #     print("go far")
