@@ -332,10 +332,9 @@ class Controller:
 
             while True:
                 time.sleep(0.2)
-                holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
-                
-                mid = 520
-                min = mid - 15
+                holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
+                mid = 500
+                min = mid - 20
                 max = mid + 15
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
