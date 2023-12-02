@@ -213,6 +213,11 @@ class ImageProcessor:
         elif (role=="call_video"):
             return binary_frame 
         
+        
+        elif (role=="call_toppoint"):
+            y_max, x_max = np.unravel_index(binary_frame.argmax(), binary_frame.shape)
+            return (x_max, y_max)
+        
         elif (role=="call_midpoint"): ## 홀컵의 가장 아래 좌표 return
             
             bottom_point = (0,0)
