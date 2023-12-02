@@ -108,31 +108,31 @@ class Motion:
         print("Motion.py walk funct")
         print(dir)
         
-        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD5") or (dir == "FORWARD6"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
+        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD4") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD5") or (dir == "FORWARD6"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
             if dist == 0 :  
                 self.TX_data(dir_list[dir])
                 time.sleep(1)
             while dist > 0:    
-                if dist >= 48:
+                if dist >= 46:
                     self.TX_data(dir_list["FORWARD6"])
-                    time.sleep(15)
-                    dist -= 48
-                elif dist >= 40:
-                    self.TX_data(dir_list["FORWARD5"])
-                    time.sleep(12)
-                    dist -= 40
-                elif dist >= 32:
-                    self.TX_data(dir_list["FORWARD4"])
                     time.sleep(11)
-                    dist -= 32
-                elif dist >= 24:
+                    dist -= 46
+                elif dist >= 36:
+                    self.TX_data(dir_list["FORWARD5"])
+                    time.sleep(10)
+                    dist -= 36
+                elif dist >= 30:
+                    self.TX_data(dir_list["FORWARD4"])
+                    time.sleep(8.5)
+                    dist -= 30
+                elif dist >= 22:
                     self.TX_data(dir_list["FORWARD3"])
-                    time.sleep(8)
-                    dist -= 24
-                elif dist >= 16:
+                    time.sleep(7.5)
+                    dist -= 22
+                elif dist >= 15:
                     self.TX_data(dir_list["FORWARD2"])
-                    time.sleep(8)
-                    dist -= 16
+                    time.sleep(6.5)
+                    dist -= 15
                 elif dist >= 8:
                     self.TX_data(dir_list["FORWARD"])
                     time.sleep(4)

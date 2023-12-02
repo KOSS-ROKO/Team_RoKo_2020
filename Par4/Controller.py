@@ -378,17 +378,6 @@ class Controller:
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
             
-            motion.walk("FORWARD2")
-            time.sleep(6)
-            motion.walk("FORWARD2")
-            time.sleep(6)
-            
-            
-            motion.turn("LEFT", 10)
-            time.sleep(2)
-                
-            return True
-            
             '''
             time.sleep(3)
             is_ball = robo._image_processor.detect_ball()
@@ -470,12 +459,12 @@ class Controller:
 
             if point==1:      # 점 1
                 motion.walk("FORWARD6")
-                time.sleep(2)
+                time.sleep(11)
                 motion.walk("FORWARD3")
-                time.sleep(2)
+                time.sleep(7.5)
             elif point==2:    # 점 2
                 motion.walk("FORWARD3")
-                time.sleep(3)
+                time.sleep(7.5)
             else :                  # 점 3
                 pass
         
@@ -739,6 +728,7 @@ class Controller:
             time.sleep(5)
 
             motion.walk("FORWARD2")
+            time.sleep(6.5)
 
             motion.turn("RIGHT", 20)
             time.sleep(2)
