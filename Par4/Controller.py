@@ -447,19 +447,19 @@ class Controller:
                 pass
         
             
-            motion.turn("LEFT", 10)
+            motion.turn("LEFT", 20)
             time.sleep(2)
 
             self.act = Act.SECSHOT
 
             motion.walk_side("LEFT120cm") 
-            time.sleep(25)
+            time.sleep(15)
 
-            motion.turn(45)
+            motion.turn("LEFT", 45)
             time.sleep(2)
-            motion.turn(45)
+            motion.turn("LEFT",45)
             time.sleep(2)
-            motion.turn(20)
+            motion.turn("EFT",20)
             time.sleep(2)
 
         #=======================================================#
