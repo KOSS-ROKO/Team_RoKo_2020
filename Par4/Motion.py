@@ -101,22 +101,30 @@ class Motion:
         # 2Jforward = 2센치 종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, 
         "FORWARD10": 104, "FORWARD12": 107, "FORWARD13":149, "FORWARD14": 108, "FORWARD15": 109,
-                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD5":165 ,"FORWARD6": 123} 
+                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD4": 190, "FORWARD5":165 ,"FORWARD6": 123} 
 
 
 
         print("Motion.py walk funct")
         
-        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARAD5"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
+        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD4") or (dir == "FORWARAD5") or (dir == "FORWARAD6"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
             if dist == 0 :  
                 print(dir)
                 self.TX_data(dir_list[dir])
                 time.sleep(6)
             while dist > 0:    
-                if dist >= 40:
-                    self.TX_data(dir_list["FORWARD3"])
+                if dist >= 48:
+                    self.TX_data(dir_list["FORWARD6"])
+                    time.sleep(15)
+                    dist -= 48
+                elif dist >= 40:
+                    self.TX_data(dir_list["FORWARD5"])
                     time.sleep(12)
                     dist -= 40
+                elif dist >= 32:
+                    self.TX_data(dir_list["FORWARD4"])
+                    time.sleep(11)
+                    dist -= 32
                 elif dist >= 24:
                     self.TX_data(dir_list["FORWARD3"])
                     time.sleep(8)
@@ -200,8 +208,8 @@ class Motion:
         dir : {LEFT, RIGHT}
         """
         dir_list = {
-            "LEFT": {60: 160, 45: 159, 20: 158, 10: 157, 5: 156},
-            "RIGHT": {60: 155, 45: 154, 20: 153, 10: 152, 5: 151}
+            "LEFT": {90: 186, 60: 160, 45: 159, 20: 158, 15: 188, 10: 157, 5: 156},
+            "RIGHT": {90: 187, 60: 155, 45: 154, 20: 153, 15: 189, 10: 152, 5: 151}
         }
 
         while angle > 0:
