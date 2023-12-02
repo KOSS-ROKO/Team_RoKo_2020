@@ -448,7 +448,7 @@ class Controller:
 
             self.act = Act.SECSHOT
 
-            motion.walk_side("LEFT70") #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<임자값 임시
+            motion.walk_side("LEFT120cm") 
             time.sleep(15)
 
             motion.turn(45)
@@ -595,7 +595,7 @@ class Controller:
                  
             time.sleep(2)
             print("start walk_side 15")
-            motion.walk_side("LEFT70") # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<인자 임시
+            motion.walk_side("LEFT120cm") # 
             time.sleep(15)
 
             motion.turn("LEFT", 45)
@@ -698,7 +698,7 @@ class Controller:
             motion.turn("RIGHT", 10)
             time.sleep(2)
 
-            motion.walk_side("LEFT20") #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<인자 임시
+            motion.walk_side("LEFT120cm")
             time.sleep(15)
 
             motion.turn("RIGHT", 45)
