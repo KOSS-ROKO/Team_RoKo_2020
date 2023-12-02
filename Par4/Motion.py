@@ -166,8 +166,11 @@ class Motion:
             dist += 2
         elif dir == "FORWARD6":
             self.TX_data(dir_list["FORWARD6"])
-            time.sleep(7)
+            time.sleep(10)
             dist -= 48
+        elif dir == "FORWARD3-2":
+            self.TX_data(dir_list["FORWARD3"])
+            time.sleep(7)
         else:
             print("else walk")
             self.TX_data(dir_list[dir])
