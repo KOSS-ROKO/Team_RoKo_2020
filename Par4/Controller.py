@@ -282,22 +282,25 @@ class Controller:
         def Set_holecup_left():
             time.sleep(0.5)
             motion.head("DEFAULT", 0) # 고개 디폴트
+            ### 고개 내리는 거  
+            motion.head("DOWN", 60) # 고개 디폴트
+            
             time.sleep(1)
             is_right = False
-            print("is_left: ", is_right)
+            #print("is_left: ", is_right)
             
             for i in range(0,3):
                 print("right쪽에 있는지 확인")
                 time.sleep(0.5)
                 is_holecup = robo._image_processor.detect_holecup()
-                print("CHECK HOLCUP : ", is_holecup)
+                print(i,"- HOLCUP은: ", is_holecup)
                 if is_holecup:
                     print("right편에 있음")
                     is_right = True
                     break
                 time.sleep(0.1)
                 motion.head("LEFT",30)
-                time.sleep(3)
+                time.sleep(2)
             print("is_left: ", is_right)
             motion.head("LEFT",90)    # 머리 오른쪽 90도
             time.sleep(1.5)
@@ -311,29 +314,38 @@ class Controller:
                         break
                     time.sleep(0.1)
                     robo._motion.turn('RIGHT', 20)
-                    print("완쪽으로 몸 돌리기")
+                    print("오른쪽으로 몸 돌리기")
                     time.sleep(2)
             else:
                 while True:
                     time.sleep(0.1)
-                    robo._motion.turn('LEFT', 20)
-                    print("오른쪽으로 몸 돌리기")
-                    time.sleep(2)
                     is_holecup =  robo._image_processor.detect_holecup()
                     print("홀컵있는지 확인", is_holecup)
                     if is_holecup:
                         print("찾음")
                         break
+                    robo._motion.turn('LEFT', 20)
+                    print("왼쪽으로 몸 돌리기")
+                    time.sleep(2)
 
 
 
             while True:
                 time.sleep(0.2)
-                mid = 480
-                min = mid - 15
-                max = mid + 15
-                is_left = False
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
+                if holecup_midpoint[1] < 250:
+                    mid = 550
+                    min = mid - 15
+                    max = mid + 15
+                elif holecup_midpoint[1] < 150:
+                    mid = 510
+                    min = mid - 15
+                    max = mid + 20
+                else:
+                    mid = 530
+                    min = mid -20
+                    max = mid +20
+                
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if min<=holecup_midpoint[0] <= max:
                     print("범위안에 들어옴 종료 성공")  

@@ -113,7 +113,11 @@ class Motion:
                 self.TX_data(dir_list[dir])
                 time.sleep(6)
             while dist > 0:    
-                if dist >= 24:
+                if dist >= 40:
+                    self.TX_data(dir_list["FORWARD3"])
+                    time.sleep(12)
+                    dist -= 40
+                elif dist >= 24:
                     self.TX_data(dir_list["FORWARD3"])
                     time.sleep(8)
                     dist -= 24
@@ -178,7 +182,7 @@ class Motion:
     # 머리 각도 (121~140)
     def head(self, dir, angle=0):
         dir_list = {
-            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141 },
+            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141, 60:150 },
             'UP' : { 3: 129, 6: 130, 9: 131, 30: 132, 45: 142 },
             'LEFT': { 3: 134, 6: 135, 30: 136, 90:164 },
             'RIGHT': { 3: 138, 6: 139, 30: 140, 90:144 },
