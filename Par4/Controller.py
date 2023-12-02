@@ -88,8 +88,8 @@ class Controller:
                 elif is_vertical_middle == False:
                     Distance.head_lr_angle = small_lr_temp
                     continue
-                elif cnt > 50:
-                    print("small lr,,, cnt > 50,,, except")
+                elif cnt > 40:
+                    print("small lr,,, cnt > 40,,, except")
                     return "Except"
                 else : # is_vertical_middle == Except_
                     return "Except"
