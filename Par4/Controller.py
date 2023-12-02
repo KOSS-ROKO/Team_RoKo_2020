@@ -378,6 +378,17 @@ class Controller:
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
             
+            motion.walk("FORWARD2")
+            time.sleep(6)
+            motion.walk("FORWARD2")
+            time.sleep(6)
+            
+            
+            motion.turn("LEFT", 10)
+            time.sleep(2)
+                
+            return True
+            
             '''
             time.sleep(3)
             is_ball = robo._image_processor.detect_ball()
@@ -652,16 +663,10 @@ class Controller:
 
             print("^^두번째 티샷^^")
             
-            # time.sleep(1)
-            # motion.head("DEFAULT", 1)
-            # Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            # time.sleep(1)
-            # motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
-            # time.sleep(2)
             
-            motion.head("DOWN", 9)
+            motion.head("UP", 9)
             time.sleep(1)
-            motion.head("DOWN", 9)
+            motion.head("UP", 9)
             # 지금 각도 45도임
             
 
@@ -763,9 +768,9 @@ class Controller:
             print("^^^^222222")
 
 
-            motion.head("DOWN", 9)
+            motion.head("UP", 9)
             time.sleep(1)
-            motion.head("DOWN", 9)
+            motion.head("UP", 9)
             # 지금 각도 45도임
         
             
@@ -1070,9 +1075,9 @@ class Controller:
             print("^^^^^^^^5555555")
 
             
-            motion.head("DOWN", 9)
+            motion.head("UP", 9)
             time.sleep(1)
-            motion.head("DOWN", 9)
+            motion.head("UP", 9)
             # 지금 각도 45도임
             
             
