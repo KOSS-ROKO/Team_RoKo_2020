@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.PUTTING
     robo = Robo()
 
 
@@ -157,7 +157,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [390, 300]
+            x,y = reference_point = [400, 300]
             v = 10
             w = 15
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
@@ -345,21 +345,21 @@ class Controller:
                     break
                 elif holecup_midpoint[0] > max:
                     if holecup_midpoint[0] > max + 60:
-                        print("왼쪽 10 회전하고 쉬기")
-                        robo._motion.holecup_turn('LEFT', 10)
-                        time.sleep(2)
-                    else:
-                        print("왼쪽 5 회전하고 쉬기")
-                        robo._motion.holecup_turn('LEFT', 5)
-                        time.sleep(2)
-                elif min>holecup_midpoint[0]:
-                    if min-60>=holecup_midpoint[0]:
                         print("오른쪽  10 회전하고 쉬기")
                         robo._motion.holecup_turn('RIGHT', 10)
                         time.sleep(2)
                     else:
                         print("오른쪽  10 회전하고 쉬기")
                         robo._motion.holecup_turn('RIGHT', 5)
+                        time.sleep(2)
+                elif min>holecup_midpoint[0]:
+                    if holecup_midpoint[0] < min-60:
+                        print("왼쪽 10 회전하고 쉬기")
+                        robo._motion.holecup_turn('LEFT', 10)
+                        time.sleep(2)
+                    else:
+                        print("왼쪽 5 회전하고 쉬기")
+                        robo._motion.holecup_turn('LEFT', 5)
                         time.sleep(2)
        
 
