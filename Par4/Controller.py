@@ -435,11 +435,14 @@ class Controller:
 
             if point==1:      # 점 1
                 motion.walk("FORWARD6")
-                time.sleep(5)
+                time.sleep(2)
                 # 추후에 이연이 모션 40cm짜리로 바꿀예정
             elif point==2:    # 점 2
-                motion.walk("FORWARD3")
-                time.sleep(4)
+                motion.walk("FORWARD")
+                time.sleep(3)
+                motion.walk("FORWARD")
+                time.sleep(3)
+
                 # 추후에 이연이 모션 20cm짜리로 바꿀예정
             else :                  # 점 3
                 pass
