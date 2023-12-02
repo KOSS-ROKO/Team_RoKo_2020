@@ -174,22 +174,7 @@ class ImageProcessor:
         frame = origin.copy()
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        #outside dongbang
         lower_yellow = np.array([10, 54, 130])
-        upper_yellow = np.array([40, 250, 255])
-        #inside dongbang
-        # lower_yellow = np.array([0, 71, 122])
-        # upper_yellow = np.array([36, 250, 250])
-        
-        # lower_yellow = np.array([10, 30, 20])
-        # upper_yellow = np.array([40, 255, 255])
-        # minju dongbang
-        # lower_yellow = self.lower_yellow
-        # upper_yellow = self.upper_yellow
-
-        # 445
-        # lower_yellow = np.array([10, 100, 170])
-        # upper_yellow = np.array([36, 250, 255])
         
         yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
@@ -203,8 +188,8 @@ class ImageProcessor:
         contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)       
                     
         
-        if (role=="call_TF"):  ## 홀컵 인식이 됐나요? 안 됐나요?
-            if cv2.countNonZero(binary_frame) > 50: # 값 바꾸세요
+        if (role=="call_TF"):  
+            if cv2.countNonZero(binary_frame) > 50: 
                 print("holecup TTTTTTTTTTrue")
                 return True 
             else:
@@ -212,6 +197,12 @@ class ImageProcessor:
             
         elif (role=="call_video"):
             return binary_frame 
+        
+        elif (role == "call_toppoint"): # 수정필요
+            yellow_part = cv2.bitwise_and(frame, frame, mask=yellow_mask)
+            yellow_gray = cv2.cvtColor(yellow_part, cv2.COLOR_BGR2GRAY)
+            y_max, x_max = np.unravel_index(yellow_gray.argmax(), yellow_gray.shape)
+            return (x_max, y_max)
         
         elif (role=="call_midpoint"): ## 홀컵의 가장 아래 좌표 return
             

@@ -25,14 +25,13 @@ def detect_red_color(image):
 
     lower_red_high = np.array([160, 40, 50])
     upper_red_high = np.array([179, 255, 255])
-
+    
     imgThreshLow = cv2.inRange(imgHSV, lower_red_low, upper_red_low)
     imgThreshHigh = cv2.inRange(imgHSV, lower_red_high, upper_red_high)
-
+    
     imgThresh = cv2.bitwise_or(imgThreshLow, imgThreshHigh)
-
     red_contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+    
     cv2.imshow("d",imgThresh)
     if red_contours:
         red_max_contour = max(red_contours, key=cv2.contourArea)
@@ -41,6 +40,20 @@ def detect_red_color(image):
         if M["m00"] != 0:
             red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
             return red_center
+
+def top_point(image):
+    imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    upper_yellow = np.array([30, 180, 255])
+    lower_yellow = np.array([15, 100, 140])
+    mask = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
+
+    yellow_part = cv2.bitwise_and(frame, frame, mask=mask)
+    yellow_gray = cv2.cvtColor(yellow_part, cv2.COLOR_BGR2GRAY)
+    cv2.imshow("tp", yellow_gray)
+    
+    y_max, x_max = np.unravel_index(yellow_gray.argmax(), yellow_gray.shape)
+
+    return x_max,y_max
 
 def on_mouse_click(event, x, y, flags, param):
     global clicked_point
@@ -65,12 +78,13 @@ while True:
         print("비디오 프레임을 읽을 수 없습니다.")
         break
     red_center = detect_red_color(frame)
-
+    tp = top_point(frame)
+    print(" tp : ",tp)
     if red_center:
-        print("빨간색 공의 중심 좌표:", red_center)
+        #print("빨간색 공의 중심 좌표:", red_center)
         #print(red_center)
         cv2.circle(frame, red_center, 2, (255, 0, 0), -1)
-
+        cv2.circle(frame, tp, 2, (0,0,255),3)
         cv2.imshow(window_name, frame)
     if clicked_point:
         cv2.putText(frame, f'Clicked Point: {clicked_point}', (10, H_View_size - 20),
