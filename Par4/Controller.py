@@ -449,11 +449,11 @@ class Controller:
             
             motion.turn("LEFT", 10)
             time.sleep(2)
-            
+
             self.act = Act.SECSHOT
 
             motion.walk_side("LEFT120cm") 
-            time.sleep(20)
+            time.sleep(25)
 
             motion.turn(45)
             time.sleep(2)
