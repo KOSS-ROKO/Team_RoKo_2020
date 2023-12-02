@@ -202,13 +202,6 @@ class ImageProcessor:
         elif (role=="call_toppoint"):
             y_max, x_max = np.unravel_index(binary_frame.argmax(), binary_frame.shape)
             return (x_max, y_max)
-
-
-        elif (role == "call_toppoint"): # 수정필요
-            yellow_part = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-            yellow_gray = cv2.cvtColor(yellow_part, cv2.COLOR_BGR2GRAY)
-            y_max, x_max = np.unravel_index(yellow_gray.argmax(), yellow_gray.shape)
-            return (x_max, y_max)
         
         elif (role=="call_midpoint"): ## 홀컵의 가장 아래 좌표 return
             
