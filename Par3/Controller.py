@@ -230,10 +230,8 @@ class Controller:
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
-            time.sleep(1)
+            motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
             time.sleep(2)
 
             UD_for_dist("ball")
@@ -358,9 +356,8 @@ class Controller:
             #-----------------------------------------------------------------------------------------------------
 
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
+            motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
             time.sleep(2)
 
             # UD_for_dist("ball")
@@ -474,9 +471,7 @@ class Controller:
                     
                     if is_small_LR == "Except" :
                         time.sleep(1)
-                        motion.head("DEFAULT", 2)
-                        time.sleep(1)
-                        motion.head("DEFAULT", 1)
+                        motion.head("DEFAULT", 0)
                         time.sleep(1)
                         continue
                     else:
@@ -485,10 +480,8 @@ class Controller:
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
             
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
-            time.sleep(1)
+            motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
             time.sleep(4)
             
             print("ball detected")
@@ -539,9 +532,7 @@ class Controller:
                     
                     if is_small_LR == "Except" :
                         time.sleep(1)
-                        motion.head("DEFAULT", 2)
-                        time.sleep(1)
-                        motion.head("DEFAULT", 1)
+                        motion.head("DEFAULT", 0)
                         time.sleep(1)
                         continue
                     else:
@@ -550,9 +541,8 @@ class Controller:
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
             # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 2) # 고개 디폴트
+            motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            motion.head("DEFAULT", 1) # 고개 디폴트
             time.sleep(3)
             
             UD_for_dist("ball")
@@ -614,9 +604,7 @@ class Controller:
 
                     if is_small_LR == "Except" :
                         time.sleep(1)
-                        motion.head("DEFAULT", 2)
-                        time.sleep(1)
-                        motion.head("DEFAULT", 1)
+                        motion.head("DEFAULT", 0)
                         time.sleep(1)
                         continue 
                     else:
@@ -674,9 +662,7 @@ class Controller:
                         
                         if is_small_LR == "Except" :
                             time.sleep(1)
-                            motion.head("DEFAULT", 2)
-                            time.sleep(1)
-                            motion.head("DEFAULT", 1)
+                            motion.head("DEFAULT", 0)
                             time.sleep(1)
                             continue
                         else:
@@ -796,9 +782,7 @@ class Controller:
                     
                     if is_small_LR == "Except" :
                         time.sleep(1)
-                        motion.head("DEFAULT", 2)
-                        time.sleep(1)
-                        motion.head("DEFAULT", 1)
+                        motion.head("DEFAULT", 0)
                         time.sleep(1)
                         continue
                     else:
