@@ -2,19 +2,12 @@ import cv2
 import numpy as np
 
 def find_max_yellow_pixel_coordinates(frame):
-    # BGR에서 HSV로 변환
     imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     upper_yellow = np.array([30, 180, 255])
     lower_yellow = np.array([15, 100, 140])
     mask = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
-
-    # 이미지와 마스크를 비트 연산하여 노란색 부분 추출
     yellow_part = cv2.bitwise_and(frame, frame, mask=mask)
-
-    # 노란색 부분을 흑백으로 변환
     yellow_gray = cv2.cvtColor(yellow_part, cv2.COLOR_BGR2GRAY)
-
-    # 흑백 이미지에서 y좌표가 가장 큰 픽셀의 좌표 찾기
     y_max, x_max = np.unravel_index(yellow_gray.argmax(), yellow_gray.shape)
 
     return x_max, y_max
