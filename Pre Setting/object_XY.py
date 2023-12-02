@@ -43,15 +43,26 @@ def detect_red_color(image):
 
 def top_point(image):
     imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    upper_yellow = np.array([30, 180, 255])
-    lower_yellow = np.array([15, 100, 140])
+    upper_yellow = np.array([40, 250, 255])
+    lower_yellow = np.array([10, 54, 130])
     mask = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
-
-    yellow_part = cv2.bitwise_and(frame, frame, mask=mask)
-    yellow_gray = cv2.cvtColor(yellow_part, cv2.COLOR_BGR2GRAY)
-    cv2.imshow("tp", yellow_gray)
+    # yellow_part = cv2.bitwise_and(frame, frame, mask=mask)
+    # yellow_gray = cv2.cvtColor(yellow_part, cv2.COLOR_BGR2GRAY)
+    yellow_mask = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
+    yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
     
-    y_max, x_max = np.unravel_index(yellow_gray.argmax(), yellow_gray.shape)
+    blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
+    gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
+    _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    kernel = np.ones((5, 5), np.uint8)
+    binary_frame = cv2.erode(binary_frame, kernel, iterations=1)
+    binary_frame = cv2.dilate(binary_frame, kernel, iterations=1)
+        
+    
+    
+    cv2.imshow("tp", binary_frame)
+    
+    y_max, x_max = np.unravel_index(binary_frame.argmax(), binary_frame.shape)
 
     return x_max,y_max
 
