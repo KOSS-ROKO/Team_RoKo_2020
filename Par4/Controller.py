@@ -283,7 +283,7 @@ class Controller:
             time.sleep(0.5)
             motion.head("DEFAULT", 0) # 고개 디폴트
             ### 고개 내리는 거  
-            motion.head("DOWN", 60) # 고개 디폴트
+            #motion.head("DOWN", 60) # 고개 디폴트
             
             time.sleep(1)
             is_right = False
@@ -292,7 +292,7 @@ class Controller:
             for i in range(0,3):
                 print("right쪽에 있는지 확인")
                 time.sleep(0.5)
-                is_holecup = robo._image_processor.detect_holecup()
+                is_holecup = robo._image_processor.detect_holecup("set_toppoint")
                 print(i,"- HOLCUP은: ", is_holecup)
                 if is_holecup:
                     print("right편에 있음")
@@ -333,18 +333,10 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
-                if holecup_midpoint[1] < 150:
-                    mid = 520
-                    min = mid - 10
-                    max = mid + 10
-                elif holecup_midpoint[1] < 250:
-                    mid = 510
-                    min = mid - 15
-                    max = mid + 20
-                else:
-                    mid = 530
-                    min = mid -20
-                    max = mid +20
+                
+                mid = 520
+                min = mid - 15
+                max = mid + 15
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if min<=holecup_midpoint[0] <= max:
@@ -352,7 +344,7 @@ class Controller:
                     motion.head("DEFAULT", 0) # 고개 디폴트
                     time.sleep(1)
                     break
-                elif holecup_midpoint[0] >= max:
+                elif holecup_midpoint[0] > max:
                     if holecup_midpoint[0] > max + 60:
                         print("왼쪽 10 회전하고 쉬기")
                         robo._motion.holecup_turn('LEFT', 10)
@@ -361,8 +353,8 @@ class Controller:
                         print("왼쪽 5 회전하고 쉬기")
                         robo._motion.holecup_turn('LEFT', 5)
                         time.sleep(2)
-                elif min>=holecup_midpoint[0]:
-                    if min-50>=holecup_midpoint[0]:
+                elif min>holecup_midpoint[0]:
+                    if min-60>=holecup_midpoint[0]:
                         print("오른쪽  10 회전하고 쉬기")
                         robo._motion.holecup_turn('RIGHT', 10)
                         time.sleep(2)
