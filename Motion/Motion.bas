@@ -573,6 +573,7 @@ GOSUB_RX_EXIT2:
     '************************************************
 MAIN: '라벨설정
     ETX 4800, 38 ' 동작 멈춤 확인 송신 값
+   	MUSIC "f"
 
 MAIN_2:
     GOSUB 앞뒤기울기측정
@@ -633,7 +634,7 @@ KEY4:
     GOTO RX_EXIT
 KEY5:
     ETX  4800,5
-    GOSUB 오른쪽옆걸음20 '2 (2-3)
+    GOTO 파4첫퍼팅
     GOTO RX_EXIT
 KEY6:
     ETX  4800,6
@@ -1373,7 +1374,7 @@ KEY185:
     'MOVE G6B,  62,  93,  99,  ,  ,
     'MOVE G6C, 109,  31,  75,  ,  ,
     GOSUB Arm_motor_mode3
-    SPEED 9 '7->9 
+    SPEED 10 '7->9 9>10
     MOVE G6B, 105,  88, 103, 100,
     MOVE G6C,100,  14,  99, 184, 	
 
@@ -1383,7 +1384,7 @@ KEY185:
     '------------------------------------
 걸음자세OFF:
     GOSUB Arm_motor_mode3
-    SPEED 6
+    SPEED 10 '6->10
     MOVE G6B,100,  30,  80,
     MOVE G6C,100,  30,  80, 190
 
@@ -1904,17 +1905,17 @@ KEY185:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
 
-    SPEED 11
+    SPEED 10
     MOVE G6D, 95,  90, 125, 100, 107, 100
     MOVE G6A,107,  77, 147,  93, 107 , 100
     WAIT
 
-    SPEED 11
+    SPEED 10
     MOVE G6D, 102,  77, 147, 93, 100, 100
     MOVE G6A,90,  80, 140,  95, 107, 100
     WAIT
 
-    SPEED 11
+    SPEED 10
     MOVE G6D,95,  76, 147,  93, 98, 100
     MOVE G6A,95,  76, 147,  93, 98, 100
     WAIT
@@ -1927,17 +1928,17 @@ KEY185:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
 
-    SPEED 11
+    SPEED 10
     MOVE G6A, 95,  90, 125, 100, 104, 100
     MOVE G6D,105,  76, 146,  93, 104, 100
     WAIT
 
-    SPEED 11
+    SPEED 10
     MOVE G6A, 102,  76, 146, 93, 100, 100
     MOVE G6D,90,  80, 140,  95, 107, 100
     WAIT
 
-    SPEED 11
+    SPEED 10
     MOVE G6A,95,  76, 146,  93, 98, 100
     MOVE G6D,95,  76, 146,  93, 98, 100
     WAIT
@@ -2303,14 +2304,14 @@ KEY185:
     '------------------------------------------------------------
 오른팔내리기:
     GOSUB Arm_motor_mode3
-    SPEED 7
+    SPEED 8
     MOVE G6B,100, 100,  81, 100, '왼팔 제어
     MOVE G6C, 100,  30,  80,  90, '오른팔 제어
     WAIT
     RETURN
 
 오른팔돌아오기: '기본자세 팔로
-    SPEED 7
+    SPEED 8
     GOSUB Arm_motor_mode3
     MOVE G6B,100,  30,  80,
     MOVE G6C,100,  30,  80, 190
@@ -2432,7 +2433,7 @@ KEY185:
     '그리고 어드레스만 호출 시에도 GOSUB해야 복귀함
 좌어드레스:
     GOSUB All_motor_mode3
-    SPEED 8
+    SPEED 9
     MOVE G6A,97,  76, 145,  93, 100, 100
     MOVE G6D,97,  76, 145,  93, 100, 100
     MOVE G6B,100,  35,  90,
@@ -2444,7 +2445,7 @@ KEY185:
     '--------------------------------------------------------
 우어드레스:
     GOSUB All_motor_mode3
-    SPEED 8
+    SPEED 9
     MOVE G6A,97,  76, 145,  93, 100, 100
     MOVE G6D,97,  76, 145,  93, 100, 100
     MOVE G6B,100,  35,  90,
@@ -2637,9 +2638,10 @@ KEY185:
     'MOVE G6C,135,  20,  90, 10
     GOSUB 좌어드레스
 
-    '퍼팅5    SPEED 8
+    '퍼팅5    
+    SPEED 8
     'MOVE G6C,135,  10,  60, 25
-    MOVE G6C,135,  10,  57,  25,
+    MOVE G6C,135,  10,  50,  25,
 
     WAIT
     DELAY 1000
@@ -2682,7 +2684,7 @@ KEY185:
     ' 상향최대각은 팔도 같이 움직이세요.
     '----------------------------
 고개우향최대각:
-    SPEED 3
+    SPEED 6
     머리좌우 = 좌우영점 + 90
     SERVO 11, 머리좌우
     WAIT
@@ -2690,7 +2692,7 @@ KEY185:
     GOSUB 오른팔내리기
     GOTO RX_EXIT
 고개좌향최대각:
-    SPEED 3
+    SPEED 6
     머리좌우 = 좌우영점 - 90
     SERVO 11, 머리좌우
     WAIT
@@ -2902,3 +2904,6 @@ KEY185:
 
         'DELAY 400
         GOTO RX_EXIT
+
+
+'파4 더 세게 그리고 몇 가지 모션의 스피드를 up하였음
