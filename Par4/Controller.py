@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.PUTTING
     robo = Robo()
 
 
@@ -157,9 +157,9 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [387, 275]
+            x,y = reference_point = [390, 300]
             v = 10
-            w = 20
+            w = 15
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
@@ -333,11 +333,11 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
-                if holecup_midpoint[1] < 250:
-                    mid = 550
-                    min = mid - 15
-                    max = mid + 15
-                elif holecup_midpoint[1] < 150:
+                if holecup_midpoint[1] < 150:
+                    mid = 520
+                    min = mid - 10
+                    max = mid + 10
+                elif holecup_midpoint[1] < 250:
                     mid = 510
                     min = mid - 15
                     max = mid + 20
@@ -352,15 +352,26 @@ class Controller:
                     motion.head("DEFAULT", 0) # 고개 디폴트
                     time.sleep(1)
                     break
-                elif holecup_midpoint[0] <= max:
-                    print("왼쪽 회전하고 쉬기")
-                    robo._motion.holecup_turn('LEFT', 10)
-                    time.sleep(2)
-                elif min<=holecup_midpoint[0]:
-                    print("오른쪽 회전하고 쉬기")
-                    robo._motion.holecup_turn('RIGHT', 10)
-                    time.sleep(2)
-                        
+                elif holecup_midpoint[0] >= max:
+                    if holecup_midpoint[0] > max + 60:
+                        print("왼쪽 10 회전하고 쉬기")
+                        robo._motion.holecup_turn('LEFT', 10)
+                        time.sleep(2)
+                    else:
+                        print("왼쪽 5 회전하고 쉬기")
+                        robo._motion.holecup_turn('LEFT', 5)
+                        time.sleep(2)
+                elif min>=holecup_midpoint[0]:
+                    if min-50>=holecup_midpoint[0]:
+                        print("오른쪽  10 회전하고 쉬기")
+                        robo._motion.holecup_turn('RIGHT', 10)
+                        time.sleep(2)
+                    else:
+                        print("오른쪽  10 회전하고 쉬기")
+                        robo._motion.holecup_turn('RIGHT', 5)
+                        time.sleep(2)
+       
+
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
@@ -1040,10 +1051,11 @@ class Controller:
             Set_holecup_left()
             ball_pos()
             
+
             ### 진짜 퍼팅
             motion.putting("LEFT", 4, 2)
             time.sleep(5)
-                
+            return True
                 
             self.act = Act.HOLEIN
 
