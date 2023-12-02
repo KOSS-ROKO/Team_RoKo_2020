@@ -45,6 +45,7 @@ class Controller:
             while True:
                 is_object_in_frame, Distance.Head_ud_angle = head.big_UD_head(object, big_ud_angle)
                 if is_object_in_frame == True:
+                    big_ud_angle = Distance.Head_ud_angle
                     return "Success"
                 elif is_object_in_frame == False:
                     big_ud_angle = Distance.Head_ud_angle
@@ -110,7 +111,7 @@ class Controller:
                          
 
         def UD_for_dist(object="ball"): # small ud head 변형
-            small_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            small_ud_angle = Distance.Head_ud_angle
             time.sleep(0.5)
             # 거리를 위한 고개 각도 내리기 
             while True:
@@ -128,27 +129,27 @@ class Controller:
                     Distance.Head_ud_angle = small_ud_temp
                     continue
 
-        def holecup_UD_for_dist(): # small ud head 변형
-            small_ud_angle = 10
+        # def holecup_UD_for_dist(): # small ud head 변형
+        #     small_ud_angle = 10
             
-            # 거리를 위한 고개 각도 올리기 
-            while True:
-                print("---------start HOlECUP ud for dist")
-                is_horizontal_middle, small_ud_temp = head.head_for_dist("holecup", small_ud_angle)
-                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
-                    #act = Act.PUTTING_POS 
-                    #variable.Head_ud_angle = 
-                    Distance.Head_ud_angle = small_ud_temp
-                    print("holecup ud angle : ",Distance.Head_ud_angle)
-                    break
-                elif is_horizontal_middle == False:
-                    if small_ud_angle > small_ud_temp : # 홀컵중점 바껴서 갇히는 현상 해결
-                        Distance.Head_ud_angle = small_ud_temp  #(상관없) 더 최근 고개값 = 더 먼 거리값
-                        break
-                    small_ud_angle = small_ud_temp
-                    Distance.Head_ud_angle = small_ud_temp
+        #     # 거리를 위한 고개 각도 올리기 
+        #     while True:
+        #         print("---------start HOlECUP ud for dist")
+        #         is_horizontal_middle, small_ud_temp = head.head_for_dist("holecup", small_ud_angle)
+        #         if is_horizontal_middle == True: #최종 중앙 맞춰짐 
+        #             #act = Act.PUTTING_POS 
+        #             #variable.Head_ud_angle = 
+        #             Distance.Head_ud_angle = small_ud_temp
+        #             print("holecup ud angle : ",Distance.Head_ud_angle)
+        #             break
+        #         elif is_horizontal_middle == False:
+        #             if small_ud_angle > small_ud_temp : # 홀컵중점 바껴서 갇히는 현상 해결
+        #                 Distance.Head_ud_angle = small_ud_temp  #(상관없) 더 최근 고개값 = 더 먼 거리값
+        #                 break
+        #             small_ud_angle = small_ud_temp
+        #             Distance.Head_ud_angle = small_ud_temp
 
-                    continue
+        #             continue
             
         ###########
         def ball_pos():
@@ -399,12 +400,13 @@ class Controller:
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
             # ud_for_dist 하기전에 고개 세팅           
-            motion.head("DEFAULT", 0)
-            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            time.sleep(2)
+            #motion.head("DEFAULT", 0)
+            #Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            #time.sleep(2)
                     
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             time.sleep(2)
             
 
@@ -416,7 +418,7 @@ class Controller:
             print("==========================================")
 
 
-            point = 0
+            point = 0   # 점 1, 2, 3 할당
 
             if ball_dist < 26:      # 점 1
                 point = 1
