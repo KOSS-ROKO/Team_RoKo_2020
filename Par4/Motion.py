@@ -99,8 +99,10 @@ class Motion:
         """
         # Jforward = 전진종종걸음 Jbackward = 후진종종걸음
         # 2Jforward = 2센치 종종걸음
-        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, "FORWARD10": 104, "FORWARD12": 107, "FORWARD14": 108, "FORWARD15": 109,
-                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD6": 123} 
+        dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, 
+        "FORWARD10": 104, "FORWARD12": 107, "FORWARD13":149, "FORWARD14": 108, "FORWARD15": 109,
+                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD5":165 ,"FORWARD6": 123} 
+
 
 
         print("Motion.py walk funct")
@@ -111,7 +113,11 @@ class Motion:
                 self.TX_data(dir_list[dir])
                 time.sleep(6)
             while dist > 0:    
-                if dist >= 24:
+                if dist >= 40:
+                    self.TX_data(dir_list["FORWARD3"])
+                    time.sleep(12)
+                    dist -= 40
+                elif dist >= 24:
                     self.TX_data(dir_list["FORWARD3"])
                     time.sleep(8)
                     dist -= 24
