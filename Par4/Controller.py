@@ -450,10 +450,9 @@ class Controller:
             motion.turn("LEFT", 20)
             time.sleep(2)
 
-            self.act = Act.SECSHOT
-
             motion.walk_side("LEFT120cm") 
             time.sleep(15)
+
 
             motion.turn("LEFT", 45)
             time.sleep(2)
@@ -461,6 +460,8 @@ class Controller:
             time.sleep(2)
             motion.turn("EFT",20)
             time.sleep(2)
+            
+            self.act = Act.SECSHOT
 
         #=======================================================#
         #                      2. Teeshot B                     #         
