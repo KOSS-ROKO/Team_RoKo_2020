@@ -374,6 +374,7 @@ class Controller:
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
             time.sleep(3)
+            '''
             is_ball = robo._image_processor.detect_ball()
 
             ### False면, big UD LR 해라
@@ -403,7 +404,7 @@ class Controller:
             #motion.head("DEFAULT", 0)
             #Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             #time.sleep(2)
-            
+            '''
             time.sleep(2)   
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
