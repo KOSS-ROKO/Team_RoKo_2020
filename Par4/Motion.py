@@ -116,7 +116,7 @@ class Motion:
                 if dist >= 48:
                     self.TX_data(dir_list["FORWARD6"])
                     time.sleep(15)
-                    dist -= 40
+                    dist -= 48
                 elif dist >= 40:
                     self.TX_data(dir_list["FORWARD5"])
                     time.sleep(12)
@@ -265,7 +265,7 @@ class Motion:
         print("Motion putting")
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
-            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
+            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 34:133},
             "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174},
             "PAR4": { 1:161, 2:162 }
         }
