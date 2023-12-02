@@ -113,7 +113,11 @@ class Motion:
                 self.TX_data(dir_list[dir])
                 time.sleep(6)
             while dist > 0:    
-                if dist >= 24:
+                if dist >= 40:
+                    self.TX_data(dir_list["FORWARD3"])
+                    time.sleep(12)
+                    dist -= 40
+                elif dist >= 24:
                     self.TX_data(dir_list["FORWARD3"])
                     time.sleep(8)
                     dist -= 24
