@@ -710,7 +710,7 @@ class Controller:
             time.sleep(2)
             motion.turn("RIGHT", 45)
             time.sleep(2)
-            motion.turn("RIGHT", 20)
+            motion.turn("RIGHT", 30)
             time.sleep(2)
 
             motion.walk("FORWARD15")
@@ -800,8 +800,8 @@ class Controller:
             time.sleep(2)
             
             #---------------------ball dist one more time     
-            # 
-            
+            # 공 거리 측정 한 번만 하는걸로 바꿔볼게 
+            '''
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(2)
 
@@ -858,6 +858,8 @@ class Controller:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 26)    
+
+            '''
             
             
             self.act = Act.PUTTING_POS
