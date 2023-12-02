@@ -415,7 +415,7 @@ class Controller:
 
             ball_pos()
 
-            #if ball is in the first point, turn right
+            #공을 가운데로 보내기 위해 1,2번 점일 경우 오른쪽 턴 주기
             if point==1:
                 time.sleep(1)
                 motion.turn("RIGHT", 10)
@@ -425,51 +425,36 @@ class Controller:
                 motion.turn("RIGHT", 5)
                 time.sleep(1)
 
-
             # PUTTING
             time.sleep(3)
             motion.putting("PAR4", 1, 2)
             print("putting")
             time.sleep(5)
 
+            ### 점 1,2인 경우엔 walk해서 점 3까지 !
 
-            # turn body left, 몸을 왼쪽으로 90도 돌림.
-            motion.turn("LEFT", 60)
-            time.sleep(2)
-            motion.turn("LEFT", 60)
-            time.sleep(2)
-            motion.turn("LEFT", 5)
-            time.sleep(2)
-            print("turn LEFT")
-
-
-            ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
             if point==1:      # 점 1
-                motion.walk_side("RIGHT20cm")
-                time.sleep(1)
-                motion.walk_side("RIGHT20cm")
-                time.sleep(1)
-                motion.walk_side("RIGHT70")
-                time.sleep(1)
+                motion.walk("FORWARD6")
+                time.sleep(7)
                 # 추후에 이연이 모션 40cm짜리로 바꿀예정
             elif point==2:    # 점 2
-                motion.walk_side("RIGHT20cm")
-                time.sleep(1)
-                motion.walk_side("RIGHT70")
-                time.sleep(1)
-                motion.walk_side("RIGHT70")
-                time.sleep(1)
+                motion.walk("FORWARD3")
+                time.sleep(4)
                 # 추후에 이연이 모션 20cm짜리로 바꿀예정
             else :                  # 점 3
-                motion.walk_side("RIGHT70")
-
-            #motion.turn("LEFT", 20)    #  영점 잘 맞아서 뻄
-            time.sleep(2)
+                pass
+        
+            
 
             self.act = Act.SECSHOT
 
-            motion.walk("FORWARD15")
-            time.sleep(24)
+            motion.walk_side("LEFT70") #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<임자값 임시
+            time.sleep(15)
+
+            motion.turn(45)
+            time.sleep(2)
+            motion.turn(45)
+            time.sleep(2)
 
         #=======================================================#
         #                      2. Teeshot B                     #         
@@ -594,24 +579,29 @@ class Controller:
                 time.sleep(2)
 
 
-            ### 점 1,2인 경우엔 walk_side해서 점 3까지 !
-            if point == 1:      # 점 1
-                motion.walk_side("RIGHT20cm")
-                time.sleep(1)
-                motion.walk_side("RIGHT20cm")
-                time.sleep(1)
+             ### 점 1,2인 경우엔 walk해서 점 3까지 !
+
+            if point==1:      # 점 1
+                motion.walk("FORWARD6")
+                time.sleep(7)
                 # 추후에 이연이 모션 40cm짜리로 바꿀예정
-            elif point == 2:    # 점 2
-                motion.walk_side("RIGHT20cm")
-                time.sleep(1)
+            elif point==2:    # 점 2
+                motion.walk("FORWARD3")
+                time.sleep(4)
                 # 추후에 이연이 모션 20cm짜리로 바꿀예정
             else :                  # 점 3
                 pass
+        
                  
             time.sleep(2)
-            print("start forward 15")
-            motion.walk("FORWARD15")
-            time.sleep(25)
+            print("start walk_side 15")
+            motion.walk_side("LEFT70") # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<인자 임시
+            time.sleep(15)
+
+            motion.turn("LEFT", 45)
+            time.sleep(2)
+            motion.turn("LEFT", 45)
+            time.sleep(2)
 
             self.act = Act.SECSHOT
 
@@ -702,19 +692,19 @@ class Controller:
             motion.putting("PAR4", 2)
             time.sleep(5)
 
-            #퍼팅 후 두 걸음 걷고 시작(로봇을 최대한 왼쪽으로 보내기 위해서)
             motion.walk("FORWARD")
             motion.walk("FORWARD")
+
+            motion.turn("RIGHT", 10)
+            time.sleep(2)
+
+            motion.walk_side("LEFT20") #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<인자 임시
+            time.sleep(15)
 
             motion.turn("RIGHT", 45)
             time.sleep(2)
             motion.turn("RIGHT", 45)
             time.sleep(2)
-            motion.turn("RIGHT", 30)
-            time.sleep(2)
-
-            motion.walk("FORWARD15")
-            time.sleep(25)
 
             self.act = Act.WALK_BALL
             # return True
