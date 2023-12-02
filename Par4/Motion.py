@@ -237,8 +237,10 @@ class Motion:
         "RIGHT20cm": 163,"LEFT120cm": 128, "RIGHT120cm": 137}
 
         self.TX_data(dir_list[dir])
-        if dir != "RIGHT20cm":  time.sleep(1)
-        else: time.sleep(7)
+        if dir == "RIGHT20cm":  
+            time.sleep(7)
+        else: 
+            time.sleep(1)
 
 
 

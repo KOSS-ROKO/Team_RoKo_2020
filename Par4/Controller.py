@@ -466,9 +466,11 @@ class Controller:
             motion.walk_side("LEFT120cm") 
             time.sleep(10)
             motion.walk_side("LEFT70") 
-            time.sleep(3)
+            time.sleep(0.5)
             motion.walk_side("LEFT70") 
-            time.sleep(3)
+            time.sleep(0.5)
+            motion.walk_side("LEFT70") 
+            time.sleep(0.5)
 
 
             # motion.turn("LEFT", 45)
