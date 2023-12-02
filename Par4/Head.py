@@ -142,16 +142,16 @@ class Head:
                     robo._motion.turn("RIGHT", abs(small_lr_angle - 100))
                     time.sleep(1)
                     robo._motion.turn("RIGHT", 5)
-                    time.sleep(1)
+                    time.sleep(0.5)
                     robo._motion.turn("RIGHT", 5)
-                    time.sleep(1)
+                    time.sleep(0.5)
                 elif small_lr_angle < 100:
                     robo._motion.turn("LEFT", abs(small_lr_angle - 100))
                     time.sleep(1)
                     robo._motion.turn("LEFT", 5)
-                    time.sleep(1)
+                    time.sleep(0.5)
                     robo._motion.turn("LEFT", 5)
-                    time.sleep(1)
+                    time.sleep(0.5)
                                 
                 return True, small_lr_angle
             
