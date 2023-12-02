@@ -345,7 +345,6 @@ class ImageProcessor:
         
         
     def middle_lr_ball(self):
-        print("middle_lr_ball")
                 
         # 빨간색 객체 추출
         red_point = self.detect_ball("call_midpoint")

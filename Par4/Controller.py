@@ -79,6 +79,7 @@ class Controller:
             cnt = 0
             while True:
                 cnt += 1
+                print(cnt)
                 print("---------start small lr head")
                 is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
                 if is_vertical_middle == True:
@@ -88,6 +89,7 @@ class Controller:
                     Distance.head_lr_angle = small_lr_temp
                     continue
                 elif cnt > 50:
+                    print("small lr,,, cnt > 50,,, except")
                     return "Except"
                 else : # is_vertical_middle == Except_
                     return "Except"
@@ -179,20 +181,20 @@ class Controller:
                 
                 print("중앙에서 떨어진 거리: ", dx, dy, abs(dx),abs(dy))
                 print("dx//30: ",dx//30 ,"dy//30",dy//30)
-                if(abs(dy)>=30):
-                    if (dy<0):
-                        motion.walk("2JFORWARD")
-                        print("1")
-                    else:
-                        motion.walk("2JBACKWARD")
-                        print("2")
-                elif(abs(dx)>=30):
+                if(abs(dx)>=30):
                     if (dx<0):
                         motion.walk_side("LEFT10")
                         print("3")
                     else:
                         motion.walk_side("RIGHT10")
                         print("4")
+                elif(abs(dy)>=30):
+                    if (dy<0):
+                        motion.walk("2JFORWARD")
+                        print("1")
+                    else:
+                        motion.walk("2JBACKWARD")
+                        print("2")
                 else:
                     is_center = True
         
@@ -399,7 +401,7 @@ class Controller:
             # ud_for_dist 하기전에 고개 세팅           
             motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            time.sleep(1)
+            time.sleep(2)
                     
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
@@ -417,29 +419,29 @@ class Controller:
             point = 0
 
             if ball_dist < 26:      # 점 1
-                point =1
+                point = 1
             elif ball_dist < 46:    # 점 2
-                point =2
+                point = 2
                 motion.walk("FORWARD", ball_dist - 18)
             else :   
-                point =3               # 점 3
+                point = 3               # 점 3
                 motion.walk("FORWARD", ball_dist - 18)
 
 
             ball_pos()
+            time.sleep(1)
 
             #공을 가운데로 보내기 위해 1,2번 점일 경우 오른쪽 턴 주기
             if point==1:
-                time.sleep(1)
                 motion.turn("RIGHT", 10)
                 time.sleep(1)
-            elif point ==2:
+            elif point==2:
+                motion.turn("RIGHT", 5)
                 time.sleep(1)
                 motion.turn("RIGHT", 5)
                 time.sleep(1)
 
             # PUTTING
-            time.sleep(3)
             motion.putting("PAR4", 1, 2)
             print("putting")
             time.sleep(5)
@@ -449,13 +451,11 @@ class Controller:
             if point==1:      # 점 1
                 motion.walk("FORWARD6")
                 time.sleep(2)
-        
-                # 추후에 이연이 모션 40cm짜리로 바꿀예정
+                motion.walk("FORWARD3")
+                time.sleep(2)
             elif point==2:    # 점 2
-                motion.walk("FORWARD3-2")
+                motion.walk("FORWARD3")
                 time.sleep(3)
-
-                # 추후에 이연이 모션 20cm짜리로 바꿀예정
             else :                  # 점 3
                 pass
         
@@ -464,15 +464,22 @@ class Controller:
             time.sleep(2)
 
             motion.walk_side("LEFT120cm") 
-            time.sleep(15)
+            time.sleep(10)
+            motion.walk_side("LEFT70") 
+            time.sleep(3)
+            motion.walk_side("LEFT70") 
+            time.sleep(3)
 
 
-            motion.turn("LEFT", 45)
-            time.sleep(2)
-            motion.turn("LEFT",45)
-            time.sleep(2)
-            motion.turn("LEFT",20)
-            time.sleep(2)
+            # motion.turn("LEFT", 45)
+            # time.sleep(2)
+            # motion.turn("LEFT",45)
+            # time.sleep(2)
+            # motion.turn("LEFT",20)
+            # time.sleep(2)
+            
+            motion.turn("LEFT", 90)
+            time.sleep(8)
             
             self.act = Act.SECSHOT
 
@@ -556,7 +563,7 @@ class Controller:
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            time.sleep(1)
+            time.sleep(2)
             
             # UD_for_dist("ball")
             # motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
@@ -677,7 +684,7 @@ class Controller:
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            time.sleep(1)
+            time.sleep(2)
             
             print("ball detected")
             UD_for_dist("ball")
@@ -712,21 +719,25 @@ class Controller:
             motion.putting("PAR4", 2)
             time.sleep(5)
 
-            motion.walk("FORWARD")
-            motion.walk("FORWARD")
+            motion.walk("FORWARD2")
 
-            motion.turn("RIGHT", 10)
+            motion.turn("RIGHT", 20)
             time.sleep(2)
 
             motion.walk_side("RIGHT120cm")
             time.sleep(15)
+            motion.walk_side("RIGHT70")
+            time.sleep(2)
 
-            motion.turn("RIGHT", 45)
-            time.sleep(2)
-            motion.turn("RIGHT", 45)
-            time.sleep(2)
-            motion.turn(20)
-            time.sleep(2)
+            # motion.turn("RIGHT", 45)
+            # time.sleep(2)
+            # motion.turn("RIGHT", 45)
+            # time.sleep(2)
+            # motion.turn(20)
+            # time.sleep(2)
+            motion.turn("RIGHT", 90)
+            time.sleep(8)
+            
 
             self.act = Act.WALK_BALL
             # return True
@@ -784,7 +795,7 @@ class Controller:
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            time.sleep(4)
+            time.sleep(3)
             
             print("ball detected")
             UD_for_dist("ball")

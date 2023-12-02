@@ -106,10 +106,10 @@ class Motion:
 
 
         print("Motion.py walk funct")
+        print(dir)
         
         if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD5") or (dir == "FORWARD6"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
             if dist == 0 :  
-                print(dir)
                 self.TX_data(dir_list[dir])
                 time.sleep(6)
             while dist > 0:    
@@ -146,7 +146,6 @@ class Motion:
                     break
         elif (dir == "BACKWARD") or (dir == "JBACKWARD"):
             if dist == 0 :  
-                print(dir)
                 self.TX_data(dir_list[dir])
                 time.sleep(6)
             while dist < 0:            
@@ -172,13 +171,13 @@ class Motion:
             self.TX_data(dir_list["2JBACKWARD"])
             time.sleep(2)
             dist += 2
-        elif dir == "FORWARD6":
-            self.TX_data(dir_list["FORWARD6"])
-            time.sleep(10)
-            dist -= 48
-        elif dir == "FORWARD3-2":
-            self.TX_data(dir_list["FORWARD3"])
-            time.sleep(7)
+        # elif dir == "FORWARD6":
+        #     self.TX_data(dir_list["FORWARD6"])
+        #     time.sleep(10)
+        #     dist -= 48
+        # elif dir == "FORWARD3-2":
+        #     self.TX_data(dir_list["FORWARD3"])
+        #     time.sleep(7)
         else:
             print("else walk")
             self.TX_data(dir_list[dir])
