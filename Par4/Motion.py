@@ -166,7 +166,7 @@ class Motion:
             dist += 2
         elif dir == "FORWARD6":
             self.TX_data(dir_list["FORWARD6"])
-            time.sleep(20)
+            time.sleep(7)
             dist -= 48
         else:
             print("else walk")
@@ -224,7 +224,7 @@ class Motion:
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
         dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116,
-        "RIGHT20cm": 163,"LEFT120cm": 137}
+        "RIGHT20cm": 163,"LEFT120cm": 128, "RIGHT120cm": 137}
 
         self.TX_data(dir_list[dir])
         if dir != "RIGHT20cm":  time.sleep(1)

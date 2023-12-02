@@ -435,7 +435,7 @@ class Controller:
 
             if point==1:      # 점 1
                 motion.walk("FORWARD6")
-                time.sleep(7)
+                time.sleep(5)
                 # 추후에 이연이 모션 40cm짜리로 바꿀예정
             elif point==2:    # 점 2
                 motion.walk("FORWARD3")
@@ -449,11 +449,13 @@ class Controller:
             self.act = Act.SECSHOT
 
             motion.walk_side("LEFT120cm") 
-            time.sleep(15)
+            time.sleep(20)
 
             motion.turn(45)
             time.sleep(2)
             motion.turn(45)
+            time.sleep(2)
+            motion.turn(20)
             time.sleep(2)
 
         #=======================================================#
@@ -602,6 +604,8 @@ class Controller:
             time.sleep(2)
             motion.turn("LEFT", 45)
             time.sleep(2)
+            motion.turn(20)
+            time.sleep(2)
 
             self.act = Act.SECSHOT
 
@@ -698,12 +702,14 @@ class Controller:
             motion.turn("RIGHT", 10)
             time.sleep(2)
 
-            motion.walk_side("LEFT120cm")
+            motion.walk_side("RIGHT120cm")
             time.sleep(15)
 
             motion.turn("RIGHT", 45)
             time.sleep(2)
             motion.turn("RIGHT", 45)
+            time.sleep(2)
+            motion.turn(20)
             time.sleep(2)
 
             self.act = Act.WALK_BALL
