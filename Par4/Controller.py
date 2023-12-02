@@ -403,7 +403,8 @@ class Controller:
             #motion.head("DEFAULT", 0)
             #Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             #time.sleep(2)
-                    
+            
+            time.sleep(2)   
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
