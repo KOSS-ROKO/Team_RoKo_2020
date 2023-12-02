@@ -157,7 +157,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [369, 296]
+            x,y = reference_point = [399, 301]
             v = 10
             w = 20
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
@@ -168,7 +168,7 @@ class Controller:
                 if(red_center == None): 
                     print("지금 화면안에 빨간 공 안보임")
                     motion.walk("BACKWARD")
-                    time.sleep(3)
+                    time.sleep(0.1)
                     continue
                 else:
                     if(x1 <= red_center[0] <= x2 and y1 <= red_center[1] <= y4):    
@@ -329,9 +329,9 @@ class Controller:
 
             while True:
                 time.sleep(0.2)
-                mid = 480
-                min = mid - 15
-                max = mid + 15
+                mid = 520
+                min = mid - 20
+                max = mid + 20
                 is_left = False
                 holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
