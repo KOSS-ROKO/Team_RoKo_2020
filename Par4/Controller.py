@@ -440,8 +440,8 @@ class Controller:
             elif point==2:
                 motion.turn("RIGHT", 5)
                 time.sleep(1)
-                motion.turn("RIGHT", 5)
-                time.sleep(1)
+                # motion.turn("RIGHT", 5)
+                # time.sleep(1)
 
             # PUTTING
             motion.putting("PAR4", 1, 2)
