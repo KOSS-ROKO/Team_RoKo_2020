@@ -458,7 +458,7 @@ class Controller:
             time.sleep(2)
             motion.turn("LEFT",45)
             time.sleep(2)
-            motion.turn("EFT",20)
+            motion.turn("LEFT",20)
             time.sleep(2)
             
             self.act = Act.SECSHOT
