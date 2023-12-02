@@ -140,9 +140,11 @@ class Head:
             # 공을 화면 중앙에 오도록 만드는 고개 각도 small_angle 만큼 몸 돌리기
                 if small_lr_angle > 100:
                     robo._motion.turn("RIGHT", abs(small_lr_angle - 100))
+                    time.sleep(1)
                     #robo._motion.turn("RIGHT", 10)
                 elif small_lr_angle < 100:
                     robo._motion.turn("LEFT", abs(small_lr_angle - 100))
+                    time.sleep(1)
                     #robo._motion.turn("LEFT", 10)
                                 
                 return True, small_lr_angle

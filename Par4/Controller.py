@@ -561,6 +561,7 @@ class Controller:
 
 
             # ud_for_dist 하기전에 고개 세팅
+            time.sleep(1)
             motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             time.sleep(2)
@@ -682,9 +683,10 @@ class Controller:
 
             ## 이제 남은 거리만큼 공까지 걷기
             # ud_for_dist 하기전에 고개 세팅
+            time.sleep(1)
             motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            time.sleep(2)
+            time.sleep(1)
             
             print("ball detected")
             UD_for_dist("ball")
@@ -795,7 +797,7 @@ class Controller:
             # ud_for_dist 하기전에 고개 세팅
             motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            time.sleep(3)
+            time.sleep(2)
             
             print("ball detected")
             UD_for_dist("ball")
@@ -853,9 +855,10 @@ class Controller:
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
             # ud_for_dist 하기전에 고개 세팅
+            time.sleep(1)
             motion.head("DEFAULT", 0)
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-            time.sleep(3)
+            time.sleep(2)
             
             UD_for_dist("ball")
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
