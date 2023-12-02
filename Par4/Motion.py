@@ -107,7 +107,7 @@ class Motion:
 
         print("Motion.py walk funct")
         
-        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD4") or (dir == "FORWARAD5") or (dir == "FORWARAD6"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
+        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD5") or (dir == "FORWARD6"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
             if dist == 0 :  
                 print(dir)
                 self.TX_data(dir_list[dir])
