@@ -20,14 +20,19 @@ clicked_point = None
 def detect_red_color(image):
     imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-    lower_red_low = np.array([0, 100, 155])
-    upper_red_low = np.array([50, 255, 255])
+    # lower_red_low = np.array([0, 100, 155])
+    # upper_red_low = np.array([50, 255, 255])
 
-    lower_red_high = np.array([160, 40, 50])
-    upper_red_high = np.array([179, 255, 255])
+    # lower_red_high = np.array([160, 40, 50])
+    # upper_red_high = np.array([179, 255, 255])
 
-    imgThreshLow = cv2.inRange(imgHSV, lower_red_low, upper_red_low)
-    imgThreshHigh = cv2.inRange(imgHSV, lower_red_high, upper_red_high)
+    # imgThreshLow = cv2.inRange(imgHSV, lower_red_low, upper_red_low)
+    # imgThreshHigh = cv2.inRange(imgHSV, lower_red_high, upper_red_high)
+
+    lower_yellow = np.array([10, 54, 130])
+    upper_yellow = np.array([40, 250, 255])
+    imgThreshLow = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
+    imgThreshHigh = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
 
     imgThresh = cv2.bitwise_or(imgThreshLow, imgThreshHigh)
 
