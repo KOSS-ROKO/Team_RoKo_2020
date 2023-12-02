@@ -101,7 +101,7 @@ class Motion:
         # 2Jforward = 2센치 종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, 
         "FORWARD10": 104, "FORWARD12": 107, "FORWARD13":149, "FORWARD14": 108, "FORWARD15": 109,
-                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD4": 190, "FORWARD5":165 ,"FORWARD6": 123} 
+                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD5":165 ,"FORWARD6": 123} 
 
 
 
@@ -112,7 +112,7 @@ class Motion:
                 print(dir)
                 self.TX_data(dir_list[dir])
                 time.sleep(6)
-            while dist > 0:    
+            while dist > 0:
                 if dist >= 48:
                     self.TX_data(dir_list["FORWARD6"])
                     time.sleep(15)
@@ -121,10 +121,6 @@ class Motion:
                     self.TX_data(dir_list["FORWARD5"])
                     time.sleep(12)
                     dist -= 40
-                elif dist >= 32:
-                    self.TX_data(dir_list["FORWARD4"])
-                    time.sleep(11)
-                    dist -= 32
                 elif dist >= 24:
                     self.TX_data(dir_list["FORWARD3"])
                     time.sleep(8)
@@ -174,11 +170,8 @@ class Motion:
             dist += 2
         elif dir == "FORWARD6":
             self.TX_data(dir_list["FORWARD6"])
-            time.sleep(10)
+            time.sleep(20)
             dist -= 48
-        elif dir == "FORWARD3-2":
-            self.TX_data(dir_list["FORWARD3"])
-            time.sleep(7)
         else:
             print("else walk")
             self.TX_data(dir_list[dir])
@@ -208,8 +201,8 @@ class Motion:
         dir : {LEFT, RIGHT}
         """
         dir_list = {
-            "LEFT": {90: 186, 60: 160, 45: 159, 20: 158, 15: 188, 10: 157, 5: 156},
-            "RIGHT": {90: 187, 60: 155, 45: 154, 20: 153, 15: 189, 10: 152, 5: 151}
+            "LEFT": {60: 160, 45: 159, 20: 158, 10: 157, 5: 156},
+            "RIGHT": {60: 155, 45: 154, 20: 153, 10: 152, 5: 151}
         }
 
         while angle > 0:
@@ -235,7 +228,7 @@ class Motion:
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
         dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116,
-        "RIGHT20cm": 163,"LEFT120cm": 128, "RIGHT120cm": 137}
+        "RIGHT20cm": 163}
 
         self.TX_data(dir_list[dir])
         if dir != "RIGHT20cm":  time.sleep(1)
@@ -272,7 +265,7 @@ class Motion:
         print("Motion putting")
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
-            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
+            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 34:133},
             "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174},
             "PAR4": { 1:161, 2:162 }
         }
