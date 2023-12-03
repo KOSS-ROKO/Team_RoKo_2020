@@ -254,7 +254,7 @@ class Controller:
                 mid = 300
                 min = mid - 15
                 max = mid + 15
-                holecup_midpoint = robo._image_processor.detect_holecup("call_midpoint")
+                holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if min<=holecup_midpoint[0] <= max:
                     print("범위안에 들어옴 종료 성공")
@@ -340,9 +340,9 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 500
-                min = mid - 20
-                max = mid + 15
+                mid = 445
+                min = mid - 10
+                max = mid + 10
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if min<=holecup_midpoint[0] <= max:
@@ -353,7 +353,7 @@ class Controller:
                 elif holecup_midpoint[0] > max:
                     if holecup_midpoint[0] > max + 60:
                         print("오른쪽  10 회전하고 쉬기")
-                        robo._motion.holecup_turn('RIGHT', 10)
+                        robo._motion.holecup_turn('RIGHT', 20)
                         time.sleep(1)
                     else:
                         print("오른쪽  10 회전하고 쉬기")
@@ -362,7 +362,7 @@ class Controller:
                 elif min>holecup_midpoint[0]:
                     if holecup_midpoint[0] < min-60:
                         print("왼쪽 10 회전하고 쉬기")
-                        robo._motion.holecup_turn('LEFT', 10)
+                        robo._motion.holecup_turn('LEFT', 20)
                         time.sleep(1)
                     else:
                         print("왼쪽 5 회전하고 쉬기")
