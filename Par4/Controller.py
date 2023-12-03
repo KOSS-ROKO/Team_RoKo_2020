@@ -636,12 +636,10 @@ class Controller:
             motion.walk_side("LEFT120cm") # 
             time.sleep(15)
 
-            motion.turn("LEFT", 45)
-            time.sleep(1)
-            motion.turn("LEFT", 45)
-            time.sleep(1)
-            motion.turn("LEFT", 20)
-            time.sleep(1)
+            motion.turn("LEFT", 90)
+            time.sleep(4)
+            motion.turn("LEFT", 10)
+            time.sleep(0.5)
 
             self.act = Act.SECSHOT
 
