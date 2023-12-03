@@ -164,12 +164,12 @@ class Motion:
                     break
         elif dir == "2JFORWARD":
             self.TX_data(dir_list["2JFORWARD"])
-            time.sleep(2)
+            time.sleep(1)
             dist -= 1
         elif dir == "2JBACKWARD":
             print("Rotating", dir, " by a degrees.", dist)
             self.TX_data(dir_list["2JBACKWARD"])
-            time.sleep(2)
+            time.sleep(1)
             dist += 2
         # elif dir == "FORWARD6":
         #     self.TX_data(dir_list["FORWARD6"])
