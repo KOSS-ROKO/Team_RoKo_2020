@@ -19,42 +19,6 @@ print('code: ImageProcessor.py - ## Debug')
 class ImageProcessor:
     def __init__(self, video= ""):
         print("init_imgprocessor")
-        #koss dongbang
-        # self.upper_red1 = np.array([10, 255, 255])
-        # self.lower_red1 = np.array([0, 180, 60]) 
-        # self.upper_red2 = np.array([180, 255, 255]) 
-        # self.lower_red2 = np.array([150, 70, 60])
-        # self.upper_yellow = np.array([60, 150, 230])
-        # self.lower_yellow = np.array([27, 50, 100])
-        # self.min_area = [5,10]
-
-        #minjoo dongbang
-        # self.upper_red1 = (10, 255, 255)
-        # self.lower_red1 = (0, 180, 60) 
-        # self.upper_red2 = (180, 200, 200) 
-        # self.lower_red2 = (150, 70, 60)
-        # self.lower_yellow = np.array([10, 54, 130])
-        # self.upper_yellow = np.array([40, 250, 255])
-        self.min_area = [5,10]
-
-        #outside dongbang
-        # lower_yellow = np.array([0, 40, 122])
-        # upper_yellow = np.array([40, 250, 255])
-
-        #inside dongbang
-        # lower_yellow = np.array([0, 71, 122])
-        # upper_yellow = np.array([36, 250, 250])
-        
-        # lower_yellow = np.array([10, 30, 20])
-        # upper_yellow = np.array([40, 255, 255])
-
-        # minju dongbang
-        # lower_yellow = np.array([10, 60, 150])
-        # upper_yellow = np.array([36, 200, 255])
-
-        self.lower_green = np.array([30, 70, 40])  # 초록색 최소값 (Hue: 30)
-        self.upper_green = np.array([85, 255, 255])  # 초록색 최대값 (Hue: 85)
-
 
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
@@ -87,7 +51,7 @@ class ImageProcessor:
 
         # 이미지를 받아오면 화면에 띄움
         if show:
-            cv2.imshow("imageProcessor-get_img", img)
+            #cv2.imshow("imageProcessor-get_img", img)
             cv2.waitKey(1)
         return img
 

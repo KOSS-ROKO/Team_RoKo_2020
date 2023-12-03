@@ -20,52 +20,6 @@ class ImageProcessor:
     def __init__(self, video= ""):
         print("init_imgprocessor")
 
-        self.upper_red1 = (10, 255, 255)
-        self.lower_red1 = (0, 100, 100) 
-        self.upper_red2 = (180, 187, 232) 
-        self.lower_red2 = (72, 93, 157)
-        self.upper_yellow = np.array([212, 112, 195])
-        self.lower_yellow = np.array([157, 71, 40])
-        self.min_area = [5,10]
-
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 20, 100), (179, 255, 255))
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
-        
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
-
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 150, 150), (179, 255, 255))
-
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 40, 160), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (160, 130, 200), (179, 255, 255))
-
-        # minju dongbang
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
-
-
-        #outside dongbang
-        # lower_yellow = np.array([0, 40, 122])
-        # upper_yellow = np.array([40, 250, 255])
-
-        #inside dongbang
-        # lower_yellow = np.array([0, 71, 122])
-        # upper_yellow = np.array([36, 250, 250])
-        
-        # lower_yellow = np.array([10, 30, 20])
-        # upper_yellow = np.array([40, 255, 255])
-
-        # minju dongbang
-        # lower_yellow = np.array([10, 60, 150])
-        # upper_yellow = np.array([36, 200, 255])
-
-        self.lower_green = np.array([30, 70, 40])  # 초록색 최소값 (Hue: 30)
-        self.upper_green = np.array([85, 255, 255])  # 초록색 최대값 (Hue: 85)
-
-
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
@@ -97,7 +51,7 @@ class ImageProcessor:
 
         # 이미지를 받아오면 화면에 띄움
         if show:
-            cv2.imshow("imageProcessor-get_img", img)
+            #cv2.imshow("imageProcessor-get_img", img)
             cv2.waitKey(1)
         return img
 
@@ -124,7 +78,10 @@ class ImageProcessor:
         # outside dongbang
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
-        
+        imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (10, 155, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 50, 100), (179, 255, 255))
+    
+
         # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (150, 50, 60), (179, 255, 255))
         # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (10, 255, 255))
@@ -135,14 +92,18 @@ class ImageProcessor:
         # imgThreshLow = cv2.inRange(imgHSV, (0, 120, 130), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (165, 100, 100), (180, 255, 255))
         # minju dongbang22
-        # imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
-        # imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (179, 255, 255))
+
+        # self.upper_red1 = np.array([10, 255, 255])
+        # self.lower_red1 = np.array([0, 180, 60]) 
+        # self.upper_red2 = np.array([180, 230, 230]) 
+        # self.lower_red2 = np.array([150, 70, 60])
         # imgThreshLow = cv2.inRange(imgHSV, self.lower_red1, self.upper_red1)
         # imgThreshHigh = cv2.inRange(imgHSV, self.lower_red2, self.upper_red2)
 
-        imgThreshLow = cv2.inRange(imgHSV, (0, 30, 200), (17, 130, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
-        
+        # 445
+        # imgThreshLow = cv2.inRange(imgHSV, (0, 80, 210), (17, 120, 255))
+        # imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
+
         imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
         imgThresh = cv2.GaussianBlur(imgThresh, (3, 3), 2)
         imgThresh = cv2.erode(imgThresh, np.ones((5, 5), np.uint8))
@@ -180,22 +141,26 @@ class ImageProcessor:
         frame = origin.copy()
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        #outside dongbang
-        # lower_yellow = np.array([0, 40, 122])
+        # #outside dongbang    
+        # lower_yellow = np.array([10, 54, 130])
         # upper_yellow = np.array([40, 250, 255])
+        lower_yellow = np.array([17, 40, 130])
+        upper_yellow = np.array([35, 230, 255])
         #inside dongbang
         # lower_yellow = np.array([0, 71, 122])
         # upper_yellow = np.array([36, 250, 250])
         
-        # # lower_yellow = np.array([10, 30, 20])
-        # # upper_yellow = np.array([40, 255, 255])
-        # # minju dongbang
-        # lower_yellow = np.array([10, 60, 150])
-        # upper_yellow = np.array([36, 200, 255])
+        # lower_yellow = np.array([10, 30, 20])
+        # upper_yellow = np.array([40, 255, 255])
+        # minju dongbang
+        # lower_yellow = self.lower_yellow
+        # upper_yellow = self.upper_yellow
 
-        lower_yellow = np.array([0, 100, 150])
-        upper_yellow = np.array([36, 250, 255])
-        yellow_mask = cv2.inRange(hsv_frame, self.lower_yellow, self.upper_yellow)
+        # 445
+        # lower_yellow = np.array([10, 100, 170])
+        # upper_yellow = np.array([36, 250, 255])
+        
+        yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
         yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
         
         blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
@@ -216,6 +181,11 @@ class ImageProcessor:
             
         elif (role=="call_video"):
             return binary_frame 
+        
+        
+        elif (role=="call_toppoint"):
+            y_max, x_max = np.unravel_index(binary_frame.argmax(), binary_frame.shape)
+            return (x_max, y_max)
         
         elif (role=="call_midpoint"): ## 홀컵의 가장 아래 좌표 return
             
@@ -344,7 +314,6 @@ class ImageProcessor:
         
         
     def middle_lr_ball(self):
-        print("middle_lr_ball")
                 
         # 빨간색 객체 추출
         red_point = self.detect_ball("call_midpoint")
@@ -389,13 +358,13 @@ class ImageProcessor:
         cell_height = 480 // 13
 
         # 빨간 공이 중앙 가로줄인 6번째 줄에서 검출되면 "stop" 출력
-        if (cell_height * 5 <= y_center <= cell_height * 6):
+        if (cell_height * 6 <= y_center <= cell_height * 7):
             return "stop"
         # 1~5번째 줄에서 검출되면 "go up" 출력
-        elif y_center < cell_height * 5:
+        elif y_center < cell_height * 6:
             return "up"
         # 7~11번째 줄에서 검출되면 "go down" 출력
-        elif y_center > cell_height * 6:
+        elif y_center > cell_height * 7:
             return "down"
     # else:
     #     print("go far")
@@ -507,10 +476,10 @@ class ImageProcessor:
 
         red_center = self.detect_ball("call_midpoint")
         if not red_center:
-            print("-----red no no no-----")
+            print("red no")
         yellow_center = self.detect_holecup("call_midpoint")
         if not yellow_center:
-            print("-----yellow no no no-----")
+            print("yellow no")
 
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
@@ -563,71 +532,71 @@ class ImageProcessor:
     #########################################
     #########################################    
         
-    def field(self):
-        # return left and right 
-        origin = self.get_img()
-        frame = origin.copy()
+    # def field(self):
+    #     # return left and right 
+    #     origin = self.get_img()
+    #     frame = origin.copy()
     
-        # HSV 색상 공간으로 변환합니다.
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
+    #     # HSV 색상 공간으로 변환합니다.
+    #     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
 
-        # 색상 범위를 정의합니다.
-        lower_red1 = self.lower_red1  # 빨간색 최소값 (Hue: 0)
-        upper_red1 = self.upper_red1  # 빨간색 최대값 (Hue: 50)
-        lower_red2 = self.lower_red2  # 빨간색 최소값 (Hue: 160)
-        upper_red2 = self.upper_red2  # 빨간색 최대값 (Hue: 179)
-        lower_yellow = self.lower_yellow  # 노란색 최소값 (Hue: 20)
-        upper_yellow = self.upper_yellow  # 노란색 최대값 (Hue: 30)
-        lower_green = self.lower_green  # 초록색 최소값 (Hue: 30)
-        upper_green = self.upper_green  # 초록색 최대값 (Hue: 85)
-        #범위가 이상해요
-        lower_pink = np.array([300, 50, 50])  # 핑크색 최소값 (예: 색조: 300, 채도: 50, 명도: 50)
-        upper_pink = np.array([330, 255, 255])  # 핑크색 최대값 (예: 색조: 330, 채도: 255, 명도: 255)
+    #     # 색상 범위를 정의합니다.
+    #     lower_red1 = self.lower_red1  # 빨간색 최소값 (Hue: 0)
+    #     upper_red1 = self.upper_red1  # 빨간색 최대값 (Hue: 50)
+    #     lower_red2 = self.lower_red2  # 빨간색 최소값 (Hue: 160)
+    #     upper_red2 = self.upper_red2  # 빨간색 최대값 (Hue: 179)
+    #     lower_yellow = self.lower_yellow  # 노란색 최소값 (Hue: 20)
+    #     upper_yellow = self.upper_yellow  # 노란색 최대값 (Hue: 30)
+    #     lower_green = self.lower_green  # 초록색 최소값 (Hue: 30)
+    #     upper_green = self.upper_green  # 초록색 최대값 (Hue: 85)
+    #     #범위가 이상해요
+    #     lower_pink = np.array([300, 50, 50])  # 핑크색 최소값 (예: 색조: 300, 채도: 50, 명도: 50)
+    #     upper_pink = np.array([330, 255, 255])  # 핑크색 최대값 (예: 색조: 330, 채도: 255, 명도: 255)
 
-        # 각 색상에 대한 마스크를 만듭니다.
-        mask_red1 = cv2.inRange(hsv, lower_red1, upper_red1)
-        mask_red2 = cv2.inRange(hsv, lower_red2, upper_red2)
-        mask_yellow = cv2.inRange(hsv, lower_yellow, upper_yellow)
-        mask_green = cv2.inRange(hsv, lower_green, upper_green)
-        mask_pink = cv2.inRange(hsv, lower_pink, upper_pink)
+    #     # 각 색상에 대한 마스크를 만듭니다.
+    #     mask_red1 = cv2.inRange(hsv, lower_red1, upper_red1)
+    #     mask_red2 = cv2.inRange(hsv, lower_red2, upper_red2)
+    #     mask_yellow = cv2.inRange(hsv, lower_yellow, upper_yellow)
+    #     mask_green = cv2.inRange(hsv, lower_green, upper_green)
+    #     mask_pink = cv2.inRange(hsv, lower_pink, upper_pink)
 
-        # 모든 색상의 마스크를 합칩니다.
-        combined_mask = cv2.add(mask_red1, mask_red2)
-        combined_mask = cv2.add(combined_mask, mask_yellow)
-        combined_mask = cv2.add(combined_mask, mask_green)
-        combined_mask = cv2.add(combined_mask, mask_pink)
+    #     # 모든 색상의 마스크를 합칩니다.
+    #     combined_mask = cv2.add(mask_red1, mask_red2)
+    #     combined_mask = cv2.add(combined_mask, mask_yellow)
+    #     combined_mask = cv2.add(combined_mask, mask_green)
+    #     combined_mask = cv2.add(combined_mask, mask_pink)
 
-        # 경계를 찾습니다.
-        contours, _ = cv2.findContours(combined_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    #     # 경계를 찾습니다.
+    #     contours, _ = cv2.findContours(combined_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        # 내부 영역을 검정색으로 처리합니다.
-        mask = np.zeros_like(combined_mask)
-        cv2.drawContours(mask, contours, -1, (255,60,200), cv2.FILLED)
-        mask = cv2.bitwise_not(mask)
+    #     # 내부 영역을 검정색으로 처리합니다.
+    #     mask = np.zeros_like(combined_mask)
+    #     cv2.drawContours(mask, contours, -1, (255,60,200), cv2.FILLED)
+    #     mask = cv2.bitwise_not(mask)
 
-        # 마스크를 이용하여 프레임을 업데이트합니다.
-        frame = cv2.bitwise_and(frame, frame, mask=mask)
+    #     # 마스크를 이용하여 프레임을 업데이트합니다.
+    #     frame = cv2.bitwise_and(frame, frame, mask=mask)
 
-        # 화면을 왼쪽과 오른쪽으로 나눕니다.
-        left_half = frame[:, :self.width // 2]
-        right_half = frame[:, self.width // 2:]
+    #     # 화면을 왼쪽과 오른쪽으로 나눕니다.
+    #     left_half = frame[:, :self.width // 2]
+    #     right_half = frame[:, self.width // 2:]
 
-        # 왼쪽 영역과 오른쪽 영역의 블랙 넓이를 계산합니다.
-        left_black_area = cv2.countNonZero(cv2.inRange(left_half, (0, 0, 0), (0, 0, 0)))
-        right_black_area = cv2.countNonZero(cv2.inRange(right_half, (0, 0, 0), (0, 0, 0)))
+    #     # 왼쪽 영역과 오른쪽 영역의 블랙 넓이를 계산합니다.
+    #     left_black_area = cv2.countNonZero(cv2.inRange(left_half, (0, 0, 0), (0, 0, 0)))
+    #     right_black_area = cv2.countNonZero(cv2.inRange(right_half, (0, 0, 0), (0, 0, 0)))
 
-        # 블랙 넓이에 따라 'go right' 또는 'go left'를 출력합니다.
-        # 왼오 넓이 비슷할때, go left하기위해 +1000 정도 오차 범위 넣음 -> 추후 수정
-        if left_black_area +1000 >= right_black_area:
-            result = 'left'
-        else:
-            result = 'right'
+    #     # 블랙 넓이에 따라 'go right' 또는 'go left'를 출력합니다.
+    #     # 왼오 넓이 비슷할때, go left하기위해 +1000 정도 오차 범위 넣음 -> 추후 수정
+    #     if left_black_area +1000 >= right_black_area:
+    #         result = 'left'
+    #     else:
+    #         result = 'right'
 
-        # 결과 프레임을 표시합니다.
-        # cv2.putText(frame, result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        #cv2.imshow('Combined Color Detection', frame)
-        return result
-        #print(left_black_area, right_black_area, result)
+    #     # 결과 프레임을 표시합니다.
+    #     # cv2.putText(frame, result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    #     #cv2.imshow('Combined Color Detection', frame)
+    #     return result
+    #     #print(left_black_area, right_black_area, result)
 
 
         
