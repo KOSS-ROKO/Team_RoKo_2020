@@ -396,10 +396,11 @@ class Controller:
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        # big 알고리즘으로 넘어감
-                        # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
-                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        time.sleep(1)
+                        motion.head("DEFAULT", 0)
+                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                        time.sleep(1)
+                        continue 
                     else:
                         break
                     
@@ -508,17 +509,17 @@ class Controller:
                     Distance.Head_ud_angle -= 15
 
 
-                    #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         big_LR("ball2")  # big은 알아서 고개 디폴트 함 
                     
                     is_small_LR = small_LR("ball2")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        # big 알고리즘으로 넘어감
-                        # is_big_LR = big_LR("ball") 하러 처음으로 올라감 
-                        big_LR("ball2") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        time.sleep(1)
+                        motion.head("DEFAULT", 0)
+                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                        time.sleep(1)
+                        continue 
                     else:
                         break
                     
@@ -667,7 +668,6 @@ class Controller:
                     time.sleep(0.5)
                     print("controller === big ud ")
 
-                    #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
@@ -675,8 +675,11 @@ class Controller:
                     is_small_LR = ball_small_LR("ball")
                     
                     if is_small_LR == "Except" :
-                        motion.head("DEFAULT", 2) # small_LR 한 후 고개 디폴트
-                        big_LR("ball") # 이거 한번만 실행하면 무조건 찾을 거라고 생각해서 while로 안 돌아감.
+                        time.sleep(1)
+                        motion.head("DEFAULT", 0)
+                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                        time.sleep(1)
+                        continue 
                     else:
                         break
             else:
@@ -772,7 +775,6 @@ class Controller:
                     time.sleep(0.5)
                     print("controller === big ud ")
 
-                    #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         motion.head("UP", 6)
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
@@ -782,8 +784,9 @@ class Controller:
                     if is_small_LR == "Except" :
                         time.sleep(1)
                         motion.head("DEFAULT", 0)
+                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
                         time.sleep(1)
-                        continue
+                        continue 
                     else:
                         break
             else:
@@ -833,7 +836,6 @@ class Controller:
                     is_big_UD = big_UD("ball")
                     print("controller === big ud ")
 
-                    #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         big_LR("ball")  # big은 알아서 고개 디폴트 함 
                     
@@ -842,8 +844,9 @@ class Controller:
                     if is_small_LR == "Except" :
                         time.sleep(1)
                         motion.head("DEFAULT", 0)
+                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
                         time.sleep(1)
-                        continue
+                        continue 
                     else:
                         break
             else:
@@ -1081,7 +1084,6 @@ class Controller:
                     is_big_UD = big_UD("ball")
                     print(" === big ud === for holeIN")
 
-                    #if go_to == "big_lr" :
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         print("big ud except 555")
                         # big LR 시행하기전에 UD 45도로
