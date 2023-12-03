@@ -82,9 +82,6 @@ class Motion:
                         self.lock.release()
                     except:
                         continue
-                elif RX == 199:
-                    time.sleep(20)
-                    
                 elif RX != 200:
                     self.distance = RX
 
@@ -104,29 +101,38 @@ class Motion:
         # 2Jforward = 2센치 종종걸음
         dir_list = {'JFORWARD': 100, "JBACKWARD": 101, "FORWARD":102, "BACKWARD": 103, 
         "FORWARD10": 104, "FORWARD12": 107, "FORWARD13":149, "FORWARD14": 108, "FORWARD15": 109,
-                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD5":165 ,"FORWARD6": 123} 
+                    '2JFORWARD': 105, "2JBACKWARD": 106, "FORWARD2": 118, "FORWARD3": 119, "FORWARD4": 190, "FORWARD5":165 ,"FORWARD6": 123} 
+
 
 
         print("Motion.py walk funct")
+        print(dir)
         
-        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD3") or (dir == "FORWARD2"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
+        if (dir == "FORWARD") or (dir == "JFORWARD") or (dir == "FORWARD4") or (dir == "FORWARD3") or (dir == "FORWARD2") or (dir == "FORWARD5") or (dir == "FORWARD6"): # forward6 일단은 그리디에서 뺐는데 나중에 시간 부족할 거 같으면 다시 넣기
             if dist == 0 :  
-                print(dir)
                 self.TX_data(dir_list[dir])
-                time.sleep(6)
+                time.sleep(1)
             while dist > 0:    
-                if dist >= 40:
+                if dist >= 46:
+                    self.TX_data(dir_list["FORWARD6"])
+                    time.sleep(11)
+                    dist -= 46
+                elif dist >= 36:
+                    self.TX_data(dir_list["FORWARD5"])
+                    time.sleep(10)
+                    dist -= 36
+                elif dist >= 30:
+                    self.TX_data(dir_list["FORWARD4"])
+                    time.sleep(8.5)
+                    dist -= 30
+                elif dist >= 22:
                     self.TX_data(dir_list["FORWARD3"])
-                    time.sleep(12)
-                    dist -= 40
-                elif dist >= 24:
-                    self.TX_data(dir_list["FORWARD3"])
-                    time.sleep(8)
-                    dist -= 24
-                elif dist >= 16:
+                    time.sleep(7.5)
+                    dist -= 22
+                elif dist >= 15:
                     self.TX_data(dir_list["FORWARD2"])
-                    time.sleep(8)
-                    dist -= 16
+                    time.sleep(6.5)
+                    dist -= 15
                 elif dist >= 8:
                     self.TX_data(dir_list["FORWARD"])
                     time.sleep(4)
@@ -140,9 +146,8 @@ class Motion:
                     break
         elif (dir == "BACKWARD") or (dir == "JBACKWARD"):
             if dist == 0 :  
-                print(dir)
                 self.TX_data(dir_list[dir])
-                time.sleep(6)
+                time.sleep(1)
             while dist < 0:            
                 if dist <= -8:
                     print("BACKWARD", dir, " by a degrees.", dist)
@@ -159,21 +164,25 @@ class Motion:
                     break
         elif dir == "2JFORWARD":
             self.TX_data(dir_list["2JFORWARD"])
-            time.sleep(2)
+            time.sleep(1)
             dist -= 1
         elif dir == "2JBACKWARD":
             print("Rotating", dir, " by a degrees.", dist)
             self.TX_data(dir_list["2JBACKWARD"])
-            time.sleep(2)
+            time.sleep(1)
             dist += 2
-        elif dir == "FORWARD6":
-            self.TX_data(dir_list["FORWARD6"])
-            time.sleep(20)
-            dist -= 48
+        # elif dir == "FORWARD6":
+        #     self.TX_data(dir_list["FORWARD6"])
+        #     time.sleep(10)
+        #     dist -= 48
+        # elif dir == "FORWARD3-2":
+        #     self.TX_data(dir_list["FORWARD3"])
+        #     time.sleep(7)
         else:
             print("else walk")
             self.TX_data(dir_list[dir])
             time.sleep(3)
+            
             
 
     def arms_off(self):
@@ -183,9 +192,9 @@ class Motion:
     # 머리 각도 (121~140)
     def head(self, dir, angle=0):
         dir_list = {
-            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141 },
+            'DOWN': { 3: 124, 6: 125, 9: 126, 30: 127, 45: 141, 60:150 },
             'UP' : { 3: 129, 6: 130, 9: 131, 30: 132, 45: 142 },
-            'LEFT': { 3: 134, 6: 135, 30: 136 },
+            'LEFT': { 3: 134, 6: 135, 30: 136, 90:164 },
             'RIGHT': { 3: 138, 6: 139, 30: 140, 90:144 },
             'DEFAULT': { 0:120, 1: 121, 2: 122, 63: 143 }
         }
@@ -198,8 +207,8 @@ class Motion:
         dir : {LEFT, RIGHT}
         """
         dir_list = {
-            "LEFT": {60: 160, 45: 159, 20: 158, 10: 157, 5: 156},
-            "RIGHT": {60: 155, 45: 154, 20: 153, 10: 152, 5: 151}
+            "LEFT": {90: 186, 60: 160, 45: 159, 20: 158, 15: 188, 10: 157, 5: 156},
+            "RIGHT": {90: 187, 60: 155, 45: 154, 20: 153, 15: 189, 10: 152, 5: 151}
         }
 
         while angle > 0:
@@ -225,11 +234,15 @@ class Motion:
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
         dir_list = {"LEFT10": 113, "RIGHT10": 112,"LEFT20": 115, "RIGHT20": 114, "LEFT70": 117, "RIGHT70": 116,
-        "RIGHT20cm": 163}
+        "RIGHT20cm": 163,"LEFT120cm": 128, "RIGHT120cm": 137}
 
         self.TX_data(dir_list[dir])
-        if dir != "RIGHT20cm":  time.sleep(1)
-        else: time.sleep(7)
+        if dir == "RIGHT20cm":  
+            time.sleep(7)
+        else: 
+            time.sleep(1)
+
+
 
 
     #퍼팅 위치에 서기 
@@ -260,7 +273,7 @@ class Motion:
         print("Motion putting")
         # power:1,2,3,4 // dir: LEFT/RIGHT
         dir_list = {
-            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 34:133},
+            "LEFT": {1: 175, 2: 176, 3: 177, 4: 178, 5:179},
             "RIGHT": {1: 170, 2: 171, 3: 172, 4: 173, 5:174},
             "PAR4": { 1:161, 2:162 }
         }
@@ -278,8 +291,8 @@ class Motion:
         time.sleep(2)
 
     def holecup_turn(self, dir, angle):
-        dir_list = {'LEFT':{5:166, 10:167}, 'RIGHT':{5:168, 10:169}}
-            
+        dir_list = {'LEFT':{5:166, 10:167, 20 : 182, 45:184}, 'RIGHT':{5:168, 10:169, 20:183, 45:185}}
+    
         self.TX_data(dir_list[dir][angle])
         time.sleep(1)
 
@@ -288,4 +301,7 @@ class Motion:
 
 if __name__ == '__main__':
     motion = Motion()
-    motion.set_head("LEFTRIGHT_CENTER")
+    motion.head("DEFAULT",1)
+    time.sleep(1)
+    motion.head("DEFAULT",2)
+    time.sleep(1)
