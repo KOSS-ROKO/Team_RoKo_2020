@@ -266,25 +266,25 @@ class Controller:
                 elif holecup_midpoint[0] >= max:
                     if holecup_midpoint[0] > max + 150:
                         print("RIGHT 회전하고 쉬기")
-                        time.sleep(0.2)
+                        time.sleep(0.1)
                         robo._motion.holecup_turn('RIGHT', 20)
-                        time.sleep(0.5)
+                        time.sleep(0.1)
                     else:
                         print("RIGHT 회전하고 쉬기")
-                        time.sleep(0.2)
+                        time.sleep(0.1)
                         robo._motion.holecup_turn('RIGHT', 5)
-                        time.sleep(0.5)
+                        time.sleep(0.1)
                 elif min>=holecup_midpoint[0]:
                     if min-150>=holecup_midpoint[0]:
                         print("왼쪽 회전하고 쉬기")
-                        time.sleep(0.2)
+                        time.sleep(0.1)
                         robo._motion.holecup_turn('LEFT', 20)
-                        time.sleep(0.5)
+                        time.sleep(0.1)
                     else:
                         print("왼쪽 회전하고 쉬기")
                         time.sleep(0.2)
                         robo._motion.holecup_turn('LEFT', 5)
-                        time.sleep(0.5)
+                        time.sleep(0.1)
        
         def Set_holecup_left():
             time.sleep(0.5)
@@ -322,7 +322,7 @@ class Controller:
                     time.sleep(0.1)
                     robo._motion.turn('RIGHT', 20)
                     print("오른쪽으로 몸 돌리기")
-                    time.sleep(1)
+                    time.sleep(0.1)
             else:
                 while True:
                     time.sleep(0.1)
@@ -333,7 +333,7 @@ class Controller:
                         break
                     robo._motion.turn('LEFT', 20)
                     print("왼쪽으로 몸 돌리기")
-                    time.sleep(1)
+                    time.sleep(0.1)
 
 
 
@@ -354,20 +354,20 @@ class Controller:
                     if holecup_midpoint[0] > max + 60:
                         print("오른쪽  10 회전하고 쉬기")
                         robo._motion.holecup_turn('RIGHT', 20)
-                        time.sleep(1)
+                        time.sleep(0.1)
                     else:
                         print("오른쪽  10 회전하고 쉬기")
                         robo._motion.holecup_turn('RIGHT', 5)
-                        time.sleep(1)
+                        time.sleep(0.1)
                 elif min>holecup_midpoint[0]:
                     if holecup_midpoint[0] < min-60:
                         print("왼쪽 10 회전하고 쉬기")
                         robo._motion.holecup_turn('LEFT', 20)
-                        time.sleep(1)
+                        time.sleep(0.1)
                     else:
                         print("왼쪽 5 회전하고 쉬기")
                         robo._motion.holecup_turn('LEFT', 5)
-                        time.sleep(1)
+                        time.sleep(0.1)
        
 
           
@@ -442,13 +442,13 @@ class Controller:
 
             #공을 가운데로 보내기 위해 1,2번 점일 경우 오른쪽 턴 주기
             if point==1:
-                motion.turn("RIGHT", 10)
+                motion.turn("RIGHT", 15)
                 time.sleep(1)
             elif point==2:
-                motion.turn("RIGHT", 5)
+                motion.turn("RIGHT", 10)
                 time.sleep(1)
-                motion.turn("RIGHT", 5)
-                time.sleep(1)
+                # motion.turn("RIGHT", 5)
+                # time.sleep(1)
 
             # PUTTING
             motion.putting("PAR4", 1, 2)
@@ -470,13 +470,13 @@ class Controller:
         
             
             motion.turn("LEFT", 10)
-            time.sleep(1)
+            time.sleep(0.5)
 
             motion.walk_side("LEFT120cm") 
             time.sleep(10)
             # turn은 이연 side walk 정확도 높아지면 뺄거임
             motion.turn("LEFT", 20)
-            time.sleep(2)
+            time.sleep(0.5)
 
             motion.walk_side("LEFT70") 
             time.sleep(0.5)
@@ -488,7 +488,7 @@ class Controller:
             motion.turn("LEFT", 90)
             time.sleep(4)
             motion.turn("LEFT", 10)
-            time.sleep(2)
+            time.sleep(0.5)
             
             self.act = Act.SECSHOT
 
@@ -590,18 +590,18 @@ class Controller:
                 time.sleep(5)
                 
                 motion.turn("RIGHT", 45) 
-                time.sleep(2)
+                time.sleep(1)
                 motion.turn("RIGHT", 45)
-                time.sleep(2)
+                time.sleep(1)
             elif point == 2:
                 time.sleep(2)
                 motion.putting("PAR4", 1)
                 time.sleep(5)
                 
                 motion.turn("LEFT", 45)
-                time.sleep(6)
+                time.sleep(1)
                 motion.turn("LEFT", 45)
-                time.sleep(2)
+                time.sleep(1)
                 # motion.turn("LEFT", 10)
                 # time.sleep(3)
             elif point == 3:
@@ -609,11 +609,11 @@ class Controller:
                 motion.putting("PAR4", 1)
                 time.sleep(5)
                 motion.turn("LEFT", 45)
-                time.sleep(2)
+                time.sleep(1)
                 motion.turn("LEFT", 45)
-                time.sleep(2)
+                time.sleep(1)
                 motion.turn("LEFT", 20)
-                time.sleep(2)
+                time.sleep(1)
 
 
              ### 점 1,2인 경우엔 walk해서 점 3까지 !
@@ -636,11 +636,11 @@ class Controller:
             time.sleep(15)
 
             motion.turn("LEFT", 45)
-            time.sleep(2)
+            time.sleep(1)
             motion.turn("LEFT", 45)
-            time.sleep(2)
-            motion.turn(20)
-            time.sleep(2)
+            time.sleep(1)
+            motion.turn("LEFT", 20)
+            time.sleep(1)
 
             self.act = Act.SECSHOT
 
@@ -733,7 +733,7 @@ class Controller:
             time.sleep(6.5)
 
             motion.turn("RIGHT", 20)
-            time.sleep(2)
+            time.sleep(1)
 
             motion.walk_side("RIGHT120cm")
             time.sleep(15)
@@ -1054,9 +1054,9 @@ class Controller:
             self.act = Act.HOLEIN
 
             motion.turn("LEFT", 45)
-            time.sleep(2)
+            time.sleep(1)
             motion.turn("LEFT", 20)
-            time.sleep(2)
+            time.sleep(1)
 
             #return True
 
