@@ -33,8 +33,8 @@ class ImageProcessor:
         self.lower_red1 = (0, 180, 60) 
         self.upper_red2 = (180, 200, 200) 
         self.lower_red2 = (150, 70, 60)
-        self.upper_yellow = np.array([30, 180, 255])
-        self.lower_yellow = np.array([15, 100, 140])
+        self.upper_yellow = np.array([40, 250, 255])
+        self.lower_yellow = np.array([10, 54, 130])
         self.min_area = [5,10]
 
         #outside dongbang

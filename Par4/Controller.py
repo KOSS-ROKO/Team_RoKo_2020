@@ -298,13 +298,13 @@ class Controller:
             
             for i in range(0,3):
                 print("right쪽에 있는지 확인")
-                time.sleep(0.5)
+                time.sleep(1)
                 a = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
                 print(i,"-1 = HOLCUP은: ", is_holecup)
-                time.sleep(0.5)
+                time.sleep(1)
                 b = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
                 print(i,"-2 = HOLCUP은: ", is_holecup)
-                time.sleep(0.5)
+                time.sleep(1)
                 c = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
                 print(i,"-3 = HOLCUP은: ", is_holecup)
                 if a or b or c:
