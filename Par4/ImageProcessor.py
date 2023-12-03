@@ -33,8 +33,8 @@ class ImageProcessor:
         self.lower_red1 = (0, 180, 60) 
         self.upper_red2 = (180, 200, 200) 
         self.lower_red2 = (150, 70, 60)
-        self.upper_yellow = np.array([40, 250, 255])
         self.lower_yellow = np.array([10, 54, 130])
+        self.upper_yellow = np.array([40, 250, 255])
         self.min_area = [5,10]
 
         #outside dongbang
@@ -174,7 +174,7 @@ class ImageProcessor:
         frame = origin.copy()
         
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        #outside dongbang
+        #outside dongbang    
         lower_yellow = np.array([10, 54, 130])
         upper_yellow = np.array([40, 250, 255])
         #inside dongbang

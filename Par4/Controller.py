@@ -163,7 +163,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [394, 311]
+            x,y = reference_point = [388, 306]
             v = 5
             w = 10
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
@@ -297,25 +297,16 @@ class Controller:
             #print("is_left: ", is_right)
             
             for i in range(0,3):
-                print("right쪽에 있는지 확인")
-                time.sleep(1)
-                a = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
-                print(i,"-1 = HOLCUP은: ", is_holecup)
-                time.sleep(1)
-                b = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
-                print(i,"-2 = HOLCUP은: ", is_holecup)
-                time.sleep(1)
-                c = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
-                print(i,"-3 = HOLCUP은: ", is_holecup)
-                if a or b or c:
-                    is_holecup = True
+                time.sleep(0.1)
+                is_holecup = robo._image_processor.detect_holecup()
+                print(i,"HOLCUP은: ", is_holecup)
                 if is_holecup:
                     print("right편에 있음")
                     is_right = True
                     break
                 time.sleep(0.1)
                 motion.head("LEFT",30)
-                time.sleep(0.7)
+                time.sleep(1)
             print("is_left: ", is_right)
             motion.head("LEFT",90)    # 머리 오른쪽 90도
             time.sleep(0.2)
@@ -353,24 +344,22 @@ class Controller:
                 max = mid + 10
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
+                if holecup_midpoint == (0,0):
+                    robo._motion.turn('RIGHT', 30)
+                    
                 if min<=holecup_midpoint[0] <= max:
                     print("범위안에 들어옴 종료 성공")  
                     motion.head("DEFAULT", 0) # 고개 디폴트
                     time.sleep(1)
                     break
                 elif holecup_midpoint[0] > max:
-                    if holecup_midpoint[0] > max + 60:
-                        print("오른쪽  10 회전하고 쉬기")
-                        robo._motion.holecup_turn('RIGHT', 20)
-                        time.sleep(0.1)
-                    else:
-                        print("오른쪽  10 회전하고 쉬기")
+                        print("오른쪽 5 회전하고 쉬기")
                         robo._motion.holecup_turn('RIGHT', 5)
                         time.sleep(0.1)
                 elif min>holecup_midpoint[0]:
-                    if holecup_midpoint[0] < min-60:
+                    if holecup_midpoint[0] < min-150:
                         print("왼쪽 10 회전하고 쉬기")
-                        robo._motion.holecup_turn('LEFT', 20)
+                        robo._motion.holecup_turn('LEFT', 10)
                         time.sleep(0.1)
                     else:
                         print("왼쪽 5 회전하고 쉬기")
@@ -1050,7 +1039,8 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)    
             '''
          
-            #ball_pos()    
+            ball_pos()    
+            return True
             Set_holecup_left()
             ball_pos()
             
