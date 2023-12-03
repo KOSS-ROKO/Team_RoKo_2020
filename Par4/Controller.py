@@ -83,7 +83,7 @@ class Controller:
                 print(cnt)
                 print("---------start small lr head")
                 is_vertical_middle, small_lr_temp = head.small_LR_head(object, Distance.head_lr_angle)
-                if cnt > 50:
+                if cnt > 40:
                     print("small lr,,, cnt > 40,,, except")
                     return "Except"
                 
