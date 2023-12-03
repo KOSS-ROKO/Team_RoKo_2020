@@ -479,12 +479,6 @@ class Controller:
             motion.turn("LEFT", 20)
             time.sleep(0.5)
 
-            motion.walk_side("LEFT70") 
-            time.sleep(0.5)
-            motion.walk_side("LEFT70") 
-            time.sleep(0.5)
-            motion.walk_side("LEFT70") 
-            time.sleep(0.5)
             
             motion.turn("LEFT", 90)
             time.sleep(4)
