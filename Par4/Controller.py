@@ -164,8 +164,8 @@ class Controller:
             print("++++++++++++++++++")
             is_center = False
             x,y = reference_point = [394, 311]
-            v = 10
-            w = 15
+            v = 5
+            w = 10
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
