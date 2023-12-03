@@ -235,8 +235,6 @@ class Controller:
             time.sleep(2)
 
             UD_for_dist("ball")
-            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            time.sleep(2)
     
             # length = 거리 
             ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
@@ -244,6 +242,10 @@ class Controller:
             print("==========================================")
             print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
             print("==========================================")
+
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+            time.sleep(2)
 
             if ball_dist > 18:
                 motion.walk("FORWARD", ball_dist - 18)
