@@ -824,6 +824,8 @@ class Controller:
             
             #---------------------ball dist one more time     
 
+            '''
+            # 거리 한 번 더 재는거 뺌 
             motion.head("DOWN", 45) # 고개 45도로 내리고 공 detect 시작 !
             time.sleep(2)
 
@@ -875,7 +877,7 @@ class Controller:
             elif ball_dist == 26:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 26)    
+                motion.walk("BACKWARD", ball_dist - 26)'''  
             
             
             self.act = Act.PUTTING_POS
@@ -1045,7 +1047,7 @@ class Controller:
             ball_pos()
             
             ### 진짜 퍼팅
-            motion.putting("LEFT", 4, 2)
+            motion.putting("LEFT", 4, 3)
             time.sleep(5)
                 
                 
