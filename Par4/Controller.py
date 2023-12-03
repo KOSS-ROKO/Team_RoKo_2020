@@ -447,8 +447,8 @@ class Controller:
             elif point==2:
                 motion.turn("RIGHT", 5)
                 time.sleep(1)
-                # motion.turn("RIGHT", 5)
-                # time.sleep(1)
+                motion.turn("RIGHT", 5)
+                time.sleep(1)
 
             # PUTTING
             motion.putting("PAR4", 1, 2)
@@ -474,8 +474,10 @@ class Controller:
 
             motion.walk_side("LEFT120cm") 
             time.sleep(10)
-            motion.turn("LEFT", 10)
-            time.sleep(1)
+            # turn은 이연 side walk 정확도 높아지면 뺄거임
+            motion.turn("LEFT", 20)
+            time.sleep(2)
+
             motion.walk_side("LEFT70") 
             time.sleep(0.5)
             motion.walk_side("LEFT70") 
