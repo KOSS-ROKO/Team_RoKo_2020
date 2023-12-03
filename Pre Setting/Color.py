@@ -43,13 +43,13 @@ while True:
     
     
     # ------------ 빨간색 공 인식 ---------------------------------------
-    imgThreshLow = cv2.inRange(imgHSV, (0, 40, 100), (10, 155, 255))
+    imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (10, 155, 255))
     imgThreshHigh = cv2.inRange(imgHSV, (160, 50, 100), (179, 255, 255))
     # imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
     # imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (179, 200, 200))
 
     # ------------ 노란색 홀컵 인식 -------------------------------------
-    lower_yellow = np.array([17, 40, 140])
+    lower_yellow = np.array([17, 40, 130])
     upper_yellow = np.array([35, 230, 255])
     # ------------------------------------------------------------------
 

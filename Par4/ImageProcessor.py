@@ -114,7 +114,7 @@ class ImageProcessor:
         # outside dongbang
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
-        imgThreshLow = cv2.inRange(imgHSV, (0, 40, 100), (10, 155, 255))
+        imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (10, 155, 255))
         imgThreshHigh = cv2.inRange(imgHSV, (160, 50, 100), (179, 255, 255))
     
 
@@ -180,7 +180,7 @@ class ImageProcessor:
         # #outside dongbang    
         # lower_yellow = np.array([10, 54, 130])
         # upper_yellow = np.array([40, 250, 255])
-        lower_yellow = np.array([17, 40, 140])
+        lower_yellow = np.array([17, 40, 130])
         upper_yellow = np.array([35, 230, 255])
         #inside dongbang
         # lower_yellow = np.array([0, 71, 122])
