@@ -210,8 +210,8 @@ class Controller:
             is_left = False
             motion.Rarm("DOWN")
             time.sleep(1)
-            for i in range(0,3):
-                time.sleep(0.5)
+            for i in range(0,5):
+                time.sleep(0.4)
                 print("왼쪽에 있는지 확인")
                 is_holecup = robo._image_processor.detect_holecup()
                 print("CHECK HOLCUP : ", is_holecup)
@@ -220,7 +220,7 @@ class Controller:
                     is_left = True
                     break
                 time.sleep(0.1)
-                motion.head("RIGHT",30)
+                motion.head("RIGHT",20)
                 time.sleep(0.5)
             print("is_left: ", is_left)
             motion.head("RIGHT",90)    # 머리 오른쪽 90도
@@ -252,7 +252,7 @@ class Controller:
              
             while True:
                 time.sleep(0.2)
-                mid = 330
+                mid = 340
                 min = mid - 10
                 max = mid + 10
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
@@ -332,6 +332,7 @@ class Controller:
                     print("홀컵있는지 확인", is_holecup)
                     if is_holecup:
                         print("찾음")
+                        is_right = True
                         break
                     robo._motion.turn('LEFT', 45)
                     print("왼쪽으로 몸 돌리기")
