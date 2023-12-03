@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.PUTTING
     robo = Robo()
 
 
@@ -298,9 +298,17 @@ class Controller:
             
             for i in range(0,3):
                 print("right쪽에 있는지 확인")
-                time.sleep(0.3)
-                is_holecup = robo._image_processor.detect_holecup("set_toppoint")
-                print(i,"- HOLCUP은: ", is_holecup)
+                time.sleep(0.5)
+                a = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
+                print(i,"-1 = HOLCUP은: ", is_holecup)
+                time.sleep(0.5)
+                b = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
+                print(i,"-2 = HOLCUP은: ", is_holecup)
+                time.sleep(0.5)
+                c = is_holecup = robo._image_processor.detect_holecup("set_toppoint")
+                print(i,"-3 = HOLCUP은: ", is_holecup)
+                if a or b or c:
+                    is_holecup = True
                 if is_holecup:
                     print("right편에 있음")
                     is_right = True
@@ -1042,7 +1050,7 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)    
             '''
          
-            ball_pos()    
+            #ball_pos()    
             Set_holecup_left()
             ball_pos()
             
