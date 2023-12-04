@@ -343,9 +343,9 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 445               ###### if body left ++, if body right --
-                min = mid - 10
-                max = mid + 10
+                mid = 450               ###### if body left ++, if body right --
+                min = mid - 15
+                max = mid + 15
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
