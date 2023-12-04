@@ -1015,13 +1015,14 @@ class Controller:
                     else:
                         break
             else:
-                small_UD("ball")
                 print("ball detect 555 => small lr할 거야")
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
-
+                
             time.sleep(0.5)
             motion.head("DEFAULT", 2)
             time.sleep(1)
+
+            
 
             oneframe = robo._image_processor.ball_hole_oneframe()
             if oneframe == True:
@@ -1034,8 +1035,17 @@ class Controller:
                     return True
                 else:
                     print("------홀인 실패------")
+                    motion.walk("BACKWARD")
+                    time.sleep(3)
+                    small_UD("ball")
+                    time.sleep(1)
                     
-                    self.act = Act.WALK_BALL
+                    check_holein = robo._image_processor.detect_hole_in()
+                    if check_holein == True:
+                        print("ceremony hehehehehe")
+                        motion.ceremony()
+                    else:
+                        self.act = Act.WALK_BALL
             else:   
                 print('원프레임이 아니라서 WALK BALL로')
                 # 원프레임이 아니라서 다시 WALK BALL로
