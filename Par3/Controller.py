@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.PUTTING_POS
+    act  = Act.HOLEIN
     robo = Robo()
 
 
@@ -1042,6 +1042,7 @@ class Controller:
                     if check_holein == True:
                         print("ceremony hehehehehe")
                         motion.ceremony()
+                        return True
                     else:
                         self.act = Act.WALK_BALL
             else:   
