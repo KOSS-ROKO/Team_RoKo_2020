@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.PUTTING
     robo = Robo()
 
 
@@ -349,7 +349,7 @@ class Controller:
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
-                    robo._motion.turn('Right', 20)
+                    robo._motion.turn('RIGHT', 20)
                     time.sleep(0.5)
                 if min<=holecup_midpoint[0] <= max:
                     print("범위안에 들어옴 종료 성공")  

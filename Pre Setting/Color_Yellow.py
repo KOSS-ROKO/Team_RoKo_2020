@@ -5,9 +5,7 @@ import numpy as np
 mouse_x, mouse_y = 0, 0
 
 # 마지막으로 저장한 트랙바 값 초기화
-last_values = {
-    'yellow_low_h': 10, 'yellow_high_h': 36, 'yellow_low_s': 100, 'yellow_high_s': 250, 'yellow_low_v': 170, 'yellow_high_v': 255
-}
+last_values = {'yellow_low_h': 10, 'yellow_high_h': 36, 'yellow_low_s': 99, 'yellow_high_s': 255, 'yellow_low_v': 147, 'yellow_high_v': 255}
 
 # 마우스 이벤트 콜백 함수 정의
 def mouse_callback(event, x, y, flags, param):
@@ -74,8 +72,8 @@ while True:
     cv2.imshow('Yellow', yellow_detected)
     
     # 창의 위치 조정
-    cv2.moveWindow('Real Window', 600, 0)
-    cv2.moveWindow('Yellow', 900, 300)
+    # cv2.moveWindow('Real Window', 600, 0)
+    # cv2.moveWindow('Yellow', 900, 300)
 
 
     # 'q' 키를 누르면 종료
