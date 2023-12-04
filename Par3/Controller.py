@@ -716,13 +716,13 @@ class Controller:
             
         
             # 무지성 10번 걸은 후, 남은 거리 측정 후 걷기
-            if ball_dist > 26:  # 18+8 (화면에 여유있게 들어오도록)
-                motion.walk("FORWARD", ball_dist - 26)
+            if ball_dist > 30:  # 18+8 (화면에 여유있게 들어오도록)
+                motion.walk("FORWARD", ball_dist - 30)
                     
-            elif ball_dist == 26:
+            elif ball_dist == 30:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 26)    
+                motion.walk("BACKWARD", ball_dist - 30)    
 
             time.sleep(2)
             
