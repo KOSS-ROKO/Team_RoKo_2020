@@ -353,7 +353,7 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 480               ###### if body left ++, if body right --
+                mid = 470               ###### if body left ++, if body right --
                 min = mid - 20
                 max = mid + 20
                 
