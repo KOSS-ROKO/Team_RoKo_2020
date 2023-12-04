@@ -78,8 +78,8 @@ class ImageProcessor:
         # outside dongbang
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
-        imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (10, 155, 255))
-        imgThreshHigh = cv2.inRange(imgHSV, (160, 50, 100), (179, 255, 255))
+        imgThreshLow = cv2.inRange(imgHSV, (0, 98, 120), (10, 155, 255))
+        imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 115), (179, 255, 255))
     
 
         # imgThreshLow = cv2.inRange(imgHSV, (0, 150, 60), (24, 255, 255))
@@ -144,8 +144,8 @@ class ImageProcessor:
         # #outside dongbang    
         # lower_yellow = np.array([10, 54, 130])
         # upper_yellow = np.array([40, 250, 255])
-        lower_yellow = np.array([10, 99, 128])
-        upper_yellow = np.array([36, 255, 255])
+        lower_yellow = np.array([10, 79, 137])
+        upper_yellow = np.array([36, 209, 255])
         #inside dongbang
         # lower_yellow = np.array([0, 71, 122])
         # upper_yellow = np.array([36, 250, 250])
@@ -484,7 +484,7 @@ class ImageProcessor:
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
         if red_center and yellow_center:
-            if abs(red_center[0] - yellow_center[0]) <= 20:
+            if abs(red_center[0] - yellow_center[0]) <= 100:
                 result = "middle"
 
             elif red_center[0] < yellow_center[0]:

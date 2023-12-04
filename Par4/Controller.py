@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.SECSHOT
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -252,7 +252,10 @@ class Controller:
              
             while True:
                 time.sleep(0.2)
-                mid = 340
+                # mid = 340
+                # min = mid - 8
+                # max = mid + 8
+                mid = 345
                 min = mid - 8
                 max = mid + 8
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
@@ -466,10 +469,11 @@ class Controller:
                 motion.walk("FORWARD3")
                 time.sleep(7.5)
             else :                  # 점 3
-                pass
+                motion.walk("FORWARD2")
+                time.sleep(5)
         
             
-            motion.turn("LEFT", 20)
+            motion.turn("LEFT", 15)
             time.sleep(0.5)
 
             motion.walk_side("LEFT120cm") 
