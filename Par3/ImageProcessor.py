@@ -484,17 +484,17 @@ class ImageProcessor:
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
         if red_center and yellow_center:
-            if abs(red_center[0] - yellow_center[0]) <= 100:
+            if abs(red_center[0] - yellow_center[0]) <= 80:
                 result = "middle"
                 
             elif red_center[0] < yellow_center[0]:
                 
-                if abs(red_center[0] - yellow_center[0]) > 300:
+                if abs(red_center[0] - yellow_center[0]) > 200:
                     result = "left no turn"
                 else: 
                     result = "left"
             else:
-                if abs(red_center[0] - yellow_center[0]) > 300:
+                if abs(red_center[0] - yellow_center[0]) > 200:
                     result = "right no turn"
                 else:
                     result = "right"
