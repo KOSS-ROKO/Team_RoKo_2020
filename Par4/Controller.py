@@ -55,6 +55,18 @@ class Controller:
                         return "Except"
                     else: 
                         continue
+        
+        def small_UD(object="ball"):
+            small_ud_angle = 55
+            while True:
+                is_horizontal_middle, small_ud_temp = head.small_UD_head(object, small_ud_angle)
+                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
+                    return "Success"
+                elif is_horizontal_middle == False:
+                    small_ud_angle = small_ud_temp
+                    continue  
+                else: # is_horizontal_middle == Except_
+                    return "Except"
                         
                         
         def big_LR(object="ball"):
@@ -1066,12 +1078,10 @@ class Controller:
             print("^^^^^^^^5555555")
             print("^^^^^^^^5555555")
 
-            
             motion.head("UP", 9)
             time.sleep(1)
             motion.head("UP", 9)
             # 지금 각도 45도임
-            
             
             ###### Find ball for HOLEIN ######
             is_ball = robo._image_processor.detect_ball()
@@ -1126,7 +1136,18 @@ class Controller:
                     return True
                 else:
                     print("------홀인 실패------")
-                    self.act = Act.WALK_BALL
+                    motion.walk("BACKWARD")
+                    time.sleep(3)
+                    small_UD("ball")
+                    time.sleep(1)
+                    
+                    check_holein = robo._image_processor.detect_hole_in()
+                    if check_holein == True:
+                        print("ceremony hehehehehe")
+                        motion.ceremony()
+                        return True
+                    else:
+                        self.act = Act.WALK_BALL
             else:   
                 print('원프레임이 아니라서 WALK BALL로')
                 # 원프레임이 아니라서 다시 WALK BALL로
