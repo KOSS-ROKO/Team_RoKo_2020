@@ -144,7 +144,7 @@ class ImageProcessor:
         # #outside dongbang    
         # lower_yellow = np.array([10, 54, 130])
         # upper_yellow = np.array([40, 250, 255])
-        lower_yellow = np.array([10, 99, 147])
+        lower_yellow = np.array([10, 99, 128])
         upper_yellow = np.array([36, 255, 255])
         #inside dongbang
         # lower_yellow = np.array([0, 71, 122])

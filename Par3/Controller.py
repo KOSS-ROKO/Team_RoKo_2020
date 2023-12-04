@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.PUTTING
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -341,9 +341,9 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 445               ###### if body left ++, if body right --
-                min = mid - 10
-                max = mid + 10
+                mid = 450               ###### if body left ++, if body right --
+                min = mid - 150
+                max = mid + 15
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
@@ -449,8 +449,10 @@ class Controller:
             
             
             if point==1:
-                motion.turn("RIGHT", 10)
-                time.sleep(1)
+                motion.turn("RIGHT", 5)
+                time.sleep(0.5)
+                motion.turn("RIGHT", 5)
+                time.sleep(0.5)
             elif point==2:
                 pass
             elif point==3:
@@ -469,6 +471,11 @@ class Controller:
             motion.putting("LEFT", 3, 2)
             print("putting")
             time.sleep(5)
+
+            if point==3:
+                motion.walk("BACKWARD")
+                time.sleep(4)
+                motion.walk("BACKWARD")
             
             motion.walk_side("LEFT120cm")
             time.sleep(15)
