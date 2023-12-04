@@ -109,6 +109,18 @@ class Controller:
                     continue
                 else : # is_vertical_middle == Except_
                     return "Except"
+                
+        def small_UD(object="ball"):
+            small_ud_angle = 55
+            while True:
+                is_horizontal_middle, small_ud_temp = head.small_UD_head(object, small_ud_angle)
+                if is_horizontal_middle == True: #최종 중앙 맞춰짐 
+                    return "Success"
+                elif is_horizontal_middle == False:
+                    small_ud_angle = small_ud_temp
+                    continue  
+                else: # is_horizontal_middle == Except_
+                    return "Except"
                          
 
         def UD_for_dist(object="ball"): # small ud head 변형
@@ -474,8 +486,9 @@ class Controller:
 
             if point==3:
                 motion.walk("BACKWARD")
-                time.sleep(4)
+                time.sleep(3)
                 motion.walk("BACKWARD")
+                time.sleep(3)
             
             motion.walk_side("LEFT120cm")
             time.sleep(15)
@@ -1002,6 +1015,7 @@ class Controller:
                     else:
                         break
             else:
+                small_UD("ball")
                 print("ball detect 555 => small lr할 거야")
                 ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
 
@@ -1020,6 +1034,7 @@ class Controller:
                     return True
                 else:
                     print("------홀인 실패------")
+                    
                     self.act = Act.WALK_BALL
             else:   
                 print('원프레임이 아니라서 WALK BALL로')
