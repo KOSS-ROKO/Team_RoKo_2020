@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.HOLEIN
+    act  = Act.PUTTING_POS
     robo = Robo()
 
 
@@ -173,7 +173,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [390, 300]
+            x,y = reference_point = [386, 297]
             v = 5
             w = 10
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
@@ -353,7 +353,7 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 500               ###### if body left ++, if body right --
+                mid = 480               ###### if body left ++, if body right --
                 min = mid - 20
                 max = mid + 20
                 
@@ -448,28 +448,25 @@ class Controller:
 
             if ball_dist < 26:      # 점 1
                 point = 1
+                motion.turn("RIGHT", 5)
+                time.sleep(0.5)
+                motion.turn("RIGHT", 5)
+                time.sleep(0.5)
             elif ball_dist < 46:    # 점 2
                 point = 2
                 motion.walk("FORWARD", ball_dist - 18)
             else :   
                 point = 3               # 점 3
                 motion.walk("FORWARD", ball_dist - 18)
+                time.sleep(2)
+                motion.turn("LEFT", 10)
+                time.sleep(1)
                 
                 
             ball_pos()
             time.sleep(1)
             
-            
-            if point==1:
-                motion.turn("RIGHT", 5)
-                time.sleep(0.5)
-                motion.turn("RIGHT", 5)
-                time.sleep(0.5)
-            elif point==2:
-                pass
-            elif point==3:
-                motion.turn("LEFT", 10)
-                time.sleep(1)
+
                 
                 
             #Set_holecup_right()
@@ -480,7 +477,7 @@ class Controller:
 
             # PUTTING
             time.sleep(3)
-            motion.putting("LEFT", 3, 2)
+            motion.putting("LEFT", 4, 2)
             print("putting")
             time.sleep(5)
 

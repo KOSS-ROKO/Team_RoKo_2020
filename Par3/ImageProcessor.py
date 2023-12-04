@@ -144,8 +144,8 @@ class ImageProcessor:
         # #outside dongbang    
         # lower_yellow = np.array([10, 54, 130])
         # upper_yellow = np.array([40, 250, 255])
-        lower_yellow = np.array([10, 99, 128])
-        upper_yellow = np.array([36, 255, 255])
+        lower_yellow = np.array([10, 80, 110])
+        upper_yellow = np.array([36, 230, 255])
         #inside dongbang
         # lower_yellow = np.array([0, 71, 122])
         # upper_yellow = np.array([36, 250, 250])
@@ -484,7 +484,7 @@ class ImageProcessor:
                 
         # 빨간색 물체가 왼쪽에 있는지 오른쪽에 있는지 판별
         if red_center and yellow_center:
-            if abs(red_center[0] - yellow_center[0]) <= 100:
+            if abs(red_center[0] - yellow_center[0]) <= 150:
                 result = "middle"
 
             elif red_center[0] < yellow_center[0]:
@@ -656,7 +656,7 @@ class ImageProcessor:
                         diameter = 0
                         # 가장 위쪽점 업데이트
                         if down_point_yellow is not None:
-                            diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 5
+                            diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) + 15
                         # 제일 위쪽 점 계산
                         up_point_yellow = [down_point_yellow[0], down_point_yellow[1] - diameter]
             result = frame.copy()
