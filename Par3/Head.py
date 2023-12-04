@@ -357,5 +357,11 @@ class Head:
                 time.sleep(1)
                         
             return False
+        
+        elif check == "left no turn":
+            robo._motion.walk_side("LEFT70")
+        elif check == "right no turn":
+            robo._motion.walk_side("RIGHT70")
+            
         else: # check == "none"
             return "Except"
