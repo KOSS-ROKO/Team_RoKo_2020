@@ -489,13 +489,15 @@ class ImageProcessor:
                 
             elif red_center[0] < yellow_center[0]:
                 
-                if abs(red_center[0] - yellow_center[0]) > 200:
+                if abs(red_center[0] - yellow_center[0]) > 150:
                     result = "left no turn"
+                    print('please left no turn')
                 else: 
                     result = "left"
             else:
-                if abs(red_center[0] - yellow_center[0]) > 200:
+                if abs(red_center[0] - yellow_center[0]) > 150:
                     result = "right no turn"
+                    print('please left no turn')
                 else:
                     result = "right"
         else:
