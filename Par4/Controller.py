@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.PUTTING
+    act  = Act.SECSHOT
     robo = Robo()
 
 
@@ -163,7 +163,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [383, 298]
+            x,y = reference_point = [392, 298]
             v = 5
             w = 10
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
@@ -219,8 +219,8 @@ class Controller:
                     print("왼편에 있음")
                     is_left = True
                     break
-                time.sleep(0.1)
-                motion.head("RIGHT",20)
+                time.sleep(0.5)
+                motion.head("RIGHT",30)
                 time.sleep(0.5)
             print("is_left: ", is_left)
             motion.head("RIGHT",90)    # 머리 오른쪽 90도
@@ -431,9 +431,14 @@ class Controller:
 
             if ball_dist < 26:      # 점 1
                 point = 1
+                motion.turn("RIGHT", 15)
+                time.sleep(1)
             elif ball_dist < 46:    # 점 2
                 point = 2
                 motion.walk("FORWARD", ball_dist - 18)
+                time.sleep(2)
+                motion.turn("RIGHT", 10)
+                time.sleep(1)
             else :   
                 point = 3               # 점 3
                 motion.walk("FORWARD", ball_dist - 18)
@@ -442,15 +447,6 @@ class Controller:
             ball_pos()
             time.sleep(1)
 
-            #공을 가운데로 보내기 위해 1,2번 점일 경우 오른쪽 턴 주기
-            if point==1:
-                motion.turn("RIGHT", 15)
-                time.sleep(1)
-            elif point==2:
-                motion.turn("RIGHT", 10)
-                time.sleep(1)
-                # motion.turn("RIGHT", 5)
-                # time.sleep(1)
 
             # PUTTING
             motion.putting("PAR4", 1, 2)
@@ -460,10 +456,12 @@ class Controller:
             ### 점 1,2인 경우엔 walk해서 점 3까지 !
 
             if point==1:      # 점 1
+                motion.turn("LEFT", 15)
+                time.sleep(0.7)
                 motion.walk("FORWARD6")
                 time.sleep(11)
-                motion.walk("FORWARD3")
-                time.sleep(7.5)
+                motion.walk("FORWARD2")
+                time.sleep(6.5)
             elif point==2:    # 점 2
                 motion.walk("FORWARD3")
                 time.sleep(7.5)
@@ -471,20 +469,20 @@ class Controller:
                 pass
         
             
-            motion.turn("LEFT", 10)
+            motion.turn("LEFT", 20)
             time.sleep(0.5)
 
             motion.walk_side("LEFT120cm") 
             time.sleep(10)
             # turn은 이연 side walk 정확도 높아지면 뺄거임
             motion.turn("LEFT", 20)
-            time.sleep(0.5)
+            time.sleep(1)
 
             
             motion.turn("LEFT", 90)
             time.sleep(4)
-            motion.turn("LEFT", 10)
-            time.sleep(0.5)
+            # motion.turn("LEFT", 10)
+            # time.sleep(0.5)
             
             self.act = Act.SECSHOT
 
@@ -728,13 +726,13 @@ class Controller:
             motion.walk("FORWARD2")
             time.sleep(6.5)
 
-            motion.turn("RIGHT", 20)
+            motion.turn("RIGHT", 10)
             time.sleep(1)
 
             motion.walk_side("RIGHT120cm")
             time.sleep(15)
             motion.walk_side("RIGHT70")
-            time.sleep(2)
+            time.sleep(5) 
 
 
             motion.turn("RIGHT", 90)
