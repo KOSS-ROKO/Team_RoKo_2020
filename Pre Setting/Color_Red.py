@@ -25,6 +25,7 @@ cap.set(5, 5)
 
 # 윈도우 생성
 cv2.namedWindow('Trackbar', cv2.WINDOW_NORMAL)
+cv2.resizeWindow('Trackbar', 500, 1000)
 
 # 마우스 이벤트 콜백 함수 등록
 cv2.setMouseCallback('Trackbar', mouse_callback)
