@@ -175,9 +175,9 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [383, 300]
+            x,y = reference_point = [400, 328]
             v = 5
-            w = 10
+            w = 5
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
@@ -643,7 +643,7 @@ class Controller:
             time.sleep(2)
             print("start walk_side 15")
             motion.walk_side("LEFT120cm") # 
-            time.sleep(15)
+            time.sleep(20)
 
             motion.turn("LEFT", 90)
             time.sleep(4)
