@@ -450,8 +450,8 @@ class Controller:
                 point = 1
                 motion.turn("RIGHT", 5)
                 time.sleep(0.5)
-                # motion.turn("RIGHT", 5)
-                # time.sleep(0.5)
+                motion.turn("RIGHT", 5)
+                time.sleep(0.5)
             elif ball_dist < 46:    # 점 2
                 point = 2
                 motion.walk("FORWARD", ball_dist - 18)
