@@ -358,15 +358,15 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 440               ###### if body left ++, if body right --
-                min = mid - 15
-                max = mid + 15
+                mid = 400               ###### if body left ++, if body right --
+                min = mid - 20
+                max = mid + 20
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
                     robo._motion.turn('RIGHT', 20)
                     time.sleep(0.5)
-                if min<=holecup_midpoint[0] <= max:
+                if min <= holecup_midpoint[0] <= max:
                     print("범위안에 들어옴 종료 성공")  
                     motion.head("DEFAULT", 0) # 고개 디폴트
                     time.sleep(1)
@@ -489,7 +489,7 @@ class Controller:
             time.sleep(0.5)
 
             motion.walk_side("LEFT120cm") 
-            time.sleep(10)
+            time.sleep(18)
             # turn은 이연 side walk 정확도 높아지면 뺄거임
             motion.turn("LEFT", 20)
             time.sleep(1)
@@ -643,7 +643,7 @@ class Controller:
             time.sleep(2)
             print("start walk_side 15")
             motion.walk_side("LEFT120cm") # 
-            time.sleep(20)
+            time.sleep(18)
 
             motion.turn("LEFT", 90)
             time.sleep(4)
@@ -746,7 +746,7 @@ class Controller:
             time.sleep(1)
 
             motion.walk_side("RIGHT120cm")
-            time.sleep(20)
+            time.sleep(18)
             motion.walk_side("RIGHT70")
             time.sleep(5) 
 
