@@ -65,15 +65,16 @@ class Controller:
             # big LR head
             while True:
                 is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.head_lr_angle, max_right_flag)
+                if  small_lr_temp == 190: #왼쪽 max까지 갔는데 공 못찾으면 
+                    Distance.head_lr_angle = 100
+                    robo._motion.head("DEFAULT", 2)
+                    return "Except"
                 if is_object_in_frame == True:
-                    break
+                    return "Success"
                 elif is_object_in_frame == False:
                     Distance.head_lr_angle = small_lr_temp
                     print("head_lr_angle : ", Distance.head_lr_angle)
                     continue
-                #if big_lr_angle == -90: #왼쪽 max까지 갔는데 공 못찾으면 
-                    #head.big_UD_head()
-                    # 예외처리 : big up down 코드
             #고개 정면 코드 추가하기
 
         def ball_small_LR(object="ball"):   # ball은 small lr끝난뒤 몸 돌리고 고개 default함
@@ -694,7 +695,7 @@ class Controller:
             is_ball = robo._image_processor.detect_ball()
             
 
-            ### False면, big UD LR 해라
+            #### False면, big UD LR 해라
             if is_ball == False:  
                 motion.head("DEFAULT", 1)   
                 time.sleep(1)           
@@ -706,7 +707,15 @@ class Controller:
 
                     if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
                         motion.head("UP", 6)
-                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                        is_big_LR = big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                        if is_big_LR == "Except":
+                            motion.walk("BACKWARD")
+                            time.sleep(3)
+                            motion.head("DEFAULT",0)
+                            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                            Distance.head_lr_angle = 100
+                            time.sleep(1)
+                            continue
                     
                     is_small_LR = ball_small_LR("ball")
                     
@@ -715,7 +724,7 @@ class Controller:
                         motion.head("DEFAULT", 0)
                         Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
                         time.sleep(1)
-                        continue
+                        continue 
                     else:
                         break
             else:
@@ -899,9 +908,18 @@ class Controller:
                         
                         if is_big_UD == "Except":
                             robo._motion.head("UP", 9)
-                            big_LR("ball")
+                            is_big_LR = big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                            if is_big_LR == "Except":
+                                motion.walk("BACKWARD")
+                                time.sleep(3)
+                                motion.head("DEFAULT",0)
+                                Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                                Distance.head_lr_angle = 100
+                                time.sleep(1)
+                                continue
+                            
                         is_small_LR = ball_small_LR("ball")
-                        
+
                         if is_small_LR == "Except" :
                             time.sleep(1)
                             motion.head("DEFAULT", 0)
