@@ -175,9 +175,9 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            if teeshot_pos == 1:        x,y = reference_point = [383, 299]
-            elif teeshot_pos == 2:      x,y = reference_point = [383, 299]
-            elif teeshot_pos == 3:      x,y = reference_point = [383, 299]
+            if teeshot_pos == 1:      x,y = reference_point = [383, 299]
+            if teeshot_pos == 2:      x,y = reference_point = [383, 299]
+            if teeshot_pos == 3:      x,y = reference_point = [383, 299]
             w = 5
             rectangle_coordinates = [x, y-w, x+w, y-w, x+w, y, x, y]
             while not is_center:
