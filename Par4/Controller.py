@@ -948,7 +948,7 @@ class Controller:
             
             
             self.act = Act.PUTTING_POS
-            return True
+            
             
             #return True
             
