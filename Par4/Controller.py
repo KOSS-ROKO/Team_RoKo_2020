@@ -739,14 +739,14 @@ class Controller:
             motion.putting("PAR4", 2)
             time.sleep(5)
 
-            motion.walk("FORWARD2")
-            time.sleep(6.5)
+            motion.walk("FORWARD3")
+            time.sleep(8)
 
             motion.turn("RIGHT", 10)
             time.sleep(1)
 
             motion.walk_side("RIGHT120cm")
-            time.sleep(15)
+            time.sleep(20)
             motion.walk_side("RIGHT70")
             time.sleep(5) 
 
