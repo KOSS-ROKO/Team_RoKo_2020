@@ -175,7 +175,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [390, 300]
+            x,y = reference_point = [383, 300]
             v = 5
             w = 10
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
@@ -358,9 +358,9 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 480               ###### if body left ++, if body right --
-                min = mid - 20
-                max = mid + 20
+                mid = 440               ###### if body left ++, if body right --
+                min = mid - 15
+                max = mid + 15
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
