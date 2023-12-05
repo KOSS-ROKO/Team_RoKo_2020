@@ -37,6 +37,7 @@ class Head:
             
                 robo._motion.head("DEFAULT", 2)
                 time.sleep(1)
+                
                 return True, big_lr_angle, max_right_flag
         
             else:   # 물체가 화면에 안 보이는 경우 detect : False
@@ -57,10 +58,9 @@ class Head:
                     big_lr_angle += 30 # 10은 임의 값
                     if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                         max_right_flag = 0
-                        big_lr_angle = 100
-                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
+                        # big_lr_angle = 100
+                        # robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
                         time.sleep(1)
-
                 return check, big_lr_angle, max_right_flag
         
         elif detect_object == 'ball2': # 턴하지 않음
