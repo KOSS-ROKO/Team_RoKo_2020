@@ -14,6 +14,8 @@ class Act:
     PUTTING = 5          # 4. 퍼팅
     HOLEIN = 6           # 5. 홀인
 
+teeshot_pos = 0
+
 class Controller:
 
     def __init__(self):
@@ -173,10 +175,11 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [383, 299]
-            v = 5
+            if teeshot_pos == 1:        x,y = reference_point = [383, 299]
+            elif teeshot_pos == 2:      x,y = reference_point = [383, 299]
+            elif teeshot_pos == 3:      x,y = reference_point = [383, 299]
             w = 5
-            rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
+            rectangle_coordinates = [x, y-w, x+w, y-w, x+w, y, x, y]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
@@ -448,15 +451,18 @@ class Controller:
 
             if ball_dist < 26:      # 점 1
                 point = 1
+                teeshot_pos = 1
                 motion.turn("RIGHT", 5)
                 time.sleep(0.5)
                 motion.turn("RIGHT", 5)
                 time.sleep(0.5)
             elif ball_dist < 46:    # 점 2
                 point = 2
+                teeshot_pos = 2
                 motion.walk("FORWARD", ball_dist - 18)
             else :   
                 point = 3               # 점 3
+                teeshot_pos = 3
                 motion.walk("FORWARD", ball_dist - 18)
                 time.sleep(2)
                 motion.turn("LEFT", 10)
