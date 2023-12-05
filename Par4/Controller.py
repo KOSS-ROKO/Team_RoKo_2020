@@ -708,7 +708,7 @@ class Controller:
             # 공 찾고 중앙 맞추기
             is_ball = robo._image_processor.detect_ball()
             
-           #### False면, big UD LR 해라
+            #### False면, big UD LR 해라
             if is_ball == False:  
                 motion.head("DEFAULT", 1)   
                 time.sleep(1)           
@@ -724,6 +724,10 @@ class Controller:
                         if is_big_LR == "Except":
                             motion.walk("BACKWARD")
                             time.sleep(3)
+                            motion.head("DEFAULT",0)
+                            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                            Distance.head_lr_angle = 100
+                            time.sleep(1)
                             continue
                     
                     is_small_LR = ball_small_LR("ball")
@@ -1043,6 +1047,10 @@ class Controller:
                             if is_big_LR == "Except":
                                 motion.walk("BACKWARD")
                                 time.sleep(3)
+                                motion.head("DEFAULT",0)
+                                Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                                Distance.head_lr_angle = 100
+                                time.sleep(1)
                                 continue
                             
                         is_small_LR = ball_small_LR("ball")
