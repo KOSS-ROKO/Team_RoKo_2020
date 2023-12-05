@@ -174,7 +174,7 @@ class Controller:
         #             continue
             
         ###########
-        def ball_pos(role = 'p42'):
+        def ball_pos(role):
             time.sleep(0.2)
             motion.head ("DEFAULT", 63)
             time.sleep(1)
@@ -182,13 +182,17 @@ class Controller:
             print("ball pos:    ", role)
             print("++++++++++++++++++") 
             is_center = False
-            if role == 'p31':   
-                x,y = reference_point = [397, 287]      # par3 1st teeshot      # p31
-                v,w = 5,5
+            if role == 'p41':   
+                x,y = reference_point = [430, 306]      # par3 1st teeshot      # p41
+                v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p42': 
-                x,y = reference_point = [397, 310]      # par4 2nd teeshot      # p42
-                v,w = 5,5
+                x,y = reference_point = [420, 310]      # par4 2nd teeshot      # p42
+                v,w = 0,5
+                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
+            elif role == 'p43': 
+                x,y = reference_point = [390, 310]      # par4 2nd teeshot      # p42
+                v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pr':  
                 x,y = reference_point = [362, 312]      # right putting shot    # pr
@@ -214,19 +218,19 @@ class Controller:
                 dy = red_center[1] - reference_point[1]
                 
                 print("중앙에서 떨어진 거리: ", dx, dy, abs(dx),abs(dy))
-                print("dx//30: ",dx//30 ,"dy//30",dy//30)
+                # print("dx//30: ",dx//30 ,"dy//30",dy//30)
                 if(abs(dx)>=30):
                     if (dx<0):
                         motion.walk_side("LEFT10")
                         side_left_cnt += 1
-                        if(side_left_cnt % 2 == 0):  
+                        if side_left_cnt % 2 == 0 and p is'pr':  
                             motion.turn("LEFT",10)
                             time.sleep(0.5)
                         print("3")
                     else:
                         motion.walk_side("RIGHT10")
                         side_right_cnt += 1
-                        if(side_right_cnt % 2 == 0):  
+                        if side_right_cnt % 2 == 0 and p is 'pr':  
                             motion.turn("RIGHT",10)
                             time.sleep(0.5)
                         print("4")
@@ -416,7 +420,8 @@ class Controller:
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
-        
+        motion.head("DEFAULT", 0)
+        time.sleep(1)
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
             
@@ -469,10 +474,10 @@ class Controller:
 
 
             point = 0   # 점 1, 2, 3 할당
-            p = 'p42'
+            p = 'p41'
             if ball_dist < 26:      # 점 1
                 point = 1
-                #p = 'p41'
+                p = 'p41'
                 motion.turn("RIGHT", 20)
                 time.sleep(1)
             elif ball_dist < 46:    # 점 2
@@ -484,7 +489,7 @@ class Controller:
                 time.sleep(1)
             else :                  # 점 3
                 point = 3
-                #p = 'p43'
+                p = 'p43'
                 motion.walk("FORWARD", ball_dist - 18)
 
 
@@ -512,7 +517,8 @@ class Controller:
             else :                  # 점 3
                 motion.walk("FORWARD2")
                 time.sleep(5)
-        
+
+            return True
             
             motion.turn("LEFT", 10)
             time.sleep(0.5)
@@ -587,7 +593,7 @@ class Controller:
                 motion.turn("RIGHT", 15)
                 print("1번 점에서 확인")
                 point = 1
-                # p = 'pb41'
+                p = 'p41'
             elif Distance.head_lr_angle >= 150:
                 motion.walk_side("RIGHT70") # loop문 추가
                 time.sleep(1)
@@ -602,13 +608,13 @@ class Controller:
                 motion.turn("LEFT", 10)
                 print("3번 점에서 확인")
                 point = 3
-                # p = 'pb43'
+                p = 'p43'
             else:
                 print("2번 점에서 확인")
                 motion.pose("LEFT", True)
                 time.sleep(2)
                 point = 2
-                # p = 'pb42'
+                p = 'p42'
             
             #-----------------------------------------------------------------------------------------------------
 
@@ -1119,9 +1125,9 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)    
             '''
          
-            ball_pos('p31') 
+            ball_pos('p42') 
             Set_holecup_left()
-            ball_pos('p31')
+            ball_pos('p42')
             
             ### 진짜 퍼팅
             motion.putting("LEFT", 4, 3)
