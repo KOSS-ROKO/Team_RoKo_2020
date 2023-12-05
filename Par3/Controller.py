@@ -174,7 +174,7 @@ class Controller:
         #             continue
             
         ###########
-        def ball_pos():
+        def ball_pos(role = 'p31'):
             time.sleep(0.2)
             motion.head("DEFAULT", 63)
             time.sleep(1)
@@ -182,16 +182,24 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            # if ball_pos_cnt == 0:
-            #     if teeshot_pos == 1:        x,y = reference_point = [400, 328]
-            #     elif teeshot_pos == 2:      x,y = reference_point = [398, 300]
-            #     elif teeshot_pos == 3:      x,y = reference_point = [400, 328]
-            x,y = reference_point = [400, 328]              # 1
-            #x,y = reference_point = [398, 300]              # 2
-            #x,y = reference_point = [400, 328]              # 3
-            w = 5
-            v = 5
-            rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
+            if role == 'p31':   
+                x,y = reference_point = [393, 287]      # par3 1st teeshot      # p31
+                v,w = 5,5
+                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
+            elif role == 'p32':
+                x,y = reference_point = [397, 287]      # par3 1st teeshot      # p31
+                v,w = 5,5
+                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
+            elif role == 'p33':
+                x,y = reference_point = [397, 287]      # par3 1st teeshot      # p31
+                v,w = 5,5
+                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
+            elif role == 'pl':
+                x,y = reference_point = [397, 287]      # par3 1st teeshot      # p31
+                v,w = 5,5
+                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
+                
+                
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
@@ -459,30 +467,28 @@ class Controller:
             '''
                 
             point = 0   # 점 1, 2, 3 할당
-
+            p = 'p31'
             if ball_dist < 26:      # 점 1
                 point = 1
-                teeshot_pos = 1
+                p = 'p31'
                 motion.turn("RIGHT", 5)
                 time.sleep(0.5)
                 motion.turn("RIGHT", 5)
                 time.sleep(0.5)
             elif ball_dist < 46:    # 점 2
                 point = 2
-                teeshot_pos = 2
+                p = 'p32'
                 motion.walk("FORWARD", ball_dist - 18)
             else :   
                 point = 3               # 점 3
-                teeshot_pos = 3
+                p = 'p33'
                 motion.walk("FORWARD", ball_dist - 18)
                 time.sleep(2)
                 motion.turn("LEFT", 10)
                 time.sleep(1)
                 
                 
-            ball_pos()
-
-            ball_pos_cnt = 1
+            ball_pos(p)
                 
             time.sleep(1)
             
@@ -490,8 +496,7 @@ class Controller:
                 
                 
             #Set_holecup_right()
-            
-            #ball_pos()
+            #ball_pos(p)
             #time.sleep(1)
             
 
@@ -578,6 +583,7 @@ class Controller:
                 motion.turn("RIGHT", 20)
                 print("1번 점에서 확인")
                 point = 1
+                p = 'pb31'
             elif Distance.head_lr_angle >= 115:
                 motion.walk_side("RIGHT70") # loop문 추가
                 time.sleep(0.2)
@@ -592,11 +598,13 @@ class Controller:
                 motion.turn("LEFT", 10)
                 print("3번 점에서 확인")
                 point = 3
+                p = 'pb33'
             else:
                 print("2번 점에서 확인")
                 motion.pose("LEFT", True)
                 time.sleep(2)
                 point = 2
+                p = 'pb32'
             
             #-----------------------------------------------------------------------------------------------------
 
@@ -627,7 +635,7 @@ class Controller:
                 
                 
 
-            ball_pos()
+            ball_pos(p)
             time.sleep(1)
             
             if point == 1:
@@ -983,10 +991,10 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)    
             '''
-         
-            ball_pos() 
+            p = 'pl'
+            ball_pos(p) 
             Set_holecup_left()
-            ball_pos() 
+            ball_pos(p) 
                 
                 
             ### 진짜 퍼팅
