@@ -1034,7 +1034,12 @@ class Controller:
                         
                         if is_big_UD == "Except":
                             robo._motion.head("UP", 9)
-                            big_LR("ball")
+                            is_big_LR = big_LR("ball")  # big은 알아서 고개 디폴트 함 
+                            if is_big_LR == "Except":
+                                motion.walk("BACKWARD")
+                                time.sleep(3)
+                                continue
+                            
                         is_small_LR = ball_small_LR("ball")
 
                         if is_small_LR == "Except" :
