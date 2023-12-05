@@ -249,7 +249,7 @@ class Controller:
             print("is_left: ", is_left)
             motion.head("RIGHT",90)    # 머리 오른쪽 90도
             time.sleep(1)
-            print("팔 내리고 머리 90으로 돌림")
+            print("팔 내리big_LR고 머리 90으로 돌림")
             if is_left:
                 while True:
                     is_holecup =  robo._image_processor.detect_holecup()

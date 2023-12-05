@@ -37,6 +37,7 @@ class Head:
             
                 robo._motion.head("DEFAULT", 2)
                 time.sleep(1)
+                
                 return True, big_lr_angle, max_right_flag
         
             else:   # 물체가 화면에 안 보이는 경우 detect : False
