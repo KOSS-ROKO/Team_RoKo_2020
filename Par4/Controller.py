@@ -22,7 +22,7 @@ class Controller:
         # act = Act.TEESHOTB
         pass
     
-    act  = Act.SECSHOT
+    act  = Act.WALK_BALL
     robo = Robo()
 
 
@@ -840,6 +840,10 @@ class Controller:
                         if is_big_LR == "Except":
                             motion.walk("BACKWARD")
                             time.sleep(3)
+                            motion.head("DEFAULT",0)
+                            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
+                            Distance.head_lr_angle = 100
+                            time.sleep(1)
                             continue
                     
                     is_small_LR = ball_small_LR("ball")
@@ -940,6 +944,7 @@ class Controller:
             
             
             self.act = Act.PUTTING_POS
+            return True
             
             #return True
             
