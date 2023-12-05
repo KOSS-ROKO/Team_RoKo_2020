@@ -14,7 +14,8 @@ class Act:
     PUTTING = 5          # 4. 퍼팅
     HOLEIN = 6           # 5. 홀인
 
-teeshot_pos = 0
+global teeshot_pos
+global ball_pos_cnt
 
 class Controller:
 
@@ -175,9 +176,13 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            if teeshot_pos == 1:      x,y = reference_point = [400, 328]
-            if teeshot_pos == 2:      x,y = reference_point = [398, 300]
-            if teeshot_pos == 3:      x,y = reference_point = [400, 328]
+            # if ball_pos_cnt == 0:
+            #     if teeshot_pos == 1:        x,y = reference_point = [400, 328]
+            #     elif teeshot_pos == 2:      x,y = reference_point = [398, 300]
+            #     elif teeshot_pos == 3:      x,y = reference_point = [400, 328]
+            x,y = reference_point = [400, 328]              # 1
+            #x,y = reference_point = [398, 300]              # 2
+            #x,y = reference_point = [400, 328]              # 3
             w = 5
             v = 5
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
@@ -388,6 +393,7 @@ class Controller:
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
+        teeshot_pos  = ball_pos_cnt = 0
         
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
@@ -446,8 +452,6 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
             '''
                 
-                
-                
             point = 0   # 점 1, 2, 3 할당
 
             if ball_dist < 26:      # 점 1
@@ -471,6 +475,9 @@ class Controller:
                 
                 
             ball_pos()
+
+            ball_pos_cnt = 1
+                
             time.sleep(1)
             
 
@@ -515,7 +522,6 @@ class Controller:
         #=======================================================#
         #                      2. Teeshot B                     #         
         #=======================================================#
-        
         
         elif act == Act.TEESHOTB:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot B") # Debug
