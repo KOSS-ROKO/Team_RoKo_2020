@@ -76,12 +76,12 @@ class Controller:
             # big LR head
             while True:
                 is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.head_lr_angle, max_right_flag)
-                if  small_lr_temp == 10: #왼쪽 max까지 갔는데 공 못찾으면 
-                    Distance.head_lr_angle = small_lr_temp
-                    return "Except"
                 if is_object_in_frame == True:
                     return "Success"
                 elif is_object_in_frame == False:
+                    if  small_lr_temp == 10: #왼쪽 max까지 갔는데 공 못찾으면 
+                        Distance.head_lr_angle = small_lr_temp
+                        return "Except"
                     Distance.head_lr_angle = small_lr_temp
                     print("head_lr_angle : ", Distance.head_lr_angle)
                     continue
@@ -181,7 +181,7 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            x,y = reference_point = [415, 334]
+            x,y = reference_point = [413, 334]
             v = 5
             w = 5
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
@@ -273,7 +273,7 @@ class Controller:
                 # mid = 340
                 # min = mid - 8
                 # max = mid + 8
-                mid = 310
+                mid = 365
                 min = mid - 15
                 max = mid + 15
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
