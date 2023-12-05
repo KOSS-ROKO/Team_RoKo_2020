@@ -696,7 +696,7 @@ class Controller:
 
             print("^^두번째 티샷^^")
             
-            """
+            
 
 
             motion.head("UP", 9)
@@ -765,7 +765,7 @@ class Controller:
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
                 time.sleep(2)
-            """
+            
             time.sleep(1)
             ball_pos('pr')
             time.sleep(1)
