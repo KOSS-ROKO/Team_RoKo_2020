@@ -175,11 +175,12 @@ class Controller:
             print("ball pos")
             print("++++++++++++++++++")
             is_center = False
-            if teeshot_pos == 1:      x,y = reference_point = [383, 299]
-            if teeshot_pos == 2:      x,y = reference_point = [383, 299]
-            if teeshot_pos == 3:      x,y = reference_point = [383, 299]
+            if teeshot_pos == 1:      x,y = reference_point = [400, 328]
+            if teeshot_pos == 2:      x,y = reference_point = [398, 300]
+            if teeshot_pos == 3:      x,y = reference_point = [400, 328]
             w = 5
-            rectangle_coordinates = [x, y-w, x+w, y-w, x+w, y, x, y]
+            v = 5
+            rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
                 x1, y1, x2, y2, x3, y3, x4, y4 = rectangle_coordinates
