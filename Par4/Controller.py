@@ -692,7 +692,7 @@ class Controller:
         #=======================================================#
 
         elif act == Act.SECSHOT:                 ##### 1. 시작 및 티샷 #################
-            '''print("ACT: ", act) # Debug
+            print("ACT: ", act) # Debug
 
             print("^^두번째 티샷^^")
             
@@ -777,7 +777,7 @@ class Controller:
 
             ### 진짜 두번째 TEESHOT
             motion.putting("PAR4", 2)
-            time.sleep(5)'''
+            time.sleep(5)
 
             #######
             #return True
