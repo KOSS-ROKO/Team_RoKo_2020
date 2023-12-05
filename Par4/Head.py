@@ -43,24 +43,24 @@ class Head:
             else:   # 물체가 화면에 안 보이는 경우 detect : False
                 # 패닝 틸팅? or 걷기?
                 # 고개 각도 크게 돌리기, Find ball과 다름
-                if max_right_flag == 0:                                                                 
-                    robo._motion.head("RIGHT", 30) ################# 3도보단 큰 각으로
-                    time.sleep(0.5)
-                    big_lr_angle += 30 # 10은 임의 값
-                    if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                        max_right_flag = 1
-                        big_lr_angle = 100
-                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
-                        time.sleep(1)
-
-                elif max_right_flag == 1:
+                if max_right_flag == 0:
                     robo._motion.head("LEFT", 30) ################# 3도보단 큰 각으로
                     time.sleep(0.5)
                     big_lr_angle -= 30 # 10은 임의 값
                     if big_lr_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                        max_right_flag = 0
+                        max_right_flag = 1
                         big_lr_angle = 100
-                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
+                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기
+
+                elif max_right_flag == 1:
+                    robo._motion.head("RIGHT", 30) ################# 3도보단 큰 각으로
+                    time.sleep(0.5)
+                    big_lr_angle += 30 # 10은 임의 값
+                    if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                        max_right_flag = 0
+                        # big_lr_angle = 100
+                        # robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
+                        time.sleep(1)
                 return check, big_lr_angle, max_right_flag
         
         elif detect_object == 'ball2': # 턴하지 않음
