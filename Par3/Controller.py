@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.PUTTING_POS
+    act  = Act.TEESHOTA
     robo = Robo()
 
 
@@ -175,7 +175,7 @@ class Controller:
             is_center = False
             x,y = reference_point = [383, 299]
             v = 5
-            w = 10
+            w = 5
             rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             while not is_center:
                 red_center = robo._image_processor.detect_ball('call_midpoint')
@@ -353,9 +353,9 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 470               ###### if body left ++, if body right --
-                min = mid - 15
-                max = mid + 15
+                mid = 475               ###### if body left ++, if body right --
+                min = mid - 10
+                max = mid + 10
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
@@ -450,8 +450,8 @@ class Controller:
                 point = 1
                 motion.turn("RIGHT", 5)
                 time.sleep(0.5)
-                motion.turn("RIGHT", 5)
-                time.sleep(0.5)
+                # motion.turn("RIGHT", 5)
+                # time.sleep(0.5)
             elif ball_dist < 46:    # 점 2
                 point = 2
                 motion.walk("FORWARD", ball_dist - 18)
@@ -481,7 +481,10 @@ class Controller:
             print("putting")
             time.sleep(5)
 
-            if point==3:
+            if point==1:
+                motion.walk("JFORWARD")
+                time.sleep(2)
+            elif point==3:
                 motion.walk("BACKWARD")
                 time.sleep(3)
                 motion.walk("BACKWARD")
