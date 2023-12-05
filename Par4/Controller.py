@@ -469,11 +469,11 @@ class Controller:
 
 
             point = 0   # 점 1, 2, 3 할당
-            p = None
+            p = 'p42'
             if ball_dist < 26:      # 점 1
                 point = 1
                 #p = 'p41'
-                motion.turn("RIGHT", 15)
+                motion.turn("RIGHT", 20)
                 time.sleep(1)
             elif ball_dist < 46:    # 점 2
                 point = 2
