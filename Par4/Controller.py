@@ -274,7 +274,7 @@ class Controller:
                 # mid = 340
                 # min = mid - 8
                 # max = mid + 8
-                mid = 310
+                mid = 250
                 min = mid - 15
                 max = mid + 15
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
