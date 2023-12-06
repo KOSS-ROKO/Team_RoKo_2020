@@ -13,7 +13,7 @@ class Act:
     PUTTING = 4          # 4. 퍼팅
     HOLEIN = 5           # 5. 홀인
 
-class Controller:
+class ControllerA:
 
     def __init__(self):
         #act = Act.TEESHOT
