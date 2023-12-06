@@ -1,0 +1,1 @@
+last_values_red2 = {'low_h': 160, 'high_h': 180, 'low_s': 80, 'high_s': 255, 'low_v': 130, 'high_v': 255}

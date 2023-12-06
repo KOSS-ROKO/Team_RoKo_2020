@@ -6,10 +6,10 @@ paused = False  # Flag to indicate if the video is paused
 
 # 마지막으로 저장한 트랙바 값 초기화
 last_values_red1 = {'low_h': 0, 'high_h': 10, 'low_s': 40, 'high_s': 155, 'low_v': 120, 'high_v': 255}
-last_values_red2 = {'low_h': 160, 'high_h': 180, 'low_s': 50, 'high_s': 255, 'low_v': 100, 'high_v': 255}
+last_values_red2 = {'low_h': 160, 'high_h': 180, 'low_s': 80, 'high_s': 255, 'low_v': 130, 'high_v': 255}
 
 # 비디오 파일 경로
-video_path = 'VIDEO/real.avi'
+video_path = 'VIDEO/par4 teeshot ball.avi'
 cap = cv2.VideoCapture(video_path)
 
 # 해상도, 프레임 설정
@@ -38,7 +38,7 @@ def get_hsv_from_click(event, x, y, flags, param):
 
         # Calculate the average HSV values of the clicked region
         average_hsv = np.mean(cv2.cvtColor(clicked_region, cv2.COLOR_BGR2HSV), axis=(0, 1))
-
+        print(f"Clicked HSV: {average_hsv}")
         # Store the HSV values to be displayed
         clicked_hsv = average_hsv
 
