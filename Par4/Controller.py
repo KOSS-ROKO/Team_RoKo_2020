@@ -794,6 +794,8 @@ class Controller:
 
             motion.turn("RIGHT", 90)
             time.sleep(4)
+            motion.turn("RIGHT", 10)
+            time.sleep(0.5)
             
 
             self.act = Act.WALK_BALL
