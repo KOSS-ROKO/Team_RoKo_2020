@@ -412,39 +412,8 @@ class Controller:
         time.sleep(1)
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
-            '''
-            time.sleep(3)
-            is_ball = robo._image_processor.detect_ball()
 
-            ### False면, big UD LR 해라
-            if is_ball == False:                
-                while True:
-                    # big UD head
-                    is_big_UD = big_UD("ball")
-
-                    if is_big_UD == "Except" :  # big UD 검출안됨 -> big LR 로 넘어감
-                        big_LR("ball")  # big은 알아서 고개 디폴트 함 
-                    
-                    is_small_LR = ball_small_LR("ball")
-                    
-                    if is_small_LR == "Except" :
-                        time.sleep(1)
-                        motion.head("DEFAULT", 0)
-                        Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
-                        time.sleep(1)
-                        continue
-                    else:
-                        break
-                    
-            else:
-                ball_small_LR("ball") # small lr 함으로써 중앙 맞춰짐
-
-            # ud_for_dist 하기전에 고개 세팅
-            motion.head("DEFAULT", 0)
-            Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             time.sleep(2)
-            '''
-
             UD_for_dist("ball")
     
             # length = 거리 
