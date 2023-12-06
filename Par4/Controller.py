@@ -76,7 +76,7 @@ class Controller:
             # big LR head
             while True:
                 is_object_in_frame, small_lr_temp, max_right_flag = head.big_LR_head(object, Distance.head_lr_angle, max_right_flag)
-                if  small_lr_temp == 190: #왼쪽 max까지 갔는데 공 못찾으면 
+                if  small_lr_temp == 10: #왼쪽 max까지 갔는데 공 못찾으면 
                     Distance.head_lr_angle = 100
                     robo._motion.head("DEFAULT", 2)
                     return "Except"
