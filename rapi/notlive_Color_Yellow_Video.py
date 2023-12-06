@@ -12,7 +12,7 @@ def mouse_callback(event, x, y, flags, param):
     global mouse_x, mouse_y
     mouse_x, mouse_y = x, y
 
-video_path = 'rapi/ball150.avi'
+video_path = 'VIDEO/real.avi'
 cap = cv2.VideoCapture(video_path)
 
 # 해상도, 프레임 설정
@@ -77,7 +77,7 @@ while True:
 
 
     # 'q' 키를 누르면 종료
-    key = cv2.waitKey(1) & 0xFF
+    key = cv2.waitKey(100) & 0xFF
     if key == ord('q'):
         break
     elif key == ord('s'):  # Press 's' to save the last trackbar values to the code

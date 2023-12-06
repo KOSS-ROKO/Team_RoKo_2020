@@ -2,49 +2,58 @@ import cv2
 import numpy as np
 
 # 초기화
-mouse_x, mouse_y = 0, 0
+paused = False  # Flag to indicate if the video is paused
 
 # 마지막으로 저장한 트랙바 값 초기화
-last_values_red1 = { 'low_h': 0, 'high_h': 10, 'low_s': 40, 'high_s': 155, 'low_v': 120, 'high_v': 255, }
+last_values_red1 = {'low_h': 0, 'high_h': 10, 'low_s': 40, 'high_s': 155, 'low_v': 120, 'high_v': 255}
+last_values_red2 = {'low_h': 160, 'high_h': 180, 'low_s': 50, 'high_s': 255, 'low_v': 100, 'high_v': 255}
 
-last_values_red2 = { 'low_h': 160, 'high_h': 180, 'low_s': 50, 'high_s': 255, 'low_v': 100, 'high_v': 255, }
-
-# 마우스 이벤트 콜백 함수 정의
-def mouse_callback(event, x, y, flags, param):
-    global mouse_x, mouse_y
-    mouse_x, mouse_y = x, y
-
-video_path = 'VIDEO/2023-12-06_02-55-50.avi'
+# 비디오 파일 경로
+video_path = 'VIDEO/real.avi'
 cap = cv2.VideoCapture(video_path)
-
 
 # 해상도, 프레임 설정
 cap.set(3, 640)
 cap.set(4, 480)
-cap.set(5, 30)
+cap.set(5, 5)
 
 # 윈도우 생성
 cv2.namedWindow('Trackbar1', cv2.WINDOW_NORMAL)
 cv2.namedWindow('Trackbar2', cv2.WINDOW_NORMAL)
 
-# 마우스 이벤트 콜백 함수 등록
-cv2.setMouseCallback('Trackbar1', mouse_callback)
-cv2.setMouseCallback('Trackbar2', mouse_callback)
+# 이미지 창에 표시될 색상값을 저장할 변수 초기화
+clicked_hsv = None
 
-# 트랙바 초기화
 for name, value in last_values_red1.items():
     cv2.createTrackbar(f'trackbar1_{name}', 'Trackbar1', value, 255, lambda x: None)
 
 for name, value in last_values_red2.items():
     cv2.createTrackbar(f'trackbar2_{name}', 'Trackbar2', value, 255, lambda x: None)
 
+def get_hsv_from_click(event, x, y, flags, param):
+    global clicked_hsv
+    if event == cv2.EVENT_LBUTTONDOWN:
+        # Extract the region around the clicked point
+        clicked_region = frame[y-5:y+5, x-5:x+5, :]
+
+        # Calculate the average HSV values of the clicked region
+        average_hsv = np.mean(cv2.cvtColor(clicked_region, cv2.COLOR_BGR2HSV), axis=(0, 1))
+
+        # Store the HSV values to be displayed
+        clicked_hsv = average_hsv
+
+# 마우스 이벤트 콜백 함수 등록
+cv2.setMouseCallback('Trackbar1', get_hsv_from_click)
+cv2.setMouseCallback('Trackbar2', get_hsv_from_click)
+
 while True:
     # 프레임 읽기
-    ret, frame = cap.read()
+    if not paused:
+        ret, frame = cap.read()
 
-    if not ret:
-        print("Failed to read a frame.")
-        break
+        if not ret:
+            print("Failed to read a frame.")
+            break
 
     # 트랙바 값 얻기
     for name in last_values_red1.keys():
@@ -67,30 +76,21 @@ while True:
     # 빨간색 감지된 이미지
     red_detected1 = cv2.bitwise_and(frame, frame, mask=imgThresh1)
 
-    # 마우스 포인터 현재 위치 표시
-    cv2.putText(frame, f'coordinate: ({mouse_x},{mouse_y})', (mouse_x, mouse_y),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1, cv2.LINE_AA)
-
-    # 마우스 포인터 위치의 색상값 (BGR) 출력
-    if mouse_y < frame.shape[0] and mouse_x < frame.shape[1]:
-        color_bgr = frame[mouse_y, mouse_x]
-
-        # BGR을 HSV로 변환
-        color_hsv = cv2.cvtColor(np.uint8([[color_bgr]]), cv2.COLOR_BGR2HSV)[0][0]
-        cv2.putText(frame, f'HSV: {color_hsv}', (mouse_x, mouse_y + 50),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1, cv2.LINE_AA)
-
     cv2.imshow('Trackbar1', frame)
     cv2.imshow('Trackbar2', frame)
     cv2.imshow('Real Window', frame)
     cv2.imshow('Red1', red_detected1)
 
-    # 창의 위치 조정
-    #cv2.moveWindow('Real Window', 600, 0)
-    #cv2.moveWindow('Red1', 600, 500)
+    # 마우스 클릭으로 얻은 색상값 출력
+    if clicked_hsv is not None:
+        cv2.putText(frame, f'Clicked HSV: {clicked_hsv}', (10, 30),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+        
+        # 클릭된 색상값을 초기화
+        clicked_hsv = None
 
     # 'q' 키를 누르면 종료
-    key = cv2.waitKey(30) & 0xFF
+    key = cv2.waitKey(100) & 0xFF
     if key == ord('q'):
         break
     elif key == ord('s'):  # Press 's' to save the last trackbar values to the code
@@ -98,6 +98,8 @@ while True:
             file.write(f"last_values_red1 = {last_values_red1}")
         with open('rapi/last_values_red2.py', 'w') as file:
             file.write(f"last_values_red2 = {last_values_red2}")
+    elif key == ord(' '):  # Press space bar to toggle pause
+        paused = not paused
 
 # 종료할 때 카메라 해제 및 윈도우 닫기
 cap.release()
