@@ -20,8 +20,10 @@ clicked_point = None
 def detect_red_color(image):
     imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-    imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (21, 139, 255))
+    imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (10, 155, 255))
     imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 115), (179, 255, 255))
+    # imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (21, 139, 255))
+    # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 115), (179, 255, 255))
 
 
     # lower_yellow = np.array([10, 79, 137])
@@ -33,7 +35,7 @@ def detect_red_color(image):
 
     red_contours, _ = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    cv2.imshow("d",imgThresh)
+    cv2.imshow("d",imgThresh)gi
     if red_contours:
         red_max_contour = max(red_contours, key=cv2.contourArea)
 
