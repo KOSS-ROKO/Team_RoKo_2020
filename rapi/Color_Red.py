@@ -14,7 +14,7 @@ def mouse_callback(event, x, y, flags, param):
     global mouse_x, mouse_y
     mouse_x, mouse_y = x, y
 
-video_path = 'VIDEO/2023-12-06_02-55-50.avi'
+video_path = 'VIDEO/hi.avi'
 cap = cv2.VideoCapture(video_path)
 
 
@@ -90,7 +90,7 @@ while True:
     #cv2.moveWindow('Red1', 600, 500)
 
     # 'q' 키를 누르면 종료
-    key = cv2.waitKey(30) & 0xFF
+    key = cv2.waitKey(100) & 0xFF
     if key == ord('q'):
         break
     elif key == ord('s'):  # Press 's' to save the last trackbar values to the code
