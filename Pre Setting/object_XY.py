@@ -19,7 +19,6 @@ clicked_point = None
 
 def detect_red_color(image):
     imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
     imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (10, 155, 255))
     imgThreshHigh = cv2.inRange(imgHSV, (154, 49, 100), (180, 255, 255))
 
