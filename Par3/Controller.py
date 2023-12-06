@@ -373,7 +373,7 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 445               ###### if body left ++, if body right --
+                mid = 438               ###### if body left ++, if body right --# 
                 min = mid - 10
                 max = mid + 10
                 
@@ -483,7 +483,7 @@ class Controller:
                 time.sleep(3)
             
             motion.walk_side("LEFT120cm")
-            time.sleep(15)
+            time.sleep(20)
 
 
             # turn body left, 몸을 왼쪽으로 90도 돌림.           

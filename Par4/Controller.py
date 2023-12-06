@@ -180,7 +180,7 @@ class Controller:
             time.sleep(0.2)
             motion.head ("DEFAULT", 63)
             time.sleep(1)
-            print("++++++++++++++++++")
+            print("++++++++++++++++++") 
             print("ball pos:    ", role)
             print("++++++++++++++++++") 
             is_center = False
@@ -200,7 +200,7 @@ class Controller:
                 x,y = reference_point = [362, 312]      # right putting shot    # pr
                 v,w = 3,3
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
-            
+            pr = 0
             side_left_cnt = 0
             side_right_cnt = 0
             while not is_center:
@@ -225,14 +225,14 @@ class Controller:
                     if (dx<0):
                         motion.walk_side("LEFT10")
                         side_left_cnt += 1
-                        if side_left_cnt % 2 == 0 and p is'pr':  
+                        if side_left_cnt % 2 == 0 and role is'pr':  
                             motion.turn("LEFT",10)
                             time.sleep(0.5)
                         print("3")
                     else:
                         motion.walk_side("RIGHT10")
                         side_right_cnt += 1
-                        if side_right_cnt % 2 == 0 and p is 'pr':  
+                        if side_right_cnt % 2 == 0 and role is 'pr':  
                             motion.turn("RIGHT",10)
                             time.sleep(0.5)
                         print("4")
@@ -449,7 +449,7 @@ class Controller:
             if ball_dist < 26:      # 점 1
                 point = 1
                 p = 'p41'
-                motion.turn("RIGHT", 20)
+                motion.turn("RIGHT", 25)
                 time.sleep(1)
             elif ball_dist < 46:    # 점 2
                 point = 2
