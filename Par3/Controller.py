@@ -197,8 +197,8 @@ class Controller:
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'pl':
-                x,y = reference_point = [399, 298]      # par3 putting      # pl
-                v,w = 0,5
+                x,y = reference_point = [390, 283]      # par3 putting      # pl
+                v,w = 2,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
                 
                 
@@ -294,7 +294,7 @@ class Controller:
                     time.sleep(0.1)
 
 
-
+            kk  = 4
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
@@ -302,14 +302,17 @@ class Controller:
                     mid = 585
                     min = mid - 15
                     max = mid + 15
+                    kk = 5
                 elif holecup_midpoint[1] < 210:
                     mid = 510              ###### if body left ++, if body right --# 
                     min = mid - 20
                     max = mid + 20
+                    kk =4
                 else :
                     mid = 460
                     min = mid -20
                     max = mid +20
+                    kk=4
 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
@@ -319,6 +322,7 @@ class Controller:
                     print("범위안에 들어옴 종료 성공")  
                     motion.head("DEFAULT", 0) # 고개 디폴트
                     time.sleep(1)
+                    return kk
                     break
                 elif holecup_midpoint[0] > max:
                         print("오른쪽 5 회전하고 쉬기")

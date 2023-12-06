@@ -189,7 +189,7 @@ class Controller:
                 v,w = 1,5 
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p42': 
-                x,y = reference_point = [420, 310]      # par4 2nd teeshot      # p42
+                x,y = reference_point = [410, 300]      # par4 2nd teeshot      # p42
                 v,w = 2,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p43': 
@@ -197,8 +197,12 @@ class Controller:
                 v,w = 2,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pr':  
-                x,y = reference_point = [350, 312]      # right putting shot    # pr
+                x,y = reference_point = [337, 304]      # right putting shot    # pr
                 v,w = 3,3
+                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
+            elif role == 'pl':  
+                x,y = reference_point = [390, 283]      # right putting shot    # pr
+                v,w = 2,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             pr = 0
             side_left_cnt = 0
@@ -316,9 +320,9 @@ class Controller:
                 # min = mid - 8
                 # max = mid + 8
                 # mid = 230
-                mid = 350 
-                min = mid - 15
-                max = mid + 15
+                mid = 280
+                min = mid - 10
+                max = mid + 10
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if is_left and holecup_midpoint == (0,0):
@@ -402,15 +406,30 @@ class Controller:
                     print("왼쪽으로 몸 돌리기")
                     time.sleep(0.1)
 
-
+            kk = 4
 
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
                 # mid = 360               ###### if body left ++, if body right --
-                mid = 380
-                min = mid - 10
-                max = mid + 10
+                
+                if holecup_midpoint[1] < 140:     # far
+                    mid = 575
+                    min = mid - 20
+                    max = mid + 20
+                    kk = 5
+                elif holecup_midpoint[1] < 200:
+                    mid = 485              ###### if body left ++, if body right --# 
+                    min = mid - 15
+                    max = mid + 15
+                    kk = 4
+                else :
+                    mid = 435
+                    min = mid - 15
+                    max = mid + 15
+                    kk = 4 
+                
+                print("kk : " , kk)
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
@@ -420,6 +439,7 @@ class Controller:
                     print("범위안에 들어옴 종료 성공")  
                     motion.head("DEFAULT", 0) # 고개 디폴트
                     time.sleep(0.1)
+                    return kk
                     break
                 elif holecup_midpoint[0] > max:
                         print("오른쪽 5 회전하고 쉬기")
@@ -1103,13 +1123,13 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)    
             '''
          
-            ball_pos('p42') 
-            Set_holecup_left()
-            ball_pos('p42')
-            Set_holecup_left()
-            ball_pos('p42')
+            ball_pos('pl') 
+            k = Set_holecup_left()
+            ball_pos('pl')
+            k = Set_holecup_left()
+            ball_pos('pl')
             ### 진짜 퍼팅
-            motion.putting("LEFT", 4, 3)
+            motion.putting("LEFT", k, 3)
             time.sleep(5)
                 
                 
