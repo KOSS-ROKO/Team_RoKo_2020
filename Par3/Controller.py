@@ -197,7 +197,7 @@ class Controller:
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'pl':
-                x,y = reference_point = [407, 315]      # par3 putting      # pl
+                x,y = reference_point = [399, 298]      # par3 putting      # pl
                 v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
                 
@@ -298,9 +298,14 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 470              ###### if body left ++, if body right --# 
-                min = mid - 5
-                max = mid + 5
+                if holecup_midpoint[1] > 220:     # far
+                    mid = 450
+                    min = mid - 10
+                    max = mid + 10
+                else:  
+                    mid = 505              ###### if body left ++, if body right --# 
+                    min = mid - 15
+                    max = mid + 15
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
