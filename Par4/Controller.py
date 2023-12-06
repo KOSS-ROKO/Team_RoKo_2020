@@ -130,15 +130,17 @@ class Controller:
         def UD_for_dist(object="ball"): # small ud head 변형
             small_ud_angle = Distance.Head_ud_angle
             time.sleep(0.5)
-            # 100 이상에서 검출될 경우 예외처리
-            if small_ud_angle == 100 :
-                small_ud_angle = 91
-                Distance.Head_ud_angle = 91
-                motion.head("DOWN", 9)
             # 거리를 위한 고개 각도 내리기 
             while True:
                 print("---------start ud for dist")
                 is_horizontal_middle, small_ud_temp = head.head_for_dist(object, small_ud_angle)
+                 # 100 이상에서 검출될 경우 예외처리
+                if small_ud_temp >= 100 :
+                    small_ud_temp = 91
+                    Distance.Head_ud_angle = 91
+                    motion.head("DOWN", 9)
+                    continue
+                
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     Distance.Head_ud_angle = small_ud_temp
                     if Distance.Head_ud_angle >= 90:
