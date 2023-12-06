@@ -688,12 +688,9 @@ class Controller:
 
             print("^^두번째 티샷^^")
             
-            
-
-
-            motion.head("UP", 9)
-            time.sleep(1)
-            motion.head("UP", 9)
+        
+            motion.head("UP", 18)
+            time.sleep(0.5)
             # 지금 각도 45도임
             
 
@@ -813,9 +810,8 @@ class Controller:
             print("^^^^222222")
 
 
-            motion.head("UP", 9)
-            time.sleep(1)
-            motion.head("UP", 9)
+            motion.head("UP", 18)
+            time.sleep(0.5)
             # 지금 각도 45도임
         
             
@@ -1140,9 +1136,8 @@ class Controller:
             print("^^^^^^^^5555555")
             print("^^^^^^^^5555555")
 
-            motion.head("UP", 9)
-            time.sleep(1)
-            motion.head("UP", 9)
+
+            motion.head("UP", 18)
             # 지금 각도 45도임
             
             ###### Find ball for HOLEIN ######
