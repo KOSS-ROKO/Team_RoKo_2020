@@ -14,9 +14,6 @@ class Act:
     PUTTING = 5          # 4. 퍼팅
     HOLEIN = 6           # 5. 홀인
 
-global teeshot_pos
-global ball_pos_cnt
-
 class Controller:
 
     def __init__(self):
@@ -183,15 +180,15 @@ class Controller:
             print("++++++++++++++++++")
             is_center = False
             if role == 'p31':   
-                x,y = reference_point = [393, 287]      # par3 1st teeshot      # p31
+                x,y = reference_point = [390, 315]      # par3 1st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p32':
-                x,y = reference_point = [420, 310]     # par3 2st teeshot      # p31
+                x,y = reference_point = [403, 329]     # par3 2st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p33':
-                x,y = reference_point = [430, 306]      # par3 3st teeshot      # p31
+                x,y = reference_point = [403, 329]      # par3 3st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'pl':
@@ -376,7 +373,7 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 475               ###### if body left ++, if body right --
+                mid = 445               ###### if body left ++, if body right --
                 min = mid - 10
                 max = mid + 10
                 
