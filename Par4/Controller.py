@@ -197,7 +197,7 @@ class Controller:
                 v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pr':  
-                x,y = reference_point = [362, 312]      # right putting shot    # pr
+                x,y = reference_point = [350, 312]      # right putting shot    # pr
                 v,w = 3,3
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             pr = 0
@@ -236,15 +236,31 @@ class Controller:
                             motion.turn("RIGHT",10)
                             time.sleep(0.5)
                         print("4")
+                if(abs(dx)>=30):
+                    if (dx<0):
+                        motion.walk_side("LEFT10")
+                    else:
+                        motion.walk_side("RIGHT10")
                 elif(abs(dy)>=30):
                     if (dy<0):
-                        motion.walk("2JFORWARD")
-                        print("1")
+                        if abs(dy)//30 >= 8:
+                            motion.walk("FORWARD")
+                        elif abs(dy)//30 >= 3:
+                            motion.walk("JFORWARD")
+                        else : 
+                            motion.walk("2JFORWARD")
                     else:
-                        motion.walk("2JBACKWARD")
-                        print("2")
+                        if abs(dy)//30 >= 8:
+                            motion.walk("BACKWARD")
+                        elif abs(dy)//30 >= 3:
+                            motion.walk("JBACKWARD")
+                        else : 
+                            motion.walk("2JBACKWARD")
                 else:
                     is_center = True
+
+
+                    
                 Distance.Head_ud_angle = 63
         
         def Set_holecup_right():
@@ -300,7 +316,7 @@ class Controller:
                 # min = mid - 8
                 # max = mid + 8
                 # mid = 230
-                mid = 315 
+                mid = 350 
                 min = mid - 15
                 max = mid + 15
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
@@ -392,7 +408,7 @@ class Controller:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
                 # mid = 360               ###### if body left ++, if body right --
-                mid = 455
+                mid = 425
                 min = mid - 10
                 max = mid + 10
                 
@@ -424,8 +440,7 @@ class Controller:
         #=======================================================#
         #                      1. Teeshot A                     #         
         #=======================================================#
-        motion.head("DEFAULT", 0)
-        time.sleep(1)
+        
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
             
@@ -856,13 +871,13 @@ class Controller:
             
         
             # 무지성 10번 걸은 후, 남은 거리 측정 후 걷기
-            if ball_dist > 26:  # 18+8 (화면에 여유있게 들어오도록)
-                motion.walk("FORWARD", ball_dist - 26)
+            if ball_dist > 30:  # 18+8 (화면에 여유있게 들어오도록)
+                motion.walk("FORWARD", ball_dist - 30)
                     
-            elif ball_dist == 26:
+            elif ball_dist == 30:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 26)    
+                motion.walk("BACKWARD", ball_dist - 30)    
 
             time.sleep(1)
             
