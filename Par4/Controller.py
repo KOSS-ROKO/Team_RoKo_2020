@@ -185,8 +185,8 @@ class Controller:
             print("++++++++++++++++++") 
             is_center = False
             if role == 'p41':   
-                x,y = reference_point = [430, 306]      # par3 1st teeshot      # p41
-                v,w = 0,5
+                x,y = reference_point = [405, 306]      # par3 1st teeshot      # p41
+                v,w = 0,5 
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p42': 
                 x,y = reference_point = [420, 310]      # par4 2nd teeshot      # p42

@@ -9,6 +9,9 @@ last_values_red1 = { 'low_h': 0, 'high_h': 10, 'low_s': 40, 'high_s': 155, 'low_
 
 last_values_red2 = { 'low_h': 160, 'high_h': 180, 'low_s': 50, 'high_s': 255, 'low_v': 100, 'high_v': 255, }
 
+# imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (10, 155, 255))
+#         imgThreshHigh = cv2.inRange(imgHSV, (154, 49, 100), (180, 255, 255))
+    
 # 마우스 이벤트 콜백 함수 정의
 def mouse_callback(event, x, y, flags, param):
     global mouse_x, mouse_y

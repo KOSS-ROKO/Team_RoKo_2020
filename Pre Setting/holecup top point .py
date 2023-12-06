@@ -19,8 +19,8 @@ clicked_point = None
 
 def top_point(image):
     imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    upper_yellow = np.array([40, 250, 255])
-    lower_yellow = np.array([10, 54, 130])
+    lower_yellow = np.array([10, 80, 110])
+    upper_yellow = np.array([36, 230, 255])
     mask = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
     yellow_mask = cv2.inRange(imgHSV, lower_yellow, upper_yellow)
     yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)

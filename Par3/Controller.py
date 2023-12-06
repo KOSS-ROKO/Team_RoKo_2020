@@ -127,15 +127,19 @@ class Controller:
         def UD_for_dist(object="ball"): # small ud head 변형
             small_ud_angle = Distance.Head_ud_angle
             time.sleep(0.5)
-            # 100 이상에서 검출될 경우 예외처리
-            if small_ud_angle == 100 :
-                small_ud_angle = 91
-                Distance.Head_ud_angle = 91
-                motion.head("DOWN", 9)
+
             # 거리를 위한 고개 각도 내리기 
             while True:
                 print("---------start ud for dist")
                 is_horizontal_middle, small_ud_temp = head.head_for_dist(object, small_ud_angle)
+                # 100 이상에서 검출될 경우 예외처리
+                if small_ud_temp >= 100 :
+                    small_ud_temp = 91
+                    Distance.Head_ud_angle = 91
+                    motion.head("DOWN", 9)
+                    continue
+                
+                
                 if is_horizontal_middle == True: #최종 중앙 맞춰짐 
                     Distance.Head_ud_angle = small_ud_temp
                     if Distance.Head_ud_angle >= 90:
@@ -180,11 +184,12 @@ class Controller:
             print("++++++++++++++++++")
             is_center = False
             if role == 'p31':   
-                x,y = reference_point = [390, 315]      # par3 1st teeshot      # p31
-                v,w = 5,5
+                # x,y = reference_point = [390, 315]      # par3 1st teeshot      # p31
+                x,y = reference_point = [407, 315]
+                v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p32':
-                x,y = reference_point = [403, 329]     # par3 2st teeshot      # p31
+                x,y = reference_point = [397, 329]     # par3 2st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p33':
@@ -192,8 +197,8 @@ class Controller:
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'pl':
-                x,y = reference_point = [397, 287]      # par3 putting      # pl
-                v,w = 5,5
+                x,y = reference_point = [407, 315]      # par3 putting      # pl
+                v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
                 
                 
@@ -218,106 +223,26 @@ class Controller:
                 if(abs(dx)>=30):
                     if (dx<0):
                         motion.walk_side("LEFT10")
-                        print("3")
                     else:
                         motion.walk_side("RIGHT10")
-                        print("4")
                 elif(abs(dy)>=30):
                     if (dy<0):
-                        motion.walk("2JFORWARD")
-                        print("1")
+                        if abs(dy)//30 >= 8:
+                            motion.walk("FORWARD")
+                        elif abs(dy)//30 >= 3:
+                            motion.walk("JFORWARD")
+                        else : 
+                            motion.walk("2JFORWARD")
                     else:
-                        motion.walk("2JBACKWARD")
-                        print("2")
+                        if abs(dy)//30 >= 8:
+                            motion.walk("BACKWARD")
+                        elif abs(dy)//30 >= 3:
+                            motion.walk("JBACKWARD")
+                        else : 
+                            motion.walk("2JBACKWARD")
                 else:
                     is_center = True
                 Distance.Head_ud_angle = 63
-        
-        def Set_holecup_right():
-            time.sleep(0.1)
-            motion.head("DEFAULT", 0) # 고개 디폴트
-            time.sleep(0.1)
-            is_left = False
-            motion.Rarm("DOWN")
-            time.sleep(1)
-            for i in range(0,5):
-                time.sleep(0.4)
-                print("왼쪽에 있는지 확인")
-                is_holecup = robo._image_processor.detect_holecup()
-                print("CHECK HOLCUP : ", is_holecup)
-                if is_holecup:
-                    print("왼편에 있음")
-                    is_left = True
-                    break
-                time.sleep(0.1)
-                motion.head("RIGHT",20)
-                time.sleep(0.5)
-            print("is_left: ", is_left)
-            motion.head("RIGHT",90)    # 머리 오른쪽 90도
-            time.sleep(1)
-            print("팔 내리big_LR고 머리 90으로 돌림")
-            if is_left:
-                while True:
-                    is_holecup =  robo._image_processor.detect_holecup()
-                    print("홀컵 있는지 확인", is_holecup)
-                    if is_holecup:
-                        print("찾음")
-                        break
-                    time.sleep(0.1)
-                    robo._motion.holecup_turn('LEFT', 20)
-                    print("완쪽으로 몸 돌리기")
-                    time.sleep(1)
-            else:
-                while True:
-                    time.sleep(0.1)
-                    robo._motion.holecup_turn('RIGHT', 10)
-                    print("오른쪽으로 몸 돌리기")
-                    time.sleep(1)
-                    is_holecup =  robo._image_processor.detect_holecup()
-                    print("홀컵있는지 확인", is_holecup)
-                    if is_holecup:
-                        print("찾음")
-                        is_left = True
-                        break
-             
-            while True:
-                time.sleep(0.2)
-                mid = 340
-                min = mid - 8
-                max = mid + 8
-                holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
-                if is_left and holecup_midpoint == (0,0):
-                    robo._motion.holecup_turn('LEFT', 10)
-                if min<=holecup_midpoint[0] <= max:
-                    print("범위안에 들어옴 종료 성공")
-                    robo._motion.Rarm('RESET')
-                    time.sleep(0.5)
-                    motion.head("DEFAULT", 0) # 고개 디폴트
-                    time.sleep(0.5)
-                    break
-                elif holecup_midpoint[0] >= max:
-                    if holecup_midpoint[0] > max + 150:
-                        print("RIGHT 회전하고 쉬기")
-                        time.sleep(0.1)
-                        robo._motion.holecup_turn('RIGHT', 20)
-                        time.sleep(0.1)
-                    else:
-                        print("RIGHT 회전하고 쉬기")
-                        time.sleep(0.1)
-                        robo._motion.holecup_turn('RIGHT', 5)
-                        time.sleep(0.1)
-                elif min>=holecup_midpoint[0]:
-                    if min-150>=holecup_midpoint[0]:
-                        print("왼쪽 회전하고 쉬기")
-                        time.sleep(0.1)
-                        robo._motion.holecup_turn('LEFT', 20)
-                        time.sleep(0.1)
-                    else:
-                        print("왼쪽 회전하고 쉬기")
-                        time.sleep(0.2)
-                        robo._motion.holecup_turn('LEFT', 5)
-                        time.sleep(0.1)
        
         def Set_holecup_left():
             time.sleep(0.5)
@@ -373,9 +298,9 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                mid = 438               ###### if body left ++, if body right --# 
-                min = mid - 10
-                max = mid + 10
+                mid = 470              ###### if body left ++, if body right --# 
+                min = mid - 5
+                max = mid + 5
                 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
                 if holecup_midpoint == (0,0):
@@ -405,8 +330,7 @@ class Controller:
         #                      1. Teeshot A                     #         
         #=======================================================#
         
-        motion.head("DEFAULT", 0)
-        time.sleep(1)
+        
         if act == Act.TEESHOTA:                 ##### 1. 시작 및 티샷 #################
             print("ACT: ", act, "Teeshot A") # Debug
 
@@ -440,8 +364,8 @@ class Controller:
                 p = 'p31'
                 motion.turn("RIGHT", 5)
                 time.sleep(0.5)
-                motion.turn("RIGHT", 5)
-                time.sleep(0.5)
+                # motion.turn("RIGHT", 5)
+                # time.sleep(0.5)
             elif ball_dist < 46:    # 점 2
                 point = 2
                 p = 'p32'
@@ -468,9 +392,9 @@ class Controller:
             
 
             # PUTTING
-            time.sleep(3)
-            motion.putting("LEFT", 4, 2)
+            motion.putting("LEFT", 3, 2)
             print("putting")
+        
             time.sleep(5)
 
             if point==1:
@@ -962,6 +886,12 @@ class Controller:
             ball_pos('pl') 
             Set_holecup_left()
             ball_pos('pl') 
+
+            Set_holecup_left()
+            ball_pos('pl') 
+
+            Set_holecup_left()
+            ball_pos('pl') 
                 
                 
             ### 진짜 퍼팅
@@ -1055,6 +985,7 @@ class Controller:
                         motion.ceremony()
                         return True
                     else:
+                        time.sleep(10)
                         self.act = Act.WALK_BALL
             else:   
                 print('원프레임이 아니라서 WALK BALL로')
