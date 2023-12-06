@@ -12,7 +12,7 @@ def mouse_callback(event, x, y, flags, param):
     global mouse_x, mouse_y
     mouse_x, mouse_y = x, y
 
-video_path = 'VIDEO/real.avi'
+video_path = 'rapi/ball150.avi'
 cap = cv2.VideoCapture(video_path)
 
 # 해상도, 프레임 설정
