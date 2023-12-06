@@ -759,12 +759,8 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
                 time.sleep(2)
             
-            time.sleep(1)
-            ball_pos('pr')
-            time.sleep(1)
-            
+            ball_pos('pr')           
             Set_holecup_right()
-            
             ball_pos('pr')
             time.sleep(1)
 
@@ -785,8 +781,6 @@ class Controller:
 
             motion.walk_side("RIGHT120cm")
             time.sleep(18)
-            # motion.walk_side("RIGHT70")
-            # time.sleep(5) 
 
 
             motion.turn("RIGHT", 90)
@@ -1138,6 +1132,7 @@ class Controller:
 
 
             motion.head("UP", 18)
+            time.sleep(0.5)
             # 지금 각도 45도임
             
             ###### Find ball for HOLEIN ######
