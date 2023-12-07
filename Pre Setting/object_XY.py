@@ -39,7 +39,7 @@ def detect_red_color(image):
         if M["m00"] != 0:
             red_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
             return red_center
-
+ 
 def on_mouse_click(event, x, y, flags, param):
     global clicked_point
     if event == cv2.EVENT_LBUTTONDOWN:

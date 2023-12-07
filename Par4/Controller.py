@@ -189,21 +189,21 @@ class Controller:
                 v,w = 1,5 
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p42': 
-                x,y = reference_point = [400, 320]      # par4 2nd teeshot      # p42
-                v,w = 2,5
-                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
+                x,y = reference_point = [381, 305]      # par3 putting      # pl
+                v,w = 5,5
+                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p43': 
                 x,y = reference_point = [390, 310]      # par4 2nd teeshot      # p42
                 v,w = 2,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pr':  
-                x,y = reference_point = [327, 364]      # right putting shot    # pr
-                v,w = 3,3
+                x,y = reference_point = [331, 347]      # right putting shot    # pr
+                v,w = 5,3
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pl':  
-                x,y = reference_point = [390, 283]      # right putting shot    # pr
-                v,w = 2,5
-                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
+                x,y = reference_point = [381, 305]      # par3 putting      # pl
+                v,w = 3,5
+                rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             pr = 0
             side_left_cnt = 0
             side_right_cnt = 0
@@ -482,6 +482,8 @@ class Controller:
             time.sleep(8)
             motion.turn("RIGHT", 10)
             time.sleep(1)
+            motion.turn("RIGHT", 10)
+            time.sleep(1)
 
 
             # point = 0   # 점 1, 2, 3 할당
@@ -504,7 +506,7 @@ class Controller:
             #     motion.walk("FORWARD", ball_dist - 18)
 
 
-            ball_pos(p)
+            ball_pos('p42')
             time.sleep(1)   
 
 
@@ -514,7 +516,7 @@ class Controller:
             time.sleep(5)
 
             ### 점 1,2인 경우엔 walk해서 점 3까지 !
-
+            point = 2
             if point==1:      # 점 1
                 motion.turn("LEFT", 15)
                 time.sleep(0.7)
@@ -539,8 +541,8 @@ class Controller:
             motion.walk_side("LEFT120cm") 
             time.sleep(18)
             # turn은 이연 side walk 정확도 높아지면 뺄거임
-            motion.turn("LEFT", 20)
-            time.sleep(1)
+            #motion.turn("LEFT", 20)
+            #time.sleep(1)
 
             
             motion.turn("LEFT", 90)

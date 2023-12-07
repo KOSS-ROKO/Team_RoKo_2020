@@ -189,16 +189,16 @@ class Controller:
                 v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p32':
-                x,y = reference_point = [387, 306]     # par3 2st teeshot      # p31
-                v,w = 3,5
+                x,y = reference_point = [381, 305]     # par3 2st teeshot      # p31
+                v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p33':
                 x,y = reference_point = [403, 329]      # par3 3st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'pl':
-                x,y = reference_point = [387, 302]      # par3 putting      # pl
-                v,w = 2,5
+                x,y = reference_point = [381, 305]      # par3 putting      # pl
+                v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
                 
                 
@@ -396,7 +396,7 @@ class Controller:
             time.sleep(8)
                 
                 
-            ball_pos(p)
+            ball_pos('p32')
                 
             time.sleep(1)
             
@@ -406,10 +406,10 @@ class Controller:
             #Set_holecup_right()
             #ball_pos(p)
             #time.sleep(1)
-            
+            point = 2
 
             # PUTTING
-            motion.putting("LEFT", 4, 2)
+            motion.putting("LEFT", 3, 2)
             print("putting")
         
             time.sleep(5)
@@ -543,7 +543,7 @@ class Controller:
                 
                 
 
-            ball_pos(p)
+            ball_pos('p32')
             time.sleep(1)
             
             if point == 1:
@@ -661,13 +661,13 @@ class Controller:
             
         
             # 무지성 10번 걸은 후, 남은 거리 측정 후 걷기
-            if ball_dist > 30:  # 18+8 (화면에 여유있게 들어오도록)
-                motion.walk("FORWARD", ball_dist - 30)
+            if ball_dist > 28:  # 18+8 (화면에 여유있게 들어오도록)
+                motion.walk("FORWARD", ball_dist - 28)
                     
-            elif ball_dist == 30:
+            elif ball_dist == 28:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-                motion.walk("BACKWARD", ball_dist - 30)    
+                motion.walk("BACKWARD", ball_dist - 28)    
 
             time.sleep(2)
             
