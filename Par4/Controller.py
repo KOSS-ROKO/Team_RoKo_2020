@@ -189,7 +189,7 @@ class Controller:
                 v,w = 1,5 
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p42': 
-                x,y = reference_point = [410, 300]      # par4 2nd teeshot      # p42
+                x,y = reference_point = [400, 320]      # par4 2nd teeshot      # p42
                 v,w = 2,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p43': 
@@ -197,7 +197,7 @@ class Controller:
                 v,w = 2,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pr':  
-                x,y = reference_point = [337, 304]      # right putting shot    # pr
+                x,y = reference_point = [327, 364]      # right putting shot    # pr
                 v,w = 3,3
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pl':  
