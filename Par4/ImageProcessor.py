@@ -79,7 +79,7 @@ class ImageProcessor:
         # 연습경기
         # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
         # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
-        imgThreshLow = cv2.inRange(imgHSV, (0, 40, 120), (10, 155, 255))
+        imgThreshLow = cv2.inRange(imgHSV, (0, 80, 120), (10, 155, 255))
         imgThreshHigh = cv2.inRange(imgHSV, (160, 80, 130), (180, 255, 255))
     
 
