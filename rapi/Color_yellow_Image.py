@@ -5,11 +5,10 @@ import numpy as np
 paused = False  # Flag to indicate if the video is paused
 
 # 마지막으로 저장한 트랙바 값 초기화
-last_values = {'yellow_low_h': 10, 'yellow_high_h': 36, 'yellow_low_s': 99, 'yellow_high_s': 255,
-               'yellow_low_v': 147, 'yellow_high_v': 255}
+last_values = {'yellow_low_h': 15, 'yellow_high_h': 36, 'yellow_low_s': 95, 'yellow_high_s': 255, 'yellow_low_v': 140, 'yellow_high_v': 255}
 
 # 비디오 파일 경로
-video_path = 'VIDEO/par3-5.avi'
+video_path = 'VIDEO/par3-4.avi'
 cap = cv2.VideoCapture(video_path)
 
 # 해상도, 프레임 설정

@@ -405,7 +405,7 @@ class Controller:
             
 
             # PUTTING
-            motion.putting("LEFT", 3, 2)
+            motion.putting("LEFT", 4, 2)
             print("putting")
         
             time.sleep(5)
@@ -896,18 +896,18 @@ class Controller:
             '''
             
             ball_pos('pl') 
-            Set_holecup_left()
+            k = Set_holecup_left()
             ball_pos('pl') 
 
-            Set_holecup_left()
+            k = Set_holecup_left()
             ball_pos('pl') 
 
-            Set_holecup_left()
+            k = Set_holecup_left()
             ball_pos('pl') 
                 
                 
             ### 진짜 퍼팅
-            motion.putting("LEFT", 4, 2)
+            motion.putting("LEFT", k, 2)
             time.sleep(5)
                 
                 
