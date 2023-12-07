@@ -370,26 +370,30 @@ class Controller:
                 motion.walk("BACKWARD", ball_dist - 18)
             '''
                 
-            point = 0   # 점 1, 2, 3 할당
-            p = 'p31'
-            if ball_dist < 26:      # 점 1
-                point = 1
-                p = 'p31'
-                motion.turn("RIGHT", 5)
-                time.sleep(0.5)
-                # motion.turn("RIGHT", 5)
-                # time.sleep(0.5)
-            elif ball_dist < 46:    # 점 2
-                point = 2
-                p = 'p32'
-                motion.walk("FORWARD", ball_dist - 18)
-            else :   
-                point = 3               # 점 3
-                p = 'p33'
-                motion.walk("FORWARD", ball_dist - 18)
-                time.sleep(2)
-                motion.turn("LEFT", 10)
-                time.sleep(1)
+            # point = 0   # 점 1, 2, 3 할당
+            # p = 'p31'
+            # if ball_dist < 26:      # 점 1
+            #     point = 1
+            #     p = 'p31'
+            #     motion.turn("RIGHT", 5)
+            #     time.sleep(0.5)
+            #     # motion.turn("RIGHT", 5)
+            #     # time.sleep(0.5)
+            # elif ball_dist < 46:    # 점 2
+            #     point = 2
+            #     p = 'p32'
+            #     motion.walk("FORWARD", ball_dist - 18)
+            # else :   
+            #     point = 3               # 점 3
+            #     p = 'p33'
+            #     motion.walk("FORWARD", ball_dist - 18)
+            #     time.sleep(2)
+            #     motion.turn("LEFT", 10)
+            #     time.sleep(1)
+            
+            
+            motion.walk("FORWARD3")
+            time.sleep(8)
                 
                 
             ball_pos(p)

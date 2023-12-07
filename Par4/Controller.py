@@ -477,30 +477,35 @@ class Controller:
             motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             time.sleep(2)
+            
+            motion.walk("FORWARD3")
+            time.sleep(8)
+            motion.turn("RIGHT", 10)
+            time.sleep(1)
 
 
-            point = 0   # 점 1, 2, 3 할당
-            p = 'p41'
-            if ball_dist < 26:      # 점 1
-                point = 1
-                p = 'p41'
-                motion.turn("RIGHT", 25)
-                time.sleep(1)
-            elif ball_dist < 46:    # 점 2
-                point = 2
-                p = 'p42'
-                motion.walk("FORWARD", ball_dist - 18)
-                time.sleep(2)
-                motion.turn("RIGHT", 10)
-                time.sleep(1)
-            else :                  # 점 3
-                point = 3
-                p = 'p43'
-                motion.walk("FORWARD", ball_dist - 18)
+            # point = 0   # 점 1, 2, 3 할당
+            # p = 'p41'
+            # if ball_dist < 26:      # 점 1
+            #     point = 1
+            #     p = 'p41'
+            #     motion.turn("RIGHT", 25)
+            #     time.sleep(1)
+            # elif ball_dist < 46:    # 점 2
+            #     point = 2
+            #     p = 'p42'
+            #     motion.walk("FORWARD", ball_dist - 18)
+            #     time.sleep(2)
+            #     motion.turn("RIGHT", 10)
+            #     time.sleep(1)
+            # else :                  # 점 3
+            #     point = 3
+            #     p = 'p43'
+            #     motion.walk("FORWARD", ball_dist - 18)
 
 
             ball_pos(p)
-            time.sleep(1)
+            time.sleep(1)   
 
 
             # PUTTING
