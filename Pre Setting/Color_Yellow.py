@@ -5,7 +5,7 @@ import numpy as np
 mouse_x, mouse_y = 0, 0
 
 # 마지막으로 저장한 트랙바 값 초기화
-last_values = {'yellow_low_h': 10, 'yellow_high_h': 36, 'yellow_low_s': 99, 'yellow_high_s': 255, 'yellow_low_v': 147, 'yellow_high_v': 255}
+last_values = {'yellow_low_h': 15, 'yellow_high_h': 36, 'yellow_low_s': 99, 'yellow_high_s': 248, 'yellow_low_v': 140, 'yellow_high_v': 255}
 
 # 마우스 이벤트 콜백 함수 정의
 def mouse_callback(event, x, y, flags, param):
