@@ -189,16 +189,16 @@ class Controller:
                 v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p32':
-                x,y = reference_point = [381, 305]     # par3 2st teeshot      # p31
-                v,w = 0,5
+                x,y = reference_point = [382, 287]     # par3 2st teeshot      # p31
+                v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p33':
                 x,y = reference_point = [403, 329]      # par3 3st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'pl':
-                x,y = reference_point = [381, 305]      # par3 putting      # pl
-                v,w = 0,5
+                x,y = reference_point = [382, 287]      # par3 putting      # pl
+                v,w = 2,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
                 
                 
@@ -394,7 +394,12 @@ class Controller:
             
             motion.walk("FORWARD3")
             time.sleep(8)
-                
+
+            motion.turn("RIGHT", 5)
+            time.sleep(1)
+
+            motion.walk_side("LEFT10")
+            time.sleep(2)
                 
             ball_pos('p32')
                 
@@ -900,19 +905,25 @@ class Controller:
             '''
             
             ball_pos('pl') 
-            k = Set_holecup_left()
+            k = Set_holecup_left() 
+            time.sleep(0.4)
             ball_pos('pl') 
+            time.sleep(1) 
 
-            k = Set_holecup_left()
+            k = Set_holecup_left() 
+            time.sleep(0.4)
             ball_pos('pl') 
+            time.sleep(1) 
 
-            k = Set_holecup_left()
+            k = Set_holecup_left() 
+            time.sleep(0.4)
             ball_pos('pl') 
-                
+            time.sleep(2)
+            
                 
             ### 진짜 퍼팅
             motion.putting("LEFT", k, 2)
-            time.sleep(5)
+            time.sleep(6)
                 
                 
             self.act = Act.HOLEIN

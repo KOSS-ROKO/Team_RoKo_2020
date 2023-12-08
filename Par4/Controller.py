@@ -189,7 +189,7 @@ class Controller:
                 v,w = 1,5 
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p42': 
-                x,y = reference_point = [381, 305]      # par3 putting      # pl
+                x,y = reference_point = [382, 287]     # par3 2st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p43': 
@@ -198,11 +198,11 @@ class Controller:
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pr':  
                 x,y = reference_point = [331, 347]      # right putting shot    # pr
-                v,w = 5,3
+                v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pl':  
-                x,y = reference_point = [381, 305]      # par3 putting      # pl
-                v,w = 3,5
+                x,y = reference_point = [382, 287]     # par3 2st teeshot      # p31
+                v,w = 5,6
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             pr = 0
             side_left_cnt = 0
@@ -230,14 +230,14 @@ class Controller:
                         motion.walk_side("LEFT10")
                         side_left_cnt += 1
                         if side_left_cnt % 2 == 0 and role is'pr':  
-                            motion.turn("LEFT",10)
+                            motion.walk_side("LEFT",10)
                             time.sleep(0.1)
                         print("3")
                     else:
                         motion.walk_side("RIGHT10")
                         side_right_cnt += 1
                         if side_right_cnt % 2 == 0 and role is 'pr':  
-                            motion.turn("RIGHT",10)
+                            motion.walk_side("RIGHT",10)
                             time.sleep(0.1)
                         print("4")
                 if(abs(dx)>=30):
