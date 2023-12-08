@@ -202,7 +202,7 @@ class Controller:
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pl':  
                 x,y = reference_point = [382, 287]     # par3 2st teeshot      # p31
-                v,w = 5,6
+                v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             pr = 0
             side_left_cnt = 0

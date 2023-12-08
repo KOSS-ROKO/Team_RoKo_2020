@@ -198,7 +198,7 @@ class Controller:
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'pl':
                 x,y = reference_point = [382, 287]      # par3 putting      # pl
-                v,w = 2,5
+                v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
                 
                 
