@@ -185,24 +185,24 @@ class Controller:
             print("++++++++++++++++++") 
             is_center = False
             if role == 'p41':   
-                x,y = reference_point = [405, 306]      # par3 1st teeshot      # p41
-                v,w = 1,5 
+                x,y = reference_point = [390, 304]     # par3 2st teeshot      # p31
+                v,w = 5,5 
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'p42': 
-                x,y = reference_point = [382, 287]     # par3 2st teeshot      # p31
+                x,y = reference_point = [390, 304]     # par3 2st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p43': 
-                x,y = reference_point = [390, 310]      # par4 2nd teeshot      # p42
-                v,w = 2,5
+                x,y = reference_point = [390, 304]     # par3 2st teeshot      # p31
+                v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pr':  
-                x,y = reference_point = [331, 347]      # right putting shot    # pr
+                x,y = reference_point = [311, 359]      # right putting shot    # pr
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+v, x-v, y+v]
             elif role == 'pl':  
-                x,y = reference_point = [382, 287]     # par3 2st teeshot      # p31
-                v,w = 5,5
+                x,y = reference_point = [390, 304]     # par3 2st teeshot      # p31
+                v,w = 5,6
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             pr = 0
             side_left_cnt = 0
@@ -229,16 +229,16 @@ class Controller:
                     if (dx<0):
                         motion.walk_side("LEFT10")
                         side_left_cnt += 1
-                        if side_left_cnt % 2 == 0 and role is'pr':  
-                            motion.walk_side("LEFT",10)
-                            time.sleep(0.1)
+                        # if side_left_cnt % 2 == 0 and role is'pr':  
+                        #     motion.walk_side("LEFT10")
+                        #     time.sleep(0.1)
                         print("3")
                     else:
                         motion.walk_side("RIGHT10")
                         side_right_cnt += 1
-                        if side_right_cnt % 2 == 0 and role is 'pr':  
-                            motion.walk_side("RIGHT",10)
-                            time.sleep(0.1)
+                        # if side_right_cnt % 2 == 0 and role is 'pr':  
+                        #     motion.walk_side("RIGHT5")
+                        #     time.sleep(0.1)
                         print("4")
                 if(abs(dx)>=30):
                     if (dx<0):
@@ -415,8 +415,8 @@ class Controller:
                 
                 if holecup_midpoint[1] < 140:     # far
                     mid = 575
-                    min = mid - 20
-                    max = mid + 20
+                    min = mid - 15
+                    max = mid + 15
                     kk = 5
                 elif holecup_midpoint[1] < 200:
                     mid = 485              ###### if body left ++, if body right --# 
@@ -478,22 +478,53 @@ class Controller:
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             time.sleep(2)
             
-            motion.walk("FORWARD3")
-            time.sleep(8)
-            motion.turn("RIGHT", 10)
-            time.sleep(1)
-            motion.turn("RIGHT", 10)
-            time.sleep(1)
+            # dPwjs
+            # motion.walk("FORWARD3")
+            # time.sleep(8)
+            # motion.turn("RIGHT", 10)
+            # time.sleep(1)
+            # motion.turn("RIGHT", 10)
+            # time.sleep(1)
 
-
-            # point = 0   # 점 1, 2, 3 할당
+            # 111
+            # point = 1
             # p = 'p41'
-            # if ball_dist < 26:      # 점 1
+            # motion.turn("RIGHT", 25)
+            # time.sleep(1)
+            
+            
+            # 22222
+            # point = 2
+            # p = 'p42'
+            # motion.walk("FORWARD2")
+            # time.sleep(8)
+            # motion.walk("JFORWARD")
+            # time.sleep(2)
+
+            # motion.turn("RIGHT", 10)
+            # time.sleep(1)
+
+            # motion.walk_side("LEFT10")
+            # time.sleep(2)
+
+            ### 333
+            p = 'p43'
+            point = 3
+            motion.walk("FORWARD5")
+            time.sleep(10.5)
+
+            
+                
+            
+
+               # 점 1, 2, 3 할당
+            # p = 'p43'
+            # if point == 1:      # 점 1
             #     point = 1
             #     p = 'p41'
-            #     motion.turn("RIGHT", 25)
+            #     motion.turn("RIGHT", 15)
             #     time.sleep(1)
-            # elif ball_dist < 46:    # 점 2
+            # elif point == 2:    # 점 2
             #     point = 2
             #     p = 'p42'
             #     motion.walk("FORWARD", ball_dist - 18)
@@ -506,7 +537,7 @@ class Controller:
             #     motion.walk("FORWARD", ball_dist - 18)
 
 
-            ball_pos('p42')
+            ball_pos(p)
             time.sleep(1)   
 
 
@@ -516,7 +547,7 @@ class Controller:
             time.sleep(5)
 
             ### 점 1,2인 경우엔 walk해서 점 3까지 !
-            point = 2
+            
             if point==1:      # 점 1
                 motion.turn("LEFT", 15)
                 time.sleep(0.7)

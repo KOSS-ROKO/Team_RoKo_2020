@@ -20,7 +20,7 @@ class Controller:
         #act = Act.TEESHOT
         pass
     
-    act  = Act.TEESHOTA
+    act  = Act.TEESHOTB
     robo = Robo()
 
 
@@ -185,19 +185,19 @@ class Controller:
             is_center = False
             if role == 'p31':   
                 # x,y = reference_point = [390, 315]      # par3 1st teeshot      # p31
-                x,y = reference_point = [407, 315]
+                x,y = reference_point = [390, 295]
                 v,w = 0,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p32':
-                x,y = reference_point = [382, 287]     # par3 2st teeshot      # p31
+                x,y = reference_point = [390, 295]     # par3 2st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'p33':
-                x,y = reference_point = [403, 329]      # par3 3st teeshot      # p31
+                x,y = reference_point = [390, 295]      # par3 3st teeshot      # p31
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
             elif role == 'pl':
-                x,y = reference_point = [382, 287]      # par3 putting      # pl
+                x,y = reference_point = [390, 295]      # par3 putting      # pl
                 v,w = 5,5
                 rectangle_coordinates = [x-v, y-w, x+w, y-w, x+w, y+w, x-v, y+w]
                 
@@ -298,20 +298,20 @@ class Controller:
             while True:
                 time.sleep(0.2)
                 holecup_midpoint = robo._image_processor.detect_holecup("call_toppoint")
-                if holecup_midpoint[1] < 152:     # far
+                if holecup_midpoint[1] < 152:     
                     mid = 585
-                    min = mid - 15
-                    max = mid + 15
+                    min = mid - 10
+                    max = mid + 10
                     kk = 5
                 elif holecup_midpoint[1] < 210:
                     mid = 510              ###### if body left ++, if body right --# 
-                    min = mid - 20
-                    max = mid + 20
+                    min = mid - 10
+                    max = mid + 10
                     kk =4
                 else :
                     mid = 460
-                    min = mid -20
-                    max = mid +20
+                    min = mid - 5
+                    max = mid + 10
                     kk=4
 
                 print("홀컵 중앙은", holecup_midpoint, "목푤는 : ", min, max)
@@ -368,53 +368,67 @@ class Controller:
                 print("correct!")
             else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
                 motion.walk("BACKWARD", ball_dist - 18)
-            '''
+            
                 
-            # point = 0   # 점 1, 2, 3 할당
-            # p = 'p31'
-            # if ball_dist < 26:      # 점 1
-            #     point = 1
-            #     p = 'p31'
-            #     motion.turn("RIGHT", 5)
-            #     time.sleep(0.5)
-            #     # motion.turn("RIGHT", 5)
-            #     # time.sleep(0.5)
-            # elif ball_dist < 46:    # 점 2
-            #     point = 2
-            #     p = 'p32'
-            #     motion.walk("FORWARD", ball_dist - 18)
-            # else :   
-            #     point = 3               # 점 3
-            #     p = 'p33'
-            #     motion.walk("FORWARD", ball_dist - 18)
-            #     time.sleep(2)
-            #     motion.turn("LEFT", 10)
-            #     time.sleep(1)
+            point = 0   # 점 1, 2, 3 할당
+            p = 'p31'
+            if ball_dist < 26:      # 점 1
+                point = 1
+                p = 'p31'
+                motion.turn("RIGHT", 10)
+                time.sleep(0.5)
+                # motion.turn("RIGHT", 5)
+                # time.sleep(0.5)
+            elif ball_dist < 46:    # 점 2
+                point = 2
+                p = 'p32'
+                motion.walk("FORWARD", ball_dist - 18)
+            else :   
+                point = 3               # 점 3
+                p = 'p33'
+                motion.walk("FORWARD", ball_dist - 18)
+                time.sleep(2)
+                motion.turn("LEFT", 10)
+                time.sleep(1)'''
+
+            # 111
+            # motion.turn("RIGHT", 10)
+            # time.sleep(1)
             
-            
-            motion.walk("FORWARD3")
+            # 22222
+            motion.walk("FORWARD2")
             time.sleep(8)
+            motion.walk("JFORWARD")
+            time.sleep(2)
 
             motion.turn("RIGHT", 5)
             time.sleep(1)
 
             motion.walk_side("LEFT10")
             time.sleep(2)
+
+            ### 333
+            # motion.walk("FORWARD5")
+            # time.sleep(10.5)
+
+            # motion.turn("LEFT", 10)
+            # time.sleep(1)
                 
-            ball_pos('p32')
+
+            ##
+
+            ball_pos(p)
                 
             time.sleep(1)
-            
-
-                
+           
                 
             #Set_holecup_right()
             #ball_pos(p)
             #time.sleep(1)
-            point = 2
+            #point = 2
 
             # PUTTING
-            motion.putting("LEFT", 3, 2)
+            motion.putting("LEFT", 4, 2)
             print("putting")
         
             time.sleep(5)
@@ -526,28 +540,28 @@ class Controller:
             Distance.Head_ud_angle = Distance.Head_UD_Middle_Value_Measures
             time.sleep(2)
 
-            # UD_for_dist("ball")
-            # motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
-            # time.sleep(1)
+            UD_for_dist("ball")
+            motion.head("DEFAULT", 1) # ud for dist 이후 고개 상하 디폴트
+            time.sleep(1)
 
-            # # length = 거리 
-            # ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
-            # print(Distance.Length_ServoAngle_dict)
-            # print("==========================================")
-            # print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
-            # print("==========================================")
+            # length = 거리 
+            ball_dist = Distance.Length_ServoAngle_dict.get(Distance.Head_ud_angle)
+            print(Distance.Length_ServoAngle_dict)
+            print("==========================================")
+            print("ball dist: ", ball_dist , "===========","head angle: ", Distance.Head_ud_angle)
+            print("==========================================")
 
-            # if ball_dist > 18:
-            #     motion.walk("FORWARD", ball_dist - 18)
-            #     time.sleep(1)
-            # elif ball_dist == 18:
-            #     print("correct!")
-            # else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
-            #     motion.walk("BACKWARD", ball_dist - 18)
-            #     time.sleep(1)
+            if ball_dist > 18:
+                motion.walk("FORWARD", ball_dist - 18)
+                time.sleep(1)
+            elif ball_dist == 18:
+                print("correct!")
+            else :      # 최소 거리 18보다 더 가까이 있을 경우: 뒷걸음질
+                motion.walk("BACKWARD", ball_dist - 18)
+                time.sleep(1)
                 
                 
-
+            time.sleep(1)
             ball_pos('p32')
             time.sleep(1)
             
