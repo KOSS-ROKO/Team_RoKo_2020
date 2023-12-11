@@ -25,35 +25,42 @@ class Head:
                 if big_lr_angle > 100:
                     print("turn right")
                     robo._motion.turn("RIGHT", abs(big_lr_angle - 100))
+                    time.sleep(2)
                     robo._motion.turn("RIGHT", 10)
+                    time.sleep(1)
 
                 elif big_lr_angle < 100:
                     robo._motion.turn("LEFT", abs(big_lr_angle - 100))
+                    time.sleep(2)
                     robo._motion.turn("LEFT", 10)
+                    time.sleep(1)
             
                 robo._motion.head("DEFAULT", 2)
+                time.sleep(1)
+                
                 return True, big_lr_angle, max_right_flag
         
             else:   # 물체가 화면에 안 보이는 경우 detect : False
                 # 패닝 틸팅? or 걷기?
                 # 고개 각도 크게 돌리기, Find ball과 다름
-                if max_right_flag == 0:                                                                 
-                    robo._motion.head("RIGHT", 30) ################# 3도보단 큰 각으로
-                    time.sleep(0.5)
-                    big_lr_angle += 30 # 10은 임의 값
-                    if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                        max_right_flag = 1
-                        big_lr_angle = 100
-                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기  
-
-                elif max_right_flag == 1:
+                if max_right_flag == 0:
                     robo._motion.head("LEFT", 30) ################# 3도보단 큰 각으로
                     time.sleep(0.5)
                     big_lr_angle -= 30 # 10은 임의 값
                     if big_lr_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
-                        max_right_flag = 0
+                        max_right_flag = 1
                         big_lr_angle = 100
-                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
+                        robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기
+
+                elif max_right_flag == 1:
+                    robo._motion.head("RIGHT", 30) ################# 3도보단 큰 각으로
+                    time.sleep(0.5)
+                    big_lr_angle += 30 # 10은 임의 값
+                    if big_lr_angle == 190: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
+                        max_right_flag = 0
+                        # big_lr_angle = 100
+                        # robo._motion.head("DEFAULT", 2)  # 고개 정면(default)로 돌려놓기 
+                        time.sleep(1)
                 return check, big_lr_angle, max_right_flag
         
         elif detect_object == 'ball2': # 턴하지 않음
@@ -134,10 +141,18 @@ class Head:
             # 공을 화면 중앙에 오도록 만드는 고개 각도 small_angle 만큼 몸 돌리기
                 if small_lr_angle > 100:
                     robo._motion.turn("RIGHT", abs(small_lr_angle - 100))
-                    robo._motion.turn("RIGHT", 10)
+                    time.sleep(1)
+                    robo._motion.turn("RIGHT", 5)
+                    time.sleep(0.5)
+                    robo._motion.turn("RIGHT", 5)
+                    time.sleep(0.5)
                 elif small_lr_angle < 100:
                     robo._motion.turn("LEFT", abs(small_lr_angle - 100))
-                    robo._motion.turn("LEFT", 10)
+                    time.sleep(1)
+                    robo._motion.turn("LEFT", 5)
+                    time.sleep(0.5)
+                    robo._motion.turn("LEFT", 5)
+                    time.sleep(0.5)
                                 
                 return True, small_lr_angle
             
@@ -213,12 +228,12 @@ class Head:
                 big_ud_angle -= 30 # 10은 임의 값
                 if big_ud_angle == 10: # <-max() 에러 안 나려고 적어 놓음, 바꾸삼 / 최대값이면 
                     max_down_flag = 1
-                    big_ud_angle = 64
-                    time.sleep(1)
+                    big_ud_angle = 55
+                    time.sleep(2)
                     robo._motion.head("UP", 30) # 고개 45도로 내리고 공 detect 시작 ! / 나중에 UP 45도 모션 추가할듯?
                     robo._motion.head("UP", 9)
                     robo._motion.head("UP", 6)
-                    robo._motion.head("UP", 9) ###
+                    #robo._motion.head("UP", 9) ###
                     time.sleep(1)
             elif max_down_flag == 1:
                 robo._motion.head("UP", 30) ################# 3도보단 큰 각으로
@@ -294,12 +309,12 @@ class Head:
         if check == "middle":                            
             return True
         elif check == "left":   ###홀컵이 왼쪽에 있음. 오른쪽으로 원그리며 이동
-            robo._motion.walk_side("RIGHT")
+            robo._motion.walk_side("RIGHT10")
             time.sleep(1)
             robo._motion.turn("LEFT", 20)    # 값 조절 필요
             return False               
         elif check == "right":    ## 똑같이 왼쪽으로 이동
-            robo._motion.walk_side("LEFT")
+            robo._motion.walk_side("LEFT10")
             time.sleep(1)
             robo._motion.turn("RIGHT", 25)    # 값 조절 필요
             return False
@@ -312,17 +327,42 @@ class Head:
         robo = self.robo
         check = robo._image_processor.ball_hole_straight()
 
-        if check == "middle":                            
+        if check == "middle": 
+            print("Striaht stop")                           
             return True
         elif check == "right":   ### 찌그째그 걸음으로 오른쪽으로 원그리며 이동
-            robo._motion.walk_side("RIGHT")
-            time.sleep(1)
-            robo._motion.turn("LEFT", 10)    # 값 조절 필요
+            robo._motion.walk_side("RIGHT10")
+            time.sleep(2)
+            
+            turn_check = robo._image_processor.ball_hole_straight()
+            if turn_check == "middle":
+                print("after straight")
+                pass
+            else:   
+                print("straight turn")
+                robo._motion.turn("LEFT", 15)
+                time.sleep(1)
+
             return False               
         elif check == "left":    ## 똑같이 왼쪽으로 이동
-            robo._motion.walk_side("LEFT")
-            time.sleep(1)
-            robo._motion.turn("RIGHT", 10)    # 값 조절 필요
+            robo._motion.walk_side("LEFT10")
+            time.sleep(2)
+            
+            turn_check = robo._image_processor.ball_hole_straight()
+            if turn_check == "middle":
+                print("after straight")
+                pass
+            else:  
+                print("straight turn") 
+                robo._motion.turn("RIGHT", 15)
+                time.sleep(1)
+                        
             return False
+        
+        elif check == "left no turn":
+            robo._motion.walk_side("LEFT70")
+        elif check == "right no turn":
+            robo._motion.walk_side("RIGHT70")
+            
         else: # check == "none"
             return "Except"

@@ -19,8 +19,11 @@ while True:
     # imgThreshLow = cv2.inRange(imgHSV, (0, 200, 55), (50, 255, 255))
     # imgThreshHigh = cv2.inRange(imgHSV, (160, 155, 50), (179, 255, 255))
 
-    imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+    # imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
+    # imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+
+    imgThreshLow = cv2.inRange(imgHSV, (0, 70, 60), (15, 255, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
 
 
     

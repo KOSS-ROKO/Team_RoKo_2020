@@ -12,56 +12,17 @@ while True:
 
     if not ret:
         break
-    '''
-    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-    lower_yellow = np.array([15, 100, 70])
-    upper_yellow = np.array([36, 250, 250])
-
-    yellow_mask = cv2.inRange(hsv_frame, lower_yellow, upper_yellow)
-    yellow_objects = cv2.bitwise_and(frame, frame, mask=yellow_mask)
-
-    cv2.imshow('Yellow Objects', yellow_objects)
-
-    blurred_frame = cv2.GaussianBlur(yellow_objects, (5, 5), 0)
-    gray_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2GRAY)
-
-    cv2.imshow('Blurred Image', gray_frame)
-
-    _, binary_frame = cv2.threshold(gray_frame, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-
-    cv2.imshow('Binary Image', binary_frame)
-
-    contours, _ = cv2.findContours(binary_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    max_area = 0  # 가장 큰 노란색 물체의 면적
-    max_area_contour = None  # 가장 큰 노란색 물체의 컨투어
-
-    for contour in contours:
-        area = cv2.contourArea(contour)
-
-        if area > max_area:
-            max_area = area
-            max_area_contour = contour
-
-    if max_area_contour is not None:
-        M = cv2.moments(max_area_contour)
-        if M["m00"] != 0:
-            center_x = int(M["m10"] / M["m00"])
-            center_y = int(M["m01"] / M["m00"])
-
-            radius = int(max_area ** 0.5 / 2)
-            cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-            cv2.circle(frame, (center_x, center_y), 2, (0, 0, 255), -1)
-
-            if center_x - radius >= 0 and center_x + radius < frame.shape[1] and center_y - radius >= 0 and center_y + radius < frame.shape[0]:
-                cv2.circle(frame, (center_x, center_y), radius, (0, 255, 0), 2)
-    '''
+   
 
 
     # 노란색 홀컵 검출
-    yellow_lower = np.array([0, 71, 122])
-    yellow_upper = np.array([36, 250, 250])
+    # yellow_lower = np.array([10, 30, 20])
+    # yellow_upper = np.array([40, 255, 255])
+    # yellow_lower = np.array([10, 60, 150])
+    # yellow_upper = np.array([36, 200, 255])
+
+    yellow_lower = np.array([0, 100, 150])
+    yellow_upper = np.array([36, 250, 255])
     
     
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -109,7 +70,7 @@ while True:
                 diameter = 0
                 # 가장 위쪽점 업데이트
                 if down_point_yellow is not None:
-                    diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1]) - 20
+                    diameter = 2 * abs(left_point_yellow[1] - down_point_yellow[1])  + 15
 
                 # 제일 위쪽 점 계산
                 up_point_yellow = [down_point_yellow[0], down_point_yellow[1] - diameter]
@@ -138,8 +99,10 @@ while True:
     # imgThreshLow = cv2.inRange(imgHSV, (0, 200, 155), (50, 255, 255))
     # imgThreshHigh = cv2.inRange(imgHSV, (160, 155, 50), (179, 255, 255))
 
-    imgThreshLow = cv2.inRange(imgHSV, (0, 100, 100), (10, 255, 255))
-    imgThreshHigh = cv2.inRange(imgHSV, (160, 100, 100), (179, 255, 255))
+    # imgThreshLow = cv2.inRange(imgHSV, (0, 180, 60), (10, 255, 255))
+    # imgThreshHigh = cv2.inRange(imgHSV, (150, 70, 60), (179, 255, 255))
+    imgThreshLow = cv2.inRange(imgHSV, (0, 30, 200), (17, 130, 255))
+    imgThreshHigh = cv2.inRange(imgHSV, (160, 30, 200), (180, 200, 255))
     
     imgThresh = cv2.add(imgThreshLow, imgThreshHigh)
 
