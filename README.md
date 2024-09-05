@@ -50,12 +50,12 @@
 ![b0](https://github.com/user-attachments/assets/0ba9b2f0-04b5-4b93-86e5-a3926f07da0c) 
 
 <br>
-1. Controller : 골프경기의 전반적인 알고리즘을 담고 있는 클래스
-2. ImageProcessor : 영상처리 및 분석 클래스
-3. Motion : 로봇의 모션을 담당하는 클래스
-4. Head : 로봇의 고개 각을 조절하는 클래스
-5. Robo : 로봇 제어에서 동작과 이미지 처리 관련 기능을 초기화 하고 관리하는 클래스
-6. Distance : 서보 각도에 관련된 전역 변수를 정의하고 거리값을 저장하는 클래스
+1. Controller : 골프경기의 전반적인 알고리즘을 담고 있는 클래스 <br>
+2. ImageProcessor : 영상처리 및 분석 클래스 <br>
+3. Motion : 로봇의 모션을 담당하는 클래스 <br>
+4. Head : 로봇의 고개 각을 조절하는 클래스 <br>
+5. Robo : 로봇 제어에서 동작과 이미지 처리 관련 기능을 초기화 하고 관리하는 클래스 <br>
+6. Distance : 서보 각도에 관련된 전역 변수를 정의하고 거리값을 저장하는 클래스 <br>
 <br>
 
 ### d. 로봇 작동알고리즘
