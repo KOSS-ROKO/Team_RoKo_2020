@@ -48,8 +48,7 @@
 
 ### c. 순서도
 ![b0](https://github.com/user-attachments/assets/0ba9b2f0-04b5-4b93-86e5-a3926f07da0c) 
-![b1](https://github.com/user-attachments/assets/d9482966-4e82-49cf-9fcc-74cb3240a326) ![b2](https://github.com/user-attachments/assets/9ddcd617-182d-4b8b-abfd-710e56df8432)
-![b3](https://github.com/user-attachments/assets/79134dac-21e5-4445-ac2e-a73aa808f878) ![b4](https://github.com/user-attachments/assets/e1e26890-ee72-4cc8-b77a-33f01d6da5b7)
+
 <br>
 1. Controller : 골프경기의 전반적인 알고리즘을 담고 있는 클래스
 2. ImageProcessor : 영상처리 및 분석 클래스
